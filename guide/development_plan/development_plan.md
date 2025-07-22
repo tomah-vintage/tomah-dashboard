@@ -15,23 +15,14 @@
     *   Display key statistics about restaurants (e.g., active, disabled).
     *   List all registered restaurants.
     *   Initial sales insights (basic overview).
+*   **Layout Sidebar Feature:** Implement a persistent sidebar for navigation across the dashboard with buttons, Home, Restaurant, Reports, and Account Settings.
 *   **Restaurant Management (CRUD):**
     *   Create, Read, Update, Delete (CRUD) functionality for restaurant profiles.
     *   Ability to disable/enable restaurants.
-*   **Basic Menu Control:**
-    *   Add new food items to a restaurant's menu.
-    *   Control active/inactive status of food items on the menu.
-
-## Phase 3: Advanced Restaurant & Menu Management
-*   **Detailed Menu Management:**
-    *   Comprehensive CRUD for menu items, including categories, modifiers, and pricing.
-*   **Seating Area Control:**
-    *   Add and remove tables for dine-in areas.
-    *   Generate and print QR codes for tables (for menu access).
-*   **Subscription Management:**
+    *   **Subscription Management:**
     *   Functionality to view and manage subscription payment bill information for restaurants.
 
-## Phase 4: Take-out & Heat-retaining Box Integration
+## Phase 3: Take-out & Heat-retaining Box Integration
 *   **Heat-retaining Box Integration:**
     *   Functionality to place and receive orders from the heat-retaining boxes.
     *   Admin role ability to open containers.
@@ -42,7 +33,7 @@
     *   System for users to retrieve food from the heat-retaining box using a 4-6 digit number received via SMS.
     *   Automated order closure upon successful retrieval.
 
-## Phase 5: Reporting & Support
+## Phase 4: Reporting & Support
 *   **Advanced Sales & Operational Insights:**
     *   Detailed sales reports and deeper operational insights for both Restaurant Admins and Main Admins.
 *   **Data Export:**

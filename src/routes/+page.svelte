@@ -12,7 +12,7 @@
 
 <div class="w-full p-4 md:p-6 lg:p-8 bg-light-gray font-sans min-h-screen">
 	<div class="max-w-7xl mx-auto space-y-8">
-		<h1 class="text-3xl font-bold text-dark-charcoal">Dashboard Overview</h1>
+		<h1 class="text-xl font-bold text-dark-charcoal">Dashboard Overview</h1>
 
 		<!-- Statistics Cards -->
 		<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -1,6 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{html,js,svelte,ts}'],
+  content: [
+    './src/**/*.{html,js,svelte,ts}',
+    require('path').join(require.resolve(
+      '@skeletonlabs/skeleton'),
+      '../**/*.{html,js,svelte,ts}'
+    )
+  ],
   theme: {
     extend: {
       colors: {
@@ -22,22 +28,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('daisyui')],
-  daisyui: {
-    themes: [
-      {
-        mytheme: {
-          "primary": "#FF6B35", // Orange/Coral
-          "secondary": "#FFD700", // Yellow
-          "accent": "#9C27B0", // Purple
-          "neutral": "#2C2C2C", // Dark Charcoal
-          "base-100": "#F8F9FA", // Light Gray
-          "info": "#2196F3", // Info
-          "success": "#4CAF50", // Success
-          "warning": "#FF9800", // Warning
-          "error": "#F44336", // Error
-        },
-      },
-    ],
-  },
+  plugins: [require('@skeletonlabs/skeleton/tailwind/skeleton.cjs')()],
 };

@@ -6,7 +6,9 @@ export interface Restaurant {
 	id: string;
 	name: string;
 	address: string;
-	// ... other restaurant properties
+	phone: string;
+	email: string;
+	status: 'active' | 'inactive';
 }
 
 export interface Menu {

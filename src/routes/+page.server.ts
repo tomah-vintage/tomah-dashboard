@@ -1,6 +1,5 @@
 import type { PageServerLoad } from './$types';
 import type { Restaurant } from '$lib/types/restaurant';
-import '../app.css'
 
 export const load: PageServerLoad = async ({ fetch }) => {
 	// Simulate fetching statistics from a backend API
