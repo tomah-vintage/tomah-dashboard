@@ -1,0 +1,18 @@
+{
+  "restaurants": [
+    {
+      "id": "1",
+      "name": "The Golden Spoons",
+      "address": "123 Main St, Anytown, USA",
+      "phone": "555-1234",
+      "email": "contact@goldenspoon.com"
+    },
+    {
+      "id": "2",
+      "name": "La Trattoria",
+      "address": "456 Oak Ave, Anytown, USA",
+      "phone": "555-5678",
+      "email": "info@latrattoria.com"
+    }
+  ]
+}

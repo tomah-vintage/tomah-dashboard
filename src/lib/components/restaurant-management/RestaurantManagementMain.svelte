@@ -1,47 +1,45 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { restaurantManagementStore } from '$lib/stores/restaurant-management';
-	import { fetchRestaurants, addRestaurant, updateRestaurant, deleteRestaurant } from '$lib/utils/restaurant-management';
-	import type { Restaurant, RestaurantFormData } from '$lib/types/restaurant';
+  import { createGetRestaurantsQuery, createAddRestaurantMutation, createUpdateRestaurantMutation, createDeleteRestaurantMutation } from '$lib/queries/restaurant-queries';
+  import type { Restaurant, RestaurantFormData } from '$lib/types/restaurant';
 
-	import RestaurantManagementList from './RestaurantManagementList.svelte';
-	import RestaurantManagementForm from './RestaurantManagementForm.svelte';
+  import RestaurantManagementList from './RestaurantManagementList.svelte';
+  import RestaurantManagementForm from './RestaurantManagementForm.svelte';
 
-	let showForm = false;
-	let currentRestaurant: Restaurant | null = null;
+  let showForm = false;
+  let currentRestaurant: Restaurant | null = null;
 
-	// Subscribe to the store
-	$: ({ items, loading, error } = $restaurantManagementStore);
+  const getRestaurants = createGetRestaurantsQuery();
+  const addRestaurant = createAddRestaurantMutation();
+  const updateRestaurant = createUpdateRestaurantMutation();
+  const deleteRestaurant = createDeleteRestaurantMutation();
 
-	onMount(async () => {
-		await fetchRestaurants();
-	});
+  $: ({ data: items, isLoading: loading, error } = $getRestaurants);
 
-	function openAddForm() {
-		currentRestaurant = null;
-		showForm = true;
-	}
+  function openAddForm() {
+    currentRestaurant = null;
+    showForm = true;
+  }
 
-	function openEditForm(restaurant: Restaurant) {
-		currentRestaurant = restaurant;
-		showForm = true;
-	}
+  function openEditForm(restaurant: Restaurant) {
+    currentRestaurant = restaurant;
+    showForm = true;
+  }
 
-	async function handleFormSubmit(event: CustomEvent<RestaurantFormData>) {
-		const formData = event.detail;
-		if (currentRestaurant) {
-			await updateRestaurant(currentRestaurant.id, formData);
-		} else {
-			await addRestaurant(formData);
-		}
-		showForm = false;
-	}
+  async function handleFormSubmit(event: CustomEvent<RestaurantFormData>) {
+    const formData = event.detail;
+    if (currentRestaurant) {
+      await $updateRestaurant.mutateAsync({ id: currentRestaurant.id, data: formData });
+    } else {
+      await $addRestaurant.mutateAsync(formData);
+    }
+    showForm = false;
+  }
 
-	async function handleDelete(restaurantId: string) {
-		if (confirm('Are you sure you want to delete this restaurant?')) {
-			await deleteRestaurant(restaurantId);
-		}
-	}
+  async function handleDelete(restaurantId: string) {
+    if (confirm('Are you sure you want to delete this restaurant?')) {
+      await $deleteRestaurant.mutateAsync(restaurantId);
+    }
+  }
 </script>
 
 <div class="restaurant-management-main p-8">

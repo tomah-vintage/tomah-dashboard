@@ -1,16 +1,20 @@
-<script>
-   import '../app.css';
-   import Sidebar from '../lib/components/Sidebar.svelte';
-   import { page } from '$app/stores';
+<script lang="ts">
+  import { QueryClientProvider } from '@tanstack/svelte-query';
+  import { queryClient } from '$lib/utils/query-client';
+  import '../app.css';
+  import Sidebar from '../lib/components/Sidebar.svelte';
+  import { page } from '$app/stores';
 
-   const noSidebarRoutes = ['/login', '/register'];
+  const noSidebarRoutes = ['/login', '/register'];
 </script>
 
-<div class="flex">
+<QueryClientProvider client={queryClient}>
+  <div class="flex">
     {#if !noSidebarRoutes.includes($page.url.pathname)}
-        <Sidebar />
+      <Sidebar />
     {/if}
     <main class="flex-1 p-4">
-        <slot />
+      <slot />
     </main>
-</div>
+  </div>
+</QueryClientProvider>
