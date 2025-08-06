@@ -1,10 +1,10 @@
 export interface UserCredentials {
-  username: string;
+  email: string;
   password: string;
 }
 
 export interface AuthUser {
   id: string;
-  username: string;
+  email: string;
   role: 'MAIN_ADMIN' | 'RESTAURANT_ADMIN';
 }
