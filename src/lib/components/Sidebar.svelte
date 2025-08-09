@@ -68,8 +68,14 @@
 					<ul class="ml-8 mt-2">
 						<li class="mb-2">
 							<a href="/restaurants/menu" class="flex items-center p-2 rounded-lg transition-colors duration-200
-								{$page.url.pathname === '/restaurants/menu' ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
+								{$page.url.pathname.startsWith('/restaurants/menu') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
 								Menu
+							</a>
+						</li>
+						<li class="mb-2">
+							<a href="/dashboard/restaurants/restaurantId/seating" class="flex items-center p-2 rounded-lg transition-colors duration-200
+								{$page.url.pathname.startsWith('/restaurants/seating') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
+								Seating
 							</a>
 						</li>
 					</ul>

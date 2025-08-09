@@ -1,16 +1,23 @@
 import fs from 'fs';
 import path from 'path';
 import type { Restaurant, RestaurantFormData } from '$lib/types/restaurant';
+import type { Table } from '$lib/types/seating';
 
 const dbPath = path.resolve('src/lib/server/db.json');
 
 interface DbData {
   restaurants: Restaurant[];
+  tables: Table[];
 }
 
 function readData(): DbData {
   const json_data = fs.readFileSync(dbPath, 'utf-8');
-  return JSON.parse(json_data);
+  const data = JSON.parse(json_data);
+  // Ensure tables array exists
+  if (!data.tables) {
+    data.tables = [];
+  }
+  return data;
 }
 
 function writeData(data: DbData): void {
@@ -52,4 +59,29 @@ export function deleteRestaurant(id: string): boolean {
     return true;
   }
   return false;
+}
+
+// --- Table Functions ---
+
+export function getTables(restaurantId: string): Table[] {
+    const { tables } = readData();
+    return tables.filter(t => t.restaurantId === restaurantId);
+}
+
+export function addTable(table: Table): Table {
+    const dbData = readData();
+    dbData.tables.push(table);
+    writeData(dbData);
+    return table;
+}
+
+export function removeTable(tableId: string): boolean {
+    const dbData = readData();
+    const initialLength = dbData.tables.length;
+    dbData.tables = dbData.tables.filter(t => t.id !== tableId);
+    if (dbData.tables.length < initialLength) {
+        writeData(dbData);
+        return true;
+    }
+    return false;
 }
