@@ -12,7 +12,8 @@
       { email, password },
       {
         onSuccess: (data) => {
-          document.cookie = `session=${data.access}; path=/; max-age=86400;`; // Expires in 1 day
+          document.cookie = `session=${data.access}; path=/; max-age=86400; SameSite=Strict`; // Expires in 1 day
+          document.cookie = `refreshToken=${data.refresh}; path=/; max-age=2592000; SameSite=Strict`; // Expires in 30 days
           goto("/");
         },
       }

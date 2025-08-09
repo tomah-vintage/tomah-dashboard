@@ -35,6 +35,7 @@ This document provides comprehensive development, design, and feature implementa
 ### 2.3. API & Data Handling
 - Use `+page.server.ts` for server-side data loading.
 - Implement proper form actions in `+page.server.ts`.
+- For all client-side API calls, use the `apiFetch` utility from `$lib/utils/api.ts` to ensure consistent authentication and automatic token refresh handling.
 - Use `$lib/server/` for server-only code.
 - Implement proper error handling and validation.
 - Use environment variables for sensitive data.
