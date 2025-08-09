@@ -61,7 +61,7 @@
 				</li>
 				<li class="mb-4">
 					<a href="/restaurants" class="flex items-center p-3 rounded-lg transition-colors duration-200
-						{$page.url.pathname.startsWith('/restaurants') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
+						{$page.url.pathname.includes('/restaurants') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
 						<BarChart2 class="w-5 h-5 mr-3" />
 						Restaurants
 					</a>
@@ -74,7 +74,7 @@
 						</li>
 						<li class="mb-2">
 							<a href="/dashboard/restaurants/restaurantId/seating" class="flex items-center p-2 rounded-lg transition-colors duration-200
-								{$page.url.pathname.startsWith('/restaurants/seating') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
+								{$page.url.pathname.includes('/restaurants/seating') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
 								Seating
 							</a>
 						</li>
