@@ -9,7 +9,7 @@ export interface AuthUser {
   role: 'MAIN_ADMIN' | 'RESTAURANT_ADMIN';
 }
 
-export type Permission = 'view-dashboard' | 'manage-restaurants' | 'edit-menus' | 'view-seating-charts';
+export type Permission = 'view-dashboard' | 'manage-restaurants' | 'edit-menus' | 'view-seating-charts' | 'manage-users';
 
 export interface User {
   id: string;

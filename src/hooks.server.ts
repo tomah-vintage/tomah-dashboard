@@ -9,7 +9,7 @@ const getUserFromSession = async (sessionId: string): Promise<User | null> => {
       name: 'Admin User',
       email: 'admin@example.com',
       roles: ['ADMIN'],
-      permissions: ['view-dashboard', 'manage-restaurants', 'edit-menus', 'view-seating-charts'],
+      permissions: ['view-dashboard', 'manage-restaurants', 'edit-menus', 'view-seating-charts', 'manage-users'],
     };
   }
   return null;

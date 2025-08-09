@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { goto } from "$app/navigation";
-	import { Search, ChevronRight, Home, BarChart2, Bell, TrendingUp, Settings, Wallet, LogOut, Moon } from 'lucide-svelte';
+	import { Search, ChevronRight, Home, BarChart2, Bell, TrendingUp, Settings, Wallet, LogOut, Moon, Users } from 'lucide-svelte';
 	import { themeStore } from '$lib/stores/themeStore';
 	import { sessionStore } from '$lib/stores/sessionStore';
 	import type { Permission } from '$lib/types/auth';
@@ -89,6 +89,15 @@
 						</li>
 						{/if}
 					</ul>
+				</li>
+				{/if}
+				{#if hasPermission('manage-users')}
+				<li class="mb-4">
+					<a href="/dashboard/users" class="flex items-center p-3 rounded-lg transition-colors duration-200
+						{$page.url.pathname.includes('/dashboard/users') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
+						<Users class="w-5 h-5 mr-3" />
+						User Control
+					</a>
 				</li>
 				{/if}
 				<!-- These links are not permission-gated for now -->
