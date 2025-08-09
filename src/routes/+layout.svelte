@@ -4,6 +4,13 @@
   import "../app.css";
   import Sidebar from "../lib/components/Sidebar.svelte";
   import { page } from "$app/stores";
+  import type { PageData } from "./$types";
+  import { sessionStore } from "$lib/stores/sessionStore";
+
+  export let data: PageData;
+
+  // Set the store value whenever the layout data changes
+  $: $sessionStore.user = data.user;
 
   const noSidebarRoutes = ["/login", "/register"];
 </script>

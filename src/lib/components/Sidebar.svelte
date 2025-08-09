@@ -3,13 +3,12 @@
 	import { goto } from "$app/navigation";
 	import { Search, ChevronRight, Home, BarChart2, Bell, TrendingUp, Settings, Wallet, LogOut, Moon } from 'lucide-svelte';
 	import { themeStore } from '$lib/stores/themeStore';
+	import { sessionStore } from '$lib/stores/sessionStore';
+	import type { Permission } from '$lib/types/auth';
 
-	// Placeholder for user data
-	const user = {
-		initials: 'AC',
-		name: 'AC',
-		role: 'Web developer'
-	};
+	const hasPermission = (permission: Permission) => {
+		return $sessionStore.user?.permissions?.includes(permission) ?? false;
+	}
 
 	const toggleDarkMode = () => {
 		$themeStore = !$themeStore;
@@ -19,6 +18,8 @@
 		await fetch("/logout", {
 			method: "POST",
 		});
+		// Invalidate the session store on logout
+		sessionStore.set({ user: null });
 		goto("/login");
 	};
 </script>
@@ -26,18 +27,20 @@
 <aside class="w-64 bg-white dark:bg-gray-800 text-gray-800 dark:text-white h-screen p-4 rounded-e-xl shadow-lg flex flex-col justify-between">
 	<div>
 		<!-- User Profile Section -->
+		{#if $sessionStore.user}
 		<div class="flex items-center justify-between p-4 mb-4">
 			<div class="flex items-center">
 				<div class="w-10 h-10 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold mr-3">
-					{user.initials}
+					{$sessionStore.user.name.charAt(0).toUpperCase()}
 				</div>
 				<div>
-					<div class="text-base font-semibold text-[#2C2C2C] dark:text-white">{user.name}</div>
-					<div class="text-sm text-[#2C2C2C] dark:text-white">{user.role}</div>
+					<div class="text-base font-semibold text-[#2C2C2C] dark:text-white">{$sessionStore.user.name}</div>
+					<div class="text-sm text-[#2C2C2C] dark:text-white">{$sessionStore.user.roles.join(', ')}</div>
 				</div>
 			</div>
 			<ChevronRight class="text-gray-400 w-5 h-5 cursor-pointer" />
 		</div>
+		{/if}
 
 		<!-- Search Input -->
 		<div class="relative mb-6">
@@ -52,6 +55,7 @@
 		<!-- Navigation Menu -->
 		<nav>
 			<ul>
+				{#if hasPermission('view-dashboard')}
 				<li class="mb-4">
 					<a href="/" class="flex items-center p-3 rounded-lg transition-colors duration-200
 						{$page.url.pathname === '/' ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
@@ -59,6 +63,8 @@
 						Dashboard
 					</a>
 				</li>
+				{/if}
+				{#if hasPermission('manage-restaurants')}
 				<li class="mb-4">
 					<a href="/restaurants" class="flex items-center p-3 rounded-lg transition-colors duration-200
 						{$page.url.pathname.includes('/restaurants') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
@@ -66,20 +72,26 @@
 						Restaurants
 					</a>
 					<ul class="ml-8 mt-2">
+						{#if hasPermission('edit-menus')}
 						<li class="mb-2">
 							<a href="/restaurants/menu" class="flex items-center p-2 rounded-lg transition-colors duration-200
 								{$page.url.pathname.startsWith('/restaurants/menu') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
 								Menu
 							</a>
 						</li>
+						{/if}
+						{#if hasPermission('view-seating-charts')}
 						<li class="mb-2">
 							<a href="/dashboard/restaurants/restaurantId/seating" class="flex items-center p-2 rounded-lg transition-colors duration-200
 								{$page.url.pathname.includes('/restaurants/seating') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
 								Seating
 							</a>
 						</li>
+						{/if}
 					</ul>
 				</li>
+				{/if}
+				<!-- These links are not permission-gated for now -->
 				<li class="mb-4">
 					<a href="/notifications" class="flex items-center p-3 rounded-lg transition-colors duration-200
 						{$page.url.pathname === '/notifications' ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">

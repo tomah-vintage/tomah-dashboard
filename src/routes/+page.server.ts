@@ -1,7 +1,18 @@
+import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import type { Restaurant } from '$lib/types/restaurant';
+import type { Permission } from '$lib/types/auth';
 
-export const load: PageServerLoad = async ({ fetch }) => {
+export const requiredPermissions: Permission[] = ['view-dashboard'];
+
+export const load: PageServerLoad = async ({ fetch, locals }) => {
+	const user = locals.user;
+    const hasPermission = requiredPermissions.every(p => user?.permissions.includes(p));
+
+    if (!hasPermission) {
+        throw error(403, 'Forbidden: You do not have permission to view the dashboard.');
+    }
+
 	// Simulate fetching statistics from a backend API
 	const stats = {
 		totalRestaurants: 150,
