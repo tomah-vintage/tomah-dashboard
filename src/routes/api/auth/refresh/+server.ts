@@ -21,8 +21,8 @@ export const POST: RequestHandler = async ({ cookies }) => {
 
         if (!response.ok) {
             // If the external API fails, clear the cookie and return an error
-            cookies.delete('refreshToken');
-            cookies.delete('session');
+            cookies.delete('refreshToken', { path: '/' });
+            cookies.delete('session', { path: '/' });
             return json({ message: 'Failed to refresh token from external source.' }, { status: response.status });
         }
 

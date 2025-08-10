@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { goto } from "$app/navigation";
-	import { Search, ChevronRight, Home, BarChart2, Bell, TrendingUp, Settings, Wallet, LogOut, Moon, Users } from 'lucide-svelte';
+	import { Search, ChevronRight, Home, BarChart2, Bell, TrendingUp, Settings, Wallet, LogOut, Moon, Users, ShieldCheck, Store } from 'lucide-svelte';
 	import { themeStore } from '$lib/stores/themeStore';
 	import { sessionStore } from '$lib/stores/sessionStore';
 	import type { Permission } from '$lib/types/auth';
@@ -55,8 +55,10 @@
 		<!-- Navigation Menu -->
 		<nav>
 			<ul>
+				<!-- Platform Admin Links -->
+				<div class="px-3 text-xs font-semibold text-gray-400 uppercase mb-2">Platform</div>
 				{#if hasPermission('view-dashboard')}
-				<li class="mb-4">
+				<li class="mb-2">
 					<a href="/" class="flex items-center p-3 rounded-lg transition-colors duration-200
 						{$page.url.pathname === '/' ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
 						<Home class="w-5 h-5 mr-3" />
@@ -65,77 +67,44 @@
 				</li>
 				{/if}
 				{#if hasPermission('manage-restaurants')}
-				<li class="mb-4">
+				<li class="mb-2">
 					<a href="/restaurants" class="flex items-center p-3 rounded-lg transition-colors duration-200
 						{$page.url.pathname.includes('/restaurants') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
-						<BarChart2 class="w-5 h-5 mr-3" />
+						<ShieldCheck class="w-5 h-5 mr-3" />
 						Restaurants
 					</a>
-					<ul class="ml-8 mt-2">
-						{#if hasPermission('edit-menus')}
-						<li class="mb-2">
-							<a href="/restaurants/menu" class="flex items-center p-2 rounded-lg transition-colors duration-200
-								{$page.url.pathname.startsWith('/restaurants/menu') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
-								Menu
-							</a>
-						</li>
-						{/if}
-						{#if hasPermission('view-seating-charts')}
-						<li class="mb-2">
-							<a href="/dashboard/restaurants/restaurantId/seating" class="flex items-center p-2 rounded-lg transition-colors duration-200
-								{$page.url.pathname.includes('/restaurants/seating') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
-								Seating
-							</a>
-						</li>
-						{/if}
-					</ul>
 				</li>
 				{/if}
 				{#if hasPermission('manage-users')}
 				<li class="mb-4">
-					<a href="/dashboard/users" class="flex items-center p-3 rounded-lg transition-colors duration-200
-						{$page.url.pathname.includes('/dashboard/users') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
+					<a href="/users" class="flex items-center p-3 rounded-lg transition-colors duration-200
+						{$page.url.pathname.includes('/users') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
 						<Users class="w-5 h-5 mr-3" />
 						User Control
 					</a>
 				</li>
 				{/if}
-				<!-- These links are not permission-gated for now -->
-				<li class="mb-4">
-					<a href="/notifications" class="flex items-center p-3 rounded-lg transition-colors duration-200
-						{$page.url.pathname === '/notifications' ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
-						<Bell class="w-5 h-5 mr-3" />
-						Notifications
-					</a>
-				</li>
-				<li class="mb-4">
-					<a href="/analytics" class="flex items-center p-3 rounded-lg transition-colors duration-200
-						{$page.url.pathname === '/analytics' ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
-						<TrendingUp class="w-5 h-5 mr-3" />
-						Analytics
-					</a>
-				</li>
-				<li class="mb-4">
-					<a href="/chart" class="flex items-center p-3 rounded-lg transition-colors duration-200
-						{$page.url.pathname === '/chart' ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
+
+				<!-- Restaurant Admin Links -->
+				<div class="px-3 text-xs font-semibold text-gray-400 uppercase mb-2 mt-4">Restaurant</div>
+				{#if hasPermission('edit-menus')}
+				<li class="mb-2">
+					<a href="/menu" class="flex items-center p-3 rounded-lg transition-colors duration-200
+						{$page.url.pathname.startsWith('/menu') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
 						<BarChart2 class="w-5 h-5 mr-3" />
-						Chart
+						Menu
 					</a>
 				</li>
+				{/if}
+				{#if hasPermission('view-seating-charts')}
 				<li class="mb-4">
-					<a href="/settings" class="flex items-center p-3 rounded-lg transition-colors duration-200
-						{$page.url.pathname === '/settings' ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
-						<Settings class="w-5 h-5 mr-3" />
-						Setting
+					<a href="/seating" class="flex items-center p-3 rounded-lg transition-colors duration-200
+						{$page.url.pathname.includes('/seating') ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
+						<Store class="w-5 h-5 mr-3" />
+						Seating
 					</a>
 				</li>
-				<li class="mb-4">
-					<a href="/wallets" class="flex items-center p-3 rounded-lg transition-colors duration-200
-						{$page.url.pathname === '/wallets' ? 'bg-[#FF6B35] text-white' : 'text-[#2C2C2C] dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700'}">
-						<Wallet class="w-5 h-5 mr-3" />
-						Wallets
-					</a>
-				</li>
+				{/if}
 			</ul>
 		</nav>
 	</div>

@@ -33,14 +33,13 @@ async function refreshToken(): Promise<void> {
 }
 
 async function fetchWithRefresh<T>(url: string, options: RequestInit = {}): Promise<T> {
-    const getHeaders = (): Record<string, string> => {
-        const headers: Record<string, string> = {
-            'Content-Type': 'application/json',
-            ...options.headers,
-        };
+    const getHeaders = (): Headers => {
+        const headers = new Headers(options.headers);
+        headers.set('Content-Type', 'application/json');
+
         const token = getAuthToken();
         if (token) {
-            headers['Authorization'] = `Bearer ${token}`;
+            headers.set('Authorization', `Bearer ${token}`);
         }
         return headers;
     };

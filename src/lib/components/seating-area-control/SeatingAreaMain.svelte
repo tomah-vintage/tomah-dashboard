@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { PageData } from '../../../routes/dashboard/restaurants/[restaurantId]/seating/$types';
+    import type { PageData } from '../../../routes/(rsadmin)/seating/$types';
     import TableList from './TableList.svelte';
     import QRCodeModal from './QRCodeModal.svelte';
     import type { Table } from '$lib/types/seating';

@@ -25,8 +25,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	}
 
-	// Protect all routes under the /dashboard path
-	if (event.url.pathname.startsWith('/dashboard')) {
+	// Protect routes within (pladmin) or (rsadmin) route groups
+	if (event.route.id?.includes('(pladmin)') || event.route.id?.includes('(rsadmin)')) {
 		if (!event.locals.user) {
 			throw redirect(303, '/login');
 		}

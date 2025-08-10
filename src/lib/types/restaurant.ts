@@ -28,5 +28,7 @@ export interface MenuItem {
 export interface RestaurantFormData {
 	name: string;
 	address: string;
-	// ... other form fields for creating/editing a restaurant
+	phone: string;
+	email: string;
+	status: 'active' | 'inactive';
 }

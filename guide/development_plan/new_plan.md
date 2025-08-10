@@ -1,144 +1,236 @@
-# Dashboard Development Plan
+# Tomah Dashboard Development Plan (Updated for Two Admin Types)
 
-## 1. Overview
+This plan separates features between **Platform Admin (`pladmin`)** and **Restaurant Admin (`rsadmin`)** roles.
+Each section contains feature breakdowns, user stories, technical implementations, and updated folder structures.
+---
 
-The Dashboard is a web-based admin interface (SvelteKit + Tailwind CSS) for managing restaurants, users, seating, insights, and customer support. It is used by both Main Admins and Restaurant Admins.
+## **Platform Admin (`pladmin`) Features**
+
+1. **Restaurants Management** – Add, edit, disable restaurants, and manage subscription billing.
+2. **All Users Control** – View all users and their order history.
+3. **Heat Retaining Container Control** *(new feature)* – Track, assign, and maintain delivery containers.
+4. **FAQ Question & Answer Control** – Manage FAQs for all roles (Platform Admin, Restaurant Admin, End Users).
+5. **Analytics & Statistics (Platform-Wide)** – View sales, performance, and operational insights across all restaurants.
 
 ---
 
-## 2. Feature Breakdown & Milestones
+## **Restaurant Admin (`rsadmin`) Features**
 
-### 2.1. Restaurant Control
-
-- **Features:**
-  - Add new restaurant
-  - Edit restaurant details
-  - Disable/enable restaurant
-  - View subscription/payment info
-  - Menu management (add/edit/disable foods)
-
-- **Milestones:**
-  1. **Restaurant List Page**
-     - Table of all restaurants (name, status, subscription, actions)
-     - Search/filter
-  2. **Restaurant Form**
-     - Add/edit restaurant details (name, address, contact, etc.)
-     - Assign admin credentials
-  3. **Subscription Info**
-     - View and update subscription/payment status
-  4. **Menu Management**
-     - Link to menu management for each restaurant
-
-### 2.2. Insights
-
-- **Features:**
-  - View sales and operational data
-  - Export Excel templates for finance/ERP
-  - Filter by restaurant, date, etc.
-
-- **Milestones:**
-  1. **Insights Dashboard**
-     - Sales summary cards (total sales, orders, etc.)
-     - Charts (sales over time, top items)
-  2. **Export Functionality**
-     - Export data as Excel/CSV
-  3. **Multi-role Views**
-     - Main Admin: all restaurants
-     - Restaurant Admin: own restaurant only
-
-### 2.3. Seating Area Control
-
-- **Features:**
-  - Add/remove tables
-  - Print QR codes for tables
-
-- **Milestones:**
-  1. **Seating Area Page**
-     - List of tables (table number, status)
-     - Add/remove table functionality
-  2. **QR Code Generation**
-     - Generate and display QR code for each table
-     - Print/download QR codes
-
-### 2.4. User Control
-
-- **Features:**
-  - Register new users
-  - Login/logout
-  - View user history
-
-- **Milestones:**
-  1. **User List Page**
-     - Table of users (name, email, role, status)
-     - Search/filter
-  2. **User Registration**
-     - Form to add/register new users
-  3. **User History**
-     - View order history for each user
-
-### 2.5. Customer Service
-
-- **Features:**
-  - FAQ page for Company Admin, Restaurant Admin, and User
-
-- **Milestones:**
-  1. **FAQ Management**
-     - CRUD for FAQ entries (by role)
-  2. **FAQ Display**
-     - Display FAQ by user role in dashboard
+1. **Manage Own Restaurant** – Update restaurant details and view subscription info.
+2. **Menu Control** – Add, edit, remove menu items; toggle availability.
+3. **Orders** – View and manage incoming orders.
+4. **Seating Area Control** – Add/remove tables, generate/print QR codes for ordering.
+5. **Restaurant Analytics & Statistics** – View performance and insights for own restaurant.
 
 ---
 
-## 3. Technical Steps
+## Phase 1: Authentication (Shared)
 
-### 3.1. Project Setup
+**Description:**
+Both admin types log in through the same authentication flow, with role-based redirection after login.
 
-- SvelteKit + Tailwind CSS + Skeleton UI
-- Set up routing and layouts for dashboard
-- Implement authentication (API integration with backend)
+**File Structure:**
 
-### 3.2. Shared Components
-
-- Sidebar navigation (links to all modules)
-- Topbar (user info, logout)
-- Loading and error states
-- Responsive design
-
-### 3.3. API Integration
-
-- Define API endpoints for each module
-- Use TanStack Query for data fetching/mutation
-- Implement Zod validation for forms
-
-### 3.4. State Management
-
-- Use Svelte stores for global state (user, session, etc.)
-- Feature-specific stores as needed
-
-### 3.5. Testing
-
-- Unit and integration tests for components and stores
-- Mock API responses for frontend tests
+```
+src/routes/login/
+├── +page.svelte
+└── +page.server.ts
+src/hooks.server.ts
+src/lib/components/auth/
+├── LoginForm.svelte
+└── index.ts
+src/lib/types/auth.ts
+```
 
 ---
 
-## 4. Timeline Example (for reference)
+## **Platform Admin (`pladmin`) Features**
 
-| Week | Milestone                                      |
-|------|------------------------------------------------|
-| 1    | Project setup, authentication, layout          |
-| 2    | Restaurant Control: list, add/edit, disable    |
-| 3    | Menu management, subscription info             |
-| 4    | Insights dashboard, export                     |
-| 5    | Seating area control, QR code generation       |
-| 6    | User control, user history                     |
-| 7    | Customer service (FAQ), polish, testing        |
+### 1.1. Restaurants Management
+
+**Feature Breakdown:**
+
+* **Task**: Add, edit, and disable restaurants; view subscription billing.
+* **User Story**: As a Platform Admin, I want to manage all partner restaurants.
+
+**Path:**
+
+```
+src/routes/pladmin/restaurants/
+```
 
 ---
 
-## 5. Deliverables
+### 3.1. All Users Control
 
-- Fully functional dashboard with all modules above
-- Responsive, accessible UI
-- API integration with backend
-- Documentation for usage and deployment 
+**Feature Breakdown:**
+
+* **Task**: View all registered users and their order histories.
+* **User Story**: As a Platform Admin, I want to monitor all users' activity.
+
+**Path:**
+
+```
+src/routes/pladmin/users/
+```
+
+---
+
+### 3.2. Heat Retaining Container Control *(New Feature)*
+
+**Feature Breakdown:**
+
+* **Task**: Manage inventory and distribution of heat-retaining delivery containers.
+* **User Story**: As a Platform Admin, I want to track containers and their status.
+
+**Sub-tasks:**
+
+* [ ] **Container List**: Show all containers with status (in-use, returned, damaged).
+* [ ] **Assign Containers**: Allocate containers to restaurants.
+* [ ] **Return Tracking**: Mark containers as returned.
+* [ ] **Maintenance Records**: Track repairs or replacements.
+
+**Path:**
+
+```
+src/routes/pladmin/containers/
+```
+
+**Data Models:**
+`src/lib/types/container.ts`
+
+* `Container`: id, status, restaurantId, maintenanceLog.
+
+**Components:**
+
+* `ContainerList.svelte`
+* `ContainerForm.svelte`
+
+---
+
+### 3.3. FAQ Question & Answer Control *(moved from 3.2)*
+
+**Feature Breakdown:**
+
+* **Task**: Manage a centralized FAQ knowledge base.
+* **User Story**: As a Platform Admin, I want to edit FAQs for all roles.
+
+**Path:**
+
+```
+src/routes/pladmin/support/faq/
+```
+
+---
+
+### 4.1. Analytics and Statistics (Platform-Wide)
+
+**Feature Breakdown:**
+
+* **Task**: View sales and operational statistics across the platform.
+* **User Story**: As a Platform Admin, I want to see global insights.
+
+**Path:**
+
+```
+src/routes/pladmin/insights/
+```
+
+---
+
+## **Restaurant Admin (`rsadmin`) Features**
+
+### 1.1. Manage Own Restaurant
+
+**Feature Breakdown:**
+
+* **Task**: Edit own restaurant information and view subscription status.
+* **User Story**: As a Restaurant Admin, I want to manage my restaurant details.
+
+**Path:**
+
+```
+src/routes/rsadmin/restaurant/
+```
+
+---
+
+### 1.2. Menu Control
+
+**Feature Breakdown:**
+
+* **Task**: Add/edit/remove menu items; toggle availability.
+* **User Story**: As a Restaurant Admin, I want to manage my menu.
+
+**Path:**
+
+```
+src/routes/rsadmin/menu/
+```
+
+---
+
+### 2.1. Orders
+
+**Feature Breakdown:**
+
+* **Task**: View and manage customer orders.
+* **User Story**: As a Restaurant Admin, I want to process incoming orders.
+
+**Path:**
+
+```
+src/routes/rsadmin/orders/
+```
+
+---
+
+### 2.2. Seating Area Control
+
+**Feature Breakdown:**
+
+* **Task**: Manage table layout and QR codes for ordering.
+* **User Story**: As a Restaurant Admin, I want to control my seating area.
+
+**Path:**
+
+```
+src/routes/rsadmin/seating/
+```
+
+---
+
+### 4.1. Restaurant Analytics and Statistics
+
+**Feature Breakdown:**
+
+* **Task**: View restaurant-specific insights.
+* **User Story**: As a Restaurant Admin, I want to monitor my own performance.
+
+**Path:**
+
+```
+src/routes/rsadmin/insights/
+```
+
+---
+
+## **Folder Structure Overview**
+
+```
+src/routes/
+├── login/
+├── pladmin/
+│   ├── restaurants/
+│   ├── users/
+│   ├── containers/        # New Feature 3.2
+│   ├── support/
+│   │   └── faq/
+│   └── insights/
+└── rsadmin/
+    ├── restaurant/
+    ├── menu/
+    ├── orders/
+    ├── seating/
+    └── insights/
+```

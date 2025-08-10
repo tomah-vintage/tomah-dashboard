@@ -10,7 +10,7 @@
 </svelte:head>
 
 <div class="space-y-6">
-  <a href="/dashboard/users" class="text-orange-600 dark:text-orange-500 hover:underline">&larr; Back to All Users</a>
+  <a href="/users" class="text-orange-600 dark:text-orange-500 hover:underline">&larr; Back to All Users</a>
   <h1 class="text-3xl font-bold text-gray-900 dark:text-white">User History for <span class="text-orange-500">{data.user.name}</span></h1>
   
   <UserHistory user={data.user} orderHistory={data.orderHistory} />
