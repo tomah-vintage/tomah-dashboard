@@ -1,7 +1,8 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import { PUBLIC_BACKEND_URL } from '$env/static/public';
 
-const EXTERNAL_REFRESH_URL = 'https://unsxq3jnun.ap-northeast-1.awsapprunner.com/api/token/refresh/';
+const EXTERNAL_REFRESH_URL = `${PUBLIC_BACKEND_URL}/api/token/refresh/`;
 
 export const POST: RequestHandler = async ({ cookies }) => {
     const refreshToken = cookies.get('refreshToken'); // Assuming the cookie is named 'refreshToken'
