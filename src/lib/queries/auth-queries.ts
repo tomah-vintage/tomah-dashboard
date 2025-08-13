@@ -1,11 +1,12 @@
 import { createMutation } from '@tanstack/svelte-query';
 import type { UserCredentials, AuthUser } from '$lib/types/auth';
+import { PUBLIC_BACKEND_URL } from '$env/static/public';
 
 // Login
 export const createLoginMutation = () => {
   return createMutation<{ access: string; refresh: string }, Error, UserCredentials>({
     mutationFn: async (credentials) => {
-      const response = await fetch('https://unsxq3jnun.ap-northeast-1.awsapprunner.com/api/token/', {
+      const response = await fetch(`${PUBLIC_BACKEND_URL}/api/token/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials),
@@ -23,7 +24,7 @@ export const createLoginMutation = () => {
 export const createRefreshTokenMutation = () => {
   return createMutation<{ access: string }, Error, { refresh: string }>({
     mutationFn: async ({ refresh }) => {
-      const response = await fetch('https://unsxq3jnun.ap-northeast-1.awsapprunner.com/api/token/refresh/', {
+      const response = await fetch(`${PUBLIC_BACKEND_URL}/api/token/refresh/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ refresh }),
