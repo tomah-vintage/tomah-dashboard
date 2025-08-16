@@ -9,6 +9,13 @@ export const createGetRestaurantsQuery = () => createQuery<Restaurant[], Error>(
   queryFn: () => apiFetch<Restaurant[]>(`${PUBLIC_BACKEND_URL}/api/restaurants/`),
 });
 
+// Fetch a single restaurant by ID
+export const createGetRestaurantByIdQuery = (id: string | undefined) => createQuery<Restaurant, Error>({
+  queryKey: ['restaurant', id],
+  queryFn: () => apiFetch<Restaurant>(`${PUBLIC_BACKEND_URL}/api/restaurants/${id}/`),
+  enabled: !!id,
+});
+
 // Add a new restaurant
 export const createAddRestaurantMutation = () => {
   const queryClient = useQueryClient();
