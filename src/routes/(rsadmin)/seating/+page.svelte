@@ -10,8 +10,8 @@
   <meta name="description" content="Manage your restaurant's tables and QR codes." />
 </svelte:head>
 
-<div class="p-4 md:p-8">
-  <h1 class="text-2xl font-bold mb-4">Seating Area Control</h1>
+<div class="p-6">
+  <h1 class="text-2xl font-bold mb-4 text-gray-800">Seating Area Control</h1>
   <SeatingAreaMain data={data} />
 </div>
 

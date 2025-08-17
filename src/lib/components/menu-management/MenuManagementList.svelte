@@ -23,16 +23,14 @@
 
 <div class="grid gap-4">
 	{#each menuItems as item}
-		<div class="card shadow-lg">
-			<div class="card-body">
-				<h3 class="card-title">{item.name}</h3>
+		<div class="bg-card-background rounded-lg shadow-md p-6">
+				<h3 class="text-xl font-bold text-gray-800">{item.name}</h3>
 				<p>{item.category}</p>
 				<p>${item.price.toFixed(2)}</p>
-				<div class="card-actions justify-end">
-					<button class="btn btn-primary">Edit</button>
-					<button class="btn btn-error">Delete</button>
+				<div class="flex justify-end space-x-2 mt-4">
+					<button class="bg-primary-blue text-white rounded-lg px-4 py-2 hover:bg-blue-700 transition-colors duration-200">Edit</button>
+					<button class="bg-status-error text-white rounded-lg px-4 py-2 hover:bg-red-700 transition-colors duration-200">Delete</button>
 				</div>
-			</div>
 		</div>
 	{/each}
 </div>

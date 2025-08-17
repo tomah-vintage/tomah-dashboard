@@ -42,31 +42,31 @@
   }
 </script>
 
-<div class="restaurant-management-main p-8">
+<div class="restaurant-management-main p-6">
 	<header class="mb-8">
 		<div class="flex justify-between items-center">
 			<div>
-				<h1 class="text-4xl font-bold text-[#2C2C2C] mb-2">Restaurant Management</h1>
+				<h1 class="text-4xl font-bold text-gray-800 mb-2">Restaurant Management</h1>
 				<p class="text-base text-gray-600">Add, edit, and manage all restaurants in the system.</p>
 			</div>
 			<div class="flex space-x-4">
-				<a href="/restaurants/menu" class="btn bg-white text-[#2C2C2C] border border-[#2C2C2C] rounded-lg px-6 py-3 hover:bg-gray-100 transition-colors duration-200">Menu</a>
-				<button class="btn bg-[#FF6B35] text-white rounded-lg px-6 py-3 hover:bg-[#E05F2E] transition-colors duration-200" on:click={openAddForm}>Add New Restaurant</button>
+				<a href="/restaurants/menu" class="btn bg-white text-black border border-gray-300 rounded-lg px-6 py-3 hover:bg-gray-100 transition-colors duration-200">Menu</a>
+				<button class="btn bg-primary-blue text-white rounded-lg px-6 py-3 hover:bg-blue-700 transition-colors duration-200" on:click={openAddForm}>Add New Restaurant</button>
 			</div>
 		</div>
 	</header>
 
 	<main>
 		{#if error}
-			<div class="alert bg-[#F44336] text-white p-4 rounded-lg">{error}</div>
+			<div class="alert bg-status-error text-white p-4 rounded-lg">{error}</div>
 		{:else}
 			<RestaurantManagementList {items} {loading} on:edit={e => openEditForm(e.detail)} on:delete={e => handleDelete(e.detail)} />
 		{/if}
 
 		{#if showForm}
 			<div class="modal open">
-				<div class="modal-box bg-white p-8 rounded-xl shadow-lg">
-					<h3 class="text-2xl font-bold text-[#2C2C2C] mb-6">{currentRestaurant ? 'Edit Restaurant' : 'Add New Restaurant'}</h3>
+				<div class="modal-box bg-card-background p-6 rounded-lg shadow-lg">
+					<h3 class="text-2xl font-bold text-gray-800 mb-6">{currentRestaurant ? 'Edit Restaurant' : 'Add New Restaurant'}</h3>
 					<RestaurantManagementForm restaurant={currentRestaurant} on:submit={handleFormSubmit} on:close={() => showForm = false} />
 				</div>
 			</div>

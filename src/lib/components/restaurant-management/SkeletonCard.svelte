@@ -1,4 +1,4 @@
-<div class="bg-white rounded-xl shadow-md p-6 animate-pulse">
+<div class="bg-card-background rounded-lg shadow-md p-6 animate-pulse">
 	<div class="space-y-3">
 		<div class="h-6 bg-gray-200 rounded w-3/4"></div>
 		<div class="h-4 bg-gray-200 rounded w-full"></div>

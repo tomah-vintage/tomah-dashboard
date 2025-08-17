@@ -5,7 +5,7 @@
 
 <a
 	href="/restaurants/{item.id}"
-	class="block bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 p-6"
+	class="block bg-card-background rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 p-6"
 >
 	<div class="flex items-center">
 		{#if item.logo}
@@ -16,7 +16,7 @@
 			/>
 		{/if}
 		<div class="flex-grow">
-			<h3 class="text-xl font-bold text-[#2C2C2C]">{item.name}</h3>
+			<h3 class="text-xl font-bold text-gray-800">{item.name}</h3>
 			<p class="text-gray-500">{item.address}</p>
 		</div>
 	</div>

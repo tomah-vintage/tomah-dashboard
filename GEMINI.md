@@ -70,52 +70,50 @@ src/
 
 ### 3.1. Brand Identity & Color Palette
 
-- **Logo**: Clean, minimalist curved design.
+- **Logo**: "Tom Ax" restaurant brand name.
 - **Primary Colors**:
-  - **Orange/Coral**: `#FF6B35` (Primary CTAs, accents, highlights)
-  - **Dark Charcoal**: `#2C2C2C` (Text, navigation, logo)
-  - **Light Gray**: `#F8F9FA` (Background, cards)
-  - **White**: `#FFFFFF` (Cards, button backgrounds)
+  - **Primary Blue**: `#2563EB` (Primary CTAs, interactive elements)
+  - **Branding Red**: `#DC2626` (Sidebar active state, branding)
+  - **Sidebar Background**: `#111827`
+  - **Content Background**: `#F3F4F6`
+  - **Card Background**: `#FFFFFF`
 - **Status Colors**:
-  - **Success**: `#4CAF50`
-  - **Warning**: `#FF9800`
-  - **Error**: `#F44336`
-  - **Info**: `#2196F3`
+  - **Success**: `#16A34A`
+  - **Warning**: `#FBBF24`
+  - **Error**: `#DC2626`
+  - **Info**: `#2563EB`
 
 ### 3.2. Typography
 
 - **Primary Font**: Sans-serif (Inter or similar).
 - **Scale & Weights**:
-  - **Hero Title**: 48px+, Bold (700)
-  - **Section Headers**: 32px, Bold (700)
+  - **Page Title**: 24px, Bold (700)
   - **Body Text**: 16px, Regular (400)
   - **Small Text**: 14px, Regular (400)
 
 ### 3.3. Layout & Spacing
 
-- **Grid**: Flexible grid system with consistent gutters.
-- **Spacing**: 24px base unit for vertical rhythm.
-- **Padding**: 16px minimum for cards, 24px for sections.
-- **Section Margins**: 80px+ between major sections.
+- **Layout**: Two-column with a dark, fixed left sidebar and a light content area.
+- **Spacing**: 8px base unit.
+- **Padding**: 24px for content areas, 16px for cards.
 
 ### 3.4. Component Design
 
-- **Navigation Bar**: 72px height, white background with subtle shadow. Active state is orange.
-- **Cards & Panels**: White background, `12px` border-radius, subtle drop shadow (`0 4px 16px rgba(0,0,0,0.1)`), `24px` padding.
+- **Sidebar Navigation**: Dark background, light text, with a red accent for active items.
+- **Cards & Panels**: White background, `8px` border-radius, subtle drop shadow.
 - **Buttons**:
-  - **Primary**: Orange background, white text, `8px` border-radius.
-  - **Secondary**: White background, dark text, subtle border.
-  - **Padding**: 12px vertical, 24px horizontal.
+  - **Primary**: Blue background, white text, `8px` border-radius.
+  - **Secondary**: White background, dark text, gray border.
 
 ### 3.5. Interactive States
 
-- **Hover**: Subtle color darkening on buttons, shadow increase on cards.
-- **Focus**: High-contrast orange outline for accessibility.
+- **Hover**: Subtle color/background changes.
+- **Focus**: High-contrast blue outline for accessibility.
 
 ### 3.6. Responsive Design
 
 - **Breakpoints**: Mobile (320-767px), Tablet (768-1023px), Desktop (1024px+).
-- **Adaptations**: Use hamburger menus, single-column stacking, and reduced typography scale for smaller screens. Ensure touch targets are at least 44px.
+- **Adaptations**: Sidebar collapses to a hamburger menu on smaller screens.
 
 ---
 
