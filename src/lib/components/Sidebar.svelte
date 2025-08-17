@@ -43,9 +43,6 @@
     <nav>
       <ul>
         <!-- Platform Admin Links -->
-        <div class="px-3 text-xs font-semibold text-gray-400 uppercase mb-2">
-          Platform
-        </div>
         {#if hasPermission("view-dashboard")}
           <SidebarButton href="/" label="Тайлан" icon={ChartColumnIncreasing} />
         {/if}
@@ -66,11 +63,6 @@
         {/if}
 
         <!-- Restaurant Admin Links -->
-        <div
-          class="px-3 text-xs font-semibold text-gray-400 uppercase mb-2 mt-4"
-        >
-          Restaurant
-        </div>
         {#if hasPermission("edit-menus")}
           <SidebarButton href="/menu" label="Меню" icon={Pizza} />
         {/if}

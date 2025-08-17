@@ -1,60 +1,37 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	import type { ReportItem } from '$lib/types/report';
+	import { ReportHeader, ReportFilters, ReportTable, ReportPagination } from '$lib/components/report';
 
-	export let data: PageData;
-	const { stats, restaurants } = data;
+	// --- Mock Data --- //
+	const reportData: ReportItem[] = [
+		{ date: '07/08/2025', product: 'Үхрийн махтай пицца', code: '#223344', salesCount: 30, unitPrice: 28000, salesTotal: 840000, discount: 50000, netIncome: 790000 },
+		{ date: '07/08/2025', product: 'Англи өглөөний цай', code: '#223344', salesCount: 25, unitPrice: 32000, salesTotal: 800000, discount: 0, netIncome: 800000 },
+		{ date: '07/08/2025', product: 'Хонины махан рамен', code: '#223344', salesCount: 20, unitPrice: 20000, salesTotal: 400000, discount: 50000, netIncome: 350000 },
+		{ date: '07/08/2025', product: 'Бяслагны цуглуулга', code: '#223344', salesCount: 36, unitPrice: 32000, salesTotal: 1152000, discount: 0, netIncome: 1152000 },
+		{ date: '07/08/2025', product: 'Тахианы махтай шинэ ногоо...', code: '#223344', salesCount: 15, unitPrice: 14000, salesTotal: 210000, discount: 20000, netIncome: 190000 },
+		{ date: '07/08/2025', product: 'Зутан шөл мөөгтэй', code: '#223344', salesCount: 20, unitPrice: 15000, salesTotal: 300000, discount: 0, netIncome: 300000 },
+		{ date: '07/08/2025', product: 'Амталсан будаа', code: '#223344', salesCount: 20, unitPrice: 18000, salesTotal: 360000, discount: 50000, netIncome: 310000 },
+	];
+
+	// --- State --- //
+	let searchQuery = '';
+	let activeFilter = 'all';
+	let startDate = '2025-07-05';
+	let endDate = '2025-07-08';
+	let selectAll = false;
+
 </script>
 
 <svelte:head>
-	<title>Dashboard | Tomah</title>
-	<meta name="description" content="Admin dashboard with key statistics and restaurant list." />
+	<title>Тайлан | Tomah</title>
 </svelte:head>
 
-<div class="w-full p-6 font-sans min-h-screen">
-	<div class="max-w-7xl mx-auto space-y-8">
-		<h1 class="text-2xl font-bold text-gray-800">Dashboard Overview</h1>
-
-		<!-- Statistics Cards -->
-		<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-			<div class="rounded-lg bg-card-background p-6 shadow-md">
-				<h2 class="text-lg font-medium text-gray-800">Total Restaurants</h2>
-				<p class="text-4xl font-bold text-primary-blue mt-2">{stats.totalRestaurants}</p>
-			</div>
-			<div class="rounded-lg bg-card-background p-6 shadow-md">
-				<h2 class="text-lg font-medium text-gray-800">Active Restaurants</h2>
-				<p class="text-4xl font-bold text-status-success mt-2">{stats.activeRestaurants}</p>
-			</div>
-			<div class="rounded-lg bg-card-background p-6 shadow-md">
-				<h2 class="text-lg font-medium text-gray-800">Disabled Restaurants</h2>
-				<p class="text-4xl font-bold text-status-error mt-2">{stats.disabledRestaurants}</p>
-			</div>
-			<div class="rounded-lg bg-card-background p-6 shadow-md">
-				<h2 class="text-lg font-medium text-gray-800">New Orders Today</h2>
-				<p class="text-4xl font-bold text-primary-blue mt-2">{stats.newOrdersToday}</p>
-			</div>
-		</section>
-
-		<!-- Restaurant List -->
-		<section class="rounded-lg bg-card-background p-6 shadow-md">
-			<h2 class="text-2xl font-bold text-gray-800 mb-4">Registered Restaurants</h2>
-			{#if restaurants.length > 0}
-				<ul class="space-y-3">
-					{#each restaurants as restaurant (restaurant.id)}
-						<li class="flex items-center justify-between border-b border-gray-200 pb-3 last:border-b-0">
-							<div>
-								<p class="text-lg font-medium text-gray-800">{restaurant.name}</p>
-								<p class="text-sm text-gray-600">{restaurant.address}</p>
-							</div>
-							<button
-								class="rounded-md bg-primary-blue px-3 py-1 text-sm text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-primary-blue focus:ring-opacity-50"
-								>View Details</button
-							>
-						</li>
-					{/each}
-				</ul>
-			{:else}
-				<p class="text-gray-800">No restaurants registered yet.</p>
-			{/if}
-		</section>
+<div class="p-4 sm:p-6 bg-content-background min-h-screen font-sans text-gray-800">
+	<div class="bg-card-background rounded-lg shadow-md p-4 sm:p-6 space-y-6">
+		<ReportHeader bind:searchQuery={searchQuery} />
+		<ReportFilters bind:activeFilter={activeFilter} bind:startDate={startDate} bind:endDate={endDate} />
+		<ReportTable {reportData} bind:selectAll={selectAll} />
 	</div>
+
+	<ReportPagination />
 </div>
