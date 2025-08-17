@@ -1,24 +1,17 @@
 <script lang="ts">
-  import { page } from "$app/stores";
   import { goto } from "$app/navigation";
   import {
-    Search,
-    ChevronRight,
-    Home,
-    BarChart2,
-    Bell,
-    TrendingUp,
-    Settings,
-    Wallet,
     LogOut,
-    Moon,
     Users,
     ShieldCheck,
     Store,
+    ChartColumnIncreasing,
+    Pizza,
   } from "lucide-svelte";
   import { themeStore } from "$lib/stores/themeStore";
   import { sessionStore } from "$lib/stores/sessionStore";
   import type { Permission } from "$lib/types/auth";
+  import SidebarButton from "./ui/sidebar/SidebarButton.svelte";
 
   const hasPermission = (permission: Permission) => {
     return $sessionStore.user?.permissions?.includes(permission) ?? false;
@@ -32,7 +25,6 @@
     await fetch("/logout", {
       method: "POST",
     });
-    // Invalidate the session store on logout
     sessionStore.set({ user: null });
     goto("/login");
   };
@@ -44,55 +36,7 @@
   <div>
     <!-- Header/Logo Section -->
     <div class="flex items-center p-4 mb-8">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6 text-red-500 mr-2"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M15 19l-7-7 7-7"
-        />
-      </svg>
       <h2 class="text-xl font-bold text-red-500">Том Ах ресторан</h2>
-    </div>
-
-    <!-- User Profile Section -->
-    {#if $sessionStore.user}
-      <div class="flex items-center justify-between p-4 mb-4">
-        <div class="flex items-center">
-          <div
-            class="w-10 h-10 bg-primary-blue text-white rounded-full flex items-center justify-center font-bold mr-3"
-          >
-            {$sessionStore.user.name.charAt(0).toUpperCase()}
-          </div>
-          <div>
-            <div class="text-base font-semibold text-white">
-              {$sessionStore.user.name}
-            </div>
-            <div class="text-sm text-white">
-              {$sessionStore.user.roles.join(", ")}
-            </div>
-          </div>
-        </div>
-        <ChevronRight class="text-gray-400 w-5 h-5 cursor-pointer" />
-      </div>
-    {/if}
-
-    <!-- Search Input -->
-    <div class="relative mb-6">
-      <input
-        type="text"
-        placeholder="Search..."
-        class="w-full py-3 pl-10 pr-4 rounded-lg bg-gray-700 text-white placeholder-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-primary-blue"
-      />
-      <Search
-        class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
-      />
     </div>
 
     <!-- Navigation Menu -->
@@ -103,57 +47,22 @@
           Platform
         </div>
         {#if hasPermission("view-dashboard")}
-          <li class="mb-2">
-            <a
-              href="/"
-              class="flex items-center p-3 rounded-lg transition-colors duration-200 relative text-primary-blue
-                {$page.url.pathname === '/'
-                ? 'text-primary-blue'
-                : 'text-gray-500 hover:bg-gray-700'}"
-            >
-              <Home class="w-5 h-5 mr-3" />
-              Dashboard
-              {#if $page.url.pathname === '/'}
-                <div class="absolute right-0 top-0 h-full w-1 bg-primary-blue rounded-full"></div>
-              {/if}
-            </a>
-          </li>
+          <SidebarButton href="/" label="Тайлан" icon={ChartColumnIncreasing} />
         {/if}
         {#if hasPermission("manage-restaurants")}
-          <li class="mb-2">
-            <a
-              href="/restaurants"
-              class="flex items-center p-3 rounded-lg transition-colors duration-200 relative text-primary-blue {$page.url.pathname.includes(
-                '/restaurants'
-              )
-                ? 'text-primary'
-                : 'text-gray-500 hover:bg-gray-700'}"
-            >
-              <ShieldCheck class="w-5 h-5 mr-3" />
-              Restaurants
-              {#if $page.url.pathname.includes('/restaurants')}
-                <div class="absolute right-0 top-0 h-full w-1 bg-primary-blue rounded-full"></div>
-              {/if}
-            </a>
-          </li>
+          <SidebarButton
+            href="/restaurants"
+            label="Рестауран"
+            icon={ShieldCheck}
+          />
         {/if}
         {#if hasPermission("manage-users")}
-          <li class="mb-4">
-            <a
-              href="/users"
-              class="flex items-center p-3 rounded-lg transition-colors duration-200 relative text-primary-blue {$page.url.pathname.includes(
-                '/users'
-              )
-                ? 'text-primary-blue'
-                : 'text-gray-500 hover:bg-gray-700'}"
-            >
-              <Users class="w-5 h-5 mr-3" />
-              User Control
-              {#if $page.url.pathname.includes('/users')}
-                <div class="absolute right-0 top-0 h-full w-1 bg-primary-blue rounded-full"></div>
-              {/if}
-            </a>
-          </li>
+          <SidebarButton
+            href="/users"
+            label="Хэрэглэгчид"
+            icon={Users}
+            class="mb-4"
+          />
         {/if}
 
         <!-- Restaurant Admin Links -->
@@ -163,39 +72,15 @@
           Restaurant
         </div>
         {#if hasPermission("edit-menus")}
-          <li class="mb-2">
-            <a
-              href="/menu"
-              class="flex items-center p-3 rounded-lg transition-colors duration-200 relative text-primary-blue {$page.url.pathname.startsWith(
-                '/menu'
-              )
-                ? 'text-primary-blue'
-                : 'text-gray-500 hover:bg-gray-700'}"
-            >
-              <BarChart2 class="w-5 h-5 mr-3" />
-              Menu
-              {#if $page.url.pathname.startsWith('/menu')}
-                <div class="absolute right-0 top-0 h-full w-1 bg-primary-blue rounded-full"></div>
-              {/if}
-            </a>
-          </li>
+          <SidebarButton href="/menu" label="Меню" icon={Pizza} />
         {/if}
         {#if hasPermission("view-seating-charts")}
-          <li class="mb-4">
-            <a
-              href="/seating"
-              class="flex items-center p-3 rounded-lg transition-colors duration-200 relative text-primary-blue
-						{$page.url.pathname.includes('/seating')
-                ? 'text-primary-blue'
-                : 'text-gray-500 hover:bg-gray-700'}"
-            >
-              <Store class="w-5 h-5 mr-3" />
-              Seating
-              {#if $page.url.pathname.includes('/seating')}
-                <div class="absolute right-0 top-0 h-full w-1 bg-primary-blue rounded-full"></div>
-              {/if}
-            </a>
-          </li>
+          <SidebarButton
+            href="/seating"
+            label="Ширээ"
+            icon={Store}
+            class="mb-4"
+          />
         {/if}
       </ul>
     </nav>
@@ -206,13 +91,13 @@
     <div class="mb-4">
       <button
         on:click={handleLogout}
-        class="flex items-center p-3 rounded-lg text-white hover:bg-gray-700 transition-colors duration-200 w-full text-left"
+        class="flex items-center p-3 rounded-lg hover:bg-gray-200 transition-colors duration-200 w-full text-left text-black"
       >
-        <LogOut class="w-5 h-5 mr-3" />
-        Logout
+        Гарах
+        <LogOut class="w-5 h-5 ml-3" />
       </button>
     </div>
-    <div class="flex items-center justify-between p-3 rounded-lg bg-gray-700">
+    <!-- <div class="flex items-center justify-between p-3 rounded-lg bg-gray-700">
       <div class="flex items-center">
         <Moon class="w-5 h-5 mr-3 text-white" />
         <span class="text-white">Dark mode</span>
@@ -229,7 +114,7 @@
           class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-blue rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-blue"
         ></div>
       </label>
-    </div>
+    </div> -->
   </div>
 </aside>
 

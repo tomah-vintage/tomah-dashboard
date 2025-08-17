@@ -1,4 +1,3 @@
-
 # Phase 4.1: Restaurant Detail Page Enhancement
 
 ## 1. Overview
@@ -7,6 +6,7 @@ This phase focuses on enhancing the restaurant detail page for platform admins (
 
 **Affected Route:** `/restaurants/[restaurantId]`
 **Affected Files:**
+
 - `src/routes/(pladmin)/restaurants/[restaurantId]/+page.svelte`
 - `src/routes/(pladmin)/restaurants/[restaurantId]/+page.server.ts`
 - `src/lib/types/restaurant.ts` (potentially)
@@ -18,38 +18,38 @@ This phase focuses on enhancing the restaurant detail page for platform admins (
 
 - **Objective:** Display essential restaurant details clearly at the top of the page.
 - **Tasks:**
-    - Display Restaurant Name (already implemented).
-    - Display Restaurant Address/Location.
-    - Display "Created At" timestamp, formatted for readability.
-    - Add a map view for the location (e.g., using Leaflet or a static map API).
+  - Display Restaurant Name (already implemented).
+  - Display Restaurant Address/Location.
+  - Display "Created At" timestamp, formatted for readability.
+  - Add a map view for the location (e.g., using Leaflet or a static map API).
 
 ### 2.2. Image Gallery
 
 - **Objective:** Showcase restaurant images in an organized and visually appealing manner.
 - **Tasks:**
-    - Create a new component `ImageGallery.svelte`.
-    - The component should display a grid of restaurant images (`restaurant_img_urls`).
-    - Implement a modal or lightbox to view images in full screen when clicked.
-    - Handle cases where there are no images.
+  - Create a new component `ImageGallery.svelte`.
+  - The component should display a grid of restaurant images (`restaurant_img_urls`).
+  - Implement a modal or lightbox to view images in full screen when clicked.
+  - Handle cases where there are no images.
 
 ### 2.3. Order Insights Section
 
 - **Objective:** Provide `pladmin` with valuable insights into the restaurant's performance.
 - **Tasks:**
-    - **Data Fetching:**
-        - Define what "order insights" mean. This could be:
-            - Total orders
-            - Total revenue
-            - Average order value
-            - Top selling items
-        - Create new query functions in `src/lib/queries/order-queries.ts` (or similar) to aggregate this data. This might require a new `orders` table/collection in the database.
-    - **Component Creation:**
-        - Create a new component `OrderInsights.svelte`.
-        - Display the key metrics in a clean, easy-to-read format (e.g., using stat cards).
-        - Consider adding a simple chart (e.g., using Chart.js or a Svelte chart library) to visualize order trends over time.
-    - **Integration:**
-        - Load the insights data in `+page.server.ts`.
-        - Pass the data to the `OrderInsights.svelte` component on the page.
+  - **Data Fetching:**
+    - Define what "order insights" mean. This could be:
+      - Total orders
+      - Total revenue
+      - Average order value
+      - Top selling items
+    - Create new query functions in `src/lib/queries/order-queries.ts` (or similar) to aggregate this data. This might require a new `orders` table/collection in the database.
+  - **Component Creation:**
+    - Create a new component `OrderInsights.svelte`.
+    - Display the key metrics in a clean, easy-to-read format (e.g., using stat cards).
+    - Consider adding a simple chart (e.g., using Chart.js or a Svelte chart library) to visualize order trends over time.
+  - **Integration:**
+    - Load the insights data in `+page.server.ts`.
+    - Pass the data to the `OrderInsights.svelte` component on the page.
 
 ## 3. Data Model Considerations
 

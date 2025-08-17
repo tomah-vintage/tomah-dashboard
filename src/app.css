@@ -1,3 +1,13 @@
 @import "tailwindcss";
+@tailwind utilities;
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+@layer utilities {
+  .text-primary-blue {
+    color: #2a85ff;
+  }
+  .bg-primary-blue {
+    background-color: #2a85ff;
+  }
+}
