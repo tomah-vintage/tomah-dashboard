@@ -5,14 +5,16 @@
 export interface Restaurant {
 	id: string;
 	name: string;
+	logo: string;
 	address: string;
 	phone: string;
 	email: string;
 	status: 'active' | 'inactive';
+	created_at: string;
 }
 
 export interface Menu {
-	id:string;
+	id: string;
 	restaurantId: string;
 	name: string;
 }
@@ -34,11 +36,11 @@ export interface RestaurantFormData {
 }
 
 export interface NewRestaurantFormData {
-  name: string;
-  representativeName: string;
-  phone: string;
-  registrationNumber: string;
-  workingHours: string;
-  address: string;
-  image?: File;
+	name: string;
+	representativeName: string;
+	phone: string;
+	registrationNumber: string;
+	workingHours: string;
+	address: string;
+	image?: File;
 }

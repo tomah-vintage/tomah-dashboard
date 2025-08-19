@@ -115,6 +115,10 @@ src/
 - **Breakpoints**: Mobile (320-767px), Tablet (768-1023px), Desktop (1024px+).
 - **Adaptations**: Sidebar collapses to a hamburger menu on smaller screens.
 
+### 3.7. Iconography
+
+- **Source**: Lucide icons are used for all UI icons.
+
 ---
 
 ## 4. New Feature Development Workflow

@@ -102,6 +102,7 @@
 
 ### Style
 
+- **Source**: Lucide icons are used for all UI icons.
 - **Type**: Outlined icons are used primarily.
 - **Size**: 24px standard.
 - **Color**: Inherits from parent text color.

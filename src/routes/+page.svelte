@@ -23,7 +23,7 @@
 </script>
 
 <svelte:head>
-	<title>Тайлан | Tomah</title>
+	<title>Report | Qpick</title>
 </svelte:head>
 
 <div class="p-4 sm:p-6 bg-content-background min-h-screen font-sans text-gray-800">

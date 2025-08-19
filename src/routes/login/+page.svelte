@@ -24,7 +24,7 @@
 </script>
 
 <svelte:head>
-  <title>Нэвтрэх</title>
+  <title>Login | Qpick</title>
 </svelte:head>
 
 <div

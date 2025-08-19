@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-  <title>User Management</title>
+  <title>User Management | Qpick</title>
 </svelte:head>
 
 <div class="space-y-6">

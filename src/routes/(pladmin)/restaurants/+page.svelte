@@ -18,7 +18,7 @@
 </script>
 
 <svelte:head>
-	<title>Ресторанууд | Tomah</title>
+	<title>Restaurants | Qpick</title>
 </svelte:head>
 
 <div class="p-4 sm:p-6 bg-content-background min-h-screen font-sans text-gray-800">

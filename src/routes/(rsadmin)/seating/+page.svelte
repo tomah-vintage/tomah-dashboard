@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-  <title>Seating Area Control</title>
+  <title>Seating Area Control | Qpick</title>
   <meta name="description" content="Manage your restaurant's tables and QR codes." />
 </svelte:head>
 

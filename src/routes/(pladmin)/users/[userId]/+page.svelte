@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-  <title>History for {data.user.name}</title>
+  <title>User History for {data.user.name} | Qpick</title>
 </svelte:head>
 
 <div class="space-y-6">

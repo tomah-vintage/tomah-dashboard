@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { page } from '$app/stores';
+	import { page } '$app/stores';
 	import { goto } from '$app/navigation';
 
 	let username = '';
@@ -44,6 +44,10 @@
 		}
 	}
 </script>
+
+<svelte:head>
+  <title>Register | Qpick</title>
+</svelte:head>
 
 <div class="flex min-h-screen items-center justify-center bg-content-background font-sans">
 	<div class="w-full max-w-md rounded-lg bg-card-background p-8 shadow-lg">
