@@ -32,3 +32,13 @@ export interface RestaurantFormData {
 	email: string;
 	status: 'active' | 'inactive';
 }
+
+export interface NewRestaurantFormData {
+  name: string;
+  representativeName: string;
+  phone: string;
+  registrationNumber: string;
+  workingHours: string;
+  address: string;
+  image?: File;
+}

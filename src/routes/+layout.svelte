@@ -20,7 +20,7 @@
     {#if !noSidebarRoutes.includes($page.url.pathname)}
       <Sidebar />
     {/if}
-    <main class="flex-1 p-6 bg-content-background">
+    <main class="flex-1 bg-content-background">
       <slot />
     </main>
   </div>
