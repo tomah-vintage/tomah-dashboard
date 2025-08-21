@@ -1,27 +1,27 @@
-import { error, redirect, type Handle } from '@sveltejs/kit';
-import type { User, Permission } from '$lib/types/auth';
-
-// Mock function to simulate fetching a user from a session ID.
-const getUserFromSession = async (sessionId: string): Promise<User | null> => {
-  if (sessionId) {
-    return {
-      id: '1',
-      name: 'Admin User',
-      email: 'admin@example.com',
-      roles: ['ADMIN'],
-      permissions: ['view-dashboard', 'manage-restaurants', 'edit-menus', 'view-seating-charts', 'manage-users'],
-    };
-  }
-  return null;
-};
+import { redirect, type Handle } from '@sveltejs/kit';
+import { PUBLIC_BACKEND_URL } from '$env/static/public';
+import { apiFetch } from '$lib/utils/api';
+import type { User } from '$lib/types/auth';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get('session');
 
 	if (sessionId) {
-		const user = await getUserFromSession(sessionId);
-		if (user) {
-			event.locals.user = user;
+		try {
+			const user = await apiFetch<User>(`${PUBLIC_BACKEND_URL}/api/me`, {
+				headers: {
+					'Authorization': `Bearer ${sessionId}`
+				}
+			});
+
+			if (user) {
+				event.locals.user = {
+					...user,
+					name: `${user.first_name} ${user.last_name}`
+				};
+			}
+		} catch (error) {
+			console.error('Failed to fetch user:', error);
 		}
 	}
 

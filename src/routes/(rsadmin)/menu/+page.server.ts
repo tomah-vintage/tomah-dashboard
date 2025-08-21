@@ -2,7 +2,7 @@ import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import type { Permission } from '$lib/types/auth';
 
-const requiredPermissions: Permission[] = ['edit-menus'];
+const requiredPermissions: Permission[] = ['create_menuitem', 'update_menuitem', 'delete_menuitem'];
 
 export const load: PageServerLoad = async ({ locals }) => {
     const user = locals.user;

@@ -11,7 +11,6 @@ const getAuthToken = () => {
     for (let i = 0; i < cookies.length; i++) {
         let cookie = cookies[i].trim();
         if (cookie.startsWith('session=')) {
-            console.log('hmmm')
             return cookie.substring('session='.length, cookie.length);
         }
     }

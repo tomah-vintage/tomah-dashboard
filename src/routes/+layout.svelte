@@ -10,7 +10,7 @@
   export let data: PageData;
 
   // Set the store value whenever the layout data changes
-  $: $sessionStore.user = data.user;
+  $: $sessionStore.user = data.user!;
 
   const noSidebarRoutes = ["/login", "/register"];
 </script>

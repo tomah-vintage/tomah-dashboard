@@ -13,8 +13,12 @@
   import type { Permission } from "$lib/types/auth";
   import SidebarButton from "./ui/sidebar/SidebarButton.svelte";
 
-  const hasPermission = (permission: Permission) => {
-    return $sessionStore.user?.permissions?.includes(permission) ?? false;
+  const hasPermission = (permissions: Permission[]) => {
+    return (
+      $sessionStore.user?.permissions?.some((userPermission) =>
+        permissions.includes(userPermission)
+      ) ?? false
+    );
   };
 
   const toggleDarkMode = () => {
@@ -31,7 +35,7 @@
 </script>
 
 <aside
-  class="w-64 bg-sidebar-background text-white h-screen p-4 rounded-e-xl shadow-lg flex flex-col justify-between"
+  class="sticky top-0 flex flex-col justify-between w-64 h-screen p-4 text-white shadow-lg bg-sidebar-background rounded-e-xl"
 >
   <div>
     <!-- Header/Logo Section -->
@@ -43,17 +47,15 @@
     <nav>
       <ul>
         <!-- Platform Admin Links -->
-        {#if hasPermission("view-dashboard")}
-          <SidebarButton href="/" label="Тайлан" icon={ChartColumnIncreasing} />
-        {/if}
-        {#if hasPermission("manage-restaurants")}
+        <SidebarButton href="/" label="Тайлан" icon={ChartColumnIncreasing} />
+        {#if hasPermission( ["create_restaurant", "update_restaurant", "delete_restaurant"] )}
           <SidebarButton
             href="/restaurants"
             label="Рестауран"
             icon={ShieldCheck}
           />
         {/if}
-        {#if hasPermission("manage-users")}
+        {#if hasPermission(["create_user"])}
           <SidebarButton
             href="/users"
             label="Хэрэглэгчид"
@@ -63,17 +65,16 @@
         {/if}
 
         <!-- Restaurant Admin Links -->
-        {#if hasPermission("edit-menus")}
+        {#if hasPermission(["create_menuitem"])}
           <SidebarButton href="/menu" label="Меню" icon={Pizza} />
         {/if}
-        {#if hasPermission("view-seating-charts")}
-          <SidebarButton
-            href="/seating"
-            label="Ширээ"
-            icon={Store}
-            class="mb-4"
-          />
-        {/if}
+
+        <SidebarButton
+          href="/seating"
+          label="Ширээ"
+          icon={Store}
+          class="mb-4"
+        />
       </ul>
     </nav>
   </div>
@@ -83,13 +84,13 @@
     <div class="mb-4">
       <button
         on:click={handleLogout}
-        class="flex items-center p-3 rounded-lg hover:bg-gray-200 transition-colors duration-200 w-full text-left text-black"
+        class="flex items-center w-full p-3 text-left text-black transition-colors duration-200 rounded-lg hover:bg-gray-200"
       >
         Гарах
         <LogOut class="w-5 h-5 ml-3" />
       </button>
     </div>
-    <!-- <div class="flex items-center justify-between p-3 rounded-lg bg-gray-700">
+    <!-- <div class="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
       <div class="flex items-center">
         <Moon class="w-5 h-5 mr-3 text-white" />
         <span class="text-white">Dark mode</span>
@@ -109,7 +110,3 @@
     </div> -->
   </div>
 </aside>
-
-<style>
-  /* No custom styles needed, Tailwind handles it */
-</style>

@@ -4,7 +4,7 @@ import type { Table } from '$lib/types/seating';
 import type { Permission } from '$lib/types/auth';
 
 // Define the permissions required to view and interact with this page
-const requiredPermissions: Permission[] = ['view-seating-charts'];
+const requiredPermissions: Permission[] = [];
 
 export const load: PageServerLoad = async ({ fetch, params, locals }) => {
     const user = locals.user;

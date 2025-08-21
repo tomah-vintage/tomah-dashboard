@@ -2,7 +2,7 @@ import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import type { Permission } from '$lib/types/auth';
 
-const requiredPermissions: Permission[] = ['manage-restaurants'];
+const requiredPermissions: Permission[] = ['create_restaurant', 'update_restaurant', 'delete_restaurant'];
 
 export const load: PageServerLoad = async ({ locals }) => {
     const user = locals.user;

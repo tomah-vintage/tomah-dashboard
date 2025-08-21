@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 import type { Permission } from '$lib/types/auth';
 import type { PlatformUser } from '$lib/types/user';
 
-const requiredPermissions: Permission[] = ['manage-users'];
+const requiredPermissions: Permission[] = ['create_user', 'update_user', 'delete_user'];
 
 export const load: PageServerLoad = async ({ locals }) => {
     const user = locals.user;
