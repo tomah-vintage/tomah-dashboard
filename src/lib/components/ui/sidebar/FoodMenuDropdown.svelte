@@ -1,0 +1,59 @@
+<script lang="ts">
+  import { Pizza, ChevronDown } from "lucide-svelte";
+  import { slide } from "svelte/transition";
+  import { page } from "$app/stores";
+
+  let isFoodMenuOpen = $page.url.pathname.startsWith('/menu');
+
+  $: if ($page.url.pathname.startsWith('/menu')) {
+    isFoodMenuOpen = true;
+  }
+</script>
+
+<li>
+  <button
+    on:click={() => (isFoodMenuOpen = !isFoodMenuOpen)}
+    class="flex items-center justify-between w-full p-3 text-gray-500 duration-200 rounded-lg text-lefttransition-colors hover:bg-gray-200"
+  >
+    <div class="flex items-center">
+      <Pizza class="w-5 h-5 mr-3" />
+      <span>Хоолны цэс</span>
+    </div>
+    <ChevronDown
+      class="w-5 h-5 transition-transform duration-200 {isFoodMenuOpen
+        ? 'rotate-180'
+        : ''}"
+    />
+  </button>
+  {#if isFoodMenuOpen}
+    <ul class="pt-2 pl-8 space-y-2" transition:slide>
+      <li>
+        <a
+          href="/menu"
+          class="text-sm hover:text-gray-300"
+          class:text-blue-400={$page.url.pathname === '/menu'}
+          class:text-gray-500={$page.url.pathname !== '/menu'}
+          >Хоолны жагсаалт</a
+        >
+      </li>
+      <li>
+        <a
+          href="/menu/categories"
+          class="text-sm hover:text-gray-300"
+          class:text-blue-400={$page.url.pathname === '/menu/categories'}
+          class:text-gray-500={$page.url.pathname !== '/menu/categories'}
+          >Ангилал</a
+        >
+      </li>
+      <li>
+        <a
+          href="/menu/addons"
+          class="text-sm hover:text-gray-300"
+          class:text-blue-400={$page.url.pathname === '/menu/addons'}
+          class:text-gray-500={$page.url.pathname !== '/menu/addons'}
+          >Нэмэлт</a
+        >
+      </li>
+    </ul>
+  {/if}
+</li>

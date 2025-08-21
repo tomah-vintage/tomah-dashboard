@@ -6,12 +6,12 @@
     ShieldCheck,
     Store,
     ChartColumnIncreasing,
-    Pizza,
   } from "lucide-svelte";
   import { themeStore } from "$lib/stores/themeStore";
   import { sessionStore } from "$lib/stores/sessionStore";
   import type { Permission } from "$lib/types/auth";
   import SidebarButton from "./ui/sidebar/SidebarButton.svelte";
+  import FoodMenuDropdown from "./ui/sidebar/FoodMenuDropdown.svelte";
 
   const hasPermission = (permissions: Permission[]) => {
     return (
@@ -66,7 +66,7 @@
 
         <!-- Restaurant Admin Links -->
         {#if hasPermission(["create_menuitem"])}
-          <SidebarButton href="/menu" label="Меню" icon={Pizza} />
+          <FoodMenuDropdown />
         {/if}
 
         <SidebarButton
