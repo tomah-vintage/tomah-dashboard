@@ -1,14 +1,11 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import type { Permission } from '$lib/types/auth';
-
-const requiredPermissions: Permission[] = ['create_menuitem', 'update_menuitem', 'delete_menuitem'];
 
 export const load: PageServerLoad = async ({ locals }) => {
     const user = locals.user;
-    const hasPermission = requiredPermissions.every(p => user?.permissions.includes(p));
+    const userRole = user?.role_name;
 
-    if (!hasPermission) {
+    if (userRole !== 'admin' && userRole !== 'restaurant') {
         throw error(403, 'Forbidden: You do not have permission to edit menus.');
     }
 

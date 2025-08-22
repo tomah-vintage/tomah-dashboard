@@ -9,17 +9,8 @@
   } from "lucide-svelte";
   import { themeStore } from "$lib/stores/themeStore";
   import { sessionStore } from "$lib/stores/sessionStore";
-  import type { Permission } from "$lib/types/auth";
   import SidebarButton from "./ui/sidebar/SidebarButton.svelte";
   import FoodMenuDropdown from "./ui/sidebar/FoodMenuDropdown.svelte";
-
-  const hasPermission = (permissions: Permission[]) => {
-    return (
-      $sessionStore.user?.permissions?.some((userPermission) =>
-        permissions.includes(userPermission)
-      ) ?? false
-    );
-  };
 
   const toggleDarkMode = () => {
     $themeStore = !$themeStore;
@@ -48,14 +39,14 @@
       <ul>
         <!-- Platform Admin Links -->
         <SidebarButton href="/" label="Тайлан" icon={ChartColumnIncreasing} />
-        {#if hasPermission( ["create_restaurant", "update_restaurant", "delete_restaurant"] )}
+        {#if $sessionStore.user?.role_name === 'admin'}
           <SidebarButton
             href="/restaurants"
             label="Рестауран"
             icon={ShieldCheck}
           />
         {/if}
-        {#if hasPermission(["create_user"])}
+        {#if $sessionStore.user?.role_name === 'admin'}
           <SidebarButton
             href="/users"
             label="Хэрэглэгчид"
@@ -65,16 +56,18 @@
         {/if}
 
         <!-- Restaurant Admin Links -->
-        {#if hasPermission(["create_menuitem"])}
+        {#if $sessionStore.user?.role_name === 'admin' || $sessionStore.user?.role_name === 'restaurant'}
           <FoodMenuDropdown />
         {/if}
 
-        <SidebarButton
-          href="/seating"
-          label="Ширээ"
-          icon={Store}
-          class="mb-4"
-        />
+        {#if $sessionStore.user?.role_name === 'admin' || $sessionStore.user?.role_name === 'restaurant'}
+          <SidebarButton
+            href="/seating"
+            label="Ширээ"
+            icon={Store}
+            class="mb-4"
+          />
+        {/if}
       </ul>
     </nav>
   </div>

@@ -1,15 +1,12 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import type { Permission } from '$lib/types/auth';
 import type { PlatformUser } from '$lib/types/user';
-
-const requiredPermissions: Permission[] = ['create_user', 'update_user', 'delete_user'];
 
 export const load: PageServerLoad = async ({ locals }) => {
     const user = locals.user;
-    const hasPermission = requiredPermissions.every(p => user?.permissions.includes(p));
+    const userRole = user?.role_name;
 
-    if (!hasPermission) {
+    if (userRole !== 'admin') {
         throw error(403, 'Forbidden: You do not have permission to manage users.');
     }
 

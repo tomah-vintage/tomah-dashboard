@@ -7,7 +7,6 @@ export interface AuthUser {
   id: string;
   email: string;
   role: number;
-
 }
 
 export type Permission = 'create_user' |
@@ -87,6 +86,7 @@ export interface User {
   last_name: string;
   role: string;
   permissions: Permission[];
+  role_name: string
 }
 
 export interface Session {
