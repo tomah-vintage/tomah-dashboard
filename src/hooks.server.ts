@@ -1,6 +1,6 @@
 import { redirect, type Handle } from '@sveltejs/kit';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
-import { apiFetch } from '$lib/utils/api';
+import { serverApiFetch } from '$lib/utils/api-call-for-server';
 import type { User } from '$lib/types/auth';
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -8,7 +8,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	if (sessionId) {
 		try {
-			const user = await apiFetch<User>(`${PUBLIC_BACKEND_URL}/api/me`, {
+			const user = await serverApiFetch<User>(event.fetch, `${PUBLIC_BACKEND_URL}/api/me`, {
 				headers: {
 					'Authorization': `Bearer ${sessionId}`
 				}
