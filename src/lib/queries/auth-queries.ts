@@ -1,5 +1,5 @@
 import { createMutation } from '@tanstack/svelte-query';
-import type { UserCredentials, AuthUser } from '$lib/types/auth';
+import type { UserCredentials} from '$lib/types/auth';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
 
 // Login
