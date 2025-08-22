@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Search, Filter, Plus, Download } from "lucide-svelte";
+  import { Button } from "$lib/components/ui/button";
 
   export let searchQuery = "";
 </script>
@@ -21,24 +22,17 @@
         bind:value={searchQuery}
       />
     </div>
-    <button
-      class="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-100"
-    >
+    <Button variant="secondary">
       <Filter class="h-5 w-5" />
       <span>Шүүлгүүр</span>
-    </button>
-    <a
-      href="/restaurants/new"
-      class="flex items-center gap-2 px-4 py-2 bg-primary-blue text-white rounded-lg hover:bg-blue-700"
-    >
+    </Button>
+    <Button href="/restaurants/new">
       <Plus class="h-5 w-5" />
       <span>Ресторан нэмэх</span>
-    </a>
-    <button
-      class="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-100"
-    >
+    </Button>
+    <Button variant="secondary">
       <Download class="h-5 w-5" />
       <span>Export</span>
-    </button>
+    </Button>
   </div>
 </div>

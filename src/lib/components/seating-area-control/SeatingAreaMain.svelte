@@ -3,6 +3,7 @@
     import TableList from './TableList.svelte';
     import QRCodeModal from './QRCodeModal.svelte';
     import type { Table } from '$lib/types/seating';
+    import { Button } from '$lib/components/ui/button';
 
     export let data: PageData;
 
@@ -25,7 +26,7 @@
                 <label for="name" class="sr-only">Table Name</label>
                 <input type="text" name="name" id="name" placeholder="e.g., Patio 1" class="w-full p-2 border rounded">
             </div>
-            <button type="submit" class="bg-primary-blue text-white px-6 py-2 rounded-lg hover:bg-blue-700">Add Table</button>
+            <Button type="submit">Add Table</Button>
         </form>
     </div>
 

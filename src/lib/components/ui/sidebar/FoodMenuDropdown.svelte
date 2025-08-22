@@ -2,6 +2,7 @@
   import { Pizza, ChevronDown } from "lucide-svelte";
   import { slide } from "svelte/transition";
   import { page } from "$app/stores";
+  import { Button } from "$lib/components/ui/button";
 
   let isFoodMenuOpen = $page.url.pathname.startsWith('/menu');
 
@@ -11,9 +12,10 @@
 </script>
 
 <li>
-  <button
+  <Button
     on:click={() => (isFoodMenuOpen = !isFoodMenuOpen)}
-    class="flex items-center justify-between w-full p-3 text-gray-500 duration-200 rounded-lg text-lefttransition-colors hover:bg-gray-200"
+    variant="tertiary"
+    class="justify-start w-full"
   >
     <div class="flex items-center">
       <Pizza class="w-5 h-5 mr-3" />
@@ -24,7 +26,7 @@
         ? 'rotate-180'
         : ''}"
     />
-  </button>
+  </Button>
   {#if isFoodMenuOpen}
     <ul class="pt-2 pl-8 space-y-2" transition:slide>
       <li>

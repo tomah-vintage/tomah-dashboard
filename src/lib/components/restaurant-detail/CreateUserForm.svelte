@@ -2,6 +2,7 @@
   import { apiFetch } from "$lib/utils/api";
   import { PUBLIC_BACKEND_URL } from "$env/static/public";
   import { createEventDispatcher } from "svelte";
+  import { Button } from "$lib/components/ui/button";
 
   export let restaurantId: string;
 
@@ -74,15 +75,11 @@
     <p class="text-sm text-status-error">{errorMessage}</p>
   {/if}
 
-  <button
-    type="submit"
-    class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md shadow-sm bg-primary-blue hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-blue disabled:opacity-50"
-    disabled={isLoading}
-  >
+  <Button type="submit" disabled={isLoading} class="w-full">
     {#if isLoading}
       Creating...
     {:else}
       Create User
     {/if}
-  </button>
+  </Button>
 </form>

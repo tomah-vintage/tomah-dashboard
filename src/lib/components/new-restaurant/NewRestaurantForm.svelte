@@ -1,6 +1,7 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
   import ImageUploader from './ImageUploader.svelte';
+  import { Button } from '$lib/components/ui/button';
   export let form;
 
   form = form ?? {};
@@ -11,16 +12,8 @@
     <div class="flex space-y-4 items-center gap-6">
       <ImageUploader bind:image={form.image} />
       <div class="flex space-x-2 gap-4">
-        <button
-          type="button"
-          class="bg-primary-blue text-white font-semibold py-2 px-7 rounded-lg pointer shrink-0 cursor-pointer"
-          >+ Зураг татах</button
-        >
-        <button
-          type="button"
-          class="btn w-full cursor-pointer py-2 px-7 hover:bg-slate-100 rounded-lg"
-          >Цуцлах</button
-        >
+        <Button type="button">+ Зураг татах</Button>
+        <Button type="button" variant="secondary">Цуцлах</Button>
       </div>
     </div>
 
@@ -123,12 +116,9 @@
     </div>
 
     <div class="flex justify-end pb-5">
-      <button
-        type="submit"
-        class="bg-primary-blue text-white font-semibold py-2 px-7 rounded-lg cursor-pointer"
-        disabled={form.submitting}
-        >{form.submitting ? 'Илгээж байна...' : 'Илгээх'}</button
-      >
+      <Button type="submit" disabled={form.submitting}>
+        {form.submitting ? 'Илгээж байна...' : 'Илгээх'}
+      </Button>
     </div>
   </div>
 </form>

@@ -2,6 +2,7 @@
   import { createLoginMutation } from "$lib/queries/auth-queries";
   import { goto } from "$app/navigation";
   import { Eye, EyeOff } from "lucide-svelte";
+  import { Button } from "$lib/components/ui/button";
 
   const loginMutation = createLoginMutation();
 
@@ -54,17 +55,18 @@
           placeholder="Нууц үгээ оруулна уу"
           class="w-full rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm placeholder-gray-400 focus:border-primary-blue focus:outline-none focus:ring-1 focus:ring-primary-blue"
         />
-        <button
+        <Button
           type="button"
           on:click={() => (showPassword = !showPassword)}
-          class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+          variant="tertiary"
+          class="absolute inset-y-0 right-0 flex items-center pr-3"
         >
           {#if showPassword}
             <EyeOff class="h-5 w-5" />
           {:else}
             <Eye class="h-5 w-5" />
           {/if}
-        </button>
+        </Button>
       </div>
       <div class="text-right">
         <a
@@ -78,9 +80,9 @@
         <p class="text-sm text-status-error">{$loginMutation.error?.message}</p>
       {/if}
 
-      <button
+      <Button
         type="submit"
-        class="w-full rounded-lg bg-primary-blue px-4 py-3 font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-primary-blue focus:ring-opacity-50 disabled:opacity-50"
+        class="w-full"
         disabled={$loginMutation.isPending}
       >
         {#if $loginMutation.isPending}
@@ -88,7 +90,7 @@
         {:else}
           Үргэлжлүүлэх
         {/if}
-      </button>
+      </Button>
     </form>
     <div class="mt-8 text-center text-sm text-gray-600">
       <span>Бүртгэлтэй байгаа юу? </span>

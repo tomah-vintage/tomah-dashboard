@@ -98,6 +98,8 @@
 - **Padding**: 10px vertical, 16px horizontal for standard buttons.
 - **Icon Buttons**: Used for actions like "Filter" and "Export".
 
+**Note**: Always use the `Button` component from `src/lib/components/ui/button/Button.svelte` for creating buttons to ensure consistency. Refer to `GEMINI.md` for usage details.
+
 ## Icon System
 
 ### Style

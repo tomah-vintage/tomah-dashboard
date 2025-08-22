@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import { page } '$app/stores';
 	import { goto } from '$app/navigation';
+  import { Button } from "$lib/components/ui/button";
 
 	let username = '';
 	let email = '';
@@ -111,11 +112,7 @@
 			{#if successMessage}
 				<p class="text-sm text-status-success">{successMessage}</p>
 			{/if}
-			<button
-				type="submit"
-				class="w-full rounded-lg bg-primary-blue px-4 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-primary-blue focus:ring-opacity-50"
-				>Register</button
-			>
+			<Button type="submit" class="w-full">Register</Button>
 		</form>
 	</div>
 </div>

@@ -11,6 +11,7 @@
   import { sessionStore } from "$lib/stores/sessionStore";
   import SidebarButton from "./ui/sidebar/SidebarButton.svelte";
   import FoodMenuDropdown from "./ui/sidebar/FoodMenuDropdown.svelte";
+  import { Button } from "./ui/button";
 
   const toggleDarkMode = () => {
     $themeStore = !$themeStore;
@@ -75,13 +76,10 @@
   <!-- Bottom Section -->
   <div>
     <div class="mb-4">
-      <button
-        on:click={handleLogout}
-        class="flex items-center w-full p-3 text-left text-black transition-colors duration-200 rounded-lg hover:bg-gray-200"
-      >
+      <Button on:click={handleLogout} variant="tertiary" class="justify-start w-full">
         Гарах
         <LogOut class="w-5 h-5 ml-3" />
-      </button>
+      </Button>
     </div>
     <!-- <div class="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
       <div class="flex items-center">

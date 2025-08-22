@@ -3,6 +3,7 @@
 	import type { Restaurant } from '$lib/types/restaurant';
 	import { onMount, onDestroy, tick } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { Button } from '$lib/components/ui/button';
 
 	export let restaurant: Restaurant & { register?: string; rating?: number };
 
@@ -64,9 +65,9 @@
 		</div>
 	</td>
 	<td class="p-3 text-center">
-		<button bind:this={menuButton} on:click|stopPropagation={toggleMenu} class="p-1 rounded-full hover:bg-gray-100">
+		<Button bind:this={menuButton} on:click|stopPropagation={toggleMenu} variant="tertiary" class="p-1 rounded-full">
 			<MoreVertical class="h-5 w-5" />
-		</button>
+		</Button>
 	</td>
 </tr>
 

@@ -4,6 +4,7 @@
   import ImageGallery from "$lib/components/restaurant-detail/ImageGallery.svelte";
   import { ArrowLeft } from "lucide-svelte";
   import CreateUserModal from "$lib/components/restaurant-detail/CreateUserModal.svelte";
+  import { Button } from "$lib/components/ui/button";
 
   export let data: PageData;
   const restaurant = data.restaurant as Restaurant;
@@ -29,12 +30,9 @@
       <ArrowLeft class="h-5 w-5 mr-2" />
       Back to Restaurants
     </a>
-    <button
-      on:click={() => (showCreateUserModal = true)}
-      class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-blue hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-blue"
-    >
+    <Button on:click={() => (showCreateUserModal = true)}>
       Create User for Restaurant
-    </button>
+    </Button>
   </div>
 
   <div class="mb-8 flex items-center">

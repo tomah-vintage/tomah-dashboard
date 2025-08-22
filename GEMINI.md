@@ -32,6 +32,34 @@ This document provides comprehensive development, design, and feature implementa
 - Use Svelte stores for state management when needed.
 - Implement proper error boundaries.
 
+### 2.2.1. Button Component
+When using buttons, you should use the general `Button` component located at `src/lib/components/ui/button/Button.svelte`.
+
+**Props:**
+- `variant`: `'primary' | 'secondary' | 'tertiary'` (default: `'primary'`) - The visual style of the button.
+- `href`: `string | undefined` (default: `undefined`) - If provided, the component will render as an `<a>` tag, otherwise it will be a `<button>`.
+- `disabled`: `boolean` (default: `false`) - Disables the button.
+
+**Usage:**
+```svelte
+<script lang="ts">
+    import { Button } from '$lib/components/ui/button';
+    import { Plus } from 'lucide-svelte';
+</script>
+
+<!-- Primary button -->
+<Button on:click={handleClick}>Click me</Button>
+
+<!-- Secondary button as a link -->
+<Button href="/about" variant="secondary">About</Button>
+
+<!-- Tertiary button with an icon -->
+<Button variant="tertiary">
+    <Plus class="w-4 h-4" />
+    <span>Add</span>
+</Button>
+```
+
 ### 2.3. API & Data Handling
 - Use `+page.server.ts` for server-side data loading.
 - Implement proper form actions in `+page.server.ts`.

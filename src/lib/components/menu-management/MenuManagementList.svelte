@@ -1,36 +1,110 @@
 <script lang="ts">
-	const menuItems = [
-		{
-			id: 1,
-			name: 'Cheeseburger',
-			category: 'Burgers',
-			price: 9.99,
-		},
-		{
-			id: 2,
-			name: 'French Fries',
-			category: 'Sides',
-			price: 3.99,
-		},
-		{
-			id: 3,
-			name: 'Milkshake',
-			category: 'Drinks',
-			price: 4.99,
-		},
-	];
+	import { MoreVertical, Pencil, Trash2, ChevronUp, ChevronLeft, ChevronRight } from 'lucide-svelte';
+	import type { MenuItem } from '$lib/types/menu';
+	import { Button } from '$lib/components/ui/button';
+
+	export let menuItems: MenuItem[] = [];
+
+	let openMenuId = -1;
+
+	function toggleMenu(id: number) {
+		openMenuId = openMenuId === id ? -1 : id;
+	}
 </script>
 
-<div class="grid gap-4">
-	{#each menuItems as item}
-		<div class="bg-card-background rounded-lg shadow-md p-6">
-				<h3 class="text-xl font-bold text-gray-800">{item.name}</h3>
-				<p>{item.category}</p>
-				<p>${item.price.toFixed(2)}</p>
-				<div class="flex justify-end space-x-2 mt-4">
-					<button class="bg-primary-blue text-white rounded-lg px-4 py-2 hover:bg-blue-700 transition-colors duration-200">Edit</button>
-					<button class="bg-status-error text-white rounded-lg px-4 py-2 hover:bg-red-700 transition-colors duration-200">Delete</button>
-				</div>
-		</div>
-	{/each}
+<div class="overflow-x-auto">
+	<table class="w-full text-sm text-left text-gray-500">
+		<thead class="text-xs text-gray-700 uppercase bg-gray-50">
+			<tr>
+				<th scope="col" class="p-4">
+					<div class="flex items-center">
+						<input id="checkbox-all" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+						<label for="checkbox-all" class="sr-only">checkbox</label>
+					</div>
+				</th>
+				<th scope="col" class="px-6 py-3">
+					<div class="flex items-center">
+						Нэр
+						<a href="#"><ChevronUp class="w-3 h-3 ml-1.5" /></a>
+					</div>
+				</th>
+				<th scope="col" class="px-6 py-3">Зураг</th>
+				<th scope="col" class="px-6 py-3">Ангилал</th>
+				<th scope="col" class="px-6 py-3">
+                    <div class="flex items-center">
+						Үнэ
+						<a href="#"><ChevronUp class="w-3 h-3 ml-1.5" /></a>
+					</div>
+                </th>
+				<th scope="col" class="px-6 py-3">Статус</th>
+				<th scope="col" class="px-6 py-3">Үйлдэл</th>
+			</tr>
+		</thead>
+		<tbody>
+			{#each menuItems as item (item.id)}
+				<tr class="bg-white border-b hover:bg-gray-50">
+					<td class="w-4 p-4">
+						<div class="flex items-center">
+							<input id="checkbox-table-{item.id}" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+							<label for="checkbox-table-{item.id}" class="sr-only">checkbox</label>
+						</div>
+					</td>
+					<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+						{item.name}
+					</th>
+					<td class="px-6 py-4">
+						<img class="w-10 h-10 rounded-md" src={item.image} alt={item.name}>
+					</td>
+					<td class="px-6 py-4">{item.category}</td>
+					<td class="px-6 py-4">{item.price}</td>
+					<td class="px-6 py-4">
+						<span class:text-status-success={item.status === 'Идэвхтэй'} class:text-status-error={item.status === 'Идэвхгүй'}>
+							{item.status}
+						</span>
+					</td>
+					<td class="px-6 py-4 relative">
+						<Button on:click={() => toggleMenu(item.id)} variant="tertiary" class="p-2 rounded-full">
+							<MoreVertical class="w-5 h-5" />
+						</Button>
+						{#if openMenuId === item.id}
+							<div class="absolute right-8 z-10 mt-2 w-44 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+								<div class="py-1">
+									<a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+										<Pencil class="w-4 h-4 mr-2" /> Засах
+									</a>
+									<a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+										<Trash2 class="w-4 h-4 mr-2" /> Устгах
+									</a>
+								</div>
+							</div>
+						{/if}
+					</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+    <div class="flex justify-between items-center p-4">
+        <div>
+            <span class="text-sm text-gray-700">
+                1 of 2
+            </span>
+        </div>
+        <div class="inline-flex items-center -space-x-px">
+            <button class="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                <ChevronLeft class="w-4 h-4" />
+            </button>
+            <button class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-primary-blue-dark">
+                1
+            </button>
+            <button class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                2
+            </button>
+            <button class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                3
+            </button>
+            <button class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                <ChevronRight class="w-4 h-4" />
+            </button>
+        </div>
+    </div>
 </div>

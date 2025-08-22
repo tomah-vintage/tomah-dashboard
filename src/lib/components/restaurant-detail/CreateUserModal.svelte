@@ -2,6 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import CreateUserForm from "./CreateUserForm.svelte";
   import { X } from "lucide-svelte";
+  import { Button } from "$lib/components/ui/button";
 
   export let showModal: boolean;
   export let restaurantId: string;
@@ -30,9 +31,9 @@
         <h3 class="text-lg font-medium leading-6 text-gray-900">
           Create New User
         </h3>
-        <button on:click={closeModal} class="text-gray-400 hover:text-gray-500">
+        <Button on:click={closeModal} variant="tertiary" class="p-1 rounded-full">
           <X class="h-6 w-6" />
-        </button>
+        </Button>
       </div>
       <div class="mt-2">
         <CreateUserForm {restaurantId} on:success={handleSuccess} />
