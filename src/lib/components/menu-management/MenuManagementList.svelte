@@ -2,13 +2,14 @@
 	import { MoreVertical, Pencil, Trash2, ChevronUp, ChevronLeft, ChevronRight } from 'lucide-svelte';
 	import type { MenuItem } from '$lib/types/menu';
 	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
 
-	export let menuItems: MenuItem[] = [];
+	let { menuItems } = $props<{ menuItems: MenuItem[] }>();
 
-	let openMenuId = -1;
+	let openMenuId: number | null = null;
 
 	function toggleMenu(id: number) {
-		openMenuId = openMenuId === id ? -1 : id;
+		openMenuId = openMenuId === id ? null : id;
 	}
 </script>
 
@@ -18,8 +19,7 @@
 			<tr>
 				<th scope="col" class="p-4">
 					<div class="flex items-center">
-						<input id="checkbox-all" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-						<label for="checkbox-all" class="sr-only">checkbox</label>
+						<Input id="checkbox-all" type="checkbox" label="" />
 					</div>
 				</th>
 				<th scope="col" class="px-6 py-3">
@@ -45,21 +45,22 @@
 				<tr class="bg-white border-b hover:bg-gray-50">
 					<td class="w-4 p-4">
 						<div class="flex items-center">
-							<input id="checkbox-table-{item.id}" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-							<label for="checkbox-table-{item.id}" class="sr-only">checkbox</label>
+							<Input id="checkbox-table-{item.id}" type="checkbox" label="" />
 						</div>
 					</td>
 					<th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
 						{item.name}
 					</th>
 					<td class="px-6 py-4">
-						<img class="w-10 h-10 rounded-md" src={item.image} alt={item.name}>
+                        {#if item.img_urls && item.img_urls.length > 0}
+						    <img class="w-10 h-10 rounded-md" src={item.img_urls[0]} alt={item.name}>
+                        {/if}
 					</td>
-					<td class="px-6 py-4">{item.category}</td>
+					<td class="px-6 py-4">{item.categories.join(', ')}</td>
 					<td class="px-6 py-4">{item.price}</td>
 					<td class="px-6 py-4">
-						<span class:text-status-success={item.status === 'Идэвхтэй'} class:text-status-error={item.status === 'Идэвхгүй'}>
-							{item.status}
+						<span class:text-status-success={item.is_available} class:text-status-error={!item.is_available}>
+							{item.is_available ? 'Идэвхтэй' : 'Идэвхгүй'}
 						</span>
 					</td>
 					<td class="px-6 py-4 relative">
@@ -103,7 +104,7 @@
                 3
             </button>
             <button class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-                <ChevronRight class="w-4 h-4" />
+                <ChevronRight class_="w-4 h-4" />
             </button>
         </div>
     </div>

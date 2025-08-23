@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { page } '$app/stores';
+	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
   import { Button } from "$lib/components/ui/button";
+  import { Input } from "$lib/components/ui/input";
 
 	let username = '';
 	let email = '';
@@ -54,58 +55,10 @@
 	<div class="w-full max-w-md rounded-lg bg-card-background p-8 shadow-lg">
 		<h2 class="mb-6 text-center text-2xl font-bold text-gray-800">Register New User</h2>
 		<form on:submit|preventDefault={handleSubmit} class="space-y-4">
-			<div>
-				<label for="username" class="mb-2 block text-sm font-medium text-gray-700"
-					>Username:</label
-				>
-				<input
-					type="text"
-					id="username"
-					name="username"
-					bind:value={username}
-					required
-					class="w-full rounded-lg border border-gray-300 p-2 focus:border-primary-blue focus:ring-2 focus:ring-primary-blue focus:ring-opacity-50"
-				/>
-			</div>
-			<div>
-				<label for="email" class="mb-2 block text-sm font-medium text-gray-700"
-					>Email:</label
-				>
-				<input
-					type="email"
-					id="email"
-					name="email"
-					bind:value={email}
-					required
-					class="w-full rounded-lg border border-gray-300 p-2 focus:border-primary-blue focus:ring-2 focus:ring-primary-blue focus:ring-opacity-50"
-				/>
-			</div>
-			<div>
-				<label for="password" class="mb-2 block text-sm font-medium text-gray-700"
-					>Password:</label
-				>
-				<input
-					type="password"
-					id="password"
-					name="password"
-					bind:value={password}
-					required
-					class="w-full rounded-lg border border-gray-300 p-2 focus:border-primary-blue focus:ring-2 focus:ring-primary-blue focus:ring-opacity-50"
-				/>
-			</div>
-			<div>
-				<label for="confirmPassword" class="mb-2 block text-sm font-medium text-gray-700"
-					>Confirm Password:</label
-				>
-				<input
-					type="password"
-					id="confirmPassword"
-					name="confirmPassword"
-					bind:value={confirmPassword}
-					required
-					class="w-full rounded-lg border border-gray-300 p-2 focus:border-primary-blue focus:ring-2 focus:ring-primary-blue focus:ring-opacity-50"
-				/>
-			</div>
+			<Input id="username" name="username" label="Username:" type="text" bind:value={username} required />
+			<Input id="email" name="email" label="Email:" type="email" bind:value={email} required />
+			<Input id="password" name="password" label="Password:" type="password" bind:value={password} required />
+			<Input id="confirmPassword" name="confirmPassword" label="Confirm Password:" type="password" bind:value={confirmPassword} required />
 			{#if errorMessage}
 				<p class="text-sm text-status-error">{errorMessage}</p>
 			{/if}

@@ -3,6 +3,8 @@
   import { goto } from "$app/navigation";
   import { Eye, EyeOff } from "lucide-svelte";
   import { Button } from "$lib/components/ui/button";
+  import { Input } from "$lib/components/ui/input";
+  import { page } from "$app/stores";
 
   const loginMutation = createLoginMutation();
 
@@ -17,7 +19,8 @@
         onSuccess: (data) => {
           document.cookie = `session=${data.access}; path=/; max-age=86400; SameSite=Strict`; // Expires in 1 day
           document.cookie = `refreshToken=${data.refresh}; path=/; max-age=2592000; SameSite=Strict`; // Expires in 30 days
-          goto("/");
+          const redirectTo = $page.url.searchParams.get('redirectTo');
+          goto(redirectTo || "/");
         },
       }
     );
@@ -34,32 +37,13 @@
   <div class="relative w-full max-w-md rounded-xl bg-card-background p-8">
     <h2 class="mb-8 text-center text-2xl font-bold text-gray-900">Нэвтрэх</h2>
     <form on:submit|preventDefault={handleSubmit} class="space-y-6">
-      <div class="relative">
-        <input
-          type="text"
-          id="email"
-          name="email"
-          bind:value={email}
-          required
-          placeholder="Имэйл, утасны дугаараа бичнэ үү"
-          class="w-full rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm placeholder-gray-400 focus:border-primary-blue focus:outline-none focus:ring-1 focus:ring-primary-blue"
-        />
-      </div>
-      <div class="relative">
-        <input
-          type={showPassword ? "text" : "password"}
-          id="password"
-          name="password"
-          bind:value={password}
-          required
-          placeholder="Нууц үгээ оруулна уу"
-          class="w-full rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm placeholder-gray-400 focus:border-primary-blue focus:outline-none focus:ring-1 focus:ring-primary-blue"
-        />
+      <Input id="email" name="email" label="" placeholder="Имэйл, утасны дугаараа бичнэ үү" bind:value={email} required />
+      <Input id="password" name="password" label="" type={showPassword ? 'text' : 'password'} placeholder="Нууц үгээ оруулна уу" bind:value={password} required>
         <Button
+          slot="action"
           type="button"
           on:click={() => (showPassword = !showPassword)}
           variant="tertiary"
-          class="absolute inset-y-0 right-0 flex items-center pr-3"
         >
           {#if showPassword}
             <EyeOff class="h-5 w-5" />
@@ -67,7 +51,7 @@
             <Eye class="h-5 w-5" />
           {/if}
         </Button>
-      </div>
+      </Input>
       <div class="text-right">
         <a
           href="/forgot-password"

@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { ReportItem } from "$lib/types/report";
+    import { Input } from "$lib/components/ui/input";
 
 	export let reportData: ReportItem[] = [];
     export let selectAll = false;
@@ -19,7 +20,7 @@
     <table class="min-w-full text-sm text-left">
         <thead class="bg-gray-50 text-gray-600 font-medium">
             <tr>
-                <th class="p-3 w-12 text-center"><input type="checkbox" class="rounded" bind:checked={selectAll}></th>
+                <th class="p-3 w-12 text-center"><Input type="checkbox" label="" bind:value={selectAll} /></th>
                 <th class="p-3">Огноо</th>
                 <th class="p-3">Бүтээгдэхүүн</th>
                 <th class="p-3">Код</th>
@@ -33,7 +34,7 @@
         <tbody>
             {#each reportData as item (item.code + item.product)}
                 <tr class="hover:bg-gray-100">
-                    <td class="p-3 text-center"><input type="checkbox" class="rounded"></td>
+                    <td class="p-3 text-center"><Input type="checkbox" label="" /></td>
                     <td class="p-3">{item.date}</td>
                     <td class="p-3 font-medium">{item.product}</td>
                     <td class="p-3">{item.code}</td>

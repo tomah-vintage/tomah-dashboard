@@ -100,6 +100,15 @@
 
 **Note**: Always use the `Button` component from `src/lib/components/ui/button/Button.svelte` for creating buttons to ensure consistency. Refer to `GEMINI.md` for usage details.
 
+### Inputs
+
+- **Style**: Consistent styling for all text, textarea, checkbox, and other input types.
+- **Border Radius**: 8px.
+- **Padding**: 10px vertical, 16px horizontal.
+- **Focus State**: Blue outline for consistency with the primary action color.
+
+**Note**: Always use the `Input` component from `src/lib/components/ui/input/Input.svelte` for creating form inputs to ensure consistency. Refer to `GEMINI.md` for usage details.
+
 ## Icon System
 
 ### Style

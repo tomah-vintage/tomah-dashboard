@@ -3,6 +3,7 @@
   import { PUBLIC_BACKEND_URL } from "$env/static/public";
   import { createEventDispatcher } from "svelte";
   import { Button } from "$lib/components/ui/button";
+  import { Input } from "$lib/components/ui/input";
 
   export let restaurantId: string;
 
@@ -46,30 +47,8 @@
 </script>
 
 <form on:submit|preventDefault={handleSubmit} class="space-y-4">
-  <div>
-    <label for="email" class="block text-sm font-medium text-gray-700"
-      >email</label
-    >
-    <input
-      type="text"
-      id="email"
-      bind:value={email}
-      required
-      class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-primary-blue focus:ring-primary-blue sm:text-sm"
-    />
-  </div>
-  <div>
-    <label for="password" class="block text-sm font-medium text-gray-700"
-      >Password</label
-    >
-    <input
-      type="password"
-      id="password"
-      bind:value={password}
-      required
-      class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-primary-blue focus:ring-primary-blue sm:text-sm"
-    />
-  </div>
+  <Input id="email" label="email" type="text" bind:value={email} required />
+  <Input id="password" label="Password" type="password" bind:value={password} required />
 
   {#if errorMessage}
     <p class="text-sm text-status-error">{errorMessage}</p>

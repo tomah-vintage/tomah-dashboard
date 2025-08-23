@@ -4,6 +4,7 @@
     import QRCodeModal from './QRCodeModal.svelte';
     import type { Table } from '$lib/types/seating';
     import { Button } from '$lib/components/ui/button';
+    import { Input } from '$lib/components/ui/input';
 
     export let data: PageData;
 
@@ -23,8 +24,7 @@
         <h2 class="text-xl font-semibold mb-4 text-gray-800">Add New Table</h2>
         <form method="POST" action="?/addTable" class="flex items-center space-x-4 bg-card-background p-4 rounded-lg shadow">
             <div class="flex-grow">
-                <label for="name" class="sr-only">Table Name</label>
-                <input type="text" name="name" id="name" placeholder="e.g., Patio 1" class="w-full p-2 border rounded">
+                <Input type="text" name="name" id="name" placeholder="e.g., Patio 1" label="" />
             </div>
             <Button type="submit">Add Table</Button>
         </form>

@@ -47,7 +47,6 @@ async function fetchWithRefresh<T>(customFetch: any, url: string, options: Reque
         ...options,
         headers: getHeaders(),
     };
-
     let response = await customFetch(url, requestOptions);
 
     if (response.status === 401) {

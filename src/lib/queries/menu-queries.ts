@@ -1,5 +1,5 @@
 import { createQuery, createMutation, useQueryClient } from '@tanstack/svelte-query';
-import type { MenuItem, MenuItemFormData } from '$lib/types/menu';
+import type { MenuItem, MenuItemFormForBackend } from '$lib/types/menu';
 import { apiFetch } from '$lib/utils/api';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
 
@@ -12,7 +12,7 @@ export const createGetMenuItemsQuery = () => createQuery<MenuItem[], Error>({
 // Add a new menu item
 export const createAddMenuItemMutation = () => {
   const queryClient = useQueryClient();
-  return createMutation<MenuItem, Error, MenuItemFormData>({
+  return createMutation<MenuItem, Error, MenuItemFormForBackend>({
     mutationFn: (newMenuItem) => apiFetch<MenuItem>(`${PUBLIC_BACKEND_URL}/api/menu-item/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

@@ -4,6 +4,7 @@
 	import { onMount, onDestroy, tick } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
 
 	export let restaurant: Restaurant & { register?: string; rating?: number };
 
@@ -53,7 +54,7 @@
 </script>
 
 <tr class="border-t hover:bg-gray-100 cursor-pointer" on:click={handleRowClick}>
-	<td class="p-3 text-center"><input type="checkbox" class="rounded" on:click|stopPropagation /></td>
+	<td class="p-3 text-center"><Input type="checkbox" label="" on:click|stopPropagation /></td>
 	<td class="p-3 font-medium">{restaurant.name}</td>
 	<td class="p-3">{restaurant.phone}</td>
 	<td class="p-3">{restaurant.address}</td>

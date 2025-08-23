@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ArrowRightLeft } from 'lucide-svelte';
+	import { Input } from '$lib/components/ui/input';
 
 	export let activeFilter: string;
 	export let startDate: string;
@@ -14,8 +15,8 @@
         <button class="px-4 py-1 rounded-md text-sm {activeFilter === '3m' ? 'bg-primary-blue text-white' : 'hover:bg-gray-100'}" on:click={() => activeFilter = '3m'}>3 сар</button>
     </div>
     <div class="flex items-center gap-2">
-        <input type="date" class="px-3 py-2 w-40 border rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent" bind:value={startDate}>
+        <Input type="date" label="" bind:value={startDate} />
         <ArrowRightLeft class="h-5 w-5 text-gray-500" />
-        <input type="date" class="px-3 py-2 w-40 border rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent" bind:value={endDate}>
+        <Input type="date" label="" bind:value={endDate} />
     </div>
 </div>

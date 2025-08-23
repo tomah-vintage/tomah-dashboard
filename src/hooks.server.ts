@@ -28,7 +28,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// Protect routes within (pladmin) or (rsadmin) route groups
 	if (event.route.id?.includes('(pladmin)') || event.route.id?.includes('(rsadmin)')) {
 		if (!event.locals.user) {
-			throw redirect(303, '/login');
+			const redirectUrl = `/login?redirectTo=${event.url.pathname}`;
+			throw redirect(303, redirectUrl);
 		}
 	}
 

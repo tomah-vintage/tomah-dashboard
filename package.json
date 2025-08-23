@@ -33,6 +33,7 @@
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.11",
     "@tanstack/svelte-query": "^5.83.1",
-    "qrcode": "^1.5.4"
+    "qrcode": "^1.5.4",
+    "zod": "^4.1.0"
   }
 }

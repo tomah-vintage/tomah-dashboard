@@ -3,6 +3,7 @@
   import MenuManagementList from "./MenuManagementList.svelte";
   import { createGetMenuItemsQuery } from "$lib/queries/menu-queries";
   import { Button } from "$lib/components/ui/button";
+  import { Input } from "$lib/components/ui/input";
 
   const menuItemsQuery = createGetMenuItemsQuery();
 </script>
@@ -28,7 +29,7 @@
           <span class="absolute inset-y-0 left-0 flex items-center pl-3">
             <Search class="w-5 h-5 text-gray-400" />
           </span>
-          <input
+          <Input
             type="text"
             placeholder="Хайх..."
             class="w-full py-2 pl-10 pr-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue"

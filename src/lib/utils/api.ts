@@ -25,16 +25,18 @@ async function refreshToken(): Promise<void> {
 
     if (!response.ok) {
         if (browser) {
-            await goto('/login');
+            const redirectTo = window.location.pathname;
+            await goto(`/login?redirectTo=${redirectTo}`);
         }
         throw new Error('Failed to refresh token');
     }
 }
 
-async function fetchWithRefresh<T>(url: string, options: RequestInit = {}): Promise<T> {
+async function fetchWithRefresh<T>(url: string, options: RequestInit = {}, type: 'request' | 'file' = 'request'): Promise<T> {
     const getHeaders = (): Headers => {
         const headers = new Headers(options.headers);
-        headers.set('Content-Type', 'application/json');
+        if (type === 'request')
+            headers.set('Content-Type', 'application/json');
 
         const token = getAuthToken();
         if (token) {

@@ -60,6 +60,32 @@ When using buttons, you should use the general `Button` component located at `sr
 </Button>
 ```
 
+### 2.2.2. Input Component
+When using inputs, you should use the general `Input` component located at `src/lib/components/ui/input/Input.svelte`.
+
+**Props:**
+- `type`: `'text' | 'textarea' | 'checkbox' | 'date' | 'password' | 'email'` (default: `'text'`) - The type of the input.
+- `label`: `string` - The label for the input.
+- `value`: `string | boolean` - The value of the input, to be bound.
+- `placeholder`: `string | undefined` (default: `undefined`) - The placeholder text.
+- `error`: `string | undefined` (default: `undefined`) - An error message to display.
+- `id`: `string | undefined` (default: `undefined`) - The id for the input and `for` attribute of the label.
+
+**Usage:**
+```svelte
+<script lang="ts">
+    import { Input } from '$lib/components/ui/input';
+    let textValue = '';
+    let checkboxValue = false;
+</script>
+
+<!-- Text input -->
+<Input label="Your Name" bind:value={textValue} placeholder="Enter your name" />
+
+<!-- Checkbox -->
+<Input type="checkbox" label="I agree to the terms" bind:value={checkboxValue} />
+```
+
 ### 2.3. API & Data Handling
 - Use `+page.server.ts` for server-side data loading.
 - Implement proper form actions in `+page.server.ts`.

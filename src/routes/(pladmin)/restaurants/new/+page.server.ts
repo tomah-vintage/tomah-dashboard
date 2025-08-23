@@ -1,10 +1,10 @@
-// src/routes/(pladmin)/restaurants/new/+page.server.ts
+
 import { fail, redirect } from '@sveltejs/kit';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
 
 export const actions = {
-	default: async ({ request, cookies }) => { // Add cookies to the destructuring
-		const sessionToken = cookies.get('session'); // Get token from cookies
+	default: async ({ request, cookies }) => {
+		const sessionToken = cookies.get('session');
 
 		const formData = await request.formData();
 		const name = formData.get('name') as string;
@@ -13,19 +13,16 @@ export const actions = {
 		const registrationNumber = formData.get('registrationNumber') as string;
 		const workingHours = formData.get('workingHours') as string;
 		const address = formData.get('address') as string;
-		const imageFile = formData.get('image'); // This will be a File object if it's a file input
+		const imageFile = formData.get('image');
 
 		const errors: Record<string, string[]> = {};
 
-
-		// Basic validation examples
 		if (!name || name.trim() === '') {
 			errors.name = ['Рестораны нэр заавал оруулна.'];
 		}
 		if (!representativeName || representativeName.trim() === '') {
 			errors.representativeName = ['Төлөөлөгчийн нэр заавал оруулна.'];
 		}
-		// Add validation for other fields as needed
 
 		if (Object.keys(errors).length > 0) {
 			return fail(400, {
@@ -43,23 +40,22 @@ export const actions = {
 
 		let imageUrl: string | null = null;
 
-		// Step 1: Upload image if present
 		if (imageFile instanceof File && imageFile.size > 0) {
 			const uploadFormData = new FormData();
-			uploadFormData.append('file', imageFile); // 'file' is the expected field name for the upload endpoint
+			uploadFormData.append('file', imageFile);
 
 			try {
 				const uploadResponse = await fetch(`${PUBLIC_BACKEND_URL}/api/upload/`, {
 					method: 'POST',
 					headers: {
-						...(sessionToken && { 'Authorization': `Bearer ${sessionToken}` }) // Add Authorization header
+						...(sessionToken && { 'Authorization': `Bearer ${sessionToken}` })
 					},
 					body: uploadFormData,
 				});
 
 				if (uploadResponse.ok) {
 					const uploadResult = await uploadResponse.json();
-					imageUrl = uploadResult.url; // Assuming the upload endpoint returns a 'url' field
+					imageUrl = uploadResult.url;
 					console.log('Image uploaded successfully:', imageUrl);
 				} else {
 					const uploadErrorData = await uploadResponse.json();
@@ -82,7 +78,7 @@ export const actions = {
 			}
 		}
 
-		// Step 2: Prepare restaurant data with image URL
+
 		const restaurantData = {
 			name,
 			representativeName,
@@ -90,16 +86,15 @@ export const actions = {
 			registrationNumber,
 			workingHours,
 			address,
-			logo: imageUrl, // Include the uploaded image URL
+			logo: imageUrl,
 		};
 
-		// Step 3: Send restaurant data to /restaurants/
 		try {
 			const response = await fetch(`${PUBLIC_BACKEND_URL}/api/restaurants/`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					...(sessionToken && { 'Authorization': `Bearer ${sessionToken}` }) // Add Authorization header
+					...(sessionToken && { 'Authorization': `Bearer ${sessionToken}` })
 				},
 				body: JSON.stringify(restaurantData),
 			});

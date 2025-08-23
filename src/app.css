@@ -10,4 +10,7 @@
   .bg-primary-blue {
     background-color: #2a85ff;
   }
+  .text-status-error {
+    color: #EF4444; /* red-500 */
+  }
 }

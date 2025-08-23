@@ -84,9 +84,19 @@ export interface User {
   name: string;
   first_name: string;
   last_name: string;
-  role: string;
-  permissions: Permission[];
+  phone: string;
+  role: number;
   role_name: string
+  permissions: Permission[];
+  restaurant: {
+    id: number,
+    name: string,
+    logo: string,
+    address: string,
+    restaurant_img_urls: string[],
+    created_at: string,
+    updated_at: string
+  }
 }
 
 export interface Session {
