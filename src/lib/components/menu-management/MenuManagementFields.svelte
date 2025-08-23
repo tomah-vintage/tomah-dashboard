@@ -1,18 +1,21 @@
 <script lang="ts">
   import { Input } from "$lib/components/ui/input";
+  import { MultiSelectInput } from "$lib/components/ui/multi-select-input"; // Import MultiSelectInput
   import type { MenuItemFormData } from "$lib/types/menu";
+  import { createGetCategoriesQuery } from "$lib/queries/menu-queries"; // Import the categories query
 
   let {
     formData = $bindable(),
     ingredientsInput = $bindable(),
-    categoryInput = $bindable(),
     errors,
   } = $props<{
     formData: MenuItemFormData;
     ingredientsInput: string;
-    categoryInput: string;
     errors: Record<string, string>;
   }>();
+
+  const categoriesQuery = createGetCategoriesQuery();
+  let categories = $derived($categoriesQuery.data || []);
 </script>
 
 <div class="md:col-span-2 space-y-4">
@@ -39,11 +42,13 @@
     placeholder="Жишээ: 12000.00"
     error={errors.price}
   />
-  <Input
+  <!-- Multi-select for categories -->
+  <MultiSelectInput
     id="categories"
-    label="Ангилал (ID-гаар, таслалаар тусгаарлаж оруулах)"
-    bind:value={categoryInput}
-    placeholder="Жишээ: 1, 2"
+    label="Ангилал"
+    bind:value={formData.categories}
+    suggestions={categories}
+    placeholder="Ангилал сонгох"
     error={errors.categories}
   />
   <Input

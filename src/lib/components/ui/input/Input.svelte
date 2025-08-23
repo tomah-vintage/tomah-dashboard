@@ -8,8 +8,8 @@
     | "email"
     | "number"
     | "price" = "text";
-  export let label: string;
-  export let value: string | boolean | number | undefined;
+  export let label: string | undefined = undefined;
+  export let value: string | boolean | number | undefined = undefined;
   export let placeholder: string | undefined = undefined;
   export let error: string | undefined = undefined;
   export let id: string | undefined = undefined;

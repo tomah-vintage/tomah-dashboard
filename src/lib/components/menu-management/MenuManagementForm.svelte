@@ -38,10 +38,8 @@
   let isUploading = $state(false);
 
   async function handleSubmit() {
-    // Clear previous errors
     errors = {};
 
-    // Process ingredients and categories
     formData.meta_data.ingredients = processIngredients(ingredientsInput);
     formData.categories = processCategories(categoryInput);
 
@@ -60,7 +58,6 @@
       }
 
       const uploadedImageUrls = await uploadImages(formData.img_urls);
-      console.log("uploadedImageUrls", uploadedImageUrls);
 
       $addMenuItemMutation.mutate(
         {
@@ -108,12 +105,7 @@
     >
       <MenuManagementImageUploader bind:imgUrls={formData.img_urls} />
 
-      <MenuManagementFields
-        bind:formData
-        bind:ingredientsInput
-        bind:categoryInput
-        {errors}
-      />
+      <MenuManagementFields bind:formData bind:ingredientsInput {errors} />
 
       <MenuManagementActions
         isPending={$addMenuItemMutation.isPending || isUploading}

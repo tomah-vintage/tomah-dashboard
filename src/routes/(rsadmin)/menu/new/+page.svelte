@@ -1,7 +1,6 @@
 <script lang="ts">
   import MenuManagementForm from "$lib/components/menu-management/MenuManagementForm.svelte";
   export let data;
-  console.log(data);
 </script>
 
 <svelte:head>
