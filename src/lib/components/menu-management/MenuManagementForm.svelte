@@ -12,7 +12,6 @@
     menuItemFormSchema,
     uploadImages,
     processIngredients,
-    processCategories,
   } from "$lib/utils/menu-management";
 
   let { restaurantId } = $props<{ restaurantId: number }>();
@@ -33,7 +32,6 @@
   });
 
   let ingredientsInput = $state("");
-  let categoryInput = $state("");
   let errors = $state<Record<string, string>>({});
   let isUploading = $state(false);
 
@@ -41,7 +39,6 @@
     errors = {};
 
     formData.meta_data.ingredients = processIngredients(ingredientsInput);
-    formData.categories = processCategories(categoryInput);
 
     try {
       isUploading = true;
@@ -98,10 +95,10 @@
     </a>
   </div>
 
-  <div class="bg-card-background rounded-lg shadow p-4 sm:p-6">
+  <div class="p-4 rounded-lg shadow bg-card-background sm:p-6">
     <form
       on:submit|preventDefault={handleSubmit}
-      class="grid grid-cols-1 md:grid-cols-3 gap-6"
+      class="grid grid-cols-1 gap-6 md:grid-cols-3"
     >
       <MenuManagementImageUploader bind:imgUrls={formData.img_urls} />
 

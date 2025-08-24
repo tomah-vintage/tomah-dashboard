@@ -54,11 +54,4 @@ export function processIngredients(input: string): string[] {
     .split(',')
     .map((s) => s.trim())
     .filter(Boolean);
-}
-
-export function processCategories(input: string): number[] {
-  return input
-    .split(',')
-    .map((s) => parseInt(s.trim(), 10))
-    .filter((n) => !isNaN(n));
-}
+} 

@@ -12,7 +12,7 @@ export const createGetMenuItemsQuery = () => createQuery<MenuItem[], Error>({
 // Fetch all categories
 export const createGetCategoriesQuery = () => createQuery<Category[], Error>({
   queryKey: ['categories'],
-  queryFn: () => apiFetch<Category[]>(`${PUBLIC_BACKEND_URL}/api/item-category/`),
+  queryFn: () => apiFetch<Category[]>(`${PUBLIC_BACKEND_URL}/api/own-categories/`),
 });
 
 // Add a new menu item
