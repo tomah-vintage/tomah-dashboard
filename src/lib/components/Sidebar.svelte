@@ -39,9 +39,9 @@
     <!-- Navigation Menu -->
     <nav>
       <ul>
-        <SidebarButton href="/dashboard" label="Тойм дэлгэц" icon={LayoutDashboard} />
+        <SidebarButton href="/" label="Тойм дэлгэц" icon={LayoutDashboard} />
         <!-- Platform Admin Links -->
-        <SidebarButton href="/" label="Тайлан" icon={ChartColumnIncreasing} />
+        <SidebarButton href="/report" label="Тайлан" icon={ChartColumnIncreasing} />
         {#if $sessionStore.user?.role_name === 'admin'}
           <SidebarButton
             href="/restaurants"
