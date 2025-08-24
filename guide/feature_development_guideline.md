@@ -2,6 +2,7 @@
 
 ## Design Guidelines
 All components and styles must adhere to the design system defined in `@guide/design_guideline.md`. This includes color palette, typography, spacing, and component styles.
+- All user-facing text within the application must be in Mongolian. For example, "Loading..." should be "Ачаалж байна...".
 
 ## Feature Overview
 - **Feature Name**: [e.g., user-profile, product-catalog, shopping-cart]

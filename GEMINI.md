@@ -139,6 +139,11 @@ src/
 └── static/               # Static assets
 ```
 
+### 2.5. Localization
+- All user-facing text within the application must be in Mongolian.
+- For example, "Loading..." should be "Ачаалж байна...".
+- All development-related texts (e.g., comments, documentation, variable names, function names, commit messages) should remain in English.
+
 ---
 
 ## 3. Design System & Guidelines
@@ -321,7 +326,7 @@ export const load: PageServerLoad = async () => {
 - Use proper ARIA labels and roles.
 - Ensure full keyboard navigation.
 - Maintain a logical heading hierarchy (H1, H2, etc.).
-- Ensure color contrast meets WCAG 2.1 AA standards (4.5:1 for normal text).
+- Ensure color contrast meets WCAC 2.1 AA standards (4.5:1 for normal text).
 - Manage focus states effectively.
 
 ### 5.4. Environment Variables

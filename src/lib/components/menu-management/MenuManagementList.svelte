@@ -3,6 +3,7 @@
 	import type { MenuItem } from '$lib/types/menu';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
+	import { goto } from '$app/navigation';
 
 	let { menuItems } = $props<{ menuItems: MenuItem[] }>();
 
@@ -10,6 +11,10 @@
 
 	function toggleMenu(id: number) {
 		openMenuId = openMenuId === id ? null : id;
+	}
+
+	function navigateToDetail(id: number) {
+		goto(`/menu/${id}`);
 	}
 </script>
 
@@ -42,7 +47,7 @@
 		</thead>
 		<tbody>
 			{#each menuItems as item (item.id)}
-				<tr class="bg-white border-b hover:bg-gray-50">
+				<tr class="bg-white border-b hover:bg-gray-50 cursor-pointer" onclick={() => navigateToDetail(item.id)}>
 					<td class="w-4 p-4">
 						<div class="flex items-center">
 							<Input id="checkbox-table-{item.id}" type="checkbox" label="" />
