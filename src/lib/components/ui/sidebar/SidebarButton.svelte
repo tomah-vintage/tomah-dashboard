@@ -2,19 +2,31 @@
   import { page } from "$app/stores";
   import type { ComponentType } from "svelte";
 
-  export let href: string;
-  export let label: string;
-  export let icon: ComponentType;
+  let {
+    href,
+    label,
+    icon,
+    class: className,
+  } = $props<{
+    href: string;
+    label: string;
+    icon: ComponentType;
+    class?: string;
+  }>();
 
-  $: isActive = href === "/"
-    ? $page.url.pathname === href
-    : $page.url.pathname.startsWith(href);
+  let currentPathname = $derived($page.url.pathname);
+  const baseClasses =
+    "px-4 py-2 rounded-lg font-semibold text-sm flex items-center justify-center space-x-2 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-gray-100 text-gray-800 hover:bg-gray-200 justify-start w-full relative";
+
+  let isActive = $derived(
+    href === "/" ? currentPathname === href : currentPathname.startsWith(href)
+  );
 </script>
 
-<li class={$$props.class ?? 'mb-2'}>
+<li class={className ?? "mb-2"}>
   <a
     {href}
-    class="flex items-center p-3 rounded-lg transition-colors duration-200 relative {isActive
+    class="{baseClasses} {isActive
       ? 'text-primary-blue'
       : 'text-gray-500 hover:bg-gray-200'}"
   >
