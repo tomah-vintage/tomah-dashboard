@@ -34,6 +34,7 @@
     "@tailwindcss/postcss": "^4.1.11",
     "@tanstack/svelte-query": "^5.83.1",
     "qrcode": "^1.5.4",
+    "svelte-french-toast": "^1.2.0",
     "zod": "^4.1.0"
   }
 }

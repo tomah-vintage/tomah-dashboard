@@ -6,6 +6,7 @@
   import { page } from "$app/stores";
   import type { PageData } from "./$types";
   import { sessionStore } from "$lib/stores/sessionStore";
+  import { Toaster } from "svelte-french-toast";
 
   export let data: PageData;
 
@@ -16,6 +17,7 @@
 </script>
 
 <QueryClientProvider client={queryClient}>
+  <Toaster />
   <div class="flex">
     {#if !noSidebarRoutes.includes($page.url.pathname)}
       <Sidebar />
