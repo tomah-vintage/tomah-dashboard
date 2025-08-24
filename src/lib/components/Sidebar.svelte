@@ -6,6 +6,7 @@
     ShieldCheck,
     Store,
     ChartColumnIncreasing,
+    LayoutDashboard,
   } from "lucide-svelte";
   import { themeStore } from "$lib/stores/themeStore";
   import { sessionStore } from "$lib/stores/sessionStore";
@@ -38,6 +39,7 @@
     <!-- Navigation Menu -->
     <nav>
       <ul>
+        <SidebarButton href="/dashboard" label="Тойм дэлгэц" icon={LayoutDashboard} />
         <!-- Platform Admin Links -->
         <SidebarButton href="/" label="Тайлан" icon={ChartColumnIncreasing} />
         {#if $sessionStore.user?.role_name === 'admin'}

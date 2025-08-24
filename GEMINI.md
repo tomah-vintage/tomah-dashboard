@@ -86,6 +86,27 @@ When using inputs, you should use the general `Input` component located at `src/
 <Input type="checkbox" label="I agree to the terms" bind:value={checkboxValue} />
 ```
 
+### 2.2.3. Toast Notifications
+For displaying toast notifications, use `svelte-french-toast`.
+
+**Usage:**
+```svelte
+<script lang="ts">
+  import toast from 'svelte-french-toast';
+
+  function showSuccessToast() {
+    toast.success('This is a success message!');
+  }
+
+  function showErrorToast() {
+    toast.error('This is an error message!');
+  }
+</script>
+
+<button on:click={showSuccessToast}>Show Success Toast</button>
+<button on:click={showErrorToast}>Show Error Toast</button>
+```
+
 ### 2.3. API & Data Handling
 - Use `+page.server.ts` for server-side data loading.
 - Implement proper form actions in `+page.server.ts`.

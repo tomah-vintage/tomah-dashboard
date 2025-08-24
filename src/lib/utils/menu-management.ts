@@ -54,4 +54,8 @@ export function processIngredients(input: string): string[] {
     .split(',')
     .map((s) => s.trim())
     .filter(Boolean);
-} 
+}
+
+export const formatCurrency = (value: number) => {
+  return new Intl.NumberFormat("en-US").format(value) + "₮";
+}; 
