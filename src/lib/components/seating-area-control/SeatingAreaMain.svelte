@@ -21,17 +21,17 @@
 
 <div class="space-y-8">
     <div>
-        <h2 class="text-xl font-semibold mb-4 text-gray-800">Add New Table</h2>
+        <h2 class="text-xl font-semibold mb-4 text-gray-800">Шинэ ширээ нэмэх</h2>
         <form method="POST" action="?/addTable" class="flex items-center space-x-4 bg-card-background p-4 rounded-lg shadow">
             <div class="flex-grow">
-                <Input type="text" name="name" id="name" placeholder="e.g., Patio 1" label="" />
+                <Input type="text" name="name" id="name" placeholder="Жишээ нь, Тагт 1" label="" />
             </div>
-            <Button type="submit">Add Table</Button>
+            <Button type="submit">Ширээ нэмэх</Button>
         </form>
     </div>
 
     <div>
-        <h2 class="text-xl font-semibold mb-4 text-gray-800">Existing Tables</h2>
+        <h2 class="text-xl font-semibold mb-4 text-gray-800">Одоо байгаа ширээнүүд</h2>
         <TableList tables={data.tables} on:viewQR={(e) => viewQR(e.detail)} />
     </div>
 </div>

@@ -29,7 +29,7 @@
     <div class="relative p-8 border w-96 shadow-lg rounded-md bg-white">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-medium leading-6 text-gray-900">
-          Create New User
+          Шинэ хэрэглэгч үүсгэх
         </h3>
         <Button on:click={closeModal} variant="tertiary" class="p-1 rounded-full">
           <X class="h-6 w-6" />

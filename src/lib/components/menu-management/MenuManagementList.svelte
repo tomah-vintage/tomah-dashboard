@@ -87,7 +87,7 @@
     <div class="flex justify-between items-center p-4">
         <div>
             <span class="text-sm text-gray-700">
-                1 of 2
+                1 / 2
             </span>
         </div>
         <div class="inline-flex items-center -space-x-px">

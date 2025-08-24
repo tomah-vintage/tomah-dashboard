@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-  <title>Menu Categories | Qpick</title>
+  <title>Цэсний ангилал | Qpick</title>
 </svelte:head>
 
 <CategoryMain restaurantId={data.user!.restaurant.id} />

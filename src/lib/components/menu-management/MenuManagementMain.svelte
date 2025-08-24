@@ -52,7 +52,7 @@
     {#if $menuItemsQuery.isLoading}
       <p>Loading...</p>
     {:else if $menuItemsQuery.isError}
-      <p>Error: {$menuItemsQuery.error.message}</p>
+      <p>Алдаа: {$menuItemsQuery.error.message}</p>
     {:else if $menuItemsQuery.data}
       <MenuManagementList menuItems={$menuItemsQuery.data} />
     {/if}

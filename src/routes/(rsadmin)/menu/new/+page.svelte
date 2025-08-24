@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-  <title>New Menu Item | Qpick</title>
+  <title>Шинэ цэс нэмэх | Qpick</title>
 </svelte:head>
 
 <MenuManagementForm restaurantId={data.user!.restaurant.id} />

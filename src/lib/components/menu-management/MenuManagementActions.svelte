@@ -7,7 +7,7 @@
   <Button href="/menu" variant="secondary">Цуцлах</Button>
   <Button type="submit" disabled={isPending}>
     {#if isPending}
-      <span>Loading...</span>
+      <span>Уншиж байна...</span>
     {:else}
       Хадгалах
     {/if}

@@ -35,9 +35,9 @@
   <div
     class="flex items-center px-4 py-3 border-b border-gray-200 rounded-t-lg bg-gray-50"
   >
-    <div class="flex-1 font-semibold text-gray-600">Category Name</div>
-    <div class="w-48 font-semibold text-gray-600">Products</div>
-    <div class="w-32 font-semibold text-center text-gray-600">Actions</div>
+    <div class="flex-1 font-semibold text-gray-600">Ангиллын нэр</div>
+    <div class="w-48 font-semibold text-gray-600">Бүтээгдэхүүн</div>
+    <div class="w-32 font-semibold text-center text-gray-600">Үйлдэл</div>
   </div>
 
   <!-- Table Body -->
@@ -66,7 +66,7 @@
 
 <!-- Pagination -->
 <div class="flex items-center justify-between mt-4 text-sm">
-  <span class="text-gray-500">1 of 2</span>
+  <span class="text-gray-500">1 / 2</span>
   <div class="flex items-center space-x-2 text-gray-500">
     <button
       class="p-1.5 rounded-md hover:bg-gray-100 disabled:text-gray-300"

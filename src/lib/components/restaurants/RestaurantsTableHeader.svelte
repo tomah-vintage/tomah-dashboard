@@ -34,7 +34,7 @@
     </Button>
     <Button variant="secondary">
       <Download class="h-5 w-5" />
-      <span>Export</span>
+      <span>Экспорт</span>
     </Button>
   </div>
 </div>

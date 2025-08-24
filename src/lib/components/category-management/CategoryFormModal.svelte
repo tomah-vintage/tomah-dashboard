@@ -19,8 +19,8 @@
   const categorySchema = z.object({
     name: z
       .string()
-      .min(1, "Category name cannot be empty.")
-      .max(50, "Category name cannot exceed 50 characters."),
+      .min(1, "Ангиллын нэр хоосон байж болохгүй.")
+      .max(50, "Ангиллын нэр 50 тэмдэгтээс хэтрэх боломжгүй."),
   });
 
   const queryClient = useQueryClient();
@@ -42,7 +42,7 @@
       resetForm();
     },
     onError: () => {
-      categoryNameError = "Failed to add category. Please try again.";
+      categoryNameError = "Ангилал нэмэхэд алдаа гарлаа. Дахин оролдоно уу.";
     },
   });
 
@@ -61,7 +61,7 @@
         restaurant: restaurantId,
       });
     } catch (error) {
-      categoryNameError = "Failed to create category.";
+      categoryNameError = "Ангилал үүсгэхэд алдаа гарлаа.";
     }
   }
 

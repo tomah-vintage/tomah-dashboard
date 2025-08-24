@@ -7,25 +7,25 @@
 
 <div class="bg-card-background shadow-md rounded-lg p-6">
   <div class="mb-6 border-b pb-4 border-gray-200">
-    <h2 class="text-xl font-semibold text-gray-800">User Details</h2>
+    <h2 class="text-xl font-semibold text-gray-800">Хэрэглэгчийн дэлгэрэнгүй</h2>
     <div class="mt-2 text-gray-600 grid grid-cols-1 md:grid-cols-2 gap-2">
-      <p><strong>Name:</strong> {user.name}</p>
-      <p><strong>Email:</strong> {user.email}</p>
-      <p><strong>Registration Date:</strong> {user.registrationDate}</p>
-      <p><strong>Total Orders:</strong> {user.orderCount}</p>
+      <p><strong>Нэр:</strong> {user.name}</p>
+      <p><strong>И-мэйл:</strong> {user.email}</p>
+      <p><strong>Бүртгүүлсэн огноо:</strong> {user.registrationDate}</p>
+      <p><strong>Нийт захиалга:</strong> {user.orderCount}</p>
     </div>
   </div>
 
-  <h2 class="text-xl font-semibold mb-4 text-gray-800">Order History</h2>
+  <h2 class="text-xl font-semibold mb-4 text-gray-800">Захиалгын түүх</h2>
   <div class="overflow-x-auto">
     <table class="min-w-full text-sm text-left text-gray-500">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50">
         <tr>
-          <th scope="col" class="px-6 py-3">Order ID</th>
-          <th scope="col" class="px-6 py-3">Date</th>
-          <th scope="col" class="px-6 py-3">Restaurant</th>
-          <th scope="col" class="px-6 py-3">Amount</th>
-          <th scope="col" class="px-6 py-3">Status</th>
+          <th scope="col" class="px-6 py-3">Захиалгын дугаар</th>
+          <th scope="col" class="px-6 py-3">Огноо</th>
+          <th scope="col" class="px-6 py-3">Ресторан</th>
+          <th scope="col" class="px-6 py-3">Дүн</th>
+          <th scope="col" class="px-6 py-3">Төлөв</th>
         </tr>
       </thead>
       <tbody>
@@ -40,7 +40,7 @@
             <td class="px-6 py-4">
               <span class:text-status-success={item.status === 'Completed'}
                     class:text-status-error={item.status === 'Cancelled'}>
-                {item.status}
+                {item.status === 'Completed' ? 'Дууссан' : item.status === 'Cancelled' ? 'Цуцлагдсан' : item.status}
               </span>
             </td>
           </tr>

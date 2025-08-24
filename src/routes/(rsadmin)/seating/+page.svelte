@@ -11,7 +11,7 @@
 </svelte:head>
 
 <div class="p-6">
-  <h1 class="text-2xl font-bold mb-4 text-gray-800">Seating Area Control</h1>
+  <h1 class="text-2xl font-bold mb-4 text-gray-800">Суудлын талбайн хяналт</h1>
   <SeatingAreaMain data={data} />
 </div>
 

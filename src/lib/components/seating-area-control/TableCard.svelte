@@ -15,7 +15,7 @@
         <Button on:click={() => dispatch('viewQR')} class="flex-1 text-sm">View QR</Button>
         <form method="POST" action="?/removeTable" class="flex-1">
             <input type="hidden" name="tableId" value={table.id} />
-            <Button type="submit" variant="error" class="w-full text-sm">Remove</Button>
+            <Button on:click={() => dispatch('delete', table.id)} variant="tertiary" class="w-full text-red-500">Устгах</Button>
         </form>
     </div>
 </div>

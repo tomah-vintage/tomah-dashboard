@@ -35,10 +35,10 @@
         dispatch("success");
       } else {
         const errorData = await response.json();
-        errorMessage = errorData.message || "Failed to create user";
+        errorMessage = errorData.message || "Хэрэглэгч үүсгэхэд алдаа гарлаа";
       }
     } catch (error) {
-      errorMessage = "Network error or unexpected issue";
+      errorMessage = "Сүлжээний алдаа эсвэл гэнэтийн алдаа";
       console.error("Error creating user:", error);
     } finally {
       isLoading = false;
@@ -47,8 +47,8 @@
 </script>
 
 <form on:submit|preventDefault={handleSubmit} class="space-y-4">
-  <Input id="email" label="email" type="text" bind:value={email} required />
-  <Input id="password" label="Password" type="password" bind:value={password} required />
+  <Input id="email" label="И-мэйл" type="text" bind:value={email} required />
+  <Input id="password" label="Нууц үг" type="password" bind:value={password} required />
 
   {#if errorMessage}
     <p class="text-sm text-status-error">{errorMessage}</p>
@@ -56,9 +56,9 @@
 
   <Button type="submit" disabled={isLoading} class="w-full">
     {#if isLoading}
-      Creating...
+      Үүсгэж байна...
     {:else}
-      Create User
+      Хэрэглэгч үүсгэх
     {/if}
   </Button>
 </form>

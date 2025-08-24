@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-  <title>Menu Management | Qpick</title>
+  <title>Цэсний удирдлага | Qpick</title>
 </svelte:head>
 
 <MenuManagementMain />

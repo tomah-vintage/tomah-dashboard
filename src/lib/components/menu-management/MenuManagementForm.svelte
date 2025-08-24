@@ -91,7 +91,7 @@
       class="flex items-center text-sm text-gray-500 hover:underline"
     >
       <ArrowLeft class="w-4 h-4 mr-2" />
-      Хоол нэмэх
+      Хоолны цэс рүү буцах
     </a>
   </div>
 

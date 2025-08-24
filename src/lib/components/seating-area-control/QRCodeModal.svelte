@@ -33,7 +33,7 @@
                 <img src={table.qrCodeUrl} alt={`QR Code for ${table.name}`} class="mx-auto w-64 h-64">
                 <p class="mt-2 text-sm text-gray-500">{table.orderUrl}</p>
             </div>
-            <Button on:click={printQR} class="mt-6 w-full">Print QR Code</Button>
+            <Button on:click={printQR} class="mt-6 w-full">QR код хэвлэх</Button>
         {/if}
     </div>
 </div>

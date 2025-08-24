@@ -4,7 +4,7 @@
 
 <div class="flex items-center justify-between pt-6 text-sm">
     <div>
-        <span class="font-medium">1</span> of <span class="font-medium">2</span>
+        <span class="font-medium">1</span> / <span class="font-medium">2</span>
     </div>
     <div class="flex items-center gap-1">
         <button class="p-2 rounded-md hover:bg-gray-100 disabled:opacity-50" disabled><ChevronLeft class="h-5 w-5" /></button>

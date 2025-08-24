@@ -21,7 +21,7 @@
   <!-- Breadcrumbs -->
   <div class="mb-4">
     <span class="text-sm text-gray-500">
-      <a href="/(rsadmin)/menu" class="hover:underline">Menu</a> &gt; Categories
+      <a href="/(rsadmin)/menu" class="hover:underline">Цэс</a> &gt; Ангилал
     </span>
   </div>
 
@@ -30,7 +30,7 @@
     <div class="flex items-center justify-between mb-6">
       <div class="flex items-center">
         <span class="w-1 h-6 mr-3 bg-blue-600"></span>
-        <h1 class="text-2xl font-bold">Categories</h1>
+        <h1 class="text-2xl font-bold">Ангилал</h1>
       </div>
       <div class="flex items-center space-x-2">
         <div class="relative">
@@ -39,31 +39,31 @@
           />
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Хайх..."
             class="w-64 py-2 pl-10 pr-4 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
             bind:value={searchValue}
           />
         </div>
         <Button on:click={openAddCategoryModal}>
           <Plus class="w-4 h-4 mr-1" />
-          Add Category
+          Ангилал нэмэх
         </Button>
         <Button variant="secondary">
           <Upload class="w-4 h-4 mr-1" />
-          Export
+          Экспортлох
         </Button>
       </div>
     </div>
 
     <!-- Category List -->
     {#if $categoriesQuery.isLoading}
-      <div>Loading categories...</div>
+      <div>Ангиллуудыг уншиж байна...</div>
     {:else if $categoriesQuery.isError}
-      <div>Error: {$categoriesQuery.error?.message}</div>
+      <div>Алдаа: {$categoriesQuery.error?.message}</div>
     {:else if $categoriesQuery.data}
       <CategoryList categories={$categoriesQuery.data} />
     {:else}
-      <div>No categories found.</div>
+      <div>Ангилал олдсонгүй.</div>
     {/if}
   </div>
 </div>

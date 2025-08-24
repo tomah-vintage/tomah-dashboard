@@ -28,10 +28,10 @@
       class="inline-flex items-center text-sm font-medium text-primary-blue hover:underline transition-colors"
     >
       <ArrowLeft class="h-5 w-5 mr-2" />
-      Back to Restaurants
+      Ресторанууд руу буцах
     </a>
     <Button on:click={() => (showCreateUserModal = true)}>
-      Create User for Restaurant
+      Рестораны хэрэглэгч үүсгэх
     </Button>
   </div>
 
@@ -44,7 +44,7 @@
     <div>
       <h1 class="text-3xl font-bold text-gray-800">{restaurant.name}</h1>
       <p class="text-gray-500 mt-1">
-        Created on: {new Date(restaurant.created_at).toLocaleDateString(
+        Үүсгэсэн огноо: {new Date(restaurant.created_at).toLocaleDateString(
           "en-US",
           {
             year: "numeric",
@@ -60,19 +60,19 @@
     <div class="lg:col-span-2">
       <!-- Image Gallery -->
       <section class="mb-8">
-        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Gallery</h2>
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Зургийн цомог</h2>
         <ImageGallery images={restaurant.restaurant_img_urls} />
       </section>
 
       <!-- Order Insights Section -->
       <section>
         <h2 class="text-2xl font-semibold mb-4 text-gray-800">
-          Order Insights
+          Захиалгын мэдээлэл
         </h2>
         <div
           class="bg-gray-100 rounded-lg p-8 text-center border-2 border-dashed border-gray-300"
         >
-          <p class="text-gray-500">Order insights are not yet available.</p>
+          <p class="text-gray-500">Захиалгын мэдээлэл одоогоор байхгүй байна.</p>
         </div>
       </section>
     </div>
@@ -80,13 +80,13 @@
     <!-- Right sidebar with location -->
     <div class="lg:col-span-1">
       <section>
-        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Location</h2>
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">Байршил</h2>
         <div class="bg-card-background p-6 rounded-lg shadow-md">
           <p class="text-lg text-gray-800">{restaurant.address}</p>
           <div
             class="bg-gray-200 mt-4 h-48 rounded-md flex items-center justify-center"
           >
-            <p class="text-gray-500">Map placeholder</p>
+            <p class="text-gray-500">Газрын зургийн зай эзлэгч</p>
           </div>
         </div>
       </section>

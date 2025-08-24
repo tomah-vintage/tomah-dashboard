@@ -43,7 +43,7 @@
         {#if $sessionStore.user?.role_name === 'admin'}
           <SidebarButton
             href="/restaurants"
-            label="Рестауран"
+            label="Ресторан"
             icon={ShieldCheck}
           />
         {/if}

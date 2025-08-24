@@ -23,6 +23,6 @@
   <div
     class="bg-gray-100 rounded-lg p-8 text-center border-2 border-dashed border-gray-300"
   >
-    <p class="text-gray-500">No images have been uploaded.</p>
+    <p class="text-gray-500">Зураг оруулаагүй байна.</p>
   </div>
 {/if}

@@ -65,7 +65,7 @@
 			{#if successMessage}
 				<p class="text-sm text-status-success">{successMessage}</p>
 			{/if}
-			<Button type="submit" class="w-full">Register</Button>
+			<Button type="submit" class="w-full">Бүртгүүлэх</Button>
 		</form>
 	</div>
 </div>

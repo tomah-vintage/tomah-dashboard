@@ -1,1 +1,1 @@
-<h1 class="text-2xl font-bold">Menu Add-ons</h1>
+<h1 class="text-2xl font-bold">Цэсний нэмэлтүүд</h1>

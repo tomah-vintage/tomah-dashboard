@@ -79,7 +79,7 @@
     <div class="mt-8 text-center text-sm text-gray-600">
       <span>Бүртгэлтэй байгаа юу? </span>
       <a href="/register" class="font-medium text-primary-blue hover:underline"
-        >Яг одоо бүртгүүлэх?</a
+        >Бүртгүүлэх</a
       >
     </div>
   </div>

@@ -10,7 +10,7 @@
 </svelte:head>
 
 <div class="space-y-6">
-  <h1 class="text-3xl font-bold text-gray-900 dark:text-white">User Management</h1>
+  <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Хэрэглэгчийн удирдлага</h1>
   
   <UserList users={data.users} />
 </div>
