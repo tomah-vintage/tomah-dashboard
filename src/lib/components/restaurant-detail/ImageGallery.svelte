@@ -4,7 +4,7 @@
 
 {#if images && images.length > 0}
   <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-    {#each images as image, i}
+    {#each images as image, i (image)}
       <button
         class="w-full h-40 relative group focus:outline-none focus:ring-2 focus:ring-primary-blue rounded-lg"
       >

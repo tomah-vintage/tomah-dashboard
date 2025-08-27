@@ -1,8 +1,7 @@
-import { redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
 
 export const actions: Actions = {
-	default: async ({ request, fetch }) => {
+	default: async ({ request }) => {
 		const data = await request.json();
 		const { username, email, password } = data;
 

@@ -9,7 +9,7 @@ const getAuthToken = () => {
     if (typeof document === 'undefined') return null;
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
-        let cookie = cookies[i].trim();
+        const cookie = cookies[i].trim();
         if (cookie.startsWith('session=')) {
             return cookie.substring('session='.length, cookie.length);
         }
@@ -18,7 +18,9 @@ const getAuthToken = () => {
 };
 
 
-async function refreshToken(customFetch: any): Promise<void> {
+type CustomFetch = (input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>;
+
+async function refreshToken(customFetch: CustomFetch): Promise<void> {
     const response = await customFetch('/api/auth/refresh', {
         method: 'POST'
     });
@@ -31,7 +33,7 @@ async function refreshToken(customFetch: any): Promise<void> {
     }
 }
 
-async function fetchWithRefresh<T>(customFetch: any, url: string, options: RequestInit = {}): Promise<T> {
+async function fetchWithRefresh<T>(customFetch: CustomFetch, url: string, options: RequestInit = {}): Promise<T> {
     const getHeaders = (): Headers => {
         const headers = new Headers(options.headers);
         headers.set('Content-Type', 'application/json');

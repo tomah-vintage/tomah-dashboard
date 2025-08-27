@@ -19,7 +19,7 @@
   const baseClasses =
     "w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue";
 
-  $: finalClasses = `${baseClasses} ${classFromParent || ""}`;
+  const finalClasses = `${baseClasses} ${classFromParent || ""}`;
 
   function handleNumberInput(e: Event) {
     const target = e.target as HTMLInputElement;

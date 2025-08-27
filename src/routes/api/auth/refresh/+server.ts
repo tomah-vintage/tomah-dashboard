@@ -41,7 +41,7 @@ export const POST: RequestHandler = async ({ cookies }) => {
         });
 
         return json({ message: 'Token refreshed successfully.' });
-    } catch (error) {
+    } catch (_error) {
         return json({ message: 'An internal error occurred.' }, { status: 500 });
     }
 };

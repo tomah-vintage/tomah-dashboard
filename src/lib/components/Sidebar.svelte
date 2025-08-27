@@ -8,15 +8,13 @@
     ChartColumnIncreasing,
     LayoutDashboard,
   } from "lucide-svelte";
-  import { themeStore } from "$lib/stores/themeStore";
+  
   import { sessionStore } from "$lib/stores/sessionStore";
   import SidebarButton from "./ui/sidebar/SidebarButton.svelte";
   import FoodMenuDropdown from "./ui/sidebar/FoodMenuDropdown.svelte";
   import { Button } from "./ui/button";
 
-  const toggleDarkMode = () => {
-    $themeStore = !$themeStore;
-  };
+  
 
   const handleLogout = async () => {
     await fetch("/logout", {

@@ -30,7 +30,7 @@
   <ImageUploader on:select={handleImageSelect} />
   {#if previewUrls.length > 0}
     <div class="flex flex-wrap gap-2 mt-4">
-      {#each previewUrls as url, i}
+      {#each previewUrls as url, i (url)}
         <div class="relative group">
           <img
             src={url}

@@ -8,10 +8,8 @@
   export let data: SalesChartData;
 
   let canvas: HTMLCanvasElement;
-  let chart: Chart;
-
   onMount(() => {
-    chart = new Chart(canvas, {
+    new Chart(canvas, {
       type: "line",
       data: data,
       options: {

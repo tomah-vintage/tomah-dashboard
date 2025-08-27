@@ -9,7 +9,7 @@ const getAuthToken = () => {
     if (typeof document === 'undefined') return null;
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
-        let cookie = cookies[i].trim();
+        const cookie = cookies[i].trim();
         if (cookie.startsWith('session=')) {
             return cookie.substring('session='.length, cookie.length);
         }

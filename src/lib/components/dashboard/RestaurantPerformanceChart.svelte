@@ -6,10 +6,8 @@
   export let data: RestaurantPerformanceData[];
 
   let canvas: HTMLCanvasElement;
-  let chart: Chart;
-
   onMount(() => {
-    chart = new Chart(canvas, {
+    new Chart(canvas, {
       type: "pie",
       data: {
         labels: data.map((d) => d.name),

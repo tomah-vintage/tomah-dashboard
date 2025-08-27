@@ -30,7 +30,7 @@ export const POST: RequestHandler = async ({ request, params, url }) => {
 
         const addedTable = addTable(newTable);
         return json(addedTable, { status: 201 });
-    } catch (error) {
+    } catch (_error) {
         return json({ message: 'Failed to generate QR code.' }, { status: 500 });
     }
 };

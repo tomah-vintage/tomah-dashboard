@@ -60,7 +60,7 @@
         name: categoryName.trim(),
         restaurant: restaurantId,
       });
-    } catch (error) {
+    } catch (_error) {
       categoryNameError = "Ангилал үүсгэхэд алдаа гарлаа.";
     }
   }

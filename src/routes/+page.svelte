@@ -126,7 +126,7 @@
 
   <!-- Header Cards -->
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-    {#each headerCards as card}
+    {#each headerCards as card (card.title)}
       <DashboardHeaderCard data={card} />
     {/each}
   </div>
