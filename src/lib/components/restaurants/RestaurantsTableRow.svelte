@@ -54,7 +54,7 @@
 </script>
 
 <tr class="border-t hover:bg-gray-100 cursor-pointer" on:click={handleRowClick}>
-	<td class="p-3 text-center"><Input type="checkbox" label="" on:click|stopPropagation /></td>
+	<td class="p-3 text-center"><div on:click|stopPropagation><Input type="checkbox" label="" /></div></td>
 	<td class="p-3 font-medium">{restaurant.name}</td>
 	<td class="p-3">{restaurant.phone}</td>
 	<td class="p-3">{restaurant.address}</td>
@@ -66,9 +66,11 @@
 		</div>
 	</td>
 	<td class="p-3 text-center">
-		<Button bind:this={menuButton} on:click|stopPropagation={toggleMenu} variant="tertiary" class="p-1 rounded-full">
-			<MoreVertical class="h-5 w-5" />
-		</Button>
+		<div on:click|stopPropagation>
+			<Button bind:this={menuButton} on:click={toggleMenu} variant="tertiary" class="p-1 rounded-full">
+				<MoreVertical class="h-5 w-5" />
+			</Button>
+		</div>
 	</td>
 </tr>
 

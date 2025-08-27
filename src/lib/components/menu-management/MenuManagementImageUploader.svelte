@@ -39,7 +39,7 @@
           />
           <button
             type="button"
-            on:click={() => removeImage(i)}
+            onclick={() => removeImage(i)}
             class="absolute top-1 right-1 bg-primary-blue text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
           >
             <X class="w-4 h-4" />

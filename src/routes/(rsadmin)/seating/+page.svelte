@@ -15,13 +15,4 @@
   <SeatingAreaMain data={data} />
 </div>
 
-<style>
-  @media print {
-    :global(body > *:not(.print-area)) {
-      display: none;
-    }
-    .print-area {
-      display: block;
-    }
-  }
-</style>
+

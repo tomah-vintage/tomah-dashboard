@@ -14,6 +14,12 @@
     dispatch("close");
   }
 
+  function handleKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      closeModal();
+    }
+  }
+
   function handleSuccess() {
     closeModal();
     dispatch("userCreated");
@@ -25,6 +31,10 @@
     class="fixed inset-0 overflow-y-auto h-full w-full z-50 flex justify-center items-center"
     style="background-color: rgba(0, 0, 0, 0.5);"
     on:click|self={closeModal}
+    on:keydown={handleKeydown}
+    role="dialog"
+    aria-modal="true"
+    tabindex="-1"
   >
     <div class="relative p-8 border w-96 shadow-lg rounded-md bg-white">
       <div class="flex justify-between items-center mb-4">

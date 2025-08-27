@@ -35,7 +35,8 @@
   let errors = $state<Record<string, string>>({});
   let isUploading = $state(false);
 
-  async function handleSubmit() {
+  async function handleSubmit(event: SubmitEvent) {
+    event.preventDefault();
     errors = {};
 
     formData.meta_data.ingredients = processIngredients(ingredientsInput);
@@ -97,7 +98,7 @@
 
   <div class="p-4 rounded-lg shadow bg-card-background sm:p-6">
     <form
-      on:submit|preventDefault={handleSubmit}
+      onsubmit={handleSubmit}
       class="grid grid-cols-1 gap-6 md:grid-cols-3"
     >
       <MenuManagementImageUploader bind:imgUrls={formData.img_urls} />

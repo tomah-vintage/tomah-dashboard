@@ -7,7 +7,7 @@
 
 	let { menuItems } = $props<{ menuItems: MenuItem[] }>();
 
-	let openMenuId: number | null = null;
+	let openMenuId = $state<number | null>(null);
 
 	function toggleMenu(id: number) {
 		openMenuId = openMenuId === id ? null : id;
@@ -30,7 +30,7 @@
 				<th scope="col" class="px-6 py-3">
 					<div class="flex items-center">
 						Нэр
-						<a href="#"><ChevronUp class="w-3 h-3 ml-1.5" /></a>
+						<a href="javascript:void(0);"><ChevronUp class="w-3 h-3 ml-1.5" /></a>
 					</div>
 				</th>
 				<th scope="col" class="px-6 py-3">Зураг</th>
@@ -38,7 +38,7 @@
 				<th scope="col" class="px-6 py-3">
                     <div class="flex items-center">
 						Үнэ
-						<a href="#"><ChevronUp class="w-3 h-3 ml-1.5" /></a>
+						<a href="javascript:void(0);"><ChevronUp class="w-3 h-3 ml-1.5" /></a>
 					</div>
                 </th>
 				<th scope="col" class="px-6 py-3">Статус</th>
@@ -75,10 +75,10 @@
 						{#if openMenuId === item.id}
 							<div class="absolute right-8 z-10 mt-2 w-44 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 								<div class="py-1">
-									<a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+									<a href="javascript:void(0);" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
 										<Pencil class="w-4 h-4 mr-2" /> Засах
 									</a>
-									<a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+									<a href="javascript:void(0);" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
 										<Trash2 class="w-4 h-4 mr-2" /> Устгах
 									</a>
 								</div>

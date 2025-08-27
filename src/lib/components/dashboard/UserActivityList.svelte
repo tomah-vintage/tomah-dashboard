@@ -8,7 +8,7 @@
 <div class="bg-white rounded-lg shadow-md p-6">
   <div class="flex justify-between items-center mb-4">
     <h2 class="text-xl font-bold text-gray-800">Үйлчлүүлэгч</h2>
-    <a href="#" class="text-primary-blue flex items-center text-sm font-medium"
+    <a href="javascript:void(0);" class="text-primary-blue flex items-center text-sm font-medium">"
       >Бүгдийг харах <ArrowRight class="w-4 h-4 ml-1" /></a
     >
   </div>

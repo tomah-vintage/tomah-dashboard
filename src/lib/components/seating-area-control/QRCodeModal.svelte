@@ -8,6 +8,12 @@
 
     const dispatch = createEventDispatcher();
 
+    function handleKeydown(event: KeyboardEvent) {
+        if (event.key === 'Escape') {
+            dispatch('close');
+        }
+    }
+
     function printQR() {
         const printContents = document.getElementById('printable-qr-code')?.innerHTML;
         const originalContents = document.body.innerHTML;
@@ -22,7 +28,7 @@
     }
 </script>
 
-<div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" on:click|self={() => dispatch('close')}>
+<div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" on:click|self={() => dispatch('close')} on:keydown={handleKeydown} role="dialog" aria-modal="true">
     <div class="bg-card-background p-6 rounded-lg shadow-2xl max-w-sm w-full relative">
         <Button on:click={() => dispatch('close')} variant="tertiary" class="absolute top-4 right-4 p-1 rounded-full">
             <X />
