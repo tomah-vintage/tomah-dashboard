@@ -2,9 +2,7 @@ import { writable } from 'svelte/store';
 
 const isBrowser = typeof window !== 'undefined';
 
-const userPrefersDark = isBrowser && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-const initialValue = isBrowser ? localStorage.getItem('theme') === 'dark' || (localStorage.getItem('theme') === null && userPrefersDark) : false;
+const initialValue = isBrowser ? localStorage.getItem('theme') === 'dark' : false;
 
 export const themeStore = writable<boolean>(initialValue);
 
