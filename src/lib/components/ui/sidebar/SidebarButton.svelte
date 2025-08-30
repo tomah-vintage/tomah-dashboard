@@ -16,7 +16,7 @@
 
   let currentPathname = $derived($page.url.pathname);
   const baseClasses =
-    "px-4 py-2 rounded-lg font-semibold text-sm flex items-center justify-center space-x-2 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-gray-100 text-gray-800 hover:bg-gray-200 justify-start w-full relative";
+    "px-4 py-2 rounded-lg font-semibold text-sm flex items-center justify-center space-x-2 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-gray-100 text-gray-800 hover:bg-gray-200 justify-start w-full relative gap-3";
 
   let isActive = $derived(
     href === "/" ? currentPathname === href : currentPathname.startsWith(href)
@@ -30,7 +30,7 @@
       ? 'text-primary-blue'
       : 'text-gray-500 hover:bg-gray-200'}"
   >
-    {@render icon({ class: "w-5 h-5 mr-3" })}
+    {@render icon({ class: "w-5 h-5" })}
     {label}
     {#if isActive}
       <div

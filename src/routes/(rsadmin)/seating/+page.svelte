@@ -1,18 +1,21 @@
 <script lang="ts">
-  import type { PageData } from './$types';
-  import { SeatingCanvas, TableToolbar, TableEditorModal } from '$lib/components/seating';
-  import { seatingStore } from '$lib/stores/seating-store';
-  import { sessionStore } from '$lib/stores/sessionStore'; // Import sessionStore
-  import { onMount, onDestroy } from 'svelte';
-  import { get } from 'svelte/store';
-  import type { SeatingTable, TableShape } from '$lib/types/seating';
-  import { TableStatus } from '$lib/types/seating'; // Import TableStatus
+  import type { PageData } from "./$types";
+  import {
+    SeatingCanvas,
+    TableToolbar,
+    TableEditorModal,
+  } from "$lib/components/seating";
+  import { seatingStore } from "$lib/stores/seating-store";
+  import { sessionStore } from "$lib/stores/sessionStore"; // Import sessionStore
+  import { onMount } from "svelte";
+  import type { SeatingTable, TableShape } from "$lib/types/seating";
+  import { TableStatus } from "$lib/types/seating"; // Import TableStatus
   import {
     createGetTablesQuery,
     createAddTableMutation,
     createUpdateTableMutation,
-    createDeleteTableMutation
-  } from '$lib/queries/seating-queries';
+    createDeleteTableMutation,
+  } from "$lib/queries/seating-queries";
 
   export let data: PageData;
 
@@ -44,13 +47,20 @@
     seatingStore.toggleTableEditorModal(true);
   }
 
-  async function handleSaveTable(event: CustomEvent<{ shape: TableShape; seat_capacity: number; id?: string; table_number: string }>) {
+  async function handleSaveTable(
+    event: CustomEvent<{
+      shape: TableShape;
+      seat_capacity: number;
+      id?: string;
+      table_number: string;
+    }>
+  ) {
     const { shape, seat_capacity, id, table_number } = event.detail; // Get seat_capacity from event detail
 
     // Get restaurantId from sessionStore
     const restaurantId = $sessionStore.user?.restaurant?.id;
     if (!restaurantId) {
-      console.error('Restaurant ID not found in session.');
+      console.error("Restaurant ID not found in session.");
       // Optionally show a toast error to the user
       return;
     }
@@ -64,10 +74,9 @@
         table_number,
       };
       await $updateTableMutation.mutateAsync(updatedTable);
-    }
-    else {
+    } else {
       // Add new table
-      const newTable: Omit<SeatingTable, 'id'> = {
+      const newTable: Omit<SeatingTable, "id"> = {
         x: 50, // Default position
         y: 50, // Default position
         width: 100, // Default size
@@ -94,9 +103,11 @@
     await $deleteTableMutation.mutateAsync(tableId);
   }
 
-  async function handleTableMoveEnd(event: CustomEvent<{ tableId: string; x: number; y: number }>) {
+  async function handleTableMoveEnd(
+    event: CustomEvent<{ tableId: string; x: number; y: number }>
+  ) {
     const { tableId, x, y } = event.detail;
-    const tableToUpdate = $seatingStore.tables.find(t => t.id === tableId);
+    const tableToUpdate = $seatingStore.tables.find((t) => t.id === tableId);
     if (tableToUpdate) {
       const updatedTable: SeatingTable = {
         ...tableToUpdate,
@@ -109,22 +120,22 @@
 </script>
 
 <svelte:head>
-  <title>Захиалгын ширээний зохион байгуулалт</title>
+  <title>Ширээний менежмент | Qpick</title>
 </svelte:head>
 
 <div class="p-4">
-    <h1 class="text-2xl font-bold mb-4">Ширээний зохион байгуулалт</h1>
+  <h1 class="text-2xl font-bold mb-4">Ширээний менежмент</h1>
 
-    <TableToolbar on:addTableRequest={handleAddTableRequest} />
+  <TableToolbar on:addTableRequest={handleAddTableRequest} />
 
-    <div class="mt-4">
-        <SeatingCanvas
-            tables={$seatingStore.tables}
-            on:editTableRequest={handleEditTableRequest}
-            on:removeTableRequest={handleRemoveTableRequest}
-            on:tableMoveEnd={handleTableMoveEnd}
-        />
-    </div>
+  <div class="mt-4">
+    <SeatingCanvas
+      tables={$seatingStore.tables}
+      on:editTableRequest={handleEditTableRequest}
+      on:removeTableRequest={handleRemoveTableRequest}
+      on:tableMoveEnd={handleTableMoveEnd}
+    />
+  </div>
 </div>
 
 <TableEditorModal
