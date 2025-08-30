@@ -1,11 +1,31 @@
-export interface Table {
-  id: string;
-  restaurantId: string;
-  name: string; // e.g., "Table 5", "Patio 2"
-  qrCodeUrl: string; // Will store a data URL of the generated QR code
-  orderUrl: string; // The URL embedded in the QR code
+export enum TableShape {
+  Rectangle = 'rectangle',
+  Square = 'square',
+  Circle = 'circle',
+  Oval = 'oval',
 }
 
-export interface TableFormData {
+export enum TableStatus {
+  Available = 'available',
+  Occupied = 'occupied',
+  Reserved = 'reserved',
+}
+
+export interface SeatingTable {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  shape: TableShape;
+  capacity: number;
+  label: string;
+  status: TableStatus;
+}
+
+export interface SeatingLayout {
+  id: string;
+  restaurantId: string;
   name: string;
+  tables: SeatingTable[];
 }

@@ -1,67 +1,40 @@
-import { error } from '@sveltejs/kit';
-import type { Actions, PageServerLoad } from './$types';
-import type { Table } from '$lib/types/seating';
+import type { PageServerLoad } from './$types';
+import type { SeatingLayout } from '$lib/types/seating';
+import { TableShape, TableStatus } from '$lib/types/seating';
 
-export const load: PageServerLoad = async ({ fetch, params, locals }) => {
-    const user = locals.user;
-    const userRole = user?.role_name;
+export const load: PageServerLoad = async () => {
+  // Mock data for now
+  const mockLayout: SeatingLayout = {
+    id: 'layout-1',
+    restaurantId: 'rest-123',
+    name: 'Main Dining Room',
+    tables: [
+      {
+        id: 'table-1',
+        x: 100,
+        y: 100,
+        width: 80,
+        height: 80,
+        shape: TableShape.Circle,
+        capacity: 4,
+        label: 'T1',
+        status: TableStatus.Available,
+      },
+      {
+        id: 'table-2',
+        x: 250,
+        y: 150,
+        width: 120,
+        height: 70,
+        shape: TableShape.Rectangle,
+        capacity: 6,
+        label: 'T2',
+        status: TableStatus.Occupied,
+      },
+    ],
+  };
 
-    if (userRole !== 'admin' && userRole !== 'restaurant') {
-        throw error(403, 'Forbidden: You do not have permission to view seating charts.');
-    }
-
-    const response = await fetch(`/api/restaurants/${params.restaurantId}/tables`);
-    const tables: Table[] = await response.json();
-    return { tables };
-};
-
-export const actions: Actions = {
-    addTable: async ({ fetch, request, params, locals }) => {
-        const user = locals.user;
-        const userRole = user?.role_name;
-
-        if (userRole !== 'admin' && userRole !== 'restaurant') {
-            throw error(403, 'Forbidden: You do not have permission to modify seating charts.');
-        }
-
-        const formData = await request.formData();
-        const name = formData.get('name') as string;
-
-        const response = await fetch(`/api/restaurants/${params.restaurantId}/tables`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name })
-        });
-
-        if (!response.ok) {
-            const { message } = await response.json();
-            return { success: false, message };
-        }
-
-        return { success: true };
-    },
-    removeTable: async ({ fetch, request, params, locals }) => {
-        const user = locals.user;
-        const userRole = user?.role_name;
-
-        if (userRole !== 'admin' && userRole !== 'restaurant') {
-            throw error(403, 'Forbidden: You do not have permission to modify seating charts.');
-        }
-
-        const formData = await request.formData();
-        const tableId = formData.get('tableId') as string;
-
-        const response = await fetch(`/api/restaurants/${params.restaurantId}/tables/${tableId}`, {
-            method: 'DELETE'
-        });
-
-        if (!response.ok) {
-            const { message } = await response.json();
-            return { success: false, message };
-        }
-
-        return { success: true };
-    }
+  return {
+    layout: mockLayout,
+  };
 };
