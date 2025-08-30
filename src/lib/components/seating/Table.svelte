@@ -24,7 +24,7 @@
 
   function getSeatStyle(index: number): string {
     if (isCircle || isOval) {
-      const angle = (index / table.capacity) * 2 * Math.PI;
+      const angle = (index / table.seat_capacity) * 2 * Math.PI; // Changed from table.capacity
       const radiusX = table.width / 2;
       const radiusY = table.height / 2;
       
@@ -36,9 +36,9 @@
       const y = Math.sin(angle) * seatPlacementRadiusY + radiusY;
       return `left: ${x}px; top: ${y}px; transform: translate(-50%, -50%);`;
     } else { // Rectangle or Square
-      const { width, height, capacity } = table;
+      const { width, height, seat_capacity } = table; // Changed from capacity
       const perimeter = 2 * (width + height);
-      const distance = (perimeter / capacity) * (index + 0.5);
+      const distance = (perimeter / seat_capacity) * (index + 0.5); // Changed from capacity
 
       if (distance < width) { // Top edge
         return `left: ${distance}px; top: -${SEAT_SIZE + PADDING_OFFSET}px; transform: translateX(-50%);`;
@@ -73,10 +73,10 @@
     class:rounded-lg={isSquare || table.shape === TableShape.Rectangle}
     style="{isOval ? 'border-radius: 50%;' : ''}" 
   >
-    <span>{table.label}</span>
+    <span>{table.table_number}</span>
   </div>
 
-  {#each Array(table.capacity) as _, i}
+  {#each Array(table.seat_capacity) as _, i} <!-- Changed from table.capacity -->
     <div 
       style="{getSeatStyle(i)} width: {SEAT_SIZE}px; height: {SEAT_SIZE}px;"
       class="absolute bg-gray-400 rounded-md z-20"

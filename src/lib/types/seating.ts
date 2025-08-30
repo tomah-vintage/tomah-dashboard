@@ -18,9 +18,10 @@ export interface SeatingTable {
   width: number;
   height: number;
   shape: TableShape;
-  capacity: number;
-  label: string;
+  seat_capacity: number;
+  table_number: string;
   status: TableStatus;
+  restaurant: string;
 }
 
 export interface SeatingLayout {

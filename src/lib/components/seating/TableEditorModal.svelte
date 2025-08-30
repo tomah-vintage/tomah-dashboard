@@ -1,6 +1,7 @@
 <script lang="ts">
   import Modal from '$lib/components/ui/modal/Modal.svelte';
   import Button from '$lib/components/ui/button/Button.svelte';
+  import { Input } from '$lib/components/ui/input'; // Import Input component
   import { TableShape, type SeatingTable } from '$lib/types/seating';
   import { createEventDispatcher } from 'svelte';
 
@@ -8,22 +9,25 @@
   export let table: SeatingTable | null = null; // New prop for editing
 
   let shape: TableShape = TableShape.Rectangle;
-  let capacity = 4;
+  let seat_capacity = 4; // Changed from 'capacity' to 'seat_capacity'
+  let table_number = '';
 
   // Pre-fill form if editing an existing table
   $: if (table) {
     shape = table.shape;
-    capacity = table.capacity;
+    seat_capacity = table.seat_capacity; // Changed from 'capacity' to 'seat_capacity'
+    table_number = table.table_number;
   } else {
     // Reset form if adding a new table
     shape = TableShape.Rectangle;
-    capacity = 4;
+    seat_capacity = 4; // Changed from 'capacity' to 'seat_capacity'
+    table_number = '';
   }
 
   const dispatch = createEventDispatcher();
 
   function handleSave() {
-    dispatch('save', { id: table?.id, shape, capacity }); // Dispatch id for editing
+    dispatch('save', { id: table?.id, shape, seat_capacity, table_number }); // Changed from 'capacity' to 'seat_capacity'
     closeModal();
   }
 
@@ -32,10 +36,15 @@
   }
 </script>
 
-<Modal isOpen={open} onClose={closeModal}> <!-- Corrected prop names -->
+<Modal isOpen={open} onClose={closeModal}>
   <h2 class="text-xl font-bold mb-4">{table ? 'Ширээ засах' : 'Шинэ ширээ нэмэх'}</h2>
-  
+
   <form on:submit|preventDefault={handleSave}>
+    <div class="mb-4">
+      <label for="table_number" class="block text-sm font-medium text-gray-700">Ширээний дугаар</label>
+      <Input type="text" id="table_number" bind:value={table_number} placeholder="Жишээ нь: А1, 101" />
+    </div>
+
     <div class="mb-4">
       <label for="shape" class="block text-sm font-medium text-gray-700">Ширээний хэлбэр</label>
       <select id="shape" bind:value={shape} class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
@@ -47,8 +56,8 @@
     </div>
 
     <div class="mb-4">
-      <label for="capacity" class="block text-sm font-medium text-gray-700">Суудлын тоо</label>
-      <input type="number" id="capacity" bind:value={capacity} min="1" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
+      <label for="seat_capacity" class="block text-sm font-medium text-gray-700">Суудлын тоо</label>
+      <input type="number" id="seat_capacity" bind:value={seat_capacity} min="1" class="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
     </div>
 
     <div class="flex justify-end gap-2 mt-6">

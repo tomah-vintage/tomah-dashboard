@@ -2,50 +2,109 @@
   import type { PageData } from './$types';
   import { SeatingCanvas, TableToolbar, TableEditorModal } from '$lib/components/seating';
   import { seatingStore } from '$lib/stores/seating-store';
-  import { onMount } from 'svelte';
+  import { sessionStore } from '$lib/stores/sessionStore'; // Import sessionStore
+  import { onMount, onDestroy } from 'svelte';
   import { get } from 'svelte/store';
   import type { SeatingTable, TableShape } from '$lib/types/seating';
+  import { TableStatus } from '$lib/types/seating'; // Import TableStatus
+  import {
+    createGetTablesQuery,
+    createAddTableMutation,
+    createUpdateTableMutation,
+    createDeleteTableMutation
+  } from '$lib/queries/seating-queries';
 
   export let data: PageData;
 
-  let showTableEditorModal = false;
-  let editingTable: SeatingTable | null = null; // New state for editing
+  // Initialize queries and mutations
+  const getTablesQuery = createGetTablesQuery();
+  const addTableMutation = createAddTableMutation();
+  const updateTableMutation = createUpdateTableMutation();
+  const deleteTableMutation = createDeleteTableMutation();
+
+  // Update store when tables data changes from query
+  $: if ($getTablesQuery.data) {
+    seatingStore.setTables($getTablesQuery.data);
+  }
 
   onMount(() => {
-    if (data.layout && !get(seatingStore)) {
-      seatingStore.set(data.layout);
+    // Initialize tables from server-side data if available
+    if (data.tables && data.tables.length > 0) {
+      seatingStore.setTables(data.tables);
     }
   });
 
   function handleAddTableRequest() {
-    editingTable = null; // Clear editing state for new table
-    showTableEditorModal = true;
+    seatingStore.setEditingTable(null); // Clear editing state for new table
+    seatingStore.toggleTableEditorModal(true);
   }
 
   function handleEditTableRequest(event: CustomEvent<SeatingTable>) {
-    editingTable = event.detail; // Set table to be edited
-    showTableEditorModal = true;
+    seatingStore.setEditingTable(event.detail); // Set table to be edited
+    seatingStore.toggleTableEditorModal(true);
   }
 
-  function handleSaveTable(event: CustomEvent<{ shape: TableShape; capacity: number; id?: string }>) {
-    const { shape, capacity, id } = event.detail;
-    if (id && editingTable) {
-      seatingStore.updateTable(id, shape, capacity);
-    } else {
-      seatingStore.addTable(shape, capacity);
+  async function handleSaveTable(event: CustomEvent<{ shape: TableShape; seat_capacity: number; id?: string; table_number: string }>) {
+    const { shape, seat_capacity, id, table_number } = event.detail; // Get seat_capacity from event detail
+
+    // Get restaurantId from sessionStore
+    const restaurantId = $sessionStore.user?.restaurant?.id;
+    if (!restaurantId) {
+      console.error('Restaurant ID not found in session.');
+      // Optionally show a toast error to the user
+      return;
     }
-    showTableEditorModal = false;
-    editingTable = null; // Clear editing state
+
+    if (id && $seatingStore.editingTable) {
+      // Update existing table
+      const updatedTable: SeatingTable = {
+        ...$seatingStore.editingTable,
+        shape,
+        seat_capacity, // Update seat_capacity
+        table_number,
+      };
+      await $updateTableMutation.mutateAsync(updatedTable);
+    }
+    else {
+      // Add new table
+      const newTable: Omit<SeatingTable, 'id'> = {
+        x: 50, // Default position
+        y: 50, // Default position
+        width: 100, // Default size
+        height: 100, // Default size
+        shape: shape,
+        seat_capacity, // Use seat_capacity from modal
+        table_number,
+        status: TableStatus.Available, // Default status
+        restaurant: restaurantId.toString(), // Pass restaurantId
+      };
+      await $addTableMutation.mutateAsync(newTable);
+    }
+    seatingStore.toggleTableEditorModal(false);
+    seatingStore.clearEditingTable();
   }
 
   function handleCloseTableEditorModal() {
-    showTableEditorModal = false;
-    editingTable = null; // Clear editing state
+    seatingStore.toggleTableEditorModal(false);
+    seatingStore.clearEditingTable();
   }
 
-  function handleRemoveTableRequest(event: CustomEvent<string>) {
+  async function handleRemoveTableRequest(event: CustomEvent<string>) {
     const tableId = event.detail;
-    seatingStore.removeTable(tableId);
+    await $deleteTableMutation.mutateAsync(tableId);
+  }
+
+  async function handleTableMoveEnd(event: CustomEvent<{ tableId: string; x: number; y: number }>) {
+    const { tableId, x, y } = event.detail;
+    const tableToUpdate = $seatingStore.tables.find(t => t.id === tableId);
+    if (tableToUpdate) {
+      const updatedTable: SeatingTable = {
+        ...tableToUpdate,
+        x,
+        y,
+      };
+      await $updateTableMutation.mutateAsync(updatedTable);
+    }
   }
 </script>
 
@@ -55,17 +114,22 @@
 
 <div class="p-4">
     <h1 class="text-2xl font-bold mb-4">Ширээний зохион байгуулалт</h1>
-    
+
     <TableToolbar on:addTableRequest={handleAddTableRequest} />
 
     <div class="mt-4">
-        <SeatingCanvas on:editTableRequest={handleEditTableRequest} on:removeTableRequest={handleRemoveTableRequest} />
+        <SeatingCanvas
+            tables={$seatingStore.tables}
+            on:editTableRequest={handleEditTableRequest}
+            on:removeTableRequest={handleRemoveTableRequest}
+            on:tableMoveEnd={handleTableMoveEnd}
+        />
     </div>
 </div>
 
-<TableEditorModal 
-  open={showTableEditorModal}
-  table={editingTable} 
+<TableEditorModal
+  open={$seatingStore.showTableEditorModal}
+  table={$seatingStore.editingTable}
   on:save={handleSaveTable}
   on:close={handleCloseTableEditorModal}
 />

@@ -2,8 +2,11 @@
   import { seatingStore } from "$lib/stores/seating-store";
   import { Table } from "$lib/components/seating";
   import { createEventDispatcher } from 'svelte';
+  import type { SeatingTable } from '$lib/types/seating'; // Import SeatingTable type
 
   const dispatch = createEventDispatcher();
+
+  export let tables: SeatingTable[]; // Now receives tables as a prop
 
   let containerElement: HTMLDivElement;
   let dragging = false;
@@ -51,7 +54,7 @@
       Math.min(newY, containerRect.height - 100)
     ); // Assuming table height ~100px
 
-    // Update table position in store
+    // Update table position in store (local UI update)
     seatingStore.moveTable(draggedTableId, constrainedX, constrainedY);
   }
 
@@ -67,6 +70,12 @@
     if (tableElement) {
       tableElement.style.zIndex = "10";
       tableElement.style.opacity = "1";
+    }
+
+    // Dispatch event with final position for persistence
+    const movedTable = tables.find(t => t.id === draggedTableId);
+    if (movedTable) {
+      dispatch('tableMoveEnd', { tableId: movedTable.id, x: movedTable.x, y: movedTable.y });
     }
 
     draggedTableId = null;
@@ -111,54 +120,49 @@
   function handleRemoveTableRequest(event: CustomEvent) {
     dispatch('removeTableRequest', event.detail);
   }
-
-  // Make sure tables array is always available
-  $: tables = $seatingStore?.tables || [];
 </script>
 
 <svelte:window on:touchmove={handleTouchMove} on:touchend={handleTouchEnd} />
 
-{#if $seatingStore}
-  <div
-    bind:this={containerElement}
-    class="relative w-full h-[600px] bg-gray-100 rounded-md border border-gray-300 overflow-hidden select-none"
-  >
-    {#each tables as table (table.id)}
-      <div
-        class="absolute cursor-move transition-opacity duration-200"
-        style="left: {table.x}px; top: {table.y}px; z-index: 10;"
-        data-table-id={table.id}
-        role="button"
-        tabindex="0"
-        on:mousedown={(e) => handleMouseDown(e, table.id)}
-        on:touchstart={(e) => handleTouchStart(e, table.id)}
-        on:keydown={(e) => {
-          // Handle keyboard navigation for accessibility
-          if (e.key === "ArrowUp") {
-            e.preventDefault();
-            seatingStore.moveTable(
-              table.id,
-              table.x,
-              Math.max(0, table.y - 10)
-            );
-          } else if (e.key === "ArrowDown") {
-            e.preventDefault();
-            seatingStore.moveTable(table.id, table.x, table.y + 10);
-          } else if (e.key === "ArrowLeft") {
-            e.preventDefault();
-            seatingStore.moveTable(
-              table.id,
-              Math.max(0, table.x - 10),
-              table.y
-            );
-          } else if (e.key === "ArrowRight") {
-            e.preventDefault();
-            seatingStore.moveTable(table.id, table.x + 10, table.y);
-          }
-        }}
-      >
-        <Table {table} on:editTableRequest={handleEditTableRequest} on:removeTableRequest={handleRemoveTableRequest} />
-      </div>
-    {/each}
-  </div>
-{/if}
+<div
+  bind:this={containerElement}
+  class="relative w-full h-[600px] bg-gray-100 rounded-md border border-gray-300 overflow-hidden select-none"
+>
+  {#each tables as table (table.id)}
+    <div
+      class="absolute cursor-move transition-opacity duration-200"
+      style="left: {table.x}px; top: {table.y}px; z-index: 10;"
+      data-table-id={table.id}
+      role="button"
+      tabindex="0"
+      on:mousedown={(e) => handleMouseDown(e, table.id)}
+      on:touchstart={(e) => handleTouchStart(e, table.id)}
+      on:keydown={(e) => {
+        // Handle keyboard navigation for accessibility
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          seatingStore.moveTable(
+            table.id,
+            table.x,
+            Math.max(0, table.y - 10)
+          );
+        } else if (e.key === "ArrowDown") {
+          e.preventDefault();
+          seatingStore.moveTable(table.id, table.x, table.y + 10);
+        } else if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          seatingStore.moveTable(
+            table.id,
+            Math.max(0, table.x - 10),
+            table.y
+          );
+        } else if (e.key === "ArrowRight") {
+          e.preventDefault();
+          seatingStore.moveTable(table.id, table.x + 10, table.y);
+        }
+      }}
+    >
+      <Table {table} on:editTableRequest={handleEditTableRequest} on:removeTableRequest={handleRemoveTableRequest} />
+    </div>
+  {/each}
+</div>
