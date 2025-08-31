@@ -4,6 +4,7 @@
     SeatingCanvas,
     TableToolbar,
     TableEditorModal,
+    QrCodeModal,
   } from "$lib/components/seating";
   import { seatingStore } from "$lib/stores/seating-store";
   import { sessionStore } from "$lib/stores/sessionStore"; // Import sessionStore
@@ -16,8 +17,12 @@
     createUpdateTableMutation,
     createDeleteTableMutation,
   } from "$lib/queries/seating-queries";
+  import { PUBLIC_SITE_URL } from "$env/static/public";
 
   export let data: PageData;
+
+  let showQrModal = false;
+  let selectedTableForQr: SeatingTable | null = null;
 
   // Initialize queries and mutations
   const getTablesQuery = createGetTablesQuery();
@@ -45,6 +50,16 @@
   function handleEditTableRequest(event: CustomEvent<SeatingTable>) {
     seatingStore.setEditingTable(event.detail); // Set table to be edited
     seatingStore.toggleTableEditorModal(true);
+  }
+
+  function handlePrintQrRequest(event: CustomEvent<SeatingTable>) {
+    selectedTableForQr = event.detail;
+    showQrModal = true;
+  }
+
+  function handleCloseQrModal() {
+    showQrModal = false;
+    selectedTableForQr = null;
   }
 
   async function handleSaveTable(
@@ -134,6 +149,7 @@
       on:editTableRequest={handleEditTableRequest}
       on:removeTableRequest={handleRemoveTableRequest}
       on:tableMoveEnd={handleTableMoveEnd}
+      on:printQrRequest={handlePrintQrRequest}
     />
   </div>
 </div>
@@ -143,4 +159,11 @@
   table={$seatingStore.editingTable}
   on:save={handleSaveTable}
   on:close={handleCloseTableEditorModal}
+/>
+
+<QrCodeModal
+  open={showQrModal}
+  table={selectedTableForQr}
+  siteUrl={PUBLIC_SITE_URL}
+  on:close={handleCloseQrModal}
 />

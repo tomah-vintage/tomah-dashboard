@@ -2,7 +2,7 @@
   import type { SeatingTable } from '$lib/types/seating';
   import { TableShape } from '$lib/types/seating';
   import { createEventDispatcher } from 'svelte';
-  import { Edit, Trash2 } from 'lucide-svelte';
+  import { Edit, Trash2, QrCode } from 'lucide-svelte';
 
   export let table: SeatingTable;
 
@@ -59,6 +59,10 @@
   function handleRemoveClick() {
     dispatch('removeTableRequest', table.id);
   }
+
+  function handlePrintQrClick() {
+    dispatch('printQrRequest', table);
+  }
 </script>
 
 <div 
@@ -85,6 +89,9 @@
 
   {#if isHovered}
     <div class="absolute top-0 right-0 flex space-x-1 p-1 bg-gray-800 bg-opacity-75 rounded-bl-lg z-30">
+      <button on:click|stopPropagation={handlePrintQrClick} class="text-white hover:text-blue-300">
+        <QrCode size="16" />
+      </button>
       <button on:click|stopPropagation={handleEditClick} class="text-white hover:text-blue-300">
         <Edit size="16" />
       </button>

@@ -120,6 +120,10 @@
   function handleRemoveTableRequest(event: CustomEvent) {
     dispatch('removeTableRequest', event.detail);
   }
+
+  function handlePrintQrRequest(event: CustomEvent) {
+    dispatch('printQrRequest', event.detail);
+  }
 </script>
 
 <svelte:window on:touchmove={handleTouchMove} on:touchend={handleTouchEnd} />
@@ -162,7 +166,7 @@
         }
       }}
     >
-      <Table {table} on:editTableRequest={handleEditTableRequest} on:removeTableRequest={handleRemoveTableRequest} />
+      <Table {table} on:editTableRequest={handleEditTableRequest} on:removeTableRequest={handleRemoveTableRequest} on:printQrRequest={handlePrintQrRequest} />
     </div>
   {/each}
 </div>
