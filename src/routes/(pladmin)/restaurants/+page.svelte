@@ -29,7 +29,7 @@
 			<RestaurantsTableSkeleton />
 		{:else if isError}
 			<div class="text-center py-10">
-				<p class="text-status-error">Алдаа гарлаа: {error.message}</p>
+				<p class="text-status-error">Алдаа гарлаа: {error?.message || 'Тодорхойгүй алдаа'}</p>
 			</div>
 		{:else if filteredRestaurants.length === 0}
 			<div class="text-center py-10">

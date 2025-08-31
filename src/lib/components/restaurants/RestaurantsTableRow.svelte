@@ -9,7 +9,7 @@
 	export let restaurant: Restaurant & { register?: string; rating?: number };
 
 	let openMenu = false;
-	let menuButton: HTMLButtonElement;
+	let menuButton: any;
 	let menuElement: HTMLDivElement;
 
 	function toggleMenu() {
@@ -53,8 +53,8 @@
 	});
 </script>
 
-<tr class="border-t hover:bg-gray-100 cursor-pointer" on:click={handleRowClick}>
-	<td class="p-3 text-center"><div on:click|stopPropagation><Input type="checkbox" label="" /></div></td>
+<tr class="border-t hover:bg-gray-100 cursor-pointer" on:click={handleRowClick} on:keydown={(e) => e.key === 'Enter' && goto(`/restaurants/${restaurant.id}`)} role="button" tabindex="0">
+	<td class="p-3 text-center"><div on:click|stopPropagation on:keydown={(e) => e.key === 'Enter' && e.stopPropagation()} role="button" tabindex="0"><Input type="checkbox" label="" /></div></td>
 	<td class="p-3 font-medium">{restaurant.name}</td>
 	<td class="p-3">{restaurant.phone}</td>
 	<td class="p-3">{restaurant.address}</td>
@@ -66,7 +66,7 @@
 		</div>
 	</td>
 	<td class="p-3 text-center">
-		<div on:click|stopPropagation>
+		<div on:click|stopPropagation on:keydown={(e) => e.key === 'Enter' && e.stopPropagation()} role="button" tabindex="0">
 			<Button bind:this={menuButton} on:click={toggleMenu} variant="tertiary" class="p-1 rounded-full">
 				<MoreVertical class="h-5 w-5" />
 			</Button>
@@ -75,7 +75,7 @@
 </tr>
 
 {#if openMenu}
-	<div bind:this={menuElement} on:click|stopPropagation class="fixed w-32 bg-white rounded-md shadow-lg z-20 border">
+	<div bind:this={menuElement} on:click|stopPropagation on:keydown={(e) => e.key === 'Enter' && e.stopPropagation()} role="menu" tabindex="0" class="fixed w-32 bg-white rounded-md shadow-lg z-20 border">
 		<a href="/restaurants/{restaurant.id}" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100">
 			<Eye class="h-4 w-4" /> Харах
 		</a>

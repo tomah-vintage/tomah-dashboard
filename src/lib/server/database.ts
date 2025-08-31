@@ -32,7 +32,12 @@ export function getRestaurants(): Restaurant[] {
 export function addRestaurant(data: RestaurantFormData): Restaurant {
   const dbData = readData();
   const newId = (Math.max(...dbData.restaurants.map(r => parseInt(r.id))) + 1).toString();
-  const newRestaurant: Restaurant = { id: newId, ...data };
+  const newRestaurant: Restaurant = { 
+    id: newId, 
+    ...data, 
+    logo: '', // Default empty logo
+    created_at: new Date().toISOString() // Current timestamp
+  };
   dbData.restaurants.push(newRestaurant);
   writeData(dbData);
   return newRestaurant;
@@ -65,7 +70,7 @@ export function deleteRestaurant(id: string): boolean {
 
 export function getTables(restaurantId: string): Table[] {
     const { tables } = readData();
-    return tables.filter(t => t.restaurantId === restaurantId);
+    return tables.filter(t => t.restaurant === restaurantId);
 }
 
 export function addTable(table: Table): Table {

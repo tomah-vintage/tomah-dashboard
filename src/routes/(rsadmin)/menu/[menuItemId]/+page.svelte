@@ -9,4 +9,4 @@
   <title>Хоолны зүйл засах</title>
 </svelte:head>
 
-<MenuItemDetailMain menuItem={data.menuItem} categories={data.categories} />
+<MenuItemDetailMain {data} />

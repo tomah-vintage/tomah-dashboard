@@ -70,6 +70,8 @@
   style="{tableSizeStyles}"
   on:mouseenter={() => (isHovered = true)}
   on:mouseleave={() => (isHovered = false)}
+  role="button"
+  tabindex="0"
 >
   <div 
     class="absolute bg-blue-500 text-white flex items-center justify-center font-bold text-lg cursor-grab shadow-md hover:shadow-lg transition-shadow w-full h-full z-10"

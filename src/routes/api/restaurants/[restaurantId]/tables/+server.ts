@@ -22,10 +22,15 @@ export const POST: RequestHandler = async ({ request, params, url }) => {
         const qrCodeUrl = await qrcode.toDataURL(orderUrl);
         const newTable: Table = {
             id: tableId,
-            restaurantId,
-            name,
-            qrCodeUrl,
-            orderUrl,
+            restaurant: restaurantId,
+            x: 0,
+            y: 0,
+            width: 100,
+            height: 100,
+            shape: 'rectangle' as any,
+            seat_capacity: 4,
+            table_number: name,
+            status: 'available' as any,
         };
 
         const addedTable = addTable(newTable);

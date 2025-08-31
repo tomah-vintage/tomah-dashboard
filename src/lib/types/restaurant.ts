@@ -11,6 +11,7 @@ export interface Restaurant {
 	email: string;
 	status: 'active' | 'inactive';
 	created_at: string;
+	restaurant_img_urls?: string[]; // Optional array of image URLs
 }
 
 export interface Menu {

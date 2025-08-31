@@ -30,7 +30,7 @@
 				<th scope="col" class="px-6 py-3">
 					<div class="flex items-center">
 						Нэр
-						<a href="javascript:void(0);"><ChevronUp class="w-3 h-3 ml-1.5" /></a>
+						<button type="button"><ChevronUp class="w-3 h-3 ml-1.5" /></button>
 					</div>
 				</th>
 				<th scope="col" class="px-6 py-3">Зураг</th>
@@ -38,7 +38,7 @@
 				<th scope="col" class="px-6 py-3">
                     <div class="flex items-center">
 						Үнэ
-						<a href="javascript:void(0);"><ChevronUp class="w-3 h-3 ml-1.5" /></a>
+						<button type="button"><ChevronUp class="w-3 h-3 ml-1.5" /></button>
 					</div>
                 </th>
 				<th scope="col" class="px-6 py-3">Статус</th>
@@ -75,12 +75,12 @@
 						{#if openMenuId === item.id}
 							<div class="absolute right-8 z-10 mt-2 w-44 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 								<div class="py-1">
-									<a href="javascript:void(0);" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+									<button type="button" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center w-full text-left">
 										<Pencil class="w-4 h-4 mr-2" /> Засах
-									</a>
-									<a href="javascript:void(0);" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center">
+									</button>
+									<button type="button" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 flex items-center w-full text-left">
 										<Trash2 class="w-4 h-4 mr-2" /> Устгах
-									</a>
+									</button>
 								</div>
 							</div>
 						{/if}
@@ -109,7 +109,7 @@
                 3
             </button>
             <button class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-                <ChevronRight class_="w-4 h-4" />
+                <ChevronRight class="w-4 h-4" />
             </button>
         </div>
     </div>

@@ -30,3 +30,6 @@ export interface SeatingLayout {
   name: string;
   tables: SeatingTable[];
 }
+
+// Alias for backward compatibility
+export type Table = SeatingTable;

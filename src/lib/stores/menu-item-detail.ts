@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import type { MenuItemDetail } from '@/lib/types/menu-item-detail';
+import type { MenuItemDetail } from '$lib/types/menu-item-detail';
 
 interface MenuItemDetailStore {
   item: MenuItemDetail | null;

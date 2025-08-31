@@ -18,7 +18,7 @@
     isLoading = true;
     errorMessage = null;
     try {
-      const response = await apiFetch(`${PUBLIC_BACKEND_URL}/api/users/`, {
+      await apiFetch(`${PUBLIC_BACKEND_URL}/api/users/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,14 +31,9 @@
         }),
       });
 
-      if (response.ok) {
-        dispatch("success");
-      } else {
-        const errorData = await response.json();
-        errorMessage = errorData.message || "Хэрэглэгч үүсгэхэд алдаа гарлаа";
-      }
+      dispatch("success");
     } catch (error) {
-      errorMessage = "Сүлжээний алдаа эсвэл гэнэтийн алдаа";
+      errorMessage = error instanceof Error ? error.message : "Хэрэглэгч үүсгэхэд алдаа гарлаа";
       console.error("Error creating user:", error);
     } finally {
       isLoading = false;

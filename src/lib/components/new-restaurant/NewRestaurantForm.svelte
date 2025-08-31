@@ -11,7 +11,7 @@
 <form method="POST" use:enhance enctype="multipart/form-data" class="w-full flex justify-center">
   <div class="flex flex-col gap-8 max-w-[800px] w-full">
     <div class="flex space-y-4 items-center gap-6">
-      <ImageUploader bind:image={form.image} />
+      <ImageUploader />
       <div class="flex space-x-2 gap-4">
         <Button type="button">+ Зураг татах</Button>
         <Button type="button" variant="secondary">Цуцлах</Button>
