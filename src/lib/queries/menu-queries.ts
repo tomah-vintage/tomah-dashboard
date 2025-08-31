@@ -1,14 +1,15 @@
 import { createQuery, createMutation, useQueryClient } from '@tanstack/svelte-query';
-import type { MenuItem, MenuItemFormForBackend, Category } from '$lib/types/menu'; // Import Category
+import type { MenuItem, MenuItemFormForBackend, Category } from '$lib/types/menu';
 import { apiFetch } from '$lib/utils/api';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
 import toast from 'svelte-french-toast';
+import type { PaginatedResponse } from '$lib/types/auth'; // Import PaginatedResponse
 
 // Fetch all menu items
-export const createGetMenuItemsQuery = () =>
-	createQuery<MenuItem[], Error>({
-		queryKey: ['menuItems'],
-		queryFn: () => apiFetch<MenuItem[]>(`${PUBLIC_BACKEND_URL}/api/menu-item/`)
+export const createGetMenuItemsQuery = (page: number = 1, page_size: number = 10) =>
+	createQuery<PaginatedResponse<MenuItem>, Error>({
+		queryKey: ['menuItems', page, page_size],
+		queryFn: () => apiFetch<PaginatedResponse<MenuItem>>(`${PUBLIC_BACKEND_URL}/api/menu-item/?page=${page}&page_size=${page_size}`)
 	});
 
 // Fetch all categories

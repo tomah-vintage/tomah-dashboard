@@ -2,11 +2,12 @@ import { createQuery, createMutation, useQueryClient } from '@tanstack/svelte-qu
 import type { Restaurant, RestaurantFormData } from '$lib/types/restaurant';
 import { apiFetch } from '$lib/utils/api';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
+import type { PaginatedResponse } from '$lib/types/auth'; // Import PaginatedResponse
 
 // Fetch all restaurants
-export const createGetRestaurantsQuery = () => createQuery<Restaurant[], Error>({
-  queryKey: ['restaurants'],
-  queryFn: () => apiFetch<Restaurant[]>(`${PUBLIC_BACKEND_URL}/api/restaurants/`),
+export const createGetRestaurantsQuery = (page: number = 1, page_size: number = 10) => createQuery<PaginatedResponse<Restaurant>, Error>({
+  queryKey: ['restaurants', page, page_size],
+  queryFn: () => apiFetch<PaginatedResponse<Restaurant>>(`${PUBLIC_BACKEND_URL}/api/restaurants/?page=${page}&page_size=${page_size}`),
 });
 
 // Fetch a single restaurant by ID

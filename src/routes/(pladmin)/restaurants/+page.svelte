@@ -3,18 +3,28 @@
 	import {
 		RestaurantsTableHeader,
 		RestaurantsTable,
-		RestaurantsTablePagination,
 		RestaurantsTableSkeleton
 	} from '$lib/components/restaurants';
+	import type { PaginatedResponse } from '$lib/types/auth';
+	import type { Restaurant } from '$lib/types/restaurant';
+	import { Pagination } from '$lib/components/ui/pagination';
 
-	const getRestaurants = createGetRestaurantsQuery();
+	let currentPage = 1;
+	let page_size = 10;
 
-	$: ({ data: restaurants, isLoading, isError, error } = $getRestaurants);
+	$: getRestaurants = createGetRestaurantsQuery(currentPage, page_size);
+
+	$: ({ data: paginatedData, isLoading, isError, error } = $getRestaurants);
+
+	$: restaurants = paginatedData?.results || [];
 
 	let searchQuery = '';
 
-	$: filteredRestaurants = restaurants ? restaurants.filter(r => r.name.toLowerCase().includes(searchQuery.toLowerCase())) : [];
+	$: filteredRestaurants = restaurants.filter(r => r.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
+	function handlePageChange(page: number) {
+		currentPage = page;
+	}
 </script>
 
 <svelte:head>
@@ -40,7 +50,13 @@
 		{/if}
 	</div>
 
-	{#if !isLoading && !isError && filteredRestaurants.length > 0}
-		<RestaurantsTablePagination />
+	{#if !isLoading && !isError && paginatedData}
+		<Pagination
+			currentPage={currentPage}
+			totalPages={Math.ceil(paginatedData.count / page_size)}
+			onPageChange={handlePageChange}
+			totalItems={paginatedData.count}
+			page_size={page_size}
+		/>
 	{/if}
 </div>

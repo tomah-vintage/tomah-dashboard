@@ -89,28 +89,4 @@
 			{/each}
 		</tbody>
 	</table>
-    <div class="flex justify-between items-center p-4">
-        <div>
-            <span class="text-sm text-gray-700">
-                1 / 2
-            </span>
-        </div>
-        <div class="inline-flex items-center -space-x-px">
-            <button class="py-2 px-3 ml-0 leading-tight text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-                <ChevronLeft class="w-4 h-4" />
-            </button>
-            <button class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 text-primary-blue-dark">
-                1
-            </button>
-            <button class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-                2
-            </button>
-            <button class="py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-                3
-            </button>
-            <button class="py-2 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-                <ChevronRight class="w-4 h-4" />
-            </button>
-        </div>
-    </div>
 </div>

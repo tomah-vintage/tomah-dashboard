@@ -4,8 +4,22 @@
   import { createGetMenuItemsQuery } from "$lib/queries/menu-queries";
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
+  import { Pagination } from "$lib/components/ui/pagination";
+  import type { PaginatedResponse } from "$lib/types/auth";
+  import type { MenuItem } from "$lib/types/menu";
 
-  const menuItemsQuery = createGetMenuItemsQuery();
+  let currentPage = 1;
+  let page_size = 10;
+
+  $: menuItemsQuery = createGetMenuItemsQuery(currentPage, page_size);
+
+  $: ({ data: paginatedData, isLoading, isError, error } = $menuItemsQuery);
+
+  $: menuItems = paginatedData?.results || [];
+
+  function handlePageChange(page: number) {
+    currentPage = page;
+  }
 </script>
 
 <div class="p-4 sm:p-6 bg-content-background">
@@ -27,7 +41,7 @@
       <div class="flex items-center w-full space-x-2 sm:w-auto">
         <div class="relative flex-grow">
           <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-            <Search class="w-5 h-5 text-gray-400" />
+            <Search class="w-5 h-5" />
           </span>
           <Input
             type="text"
@@ -49,12 +63,24 @@
         </Button>
       </div>
     </div>
-    {#if $menuItemsQuery.isLoading}
+    {#if isLoading}
       <p>Loading...</p>
-    {:else if $menuItemsQuery.isError}
-      <p>Алдаа: {$menuItemsQuery.error.message}</p>
-    {:else if $menuItemsQuery.data}
-      <MenuManagementList menuItems={$menuItemsQuery.data} />
+    {:else if isError}
+      <p>Алдаа: {error?.message || 'Тодорхойгүй алдаа'}</p>
+    {:else if menuItems.length === 0}
+      <p>Хоолны цэс олдсонгүй.</p>
+    {:else}
+      <MenuManagementList menuItems={menuItems} />
     {/if}
   </div>
+
+  {#if !isLoading && !isError && paginatedData}
+    <Pagination
+      currentPage={currentPage}
+      totalPages={Math.ceil(paginatedData.count / page_size)}
+      onPageChange={handlePageChange}
+      totalItems={paginatedData.count}
+      page_size={page_size}
+    />
+  {/if}
 </div>

@@ -64,29 +64,7 @@
   </div>
 </div>
 
-<!-- Pagination -->
-<div class="flex items-center justify-between mt-4 text-sm">
-  <span class="text-gray-500">1 / 2</span>
-  <div class="flex items-center space-x-2 text-gray-500">
-    <button
-      class="p-1.5 rounded-md hover:bg-gray-100 disabled:text-gray-300"
-      disabled
-    >
-      <ChevronLeft class="w-5 h-5" />
-    </button>
-    <span
-      class="px-3 py-1.5 rounded-md border border-gray-300 text-gray-700 font-medium bg-gray-50"
-      >1</span
-    >
-    <button type="button" class="px-3 py-1.5 rounded-md hover:bg-gray-100">2</button>
-    <button type="button" class="px-3 py-1.5 rounded-md hover:bg-gray-100">3</button>
-    <button type="button" class="px-3 py-1.5 rounded-md hover:bg-gray-100">4</button>
-    <button type="button" class="px-3 py-1.5 rounded-md hover:bg-gray-100">5</button>
-    <button class="p-1.5 rounded-md hover:bg-gray-100">
-      <ChevronRight class="w-5 h-5" />
-    </button>
-  </div>
-</div>
+
 
 <CategoryDeleteModal
   bind:this={deleteModal}

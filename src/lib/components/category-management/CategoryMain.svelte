@@ -4,10 +4,13 @@
   import CategoryFormModal from "./CategoryFormModal.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Plus, Upload, Search } from "lucide-svelte";
+  import type { Category } from "$lib/types/menu";
 
   export let restaurantId: number;
 
   const categoriesQuery = createGetCategoriesQuery();
+
+  $: categories = $categoriesQuery.data || [];
 
   let searchValue = "";
   let showAddCategoryModal = false;
@@ -21,7 +24,7 @@
   <!-- Breadcrumbs -->
   <div class="mb-4">
     <span class="text-sm text-gray-500">
-      <a href="/(rsadmin)/menu" class="hover:underline">Цэс</a> &gt; Ангилал
+      <a href="/menu" class="hover:underline">Цэс</a> &gt; Ангилал
     </span>
   </div>
 
@@ -60,10 +63,10 @@
       <div>Ангиллуудыг уншиж байна...</div>
     {:else if $categoriesQuery.isError}
       <div>Алдаа: {$categoriesQuery.error?.message}</div>
-    {:else if $categoriesQuery.data}
-      <CategoryList categories={$categoriesQuery.data} />
-    {:else}
+    {:else if categories.length === 0}
       <div>Ангилал олдсонгүй.</div>
+    {:else}
+      <CategoryList categories={categories} />
     {/if}
   </div>
 </div>

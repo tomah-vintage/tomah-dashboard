@@ -3,9 +3,17 @@
   import { createGetUsersQuery } from "$lib/queries/user-queries";
   import { Button } from "$lib/components/ui/button";
   import { Plus, Search, SlidersHorizontal } from "lucide-svelte";
-  import type { UserListData } from "$lib/types/auth";
+  import type { UserListData, PaginatedResponse } from "$lib/types/auth";
+  import { Pagination } from "$lib/components/ui/pagination";
 
-  const getUsersQuery = createGetUsersQuery();
+  let currentPage = 1;
+  let page_size = 10;
+
+  $: getUsersQuery = createGetUsersQuery(currentPage, page_size);
+
+  function handlePageChange(page: number) {
+    currentPage = page;
+  }
 </script>
 
 <svelte:head>
@@ -28,8 +36,8 @@
       <div class="flex justify-between items-center">
         <h2 class="text-xl font-semibold text-gray-800 dark:text-white">
           {#if $getUsersQuery.data}
-            Бүх хэрэглэгчид <span class="text-gray-500"
-              >{$getUsersQuery.data.length}</span
+            Бүх хэрэглэгчид <span class="text-gray-500">
+              {($getUsersQuery.data as PaginatedResponse<UserListData>).count}</span
             >
           {/if}
         </h2>
@@ -67,7 +75,16 @@
           Алдаа гарлаа: {$getUsersQuery.error.message}
         </p>
       {:else if $getUsersQuery.data}
-        <UserList users={$getUsersQuery.data as unknown as UserListData[]} />
+        <UserList users={($getUsersQuery.data as PaginatedResponse<UserListData>).results} />
+
+        <!-- Pagination component -->
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(($getUsersQuery.data as PaginatedResponse<UserListData>).count / page_size)}
+          onPageChange={handlePageChange}
+          totalItems={($getUsersQuery.data as PaginatedResponse<UserListData>).count}
+          page_size={page_size}
+        />
       {/if}
     </div>
   </div>
