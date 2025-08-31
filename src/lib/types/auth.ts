@@ -111,8 +111,7 @@ export interface UserListData {
     id: number
   }
   created_at: string;
-  last_active: string; // Added for "Last active" column
-  permissions: string[]; // Added for "Data Export", "Data Import" tags
+  last_login: string; // Added for "Last login" column
 }
 
 export interface Session {

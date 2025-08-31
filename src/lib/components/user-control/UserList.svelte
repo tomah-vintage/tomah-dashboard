@@ -23,6 +23,8 @@
       year: "numeric",
     }).format(date);
   };
+
+
 </script>
 
 <div class="overflow-x-auto">
@@ -43,7 +45,8 @@
         <th scope="col" class="px-6 py-3">Хандах эрх</th>
         <th scope="col" class="px-6 py-3">Сүүлд идэвхтэй байсан</th>
         <th scope="col" class="px-6 py-3">Нэмэгдсэн огноо</th>
-        <th scope="col" class="px-6 py-3"></th> <!-- Empty for ellipsis menu -->
+        <th scope="col" class="px-6 py-3"></th>
+        <!-- Empty for ellipsis menu -->
       </tr>
     </thead>
     <tbody>
@@ -82,27 +85,16 @@
             </div>
           </th>
           <td class="px-6 py-4">
-            <div class="flex flex-wrap gap-1">
-              <span
-                class="px-2 py-1 font-semibold leading-tight rounded-full text-xs {getRoleClass(
-                  user.role.name
-                )}"
-              >
-                {user.role.name}
-              </span>
-              {#each user.permissions || [] as permission}
-                <span
-                  class="px-2 py-1 font-semibold leading-tight rounded-full text-xs {getPermissionClass(
-                    permission
-                  )}"
-                >
-                  {permission}
-                </span>
-              {/each}
-            </div>
+            <span
+              class="px-2 py-1 font-semibold leading-tight rounded-full text-xs {getRoleClass(
+                user.role.name
+              )}"
+            >
+              {user.role.name}
+            </span>
           </td>
           <td class="px-6 py-4">
-            {user.last_active ? formatDate(user.last_active) : 'N/A'}
+            {user.last_login ? formatDate(user.last_login) : "N/A"}
           </td>
           <td class="px-6 py-4">
             {formatDate(user.created_at)}
@@ -119,23 +111,53 @@
 </div>
 
 <!-- Pagination -->
-<nav class="flex items-center justify-between pt-4" aria-label="Table navigation">
-  <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Харуулж байна <span class="font-semibold text-gray-900 dark:text-white">1-10</span> нийт <span class="font-semibold text-gray-900 dark:text-white">1000</span></span>
+<nav
+  class="flex items-center justify-between pt-4"
+  aria-label="Table navigation"
+>
+  <span class="text-sm font-normal text-gray-500 dark:text-gray-400"
+    >Харуулж байна <span class="font-semibold text-gray-900 dark:text-white"
+      >1-10</span
+    >
+    нийт
+    <span class="font-semibold text-gray-900 dark:text-white">1000</span></span
+  >
   <ul class="inline-flex -space-x-px text-sm h-8">
     <li>
-      <a href="#" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Өмнөх</a>
+      <a
+        href="#"
+        class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+        >Өмнөх</a
+      >
     </li>
     <li>
-      <a href="#" aria-current="page" class="flex items-center justify-center px-3 h-8 text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">1</a>
+      <a
+        href="#"
+        aria-current="page"
+        class="flex items-center justify-center px-3 h-8 text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+        >1</a
+      >
     </li>
     <li>
-      <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
+      <a
+        href="#"
+        class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+        >2</a
+      >
     </li>
     <li>
-      <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">3</a>
+      <a
+        href="#"
+        class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+        >3</a
+      >
     </li>
     <li>
-      <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Дараах</a>
+      <a
+        href="#"
+        class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+        >Дараах</a
+      >
     </li>
   </ul>
 </nav>
