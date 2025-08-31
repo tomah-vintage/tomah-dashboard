@@ -57,11 +57,11 @@
         {/if}
 
         <!-- Restaurant Admin Links -->
-        {#if $sessionStore.user?.role_name === 'admin' || $sessionStore.user?.role_name === 'restaurant'}
+        {#if $sessionStore.user?.role_name === 'restaurant'}
           <FoodMenuDropdown />
         {/if}
 
-        {#if $sessionStore.user?.role_name === 'admin' || $sessionStore.user?.role_name === 'restaurant'}
+        {#if $sessionStore.user?.role_name === 'restaurant'}
           <SidebarButton
             href="/seating"
             label="Ширээ"

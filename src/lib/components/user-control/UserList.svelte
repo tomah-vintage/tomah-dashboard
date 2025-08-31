@@ -1,34 +1,99 @@
 <script lang="ts">
-  import type { PlatformUser } from "$lib/types/user";
+  import type { UserListData } from "$lib/types/auth";
+  import { MoreHorizontal } from "lucide-svelte";
 
-  export let users: PlatformUser[];
+  export let users: UserListData[];
 
+  const getRoleClass = (role: string) => {
+    switch (role) {
+      case "admin":
+        return "bg-red-100 text-red-800";
+      case "restaurant":
+        return "bg-blue-100 text-blue-800";
+      default:
+        return "bg-gray-100 text-gray-800";
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    }).format(date);
+  };
 </script>
 
-<div class="bg-card-background shadow-md rounded-lg p-6">
-  <h2 class="text-xl font-semibold mb-4 text-gray-800">Бүх хэрэглэгчид</h2>
+<div class="bg-card-background shadow-md rounded-lg">
   <div class="overflow-x-auto">
     <table class="min-w-full text-sm text-left text-gray-500">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50">
         <tr>
-          <th scope="col" class="px-6 py-3">Нэр</th>
-          <th scope="col" class="px-6 py-3">И-мэйл</th>
-          <th scope="col" class="px-6 py-3">Бүртгүүлсэн огноо</th>
-          <th scope="col" class="px-6 py-3">Захиалга</th>
-          <th scope="col" class="px-6 py-3"><span class="sr-only">Үйлдэл</span></th>
+          <th scope="col" class="p-4">
+            <div class="flex items-center">
+              <input
+                id="checkbox-all"
+                type="checkbox"
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label for="checkbox-all" class="sr-only">checkbox</label>
+            </div>
+          </th>
+          <th scope="col" class="px-6 py-3">User</th>
+          <th scope="col" class="px-6 py-3">Access</th>
+          <th scope="col" class="px-6 py-3">Date added</th>
+          <th scope="col" class="px-6 py-3"
+            ><span class="sr-only">Actions</span></th
+          >
         </tr>
       </thead>
       <tbody>
         {#each users as user (user.id)}
           <tr class="bg-white border-b hover:bg-gray-50">
-            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-              {user.name}
+            <td class="w-4 p-4">
+              <div class="flex items-center">
+                <input
+                  id="checkbox-{user.id}"
+                  type="checkbox"
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <label for="checkbox-{user.id}" class="sr-only">checkbox</label>
+              </div>
+            </td>
+            <th
+              scope="row"
+              class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap"
+            >
+              <div
+                class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mr-3"
+              >
+                <span class="font-semibold text-gray-500"
+                  >{user.first_name[0]}{user.last_name[0]}</span
+                >
+              </div>
+              <div>
+                <div class="text-base font-semibold">
+                  {user.first_name}
+                  {user.last_name}
+                </div>
+                <div class="font-normal text-gray-500">{user.email}</div>
+              </div>
             </th>
-            <td class="px-6 py-4">{user.email}</td>
-            <td class="px-6 py-4">{user.registrationDate}</td>
-            <td class="px-6 py-4">{user.orderCount}</td>
+            <td class="px-6 py-4">
+              <span
+                class="px-2 py-1 font-semibold leading-tight rounded-full text-xs {getRoleClass(
+                  user.role.name
+                )}"
+              >
+                {user.role.name}
+              </span>
+            </td>
+            <td class="px-6 py-4">{formatDate(user.created_at)}</td>
             <td class="px-6 py-4 text-right">
-              <a href={`/dashboard/users/${user.id}`} class="font-medium text-primary-blue hover:underline">Түүхийг харах</a>
+              <button class="text-gray-500 hover:text-gray-700">
+                <MoreHorizontal class="w-5 h-5" />
+              </button>
             </td>
           </tr>
         {/each}

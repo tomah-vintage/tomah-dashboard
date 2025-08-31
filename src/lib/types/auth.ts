@@ -86,7 +86,8 @@ export interface User {
   last_name: string;
   phone: string;
   role: number;
-  role_name: string
+  role_name: string;
+  created_at: string;
   permissions: Permission[];
   restaurant: {
     id: number,
@@ -97,6 +98,19 @@ export interface User {
     created_at: string,
     updated_at: string
   }
+}
+export interface UserListData {
+  id: string;
+  email: string;
+  name: string;
+  first_name: string;
+  last_name: string;
+  phone: string;
+  role: {
+    name: string;
+    id: number
+  }
+  created_at: string;
 }
 
 export interface Session {
