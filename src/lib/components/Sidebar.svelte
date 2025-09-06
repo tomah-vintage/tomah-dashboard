@@ -8,13 +8,11 @@
     ChartColumnIncreasing,
     LayoutDashboard,
   } from "lucide-svelte";
-  
+
   import { sessionStore } from "$lib/stores/sessionStore";
   import SidebarButton from "./ui/sidebar/SidebarButton.svelte";
   import FoodMenuDropdown from "./ui/sidebar/FoodMenuDropdown.svelte";
   import { Button } from "./ui/button";
-
-  
 
   const handleLogout = async () => {
     await fetch("/logout", {
@@ -39,15 +37,19 @@
       <ul>
         <SidebarButton href="/" label="Тойм дэлгэц" icon={LayoutDashboard} />
         <!-- Platform Admin Links -->
-        <SidebarButton href="/report" label="Тайлан" icon={ChartColumnIncreasing} />
-        {#if $sessionStore.user?.role_name === 'admin'}
+        <SidebarButton
+          href="/report"
+          label="Тайлан"
+          icon={ChartColumnIncreasing}
+        />
+        {#if $sessionStore.user?.role_name === "admin"}
           <SidebarButton
             href="/restaurants"
             label="Ресторан"
             icon={ShieldCheck}
           />
         {/if}
-        {#if $sessionStore.user?.role_name === 'admin'}
+        {#if $sessionStore.user?.role_name === "admin"}
           <SidebarButton
             href="/users"
             label="Хэрэглэгчид"
@@ -57,11 +59,11 @@
         {/if}
 
         <!-- Restaurant Admin Links -->
-        {#if $sessionStore.user?.role_name === 'restaurant'}
+        {#if $sessionStore.user?.role_name === "restaurant"}
           <FoodMenuDropdown />
         {/if}
 
-        {#if $sessionStore.user?.role_name === 'restaurant'}
+        {#if $sessionStore.user?.role_name === "restaurant"}
           <SidebarButton
             href="/seating"
             label="Ширээ"
@@ -76,7 +78,11 @@
   <!-- Bottom Section -->
   <div>
     <div class="mb-4">
-      <Button on:click={handleLogout} variant="tertiary" class="justify-start w-full">
+      <Button
+        on:click={handleLogout}
+        variant="tertiary"
+        class="justify-start w-full"
+      >
         Гарах
         <LogOut class="w-5 h-5 ml-3" />
       </Button>

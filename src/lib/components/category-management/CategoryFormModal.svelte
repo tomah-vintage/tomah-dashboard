@@ -49,7 +49,6 @@
   function resetForm() {
     categoryName = "";
     categoryNameError = "";
-    console.log("CategoryFormModal: Form reset");
   }
 
   function handleSubmit() {

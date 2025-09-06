@@ -74,7 +74,6 @@
         }
       );
     } catch (error) {
-      console.log("error", error);
       errors = {
         ...errors,
         img_urls: error instanceof Error ? error.message : "Алдаа гарлаа.",

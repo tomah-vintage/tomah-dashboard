@@ -12,7 +12,6 @@
   let showCreateUserModal = false;
 
   function handleUserCreated() {
-    console.log("User created successfully!");
     // Optionally, refresh data or show a success message
   }
 </script>

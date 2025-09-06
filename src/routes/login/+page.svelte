@@ -19,7 +19,7 @@
         onSuccess: (data) => {
           document.cookie = `session=${data.access}; path=/; max-age=86400; SameSite=Strict`; // Expires in 1 day
           document.cookie = `refreshToken=${data.refresh}; path=/; max-age=2592000; SameSite=Strict`; // Expires in 30 days
-          const redirectTo = $page.url.searchParams.get('redirectTo');
+          const redirectTo = $page.url.searchParams.get("redirectTo");
           goto(redirectTo || "/");
         },
       }
@@ -37,8 +37,23 @@
   <div class="relative w-full max-w-md rounded-xl bg-card-background p-8">
     <h2 class="mb-8 text-center text-2xl font-bold text-gray-900">Нэвтрэх</h2>
     <form on:submit|preventDefault={handleSubmit} class="space-y-6">
-      <Input id="email" name="email" label="" placeholder="Имэйл, утасны дугаараа бичнэ үү" bind:value={email} required />
-      <Input id="password" name="password" label="" type={showPassword ? 'text' : 'password'} placeholder="Нууц үгээ оруулна уу" bind:value={password} required>
+      <Input
+        id="email"
+        name="email"
+        label=""
+        placeholder="Имэйл, утасны дугаараа бичнэ үү"
+        bind:value={email}
+        required
+      />
+      <Input
+        id="password"
+        name="password"
+        label=""
+        type={showPassword ? "text" : "password"}
+        placeholder="Нууц үгээ оруулна уу"
+        bind:value={password}
+        required
+      >
         <Button
           slot="action"
           type="button"
@@ -64,11 +79,7 @@
         <p class="text-sm text-status-error">{$loginMutation.error?.message}</p>
       {/if}
 
-      <Button
-        type="submit"
-        class="w-full"
-        disabled={$loginMutation.isPending}
-      >
+      <Button type="submit" class="w-full" disabled={$loginMutation.isPending}>
         {#if $loginMutation.isPending}
           Нэвтэрч байна...
         {:else}

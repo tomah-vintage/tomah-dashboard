@@ -55,8 +55,7 @@ export const actions = {
 
 				if (uploadResponse.ok) {
 					const uploadResult = await uploadResponse.json();
-					imageUrl = uploadResult.url;
-					console.log('Image uploaded successfully:', imageUrl);
+          imageUrl = uploadResult.url;
 				} else {
 					const uploadErrorData = await uploadResponse.json();
 					console.error('Failed to upload image:', uploadErrorData);
@@ -101,7 +100,6 @@ export const actions = {
 
 			if (response.ok) {
 				const result = await response.json();
-				console.log('Restaurant created successfully:', result);
 				return redirect(303, '/restaurants');
 			} else {
 				const errorData = await response.json();

@@ -16,7 +16,6 @@ export const load: PageServerLoad = async ({ params, fetch: customFetch }) => {
     const menuItem = menuItemResponse as MenuItemDetail
     const categoriesResponse = await serverApiFetch(customFetch, `${PUBLIC_BACKEND_URL}/api/item-category/`);
     const categories = categoriesResponse as Category[]
-    console.log({ menuItem, categories })
 
     return { menuItem, categories };
   } catch (err) {
