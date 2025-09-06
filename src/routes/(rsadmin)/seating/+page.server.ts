@@ -1,10 +1,13 @@
-import { redirect } from '@sveltejs/kit';
+import { redirect, json, error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import type { SeatingTable } from '$lib/types/seating';
 import { apiFetch } from '$lib/utils/api';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
+import { withDbCache } from '$lib/cache/db-cache';
+import { generateETag } from '$lib/cache/http-cache';
+import { cacheConfig } from '$lib/cache/config';
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals, request, setHeaders }) => {
   const user = locals.user;
   const userRole = user?.role_name;
 
@@ -13,10 +16,37 @@ export const load: PageServerLoad = async ({ locals }) => {
   }
 
   try {
-    const tables = await apiFetch<SeatingTable[]>(`${PUBLIC_BACKEND_URL}/api/table/`);
+    const cacheKey = 'seating:tables:all';
+    const cacheTags = ['seating'];
+
+    const getTablesFromApi = async () => {
+      console.log('Fetching seating tables from API...');
+      return apiFetch<SeatingTable[]>(`${PUBLIC_BACKEND_URL}/api/table/`);
+    };
+
+    const tables = await withDbCache(
+      { key: cacheKey, tags: cacheTags, ttl: cacheConfig.ttl.dynamic },
+      getTablesFromApi
+    );
+
+    const etag = generateETag(JSON.stringify(tables));
+
+    // Set HTTP cache headers
+    setHeaders({
+      'ETag': etag,
+      'Cache-Control': `public, max-age=${cacheConfig.ttl.dynamic / 1000}` // Convert ms to seconds
+    });
+
+    // Check client's ETag for 304 response
+    if (request.headers.get('if-none-match') === etag) {
+      throw error(304); // Throw 304 error for Not Modified
+    }
+
     return { tables };
-  } catch (error) {
-    console.error('Failed to load seating tables:', error);
+
+  } catch (err) {
+    console.error('Failed to load seating tables:', err);
+    // Return an empty array or handle the error gracefully for the page
     return { tables: [] };
   }
 };

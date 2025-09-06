@@ -1,6 +1,47 @@
 import { redirect, type Handle, type RequestEvent } from '@sveltejs/kit';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
 import type { User } from '$lib/types/auth';
+import { memoryCache } from '$lib/cache/memory-cache';
+import { withDbCache } from '$lib/cache/db-cache';
+import { startPeriodicCacheLogging } from '$lib/cache/monitoring';
+
+// --- Cache Warming and Graceful Shutdown ---
+
+/**
+ * Pre-fills the cache with essential data on application startup.
+ */
+async function warmCacheOnStartup() {
+	// Example: Warm the 'users:all' database cache
+	await withDbCache({ key: 'users:all', tags: ['users'], ttl: 60000 }, async () => {
+		// In a real app, you'd fetch this from the actual database
+		return Promise.resolve([
+			{ id: 1, name: 'Alice' },
+			{ id: 2, name: 'Bob' }
+		]);
+	});
+}
+
+// Run cache warming once on server start
+warmCacheOnStartup().catch((err) => {
+	console.error('[CACHE WARMING] Error during cache warming:', err);
+});
+
+// Start periodic logging in development
+startPeriodicCacheLogging();
+
+/**
+ * Handles graceful shutdown by stopping the cache cleanup interval.
+ */
+function gracefulShutdown() {
+	console.log('Gracefully shutting down. Stopping cache cleanup...');
+	memoryCache.stopCleanup();
+	process.exit(0);
+}
+
+process.on('SIGINT', gracefulShutdown); // Catches Ctrl+C
+process.on('SIGTERM', gracefulShutdown); // Catches kill commands
+
+// --- Existing Authentication Logic ---
 
 const EXTERNAL_REFRESH_URL = `${PUBLIC_BACKEND_URL}/api/token/refresh/`;
 
