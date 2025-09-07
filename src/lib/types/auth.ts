@@ -89,8 +89,9 @@ export interface User {
   role_name: string;
   created_at: string;
   permissions: Permission[];
+  restaurantId: string; // Added
   restaurant: {
-    id: number,
+    id: string, // Changed from number to string
     name: string,
     logo: string,
     address: string,

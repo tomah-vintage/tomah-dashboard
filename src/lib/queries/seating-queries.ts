@@ -4,10 +4,13 @@ import { apiFetch } from '$lib/utils/api';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
 import toast from 'svelte-french-toast';
 
-export const createGetTablesQuery = () =>
+export const createGetTablesQuery = (initialData?: SeatingTable[]) =>
 	createQuery<SeatingTable[], Error>({
 		queryKey: ['tables'],
-		queryFn: () => apiFetch<SeatingTable[]>(`${PUBLIC_BACKEND_URL}/api/table/`)
+		queryFn: () => apiFetch<SeatingTable[]>(`${PUBLIC_BACKEND_URL}/api/table/`),
+		initialData: initialData,
+		staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
+		gcTime: 10 * 60 * 1000 // Keep in cache for 10 minutes
 	});
 
 export const createAddTableMutation = () => {

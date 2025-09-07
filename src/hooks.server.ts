@@ -113,7 +113,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 				const user: User = await userResponse.json();
 				event.locals.user = {
 					...user,
-					name: `${user.first_name} ${user.last_name}`
+					name: `${user.first_name} ${user.last_name}`,
+					restaurantId: user.restaurant?.id || undefined // Assign restaurantId
 				};
 			} else {
 				event.locals.user = undefined;

@@ -8,6 +8,7 @@
     Store,
     ChartColumnIncreasing,
     LayoutDashboard,
+    Settings,
   } from "lucide-svelte";
 
   import { sessionStore } from "$lib/stores/sessionStore";
@@ -65,10 +66,11 @@
         {/if}
 
         {#if $sessionStore.user?.role_name === "restaurant"}
+          <SidebarButton href="/seating" label="Ширээ" icon={Store} />
           <SidebarButton
-            href="/seating"
-            label="Ширээ"
-            icon={Store}
+            href="/settings"
+            label="Тохиргоо"
+            icon={Settings}
             class="mb-4"
           />
         {/if}

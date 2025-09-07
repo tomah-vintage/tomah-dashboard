@@ -1,3 +1,5 @@
+import type { User } from "./user";
+
 /**
  * @file Defines the core types for the Restaurant Management feature.
  */
@@ -5,13 +7,17 @@
 export interface Restaurant {
 	id: string;
 	name: string;
-	logo: string;
+	logo_url: string; // Renamed from 'logo'
 	address: string;
 	phone: string;
 	email: string;
 	status: 'active' | 'inactive';
 	created_at: string;
 	restaurant_img_urls?: string[]; // Optional array of image URLs
+	latitude: number; // Added
+	longitude: number; // Added
+	open_hours: FormattedDailyHours[]; // Added
+	user?: User; // Added, assuming User type exists
 }
 
 export interface Menu {

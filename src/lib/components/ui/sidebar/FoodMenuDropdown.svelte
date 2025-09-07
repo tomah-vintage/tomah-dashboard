@@ -12,7 +12,7 @@
   }
 </script>
 
-<li>
+<li class="mb-2">
   <Button
     on:click={() => (isFoodMenuOpen = !isFoodMenuOpen)}
     variant="tertiary"

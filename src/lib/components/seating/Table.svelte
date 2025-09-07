@@ -74,32 +74,71 @@
   tabindex="0"
 >
   <div 
-    class="absolute bg-blue-500 text-white flex items-center justify-center font-bold text-lg cursor-grab shadow-md hover:shadow-lg transition-shadow w-full h-full z-10"
+    class="absolute text-white flex items-center justify-center font-bold text-lg cursor-grab shadow-lg hover:shadow-xl transition-all duration-200 w-full h-full z-10 border-2"
+    class:bg-green-500={table.status === 'available'}
+    class:border-green-400={table.status === 'available'}
+    class:bg-red-500={table.status === 'occupied'}
+    class:border-red-400={table.status === 'occupied'}
+    class:bg-yellow-500={table.status === 'reserved'}
+    class:border-yellow-400={table.status === 'reserved'}
+    class:bg-gray-500={!table.status}
+    class:border-gray-400={!table.status}
     class:rounded-full={isCircle}
     class:rounded-lg={isSquare || table.shape === TableShape.Rectangle}
+    class:hover:scale-105={isHovered}
     style="{isOval ? 'border-radius: 50%;' : ''}" 
   >
-    <span>{table.table_number}</span>
+    <div class="text-center">
+      <div class="text-xl font-bold">{table.table_number}</div>
+      <div class="text-xs opacity-90">{table.seat_capacity} seats</div>
+    </div>
   </div>
 
   {#each Array(table.seat_capacity) as _, i (i)} <!-- Changed from table.capacity -->
     <div 
       style="{getSeatStyle(i)} width: {SEAT_SIZE}px; height: {SEAT_SIZE}px;"
-      class="absolute bg-gray-400 rounded-md z-20"
+      class="absolute rounded-full z-20 border-2 border-white shadow-sm transition-colors"
+      class:bg-gray-600={table.status === 'available'}
+      class:bg-red-300={table.status === 'occupied'}
+      class:bg-yellow-300={table.status === 'reserved'}
+      class:bg-gray-400={!table.status}
     ></div>
   {/each}
 
   {#if isHovered}
-    <div class="absolute top-0 right-0 flex space-x-1 p-1 bg-gray-800 bg-opacity-75 rounded-bl-lg z-30">
-      <button on:click|stopPropagation={handlePrintQrClick} class="text-white hover:text-blue-300">
-        <QrCode size="16" />
+    <div class="absolute -top-2 -right-2 flex space-x-1 z-30">
+      <button 
+        on:click|stopPropagation={handlePrintQrClick} 
+        class="p-2 bg-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 text-blue-600 hover:text-blue-700"
+        title="QR код хэвлэх"
+      >
+        <QrCode size="14" />
       </button>
-      <button on:click|stopPropagation={handleEditClick} class="text-white hover:text-blue-300">
-        <Edit size="16" />
+      <button 
+        on:click|stopPropagation={handleEditClick} 
+        class="p-2 bg-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 text-gray-600 hover:text-gray-700"
+        title="Ширээ засах"
+      >
+        <Edit size="14" />
       </button>
-      <button on:click|stopPropagation={handleRemoveClick} class="text-white hover:text-red-300">
-        <Trash2 size="16" />
+      <button 
+        on:click|stopPropagation={handleRemoveClick} 
+        class="p-2 bg-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 text-red-600 hover:text-red-700"
+        title="Ширээ устгах"
+      >
+        <Trash2 size="14" />
       </button>
     </div>
   {/if}
+  
+  <!-- Status indicator -->
+  <div class="absolute -bottom-1 -right-1 z-30">
+    <div 
+      class="w-4 h-4 rounded-full border-2 border-white shadow-sm"
+      class:bg-green-500={table.status === 'available'}
+      class:bg-red-500={table.status === 'occupied'}
+      class:bg-yellow-500={table.status === 'reserved'}
+      class:bg-gray-500={!table.status}
+    ></div>
+  </div>
 </div>

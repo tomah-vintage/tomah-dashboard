@@ -73,7 +73,8 @@ async function fetchWithRefresh<T>(customFetch: CustomFetch, url: string, option
     if (!response.ok) {
         // Handle other errors
         const error = await response.json();
-        throw new Error(error.message || 'An error occurred');
+        console.log('error', error)
+        throw new Error(error || 'An error occurred');
     }
 
     // Handle responses with no content
