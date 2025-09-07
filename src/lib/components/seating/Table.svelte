@@ -82,7 +82,7 @@
     <span>{table.table_number}</span>
   </div>
 
-  {#each Array(table.seat_capacity) as _, i} <!-- Changed from table.capacity -->
+  {#each Array(table.seat_capacity) as _, i (i)} <!-- Changed from table.capacity -->
     <div 
       style="{getSeatStyle(i)} width: {SEAT_SIZE}px; height: {SEAT_SIZE}px;"
       class="absolute bg-gray-400 rounded-md z-20"

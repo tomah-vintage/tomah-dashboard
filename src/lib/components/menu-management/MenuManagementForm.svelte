@@ -9,6 +9,7 @@
   import { createAddMenuItemMutation } from "$lib/queries/menu-queries";
   import type { MenuItemFormData } from "$lib/types/menu";
   import { goto } from "$app/navigation";
+  import { base } from "$app/paths";
   import {
     menuItemFormSchema,
     uploadImages,
@@ -76,7 +77,7 @@
             showSuccessMessage = true;
             toast.success('Хоолны цэс амжилттай нэмэгдлээ!');
             setTimeout(() => {
-              goto("/menu");
+              goto(`${base}/menu`);
             }, 1500);
           },
           onError: (err) => {
@@ -105,7 +106,7 @@
       <div class="flex items-center justify-between">
         <div>
           <nav class="flex items-center space-x-2 text-sm text-gray-500 mb-2">
-            <a href="/menu" class="hover:text-gray-700 transition-colors">Цэс</a>
+            <a href="{base}/menu" class="hover:text-gray-700 transition-colors">Цэс</a>
             <span>/</span>
             <span class="text-gray-900">Шинэ хоол нэмэх</span>
           </nav>
@@ -113,7 +114,7 @@
           <p class="text-gray-600 mt-1">Хоолны цэсэнд шинэ зүйл нэмж тохиргоог хийнэ үү</p>
         </div>
         <a
-          href="/menu"
+          href="{base}/menu"
           class="flex items-center text-sm text-gray-500 hover:text-gray-700 transition-colors"
         >
           <ArrowLeft class="w-4 h-4 mr-2" />

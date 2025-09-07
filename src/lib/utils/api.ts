@@ -1,5 +1,6 @@
 import { browser } from '$app/environment';
 import { goto } from '$app/navigation';
+import { base } from '$app/paths';
 
 // A simple in-memory flag and promise to handle concurrent requests.
 let isRefreshing = false;
@@ -26,7 +27,7 @@ async function refreshToken(): Promise<void> {
     if (!response.ok) {
         if (browser) {
             const redirectTo = window.location.pathname;
-            await goto(`/login?redirectTo=${redirectTo}`);
+            await goto(`${base}/login?redirectTo=${redirectTo}`);
         }
         throw new Error('Failed to refresh token');
     }

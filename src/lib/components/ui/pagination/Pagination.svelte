@@ -57,7 +57,7 @@
             Өмнөх
           </button>
         </li>
-        {#each pages as page}
+        {#each pages as page (page)}
           <li>
             <button
               type="button"

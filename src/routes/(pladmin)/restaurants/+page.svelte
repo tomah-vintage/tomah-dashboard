@@ -5,7 +5,8 @@
 		RestaurantsTable,
 		RestaurantsTableSkeleton
 	} from '$lib/components/restaurants';
-	import { Pagination } from '$lib/components/ui/pagination';
+	  import { Pagination } from '$lib/components/ui/pagination';
+  import { base } from "$app/paths";
 
 	let currentPage = 1;
 	let page_size = 10;
@@ -67,7 +68,7 @@
 							<p class="text-gray-500">Эхний ресторангаа нэмж эхлээрэй.</p>
 						</div>
 						<a 
-							href="/restaurants/new" 
+							href="{base}/restaurants/new" 
 							class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
 						>
 							Шинэ ресторан нэмэх

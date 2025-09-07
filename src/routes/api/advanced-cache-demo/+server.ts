@@ -31,6 +31,12 @@ function createLargeObject() {
 	}));
 }
 
+interface LargeObjectItem {
+    id: number;
+    name: string;
+    data: string;
+}
+
 // Cache the large object on startup.
 if (cacheConfig.enabled && !memoryCache.get(LARGE_OBJECT_KEY)) {
 	const largeObject = createLargeObject();
@@ -51,8 +57,8 @@ export const GET: RequestHandler = async ({ url }) => {
 	}
 
 	if (type === 'large') {
-		const data = memoryCache.get(LARGE_OBJECT_KEY);
-		return json({ key: LARGE_OBJECT_KEY, data: { items: (data as any[])?.length } }); // Return only length to keep response small
+		const data = memoryCache.get<LargeObjectItem[]>(LARGE_OBJECT_KEY);
+		return json({ key: LARGE_OBJECT_KEY, data: { items: data?.length } }); // Return only length to keep response small
 	}
 
 	return json({ error: 'Please specify ?type=live or ?type=large' }, { status: 400 });

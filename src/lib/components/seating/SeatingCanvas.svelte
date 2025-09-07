@@ -86,8 +86,8 @@
   }
 
   // Handle touch events for mobile
-  function handleTouchStart(event: TouchEvent, tableId: string) {
-    const touch = event.touches[0];
+  function handleTouchStart(_event: TouchEvent, tableId: string) {
+    const touch = _event.touches[0];
     const mouseEvent = new MouseEvent("mousedown", {
       clientX: touch.clientX,
       clientY: touch.clientY,

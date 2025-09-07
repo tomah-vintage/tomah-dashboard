@@ -10,7 +10,8 @@
     FormattedDailyHours,
   } from "$lib/types/restaurant";
 
-  export let form: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export let form: Record<string, any>;
 
   form = form ?? {};
 
@@ -37,7 +38,7 @@
     const formattedOpenHours: FormattedDailyHours[] = [];
     for (const dayId in event.detail) {
       if (
-        event.detail.hasOwnProperty(dayId) &&
+        Object.prototype.hasOwnProperty.call(event.detail, dayId) &&
         event.detail[dayId].length > 0
       ) {
         const dayOfWeek = dayMapping[dayId];

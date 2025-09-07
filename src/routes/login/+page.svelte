@@ -5,6 +5,7 @@
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
   import { page } from "$app/stores";
+  import { base } from "$app/paths";
 
   const loginMutation = createLoginMutation();
 
@@ -20,7 +21,7 @@
           document.cookie = `session=${data.access}; path=/; max-age=86400; SameSite=Strict`; // Expires in 1 day
           document.cookie = `refreshToken=${data.refresh}; path=/; max-age=2592000; SameSite=Strict`; // Expires in 30 days
           const redirectTo = $page.url.searchParams.get("redirectTo");
-          goto(redirectTo || "/");
+          goto(redirectTo || `${base}/`);
         },
       }
     );
@@ -69,7 +70,7 @@
       </Input>
       <div class="text-right">
         <a
-          href="/forgot-password"
+          href="{base}/forgot-password"
           class="text-sm font-medium text-primary-blue hover:underline"
           >Нууц үгээ мартсан уу?</a
         >
@@ -89,7 +90,7 @@
     </form>
     <div class="mt-8 text-center text-sm text-gray-600">
       <span>Бүртгэлтэй байгаа юу? </span>
-      <a href="/register" class="font-medium text-primary-blue hover:underline"
+      <a href="{base}/register" class="font-medium text-primary-blue hover:underline"
         >Бүртгүүлэх</a
       >
     </div>

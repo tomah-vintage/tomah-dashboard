@@ -4,6 +4,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 
 	let { menuItems } = $props<{ menuItems: MenuItem[] }>();
 
@@ -14,7 +15,7 @@
 	}
 
 	function navigateToDetail(id: number) {
-		goto(`/menu/${id}`);
+		goto(`${base}/menu/${id}`);
 	}
 </script>
 

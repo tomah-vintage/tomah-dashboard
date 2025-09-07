@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import { base } from "$app/paths";
   import { Search, Filter, Plus } from "lucide-svelte";
   import { Button } from "$lib/components/ui/button";
   import FoodItemList from "$lib/components/food-detail/FoodItemList.svelte";
@@ -63,9 +64,9 @@
     <div class="flex items-center justify-between">
       <div class="flex items-center space-x-4">
         <nav class="text-sm text-gray-500 space-x-2">
-          <a href="/menu" class="hover:text-gray-700">Хоолны цэс</a>
+          <a href="{base}/menu" class="hover:text-gray-700">Хоолны цэс</a>
           <span>></span>
-          <a href="/menu" class="hover:text-gray-700">Хоолны жагсаалт</a>
+          <a href="{base}/menu" class="hover:text-gray-700">Хоолны жагсаалт</a>
           <span>></span>
           <span class="text-gray-900">Засах</span>
         </nav>
@@ -94,7 +95,7 @@
           <Filter class="w-4 h-4 mr-2" />
           Шүүх
         </Button>
-        <Button href="/menu/new">
+        <Button href="{base}/menu/new">
           <Plus class="w-4 h-4 mr-2" />
           Хоол нэмэх
         </Button>

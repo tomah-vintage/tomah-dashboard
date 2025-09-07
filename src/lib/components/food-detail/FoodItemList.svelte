@@ -83,7 +83,7 @@
           <!-- Variants Info -->
           {#if item.meta_data?.has_variants && item.meta_data?.variants && item.meta_data.variants.length > 0}
             <div class="flex flex-wrap gap-1 mb-2">
-              {#each item.meta_data.variants as variant}
+              {#each item.meta_data.variants as variant (variant.name)}
                 <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium {
                   variant.is_default 
                     ? 'bg-blue-100 text-blue-800' 

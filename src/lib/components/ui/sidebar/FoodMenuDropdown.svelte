@@ -2,6 +2,7 @@
   import { Pizza, ChevronDown } from "lucide-svelte";
   import { slide } from "svelte/transition";
   import { page } from "$app/stores";
+  import { base } from "$app/paths";
   import { Button } from "$lib/components/ui/button";
 
   let isFoodMenuOpen = $page.url.pathname.startsWith('/menu');
@@ -31,7 +32,7 @@
     <ul class="pt-2 pl-8 space-y-2" transition:slide>
       <li>
         <a
-          href="/menu"
+          href="{base}/menu"
           class="text-sm hover:text-gray-300"
           class:text-blue-400={$page.url.pathname === '/menu'}
           class:text-gray-500={$page.url.pathname !== '/menu'}
@@ -40,7 +41,7 @@
       </li>
       <li>
         <a
-          href="/menu/categories"
+          href="{base}/menu/categories"
           class="text-sm hover:text-gray-300"
           class:text-blue-400={$page.url.pathname === '/menu/categories'}
           class:text-gray-500={$page.url.pathname !== '/menu/categories'}
@@ -49,7 +50,7 @@
       </li>
       <li>
         <a
-          href="/menu/addons"
+          href="{base}/menu/addons"
           class="text-sm hover:text-gray-300"
           class:text-blue-400={$page.url.pathname === '/menu/addons'}
           class:text-gray-500={$page.url.pathname !== '/menu/addons'}

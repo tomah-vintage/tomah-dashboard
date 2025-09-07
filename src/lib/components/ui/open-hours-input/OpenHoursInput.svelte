@@ -57,7 +57,7 @@
 
 <div class="space-y-4">
   <h2 class="text-lg font-bold mb-4">Ажлын цаг</h2>
-  {#each daysOfWeek as day}
+  {#each daysOfWeek as day (day.id)}
     <div class="flex items-center space-x-4 mb-2">
       <input
         type="checkbox"

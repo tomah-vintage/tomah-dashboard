@@ -1,5 +1,6 @@
 import { browser } from '$app/environment';
 import { goto } from '$app/navigation';
+import { base } from '$app/paths';
 
 // A simple in-memory flag and promise to handle concurrent requests.
 let isRefreshing = false;
@@ -27,7 +28,7 @@ async function refreshToken(customFetch: CustomFetch): Promise<void> {
 
     if (!response.ok) {
         if (browser) {
-            await goto('/login');
+            await goto(`${base}/login`);
         }
         throw new Error('Failed to refresh token');
     }

@@ -115,7 +115,7 @@
                   list="variant-suggestions-{index}"
                 />
                 <datalist id="variant-suggestions-{index}">
-                  {#each variantSuggestions as suggestion}
+                  {#each variantSuggestions as suggestion (suggestion)}
                     <option value={suggestion} />
                   {/each}
                 </datalist>

@@ -2,6 +2,7 @@
 	
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
+  import { base } from "$app/paths";
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
 
@@ -38,7 +39,7 @@
 			successMessage = data.message || 'Registration successful!';
 			// Optionally redirect after a short delay or clear form
 			setTimeout(() => {
-				goto('/login');
+				goto(`${base}/login`);
 			}, 2000);
 		} else {
 			const errorData = await response.json();

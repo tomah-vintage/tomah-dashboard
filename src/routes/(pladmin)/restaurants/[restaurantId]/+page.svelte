@@ -73,14 +73,14 @@
             </h2>
             {#if data.restaurant.reviews.length > 0}
               <div class="space-y-4">
-                {#each data.restaurant.reviews as review}
+                {#each data.restaurant.reviews as review (review.id)}
                   <div class="border-b pb-4 last:border-b-0">
                     <div class="flex items-center justify-between mb-2">
                       <span class="font-medium">{review.user_name}</span>
                       <span class="text-sm text-gray-500">{new Date(review.created_at).toLocaleDateString('mn-MN')}</span>
                     </div>
                     <div class="flex items-center mb-2">
-                      {#each Array(5) as _, i}
+                      {#each Array(5) as _, i (i)}
                         <Star class="w-4 h-4 {i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}" />
                       {/each}
                     </div>
@@ -108,7 +108,7 @@
               Ажиллах цаг
             </h2>
             <div class="space-y-3">
-              {#each data.restaurant.open_hours as day}
+              {#each data.restaurant.open_hours as day (day.day_of_week_display)}
                 <div class="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
                   <span class="font-medium text-gray-700">{day.day_of_week_display}</span>
                   <span class="text-gray-900 font-mono text-sm bg-gray-50 px-2 py-1 rounded">

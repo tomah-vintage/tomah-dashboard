@@ -118,7 +118,7 @@
             onUpdate(updatedItem);
           }
         },
-        onError: (err: any) => {
+        onError: (err: Error) => {
           console.error("Update failed:", err);
           errors = err.response?.data?.errors || {};
           toast.error("Хоолны мэдээлэл шинэчлэхэд алдаа гарлаа");
@@ -161,7 +161,7 @@
         <div class="space-y-3">
           <p class="text-sm font-medium text-gray-700">Одоогийн зургууд:</p>
           <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            {#each foodItem.img_urls as imageUrl}
+            {#each foodItem.img_urls as imageUrl (imageUrl)}
               <div
                 class="aspect-square rounded-lg overflow-hidden bg-gray-100 shadow-sm border border-gray-200"
               >
@@ -246,7 +246,7 @@
 
       {#if formData.ingredients.length > 0}
         <div class="flex flex-wrap gap-2">
-          {#each formData.ingredients as ingredient, index}
+          {#each formData.ingredients as ingredient, index (index)}
             <div
               class="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm"
             >

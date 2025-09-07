@@ -2,7 +2,8 @@
 	import { Star, Eye, Pencil, MoreVertical } from 'lucide-svelte';
 	import type { Restaurant } from '$lib/types/restaurant';
 	import { onMount, onDestroy, tick } from 'svelte';
-	import { goto } from '$app/navigation';
+	  import { goto } from "$app/navigation";
+  import { base } from "$app/paths";
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { browser } from '$app/environment';
@@ -63,14 +64,14 @@
 	});
 
 	function handleRowClick() {
-		goto(`/restaurants/${restaurant.id}`);
+		goto(`${base}/restaurants/${restaurant.id}`);
 	}
 </script>
 
 <tr
 	class="border-t hover:bg-gray-100 cursor-pointer"
 	on:click={handleRowClick}
-	on:keydown={(e) => e.key === 'Enter' && goto(`/restaurants/${restaurant.id}`)}
+	on:keydown={(e) => e.key === 'Enter' && goto(`${base}/restaurants/${restaurant.id}`)}
 	role="button"
 	tabindex="0"
 >
@@ -128,13 +129,13 @@
 				class:mb-1={opensUp}
 			>
 				<a
-					href="/restaurants/{restaurant.id}"
+					href="{base}/restaurants/{restaurant.id}"
 					class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
 				>
 					<Eye class="h-4 w-4" /> Харах
 				</a>
 				<a
-					href="/restaurants/{restaurant.id}/edit"
+					href="{base}/restaurants/{restaurant.id}/edit"
 					class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
 				>
 					<Pencil class="h-4 w-4" /> Засах

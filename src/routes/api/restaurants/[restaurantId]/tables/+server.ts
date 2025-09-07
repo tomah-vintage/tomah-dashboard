@@ -24,10 +24,10 @@ export const POST: RequestHandler = async ({ request, params, url: _url }) => {
             y: 0,
             width: 100,
             height: 100,
-            shape: 'rectangle' as any,
+            shape: 'rectangle',
             seat_capacity: 4,
             table_number: name,
-            status: 'available' as any,
+            status: 'available',
         };
 
         const addedTable = addTable(newTable);

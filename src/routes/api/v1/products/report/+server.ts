@@ -6,6 +6,30 @@ import { memoryCache } from '$lib/cache/memory-cache';
 import { cacheConfig } from '$lib/cache/config';
 import { productsDb } from '../../../_db';
 
+interface JsonPlaceholderUser {
+    id: number;
+    name: string;
+    username: string;
+    email: string;
+    address: {
+        street: string;
+        suite: string;
+        city: string;
+        zipcode: string;
+        geo: {
+            lat: string;
+            lng: string;
+        };
+    };
+    phone: string;
+    website: string;
+    company: {
+        name: string;
+        catchPhrase: string;
+        bs: string;
+    };
+}
+
 const REPORT_CACHE_KEY = 'complex-report';
 
 // This function simulates generating a complex report.
@@ -14,7 +38,7 @@ async function generateComplexReport() {
 	const start = Date.now();
 
 	// 1. Fetch data from an external source (e.g., analytics API)
-	const externalData = await withApiCache<any[]>(
+	const externalData = await withApiCache<JsonPlaceholderUser[]>(
 		'https://jsonplaceholder.typicode.com/users', // Using users for variety
 		{
 			strategy: 'network-first',

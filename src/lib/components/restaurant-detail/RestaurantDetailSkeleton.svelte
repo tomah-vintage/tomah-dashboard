@@ -26,7 +26,7 @@
       <div class="bg-white rounded-lg shadow p-6">
         <div class="h-6 bg-gray-200 rounded w-48 mb-6"></div>
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {#each Array(6) as _}
+          {#each Array(6) as _, index (index)}
             <div class="w-full h-40 bg-gray-200 rounded-lg"></div>
           {/each}
         </div>
@@ -36,14 +36,14 @@
       <div class="bg-white rounded-lg shadow p-6">
         <div class="h-6 bg-gray-200 rounded w-32 mb-6"></div>
         <div class="space-y-4">
-          {#each Array(3) as _}
+          {#each Array(3) as _, index (index)}
             <div class="border-b pb-4 space-y-2">
               <div class="flex justify-between">
                 <div class="h-4 bg-gray-200 rounded w-24"></div>
                 <div class="h-4 bg-gray-200 rounded w-16"></div>
               </div>
               <div class="flex space-x-1">
-                {#each Array(5) as _}
+                {#each Array(5) as _, index2 (index2)}
                   <div class="w-4 h-4 bg-gray-200 rounded"></div>
                 {/each}
               </div>
@@ -60,7 +60,7 @@
       <div class="bg-white rounded-lg shadow p-6">
         <div class="h-6 bg-gray-200 rounded w-32 mb-6"></div>
         <div class="space-y-3">
-          {#each Array(6) as _}
+          {#each Array(6) as _, index (index)}
             <div class="flex justify-between py-2">
               <div class="h-4 bg-gray-200 rounded w-16"></div>
               <div class="h-4 bg-gray-200 rounded w-20"></div>
@@ -73,7 +73,7 @@
       <div class="bg-white rounded-lg shadow p-6">
         <div class="h-6 bg-gray-200 rounded w-40 mb-6"></div>
         <div class="space-y-4">
-          {#each Array(4) as _}
+          {#each Array(4) as _, index (index)}
             <div class="space-y-2">
               <div class="h-3 bg-gray-200 rounded w-20"></div>
               <div class="h-4 bg-gray-200 rounded w-32"></div>

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  import { base } from "$app/paths";
   import {
     LogOut,
     Users,
@@ -19,7 +20,7 @@
       method: "POST",
     });
     sessionStore.set({ user: null });
-    goto("/login");
+    goto(`${base}/login`);
   };
 </script>
 

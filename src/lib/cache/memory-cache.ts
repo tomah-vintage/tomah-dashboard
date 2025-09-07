@@ -10,7 +10,7 @@ interface CacheEntry<T> {
 }
 
 export class MemoryCache implements Cache {
-	private readonly cache = new Map<string, CacheEntry<any>>();
+	private readonly cache = new Map<string, CacheEntry<unknown>>();
 	private readonly refreshTimeouts = new Map<string, NodeJS.Timeout>();
 	private readonly cleanupInterval: NodeJS.Timeout;
 
