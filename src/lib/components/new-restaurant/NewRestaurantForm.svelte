@@ -158,7 +158,6 @@
         error={form?.errors?.longitude?.[0]}
         readonly
       />
-      {JSON.stringify(form.open_hours)}
 
       <OpenHoursInput
         value={form.open_hours

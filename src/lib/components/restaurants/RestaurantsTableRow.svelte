@@ -6,8 +6,12 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { browser } from '$app/environment';
+	import { createEventDispatcher } from 'svelte';
 
 	export let restaurant: Restaurant & { register?: string; rating?: number };
+	export let selected: boolean = false;
+	
+	const dispatch = createEventDispatcher();
 
 	let openMenu = false;
 	let menuButton: HTMLDivElement;
@@ -77,7 +81,12 @@
 			role="button"
 			tabindex="0"
 		>
-			<Input type="checkbox" label="" />
+			<Input 
+				type="checkbox" 
+				label="" 
+				bind:value={selected}
+				on:change={() => dispatch('select')}
+			/>
 		</div></td
 	>
 	<td class="p-3 font-medium">{restaurant.name}</td>
