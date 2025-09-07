@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
-import { serverApiFetch }s from '$lib/utils/api-call-for-server';
+import { serverApiFetch } from '$lib/utils/api-call-for-server';
 import { withDbCache } from '$lib/cache/db-cache';
 import { generateETag } from '$lib/cache/http-cache';
 import { cacheConfig } from '$lib/cache/config';

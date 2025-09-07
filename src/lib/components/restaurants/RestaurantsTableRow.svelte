@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
+	import { browser } from '$app/environment';
 
 	export let restaurant: Restaurant & { register?: string; rating?: number };
 
@@ -17,7 +18,7 @@
 	}
 
 	async function updateMenuPosition() {
-		if (!menuButton || !menuElement) return;
+		if (!menuButton || !menuElement || !browser) return;
 		const btnRect = menuButton.getBoundingClientRect();
 		menuElement.style.top = `${btnRect.bottom + window.scrollY + 2}px`;
 		menuElement.style.left = `${btnRect.right + window.scrollX - menuElement.offsetWidth}px`;
@@ -33,23 +34,18 @@
 		}
 	}
 
-	function handleRowClick(event: MouseEvent) {
-		// Do not navigate if the click was on an interactive element like a button or an input.
-		const target = event.target as HTMLElement;
-		if (target.closest('button, input, a')) {
-			return;
-		}
-		goto(`/restaurants/${restaurant.id}`);
-	}
-
 	onMount(() => {
-		window.addEventListener('click', handleClickOutside, true);
-		window.addEventListener('resize', updateMenuPosition);
+		if (browser) {
+			window.addEventListener('click', handleClickOutside, true);
+			window.addEventListener('resize', updateMenuPosition);
+		}
 	});
 
 	onDestroy(() => {
-		window.removeEventListener('click', handleClickOutside, true);
-		window.removeEventListener('resize', updateMenuPosition);
+		if (browser) {
+			window.removeEventListener('click', handleClickOutside, true);
+			window.removeEventListener('resize', updateMenuPosition);
+		}
 	});
 </script>
 
