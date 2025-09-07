@@ -33,18 +33,18 @@ export const load: PageServerLoad = async ({ params, fetch: customFetch, request
     const combinedData = { menuItem, categories };
     const etag = generateETag(JSON.stringify(combinedData));
 
-    // Set HTTP cache headers
+    // Check client's ETag for 304 response first
+    const clientETag = request.headers.get('if-none-match');
+    const isNotModified = clientETag === etag;
+
+    // Set HTTP cache headers once
     setHeaders({
       'ETag': etag,
-      'Cache-Control': `public, max-age=${cacheConfig.ttl.dynamic / 1000}` // Convert ms to seconds
+      'Cache-Control': `public, max-age=${cacheConfig.ttl.dynamic / 1000}`, // Convert ms to seconds
+      ...(isNotModified && { 'Status': '304' })
     });
 
-    // Check client's ETag for 304 response
-    if (request.headers.get('if-none-match') === etag) {
-      throw error(304); // Throw 304 error for Not Modified
-    }
-
-    // Always return a plain object
+    // Always return a plain object (even for 304, the client will use cached data)
     return { menuItem, categories };
 
   } catch (err) {

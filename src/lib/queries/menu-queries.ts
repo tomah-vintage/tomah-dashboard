@@ -39,6 +39,28 @@ export const createAddMenuItemMutation = () => {
 	});
 };
 
+// Update a menu item
+export const createUpdateMenuItemMutation = () => {
+	const queryClient = useQueryClient();
+	return createMutation<MenuItem, Error, Partial<MenuItem> & { id: number }>({
+		mutationFn: (menuItem) =>
+			apiFetch<MenuItem>(`${PUBLIC_BACKEND_URL}/api/menu-item/${menuItem.id}/`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(menuItem)
+			}),
+		onSuccess: (data) => {
+			toast.success('Menu item updated successfully!');
+			queryClient.invalidateQueries({ queryKey: ['menuItems'] });
+			// Optionally, update the specific query data
+			queryClient.setQueryData(['menuItems', data.id], data);
+		},
+		onError: (error) => {
+			toast.error(`Error updating menu item: ${error.message}`);
+		}
+	});
+};
+
 // Delete a category
 export const createDeleteCategoryMutation = () => {
 	const queryClient = useQueryClient();
