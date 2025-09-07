@@ -1,42 +1,45 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
   import 'leaflet/dist/leaflet.css';
-  import L from 'leaflet';
 
   export let latitude: number;
   export let longitude: number;
 
   let mapContainer: HTMLElement;
-  let map: L.Map;
-  let marker: L.Marker;
+  let map: any;
+  let marker: any;
 
-  onMount(() => {
-    map = L.map(mapContainer).setView([latitude || 47.9186, longitude || 106.9176], 13);
+  onMount(async () => {
+    if (typeof window !== 'undefined') {
+      const L = await import('leaflet');
+      
+      map = L.map(mapContainer).setView([latitude || 47.9186, longitude || 106.9176], 13);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
 
-    marker = L.marker([latitude || 47.9186, longitude || 106.9176], { draggable: true }).addTo(map);
+      marker = L.marker([latitude || 47.9186, longitude || 106.9176], { draggable: true }).addTo(map);
 
-    marker.on('dragend', (event) => {
-      const { lat, lng } = event.target.getLatLng();
-      latitude = lat;
-      longitude = lng;
-      dispatch('locationselected', { latitude, longitude });
-    });
+      marker.on('dragend', (event: any) => {
+        const { lat, lng } = event.target.getLatLng();
+        latitude = lat;
+        longitude = lng;
+        dispatch('locationselected', { latitude, longitude });
+      });
 
-    map.on('click', (event) => {
-      const { lat, lng } = event.latlng;
-      marker.setLatLng([lat, lng]);
-      latitude = lat.toFixed(4);
-      longitude = lng.toFixed(4);
-      dispatch('locationselected', { latitude, longitude });
-    });
+      map.on('click', (event: any) => {
+        const { lat, lng } = event.latlng;
+        marker.setLatLng([lat, lng]);
+        latitude = parseFloat(lat.toFixed(4));
+        longitude = parseFloat(lng.toFixed(4));
+        dispatch('locationselected', { latitude, longitude });
+      });
+    }
   });
 
   onDestroy(() => {
-    if (map) {
+    if (typeof window !== 'undefined' && map) {
       map.remove();
     }
   });
@@ -45,7 +48,7 @@
   const dispatch = createEventDispatcher();
 
   // Reactively update marker position if latitude/longitude props change
-  $: if (marker && latitude && longitude) {
+  $: if (typeof window !== 'undefined' && marker && latitude && longitude) {
     marker.setLatLng([latitude, longitude]);
     map.setView([latitude, longitude]);
   }
