@@ -96,10 +96,10 @@
     handleMouseDown(mouseEvent, tableId);
   }
 
-  function handleTouchMove(event: TouchEvent) {
+  function handleTouchMove(_event: TouchEvent) {
     if (!dragging) return;
-    event.preventDefault();
-    const touch = event.touches[0];
+    _event.preventDefault();
+    const touch = _event.touches[0];
     const mouseEvent = new MouseEvent("mousemove", {
       clientX: touch.clientX,
       clientY: touch.clientY,
@@ -107,7 +107,7 @@
     handleMouseMove(mouseEvent);
   }
 
-  function handleTouchEnd(event: TouchEvent) {
+  function handleTouchEnd(_event: TouchEvent) {
     const mouseEvent = new MouseEvent("mouseup", {});
     handleMouseUp(mouseEvent);
   }
@@ -126,7 +126,7 @@
   }
 </script>
 
-<svelte:window on:touchmove={handleTouchMove} on:touchend={handleTouchEnd} />
+<svelte:window on:touchmove={(_event) => handleTouchMove(_event)} on:touchend={(_event) => handleTouchEnd(_event)} />
 
 <div
   bind:this={containerElement}

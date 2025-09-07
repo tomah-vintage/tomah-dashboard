@@ -4,7 +4,6 @@
   import CategoryFormModal from "./CategoryFormModal.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Plus, Upload, Search } from "lucide-svelte";
-  import type { Category } from "$lib/types/menu";
 
   export let restaurantId: number;
 
@@ -21,13 +20,6 @@
 </script>
 
 <div class="min-h-screen p-6 font-sans bg-gray-100">
-  <!-- Breadcrumbs -->
-  <div class="mb-4">
-    <span class="text-sm text-gray-500">
-      <a href="/menu" class="hover:underline">Цэс</a> &gt; Ангилал
-    </span>
-  </div>
-
   <div class="p-6 bg-white rounded-lg shadow">
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
@@ -66,7 +58,7 @@
     {:else if categories.length === 0}
       <div>Ангилал олдсонгүй.</div>
     {:else}
-      <CategoryList categories={categories} />
+      <CategoryList {categories} />
     {/if}
   </div>
 </div>

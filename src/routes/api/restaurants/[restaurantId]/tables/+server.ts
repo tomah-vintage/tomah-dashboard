@@ -2,7 +2,6 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { getTables, addTable } from '$lib/server/database';
 import type { Table } from '$lib/types/seating';
-import qrcode from 'qrcode';
 
 // GET /api/restaurants/[restaurantId]/tables
 export const GET: RequestHandler = ({ params }) => {
@@ -11,15 +10,13 @@ export const GET: RequestHandler = ({ params }) => {
 };
 
 // POST /api/restaurants/[restaurantId]/tables
-export const POST: RequestHandler = async ({ request, params, url }) => {
+export const POST: RequestHandler = async ({ request, params, url: _url }) => {
     const { name } = await request.json();
     const { restaurantId } = params;
 
     const tableId = crypto.randomUUID();
-    const orderUrl = `${url.origin}/order/${restaurantId}/${tableId}`;
 
     try {
-        const qrCodeUrl = await qrcode.toDataURL(orderUrl);
         const newTable: Table = {
             id: tableId,
             restaurant: restaurantId,

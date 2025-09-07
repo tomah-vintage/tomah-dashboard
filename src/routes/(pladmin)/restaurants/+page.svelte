@@ -5,8 +5,6 @@
 		RestaurantsTable,
 		RestaurantsTableSkeleton
 	} from '$lib/components/restaurants';
-	import type { PaginatedResponse } from '$lib/types/auth';
-	import type { Restaurant } from '$lib/types/restaurant';
 	import { Pagination } from '$lib/components/ui/pagination';
 
 	let currentPage = 1;

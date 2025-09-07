@@ -1,4 +1,4 @@
-import { redirect, json, error } from '@sveltejs/kit';
+import { redirect, error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import type { SeatingTable } from '$lib/types/seating';
 import { apiFetch } from '$lib/utils/api';

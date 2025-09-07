@@ -8,7 +8,7 @@ interface SeatingStoreState {
 }
 
 function createSeatingStore() {
-  const { subscribe, set, update } = writable<SeatingStoreState>({
+  const { subscribe, set: _set, update } = writable<SeatingStoreState>({
     tables: [],
     showTableEditorModal: false,
     editingTable: null,

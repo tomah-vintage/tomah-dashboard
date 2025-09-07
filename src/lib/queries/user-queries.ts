@@ -1,5 +1,5 @@
 import { createQuery } from '@tanstack/svelte-query';
-import type { User, PaginatedResponse, UserListData } from '$lib/types/auth';
+import type { PaginatedResponse, UserListData } from '$lib/types/auth';
 import { apiFetch } from '$lib/utils/api';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
 

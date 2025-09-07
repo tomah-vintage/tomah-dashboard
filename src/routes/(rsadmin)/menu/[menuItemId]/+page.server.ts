@@ -1,6 +1,6 @@
 import type { PageServerLoad, Actions } from "./$types";
 import { apiEndpoints } from "$lib/utils/menu-item-detail";
-import { error, fail, json } from "@sveltejs/kit";
+import { error, fail } from "@sveltejs/kit";
 import type { MenuItemDetail } from "$lib/types/menu-item-detail";
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
 import type { Category } from "$lib/types/category";

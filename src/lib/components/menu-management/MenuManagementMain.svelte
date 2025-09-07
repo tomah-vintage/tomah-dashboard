@@ -5,8 +5,6 @@
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
   import { Pagination } from "$lib/components/ui/pagination";
-  import type { PaginatedResponse } from "$lib/types/auth";
-  import type { MenuItem } from "$lib/types/menu";
 
   let currentPage = 1;
   let page_size = 10;
@@ -23,14 +21,6 @@
 </script>
 
 <div class="p-4 sm:p-6 bg-content-background">
-  <div class="mb-4">
-    <p class="text-sm text-gray-500">
-      <span class="cursor-pointer hover:underline">Хоолны цэс</span>
-      /
-      <span>Хоолны жагсаалт</span>
-    </p>
-  </div>
-
   <div class="p-4 rounded-lg shadow bg-card-background sm:p-6">
     <div
       class="flex flex-col items-start justify-between mb-4 sm:flex-row sm:items-center"
@@ -66,21 +56,21 @@
     {#if isLoading}
       <p>Loading...</p>
     {:else if isError}
-      <p>Алдаа: {error?.message || 'Тодорхойгүй алдаа'}</p>
+      <p>Алдаа: {error?.message || "Тодорхойгүй алдаа"}</p>
     {:else if menuItems.length === 0}
       <p>Хоолны цэс олдсонгүй.</p>
     {:else}
-      <MenuManagementList menuItems={menuItems} />
+      <MenuManagementList {menuItems} />
     {/if}
   </div>
 
   {#if !isLoading && !isError && paginatedData}
     <Pagination
-      currentPage={currentPage}
+      {currentPage}
       totalPages={Math.ceil(paginatedData.count / page_size)}
       onPageChange={handlePageChange}
       totalItems={paginatedData.count}
-      page_size={page_size}
+      {page_size}
     />
   {/if}
 </div>

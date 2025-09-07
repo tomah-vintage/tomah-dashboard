@@ -8,7 +8,7 @@ interface User {
 	id: number;
 	name: string;
 }
-let users: User[] = [
+const users: User[] = [
 	{ id: 1, name: 'Alice' },
 	{ id: 2, name: 'Bob' }
 ];

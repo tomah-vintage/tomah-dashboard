@@ -64,7 +64,7 @@ async function handleNetworkFirst<T>(key: string, ttl: number, url: string, fetc
 		const data = await response.json();
 		memoryCache.set(key, data, ttl);
 		return data;
-	} catch (error) {
+	} catch (_error) {
 		const cached = memoryCache.get<T>(key);
 		if (cached) {
 			return cached;
