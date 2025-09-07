@@ -36,12 +36,32 @@ export interface RestaurantFormData {
 	status: 'active' | 'inactive';
 }
 
+export interface DailyHours {
+  open: string; // e.g., "09:00"
+  close: string; // e.g., "17:00"
+}
+
+export type OpeningHours = {
+  [key: string]: DailyHours[]; // e.g., { "monday": [{ open: "09:00 AM", close: "05:00 PM" }], "tuesday": [] }
+};
+
+export interface FormattedDailyHours {
+  day_of_week: number;
+  opening_time: string;
+  closing_time: string;
+}
+
 export interface NewRestaurantFormData {
 	name: string;
-	representativeName: string;
-	phone: string;
-	registrationNumber: string;
-	workingHours: string;
 	address: string;
-	image?: File;
+	phone: string;
+	email: string;
+	logo_file: File | undefined;
+	latitude: number;
+	longitude: number;
+	open_hours: FormattedDailyHours[];
+	first_name: string;
+	last_name: string;
+	password: string;
+	role: number;
 }
