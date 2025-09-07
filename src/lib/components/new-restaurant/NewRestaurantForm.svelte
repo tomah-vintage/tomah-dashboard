@@ -102,6 +102,7 @@
         id="logo-uploader"
         name="logo_file"
         multiple={false}
+        layout="horizontal"
         on:select={(e) => (form.logo_file = e.detail.files[0])}
       />
     </div>
@@ -111,6 +112,7 @@
       <ImageUploader
         id="restaurant-images-uploader"
         name="restaurant_images"
+        showLayoutSelector={true}
         on:select={(e) => (form.restaurant_img_urls = e.detail.files)}
       />
     </div>

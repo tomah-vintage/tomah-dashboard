@@ -2,6 +2,14 @@ import { z } from 'zod';
 import { apiFetch } from '$lib/utils/api';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
 
+const variantSchema = z.object({
+  name: z.string().min(1, { message: 'Хувилбарын нэр оруулна уу' }),
+  price: z.number().refine((val) => !isNaN(val) && val > 0, {
+    message: 'Хувилбарын үнэ 0-с их байх ёстой',
+  }),
+  is_default: z.boolean().optional(),
+});
+
 export const menuItemFormSchema = z.object({
   name: z.string().min(1, { message: 'Нэр оруулна уу' }),
   description: z.string().min(1, { message: 'Тайлбар оруулна уу' }),
@@ -15,7 +23,21 @@ export const menuItemFormSchema = z.object({
       message: 'Калори оруулна уу',
     }),
     ingredients: z.array(z.string()).min(1, { message: 'Орц оруулна уу' }),
-  }),
+    has_variants: z.boolean(),
+    variants: z.array(variantSchema),
+  }).refine((meta_data) => {
+    // If has_variants is false, variants should be empty
+    if (!meta_data.has_variants) {
+      return meta_data.variants.length === 0;
+    }
+    
+    // If has_variants is true, variants should have at least one item
+    if (meta_data.has_variants) {
+      return meta_data.variants.length > 0;
+    }
+    
+    return true;
+  }, { message: 'Хувилбарын тохиргоо буруу байна', path: ['variants'] }),
   img_urls: z.array(z.any()).optional(),
 });
 

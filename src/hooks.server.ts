@@ -89,7 +89,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	if (sessionId) {
 		try {
-			let userResponse = await event.fetch(`${PUBLIC_BACKEND_URL}/api/me`, {
+			let userResponse = await event.fetch(`${PUBLIC_BACKEND_URL}/api/me/`, {
 				headers: {
 					Authorization: `Bearer ${sessionId}`
 				}
@@ -99,7 +99,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 				const newSessionId = await refreshSession(event);
 				if (newSessionId) {
 					sessionId = newSessionId;
-					userResponse = await event.fetch(`${PUBLIC_BACKEND_URL}/api/me`, {
+					userResponse = await event.fetch(`${PUBLIC_BACKEND_URL}/api/me/`, {
 						headers: {
 							Authorization: `Bearer ${sessionId}`
 						}

@@ -6,6 +6,13 @@ export interface Category {
   menu_item_count?: number; // Optional, for product count
 }
 
+export interface MenuItemVariant {
+	id?: number;
+	name: string;
+	price: number;
+	is_default?: boolean;
+}
+
 export interface MenuItem {
 	id: number;
 	name: string;
@@ -15,6 +22,8 @@ export interface MenuItem {
 	meta_data: {
 		calories: string;
 		ingredients: string[];
+		variants?: MenuItemVariant[];
+		has_variants?: boolean;
 	};
 	is_available: boolean;
 	created_at: string;
@@ -32,6 +41,8 @@ export interface MenuItemFormData {
 	meta_data: {
 		calories: number;
 		ingredients: string[];
+		variants: MenuItemVariant[];
+		has_variants: boolean;
 	};
 	img_urls: File[];
 }
@@ -45,6 +56,8 @@ export interface MenuItemFormForBackend {
 	meta_data: {
 		calories: number;
 		ingredients: string[];
+		variants?: MenuItemVariant[];
+		has_variants: boolean;
 	};
 	img_urls: string[];
 	restaurant: number;
