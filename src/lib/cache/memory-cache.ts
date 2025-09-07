@@ -9,8 +9,8 @@ interface CacheEntry<T> {
 	isCompressed: boolean;
 }
 
-export class MemoryCache<T> implements Cache<T> {
-	private readonly cache = new Map<string, CacheEntry<T>>();
+export class MemoryCache implements Cache {
+	private readonly cache = new Map<string, CacheEntry<any>>();
 	private readonly refreshTimeouts = new Map<string, NodeJS.Timeout>();
 	private readonly cleanupInterval: NodeJS.Timeout;
 
@@ -21,7 +21,7 @@ export class MemoryCache<T> implements Cache<T> {
 		this.cleanupInterval = setInterval(() => this.cleanup(), cleanupIntervalMs);
 	}
 
-	get(key: string): T | undefined {
+	get<T>(key: string): T | undefined {
 		const entry = this.cache.get(key);
 		if (!entry) {
 			this.misses++;
@@ -38,13 +38,13 @@ export class MemoryCache<T> implements Cache<T> {
 
 		if (entry.isCompressed) {
 			const decompressed = inflateSync(entry.value as Buffer);
-			return JSON.parse(decompressed.toString());
+			return JSON.parse(decompressed.toString()) as T;
 		}
 
 		return entry.value as T;
 	}
 
-	set(key: string, value: T, ttl: number): void {
+	set<T>(key: string, value: T, ttl: number): void {
 		const expireAt = Date.now() + ttl;
 		const valueStr = JSON.stringify(value);
 		let valueToStore: Buffer | T = value;
@@ -58,7 +58,7 @@ export class MemoryCache<T> implements Cache<T> {
 		this.cache.set(key, { value: valueToStore, expireAt, isCompressed });
 	}
 
-	async setWithBackgroundRefresh(
+	async setWithBackgroundRefresh<T>(
 		key: string,
 		ttl: number,
 		refreshFn: () => Promise<T>

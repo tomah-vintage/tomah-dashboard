@@ -3,7 +3,7 @@ import type { RequestHandler } from './$types';
 import { withDbCache, invalidateDbCacheByTags } from '$lib/cache/db-cache';
 import { generateETag, setCacheHeaders } from '$lib/cache/http-cache';
 import { cacheConfig } from '$lib/cache/config';
-import { productsDb } from '../_db'; // Mock database
+import { productsDb } from '../../../_db'; // Mock database
 
 /**
  * GET: Returns a single product by ID.

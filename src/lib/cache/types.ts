@@ -1,6 +1,6 @@
-export interface Cache<T> {
-	get(key: string): T | undefined;
-	set(key: string, value: T, ttl: number): void;
+export interface Cache {
+	get<T>(key: string): T | undefined;
+	set<T>(key: string, value: T, ttl: number): void;
 	delete(key: string): void;
 	clear(): void;
 }

@@ -4,7 +4,7 @@ import { withDbCache } from '$lib/cache/db-cache';
 import { withApiCache } from '$lib/cache/api-cache';
 import { memoryCache } from '$lib/cache/memory-cache';
 import { cacheConfig } from '$lib/cache/config';
-import { productsDb } from '../_db';
+import { productsDb } from '../../../_db';
 
 const REPORT_CACHE_KEY = 'complex-report';
 
@@ -14,7 +14,7 @@ async function generateComplexReport() {
 	const start = Date.now();
 
 	// 1. Fetch data from an external source (e.g., analytics API)
-	const externalData = await withApiCache(
+	const externalData = await withApiCache<any[]>(
 		'https://jsonplaceholder.typicode.com/users', // Using users for variety
 		{
 			strategy: 'network-first',
