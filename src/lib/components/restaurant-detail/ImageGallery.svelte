@@ -13,9 +13,6 @@
           alt="Restaurant gallery image {i + 1}"
           class="w-full h-full object-cover rounded-lg shadow-md"
         />
-        <div
-          class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center rounded-lg"
-        ></div>
       </button>
     {/each}
   </div>

@@ -3,8 +3,7 @@
   import ImageUploader from "./ImageUploader.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
-  import { onMount } from "svelte";
-  import type MapPicker from "$lib/components/ui/map-picker/MapPicker.svelte";
+  import MapPicker from "$lib/components/ui/map-picker/MapPicker.svelte";
   import OpenHoursInput from "$lib/components/ui/open-hours-input/OpenHoursInput.svelte";
   import type {
     OpeningHours,
@@ -16,15 +15,6 @@
   form = form ?? {};
 
   let submitting = false;
-
-  let MapPickerComponent: typeof MapPicker | null = null;
-
-  onMount(async () => {
-    const module = await import(
-      "$lib/components/ui/map-picker/MapPicker.svelte"
-    );
-    MapPickerComponent = module.default;
-  });
 
   function handleLocationSelected(
     event: CustomEvent<{ latitude: number; longitude: number }>
@@ -143,16 +133,11 @@
         bind:value={form.address}
         error={form?.errors?.address?.[0]}
       />
-      {#if MapPickerComponent}
-        <svelte:component
-          this={MapPickerComponent}
-          bind:latitude={form.latitude}
-          bind:longitude={form.longitude}
-          on:locationselected={handleLocationSelected}
-        />
-      {:else}
-        <div>Ачаалж байна...</div>
-      {/if}
+      <MapPicker
+        bind:latitude={form.latitude}
+        bind:longitude={form.longitude}
+        on:locationselected={handleLocationSelected}
+      />
       <Input
         id="latitude"
         name="latitude"
