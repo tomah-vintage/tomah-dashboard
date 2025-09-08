@@ -142,14 +142,14 @@
 
     // Move all tables
     tables.forEach(async (table) => {
-      const newX = Math.max(
+      const newX = Math.round(Math.max(
         0,
         Math.min(canvas.width - table.width, table.x + offsetX)
-      );
-      const newY = Math.max(
+      ));
+      const newY = Math.round(Math.max(
         0,
         Math.min(canvas.height - table.height, table.y + offsetY)
-      );
+      ));
 
       const updatedTable: SeatingTable = {
         ...table,
@@ -201,8 +201,8 @@
     if (tableToUpdate) {
       const updatedTable: SeatingTable = {
         ...tableToUpdate,
-        x,
-        y,
+        x: Math.round(x),
+        y: Math.round(y),
       };
       await $updateTableMutation.mutateAsync(updatedTable);
     }

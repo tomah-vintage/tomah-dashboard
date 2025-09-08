@@ -70,7 +70,7 @@
     const newY = (event.clientY - containerRect.top - dragOffset.y - canvasTransform.y) / canvasTransform.scale;
 
     // Update table position in store (local UI update)
-    seatingStore.moveTable(draggedTableId, Math.max(0, newX), Math.max(0, newY));
+    seatingStore.moveTable(draggedTableId, Math.round(Math.max(0, newX)), Math.round(Math.max(0, newY)));
   }
 
   function handleMouseUp(event: MouseEvent) {
@@ -271,21 +271,21 @@
               seatingStore.moveTable(
                 table.id,
                 table.x,
-                Math.max(0, table.y - 10)
+                Math.round(Math.max(0, table.y - 10))
               );
             } else if (e.key === "ArrowDown") {
               e.preventDefault();
-              seatingStore.moveTable(table.id, table.x, table.y + 10);
+              seatingStore.moveTable(table.id, table.x, Math.round(table.y + 10));
             } else if (e.key === "ArrowLeft") {
               e.preventDefault();
               seatingStore.moveTable(
                 table.id,
-                Math.max(0, table.x - 10),
+                Math.round(Math.max(0, table.x - 10)),
                 table.y
               );
             } else if (e.key === "ArrowRight") {
               e.preventDefault();
-              seatingStore.moveTable(table.id, table.x + 10, table.y);
+              seatingStore.moveTable(table.id, Math.round(table.x + 10), table.y);
             }
           }}
         >

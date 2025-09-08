@@ -9,6 +9,7 @@
     ChartColumnIncreasing,
     LayoutDashboard,
     Settings,
+    Image,
   } from "lucide-svelte";
 
   import { sessionStore } from "$lib/stores/sessionStore";
@@ -31,7 +32,16 @@
   <div>
     <!-- Header/Logo Section -->
     <div class="flex items-center p-4 mb-8">
-      <h2 class="text-xl font-bold text-red-500">Том Ах ресторан</h2>
+      {#if $sessionStore.user?.restaurant?.logo}
+        <img 
+          src={$sessionStore.user.restaurant.logo} 
+          alt="{$sessionStore.user.restaurant.name} logo"
+          class="w-8 h-8 rounded-full mr-3 object-cover"
+        />
+      {/if}
+      <h2 class="text-xl font-bold text-red-500">
+        {$sessionStore.user?.restaurant?.name || 'Ресторан'}
+      </h2>
     </div>
 
     <!-- Navigation Menu -->
@@ -67,6 +77,7 @@
 
         {#if $sessionStore.user?.role_name === "restaurant"}
           <SidebarButton href="/seating" label="Ширээ" icon={Store} />
+          <SidebarButton href="/banners" label="Баннер" icon={Image} />
           <SidebarButton
             href="/settings"
             label="Тохиргоо"

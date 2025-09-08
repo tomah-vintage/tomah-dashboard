@@ -1,13 +1,13 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import type { SeatingTable } from '$lib/types/seating';
-import { apiFetch } from '$lib/utils/api';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
 import { withDbCache } from '$lib/cache/db-cache';
 import { generateETag } from '$lib/cache/http-cache';
 import { cacheConfig } from '$lib/cache/config';
+import { serverApiFetch } from '$lib/utils/api-call-for-server';
 
-export const load: PageServerLoad = async ({ locals, setHeaders }) => {
+export const load: PageServerLoad = async ({ locals, setHeaders, ...rest }) => {
   const user = locals.user;
   const userRole = user?.role_name;
 
@@ -21,7 +21,11 @@ export const load: PageServerLoad = async ({ locals, setHeaders }) => {
 
     const getTablesFromApi = async () => {
       console.log('Fetching seating tables from API...');
-      return apiFetch<SeatingTable[]>(`${PUBLIC_BACKEND_URL}/api/table/`);
+      return serverApiFetch<SeatingTable[]>(rest.fetch, `${PUBLIC_BACKEND_URL}/api/table/`, {
+        headers: {
+          'Authorization': `Bearer ${rest.cookies.get('session')}`
+        }
+      });
     };
 
     const tables = await withDbCache(
