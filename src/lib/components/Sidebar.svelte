@@ -10,6 +10,7 @@
     LayoutDashboard,
     Settings,
     Image,
+    MessageSquare,
   } from "@lucide/svelte";
 
   import { sessionStore } from "$lib/stores/sessionStore";
@@ -66,6 +67,13 @@
             href="/users"
             label="Хэрэглэгчид"
             icon={Users}
+          />
+        {/if}
+        {#if $sessionStore.user?.role_name === "admin"}
+          <SidebarButton
+            href="/reviews"
+            label="Үнэлгээ"
+            icon={MessageSquare}
             class="mb-4"
           />
         {/if}
@@ -78,6 +86,7 @@
         {#if $sessionStore.user?.role_name === "restaurant"}
           <SidebarButton href="/seating" label="Ширээ" icon={Store} />
           <SidebarButton href="/banners" label="Баннер" icon={Image} />
+          <SidebarButton href="/reviews" label="Үнэлгээ" icon={MessageSquare} />
           <SidebarButton
             href="/settings"
             label="Тохиргоо"
