@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Search, Filter, Plus, FileDown } from "lucide-svelte";
+  import { Search, Filter, Plus, FileDown } from "@lucide/svelte";
   import MenuManagementList from "./MenuManagementList.svelte";
   import { createGetMenuItemsQuery } from "$lib/queries/menu-queries";
   import { Button } from "$lib/components/ui/button";

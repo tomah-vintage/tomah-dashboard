@@ -2,7 +2,7 @@
   import UserList from "$lib/components/user-control/UserList.svelte";
   import { createGetUsersQuery } from "$lib/queries/user-queries";
   import { Button } from "$lib/components/ui/button";
-  import { Plus, Search, SlidersHorizontal } from "lucide-svelte";
+  import { Plus, Search, SlidersHorizontal } from "@lucide/svelte";
   import type { UserListData, PaginatedResponse } from "$lib/types/auth";
   import { Pagination } from "$lib/components/ui/pagination";
 

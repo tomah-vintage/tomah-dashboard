@@ -4,7 +4,7 @@
   import { PUBLIC_BACKEND_URL } from "$env/static/public";
   import { Input } from "$lib/components/ui/input";
   import { Button } from "$lib/components/ui/button";
-  import { X } from "lucide-svelte";
+  import { X } from "@lucide/svelte";
   import type { Category } from "$lib/types/category";
   import { z } from "zod";
 

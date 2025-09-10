@@ -3,7 +3,7 @@
   import Chart from "chart.js/auto";
   import type { SalesChartData } from "$lib/types/dashboard";
   import { Button } from "$lib/components/ui/button";
-  import { Download } from "lucide-svelte";
+  import { Download } from "@lucide/svelte";
 
   export let data: SalesChartData;
 

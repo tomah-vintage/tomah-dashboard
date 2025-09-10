@@ -91,8 +91,8 @@
   </div>
 {:else}
   <div>
-    <label for={id} class="mb-1 block text-sm font-medium {error ? 'text-red-700' : 'text-gray-700'}"
-      >{label}{#if error}<span class="text-red-500 ml-1">*</span>{/if}</label
+    <label for={id} class="mb-1 block text-sm font-medium {error && error.length > 0 ? 'text-red-700' : 'text-gray-700'}"
+      >{label}{#if error && error.length > 0}<span class="text-red-500 ml-1">*</span>{/if}</label
     >
     <div class="relative">
       {#if type === "textarea"}
@@ -159,7 +159,7 @@
         <slot name="action" />
       </div>
     </div>
-    {#if error}
+    {#if error && error.length > 0}
       <div class="mt-1 flex items-center space-x-1 animate-in slide-in-from-top-1 duration-200">
         <svg class="w-4 h-4 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />

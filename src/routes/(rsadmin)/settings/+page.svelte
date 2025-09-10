@@ -1,6 +1,6 @@
 <script lang="ts">
   import RestaurantSettingsMain from "$lib/components/restaurant-settings/RestaurantSettingsMain.svelte";
-  import { ChevronRight } from "lucide-svelte";
+  import { ChevronRight } from "@lucide/svelte";
   import { base } from "$app/paths";
   import type { Restaurant } from "$lib/types/restaurant";
   export let data;

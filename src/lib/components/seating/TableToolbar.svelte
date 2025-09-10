@@ -1,6 +1,6 @@
 <script lang="ts">
     import Button from '$lib/components/ui/button/Button.svelte';
-    import { Plus, Trash2, Filter, Grid3x3, Users, BarChart3 } from 'lucide-svelte';
+    import { Plus, Trash2, Filter, Grid3x3, Users, BarChart3 } from '@lucide/svelte';
     import { createEventDispatcher } from 'svelte';
     import type { SeatingTable } from '$lib/types/seating';
     

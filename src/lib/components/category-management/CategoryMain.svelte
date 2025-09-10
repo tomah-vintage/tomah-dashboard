@@ -3,7 +3,7 @@
   import CategoryList from "./CategoryList.svelte";
   import CategoryFormModal from "./CategoryFormModal.svelte";
   import { Button } from "$lib/components/ui/button";
-  import { Plus, Upload, Search } from "lucide-svelte";
+  import { Plus, Upload, Search } from "@lucide/svelte";
 
   export let restaurantId: number;
 

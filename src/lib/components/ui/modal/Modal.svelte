@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { X } from "lucide-svelte";
+  import { X } from "@lucide/svelte";
 
   export let isOpen: boolean;
   export let onClose: () => void;

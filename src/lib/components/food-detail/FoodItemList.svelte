@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Heart } from 'lucide-svelte';
+  import { Heart } from '@lucide/svelte';
   import type { MenuItem } from '$lib/types/menu';
 
   let { 

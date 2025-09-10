@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { UserListData } from "$lib/types/auth";
-  import { MoreHorizontal } from "lucide-svelte";
+  import { MoreHorizontal } from "@lucide/svelte";
 
   export let users: UserListData[];
 

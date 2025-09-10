@@ -3,7 +3,7 @@
   import { Input } from "$lib/components/ui/input";
   import ImageUploader from "$lib/components/new-restaurant/ImageUploader.svelte";
   import MenuVariantManager from "$lib/components/menu-management/MenuVariantManager.svelte";
-  import { X, Save } from "lucide-svelte";
+  import { X, Save } from "@lucide/svelte";
   import type { MenuItem } from "$lib/types/menu";
   import { toast } from "svelte-french-toast";
   import { createUpdateMenuItemMutation } from "$lib/queries/menu-queries";

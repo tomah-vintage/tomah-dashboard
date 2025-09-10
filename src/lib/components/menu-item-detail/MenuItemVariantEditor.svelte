@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Input } from "$lib/components/ui/input";
   import { Button } from "$lib/components/ui/button";
-  import { Plus, Trash2 } from "lucide-svelte";
+  import { Plus, Trash2 } from "@lucide/svelte";
   import type { MenuItemVariant } from "$lib/types/menu-item-detail";
 
   let { variants = $bindable([]) } = $props<{ variants: MenuItemVariant[] }>();

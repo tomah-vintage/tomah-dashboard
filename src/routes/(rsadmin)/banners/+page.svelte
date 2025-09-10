@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageData } from "./$types";
   import { Button } from "$lib/components/ui/button";
-  import { Plus, Image, LayoutGrid, Settings } from "lucide-svelte";
+  import { Plus, Image, LayoutGrid, Settings } from "@lucide/svelte";
   import type { Banner, BannerPosition } from "$lib/types/banner";
   import { BannerLayoutType } from "$lib/types/banner";
   import {

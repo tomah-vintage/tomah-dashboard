@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { UserActivity } from "$lib/types/dashboard";
-  import { ArrowRight } from "lucide-svelte";
+  import { ArrowRight } from "@lucide/svelte";
 
   export let users: UserActivity[];
 </script>

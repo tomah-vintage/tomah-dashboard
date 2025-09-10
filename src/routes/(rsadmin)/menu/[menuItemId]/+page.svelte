@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { base } from "$app/paths";
-  import { Search, Filter, Plus } from "lucide-svelte";
+  import { Search, Filter, Plus } from "@lucide/svelte";
   import { Button } from "$lib/components/ui/button";
   import FoodItemList from "$lib/components/food-detail/FoodItemList.svelte";
   import FoodEditForm from "$lib/components/food-detail/FoodEditForm.svelte";

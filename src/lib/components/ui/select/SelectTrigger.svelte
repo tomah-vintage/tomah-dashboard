@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getContext } from "svelte";
-  import { ChevronDown } from "lucide-svelte";
+  import { ChevronDown } from "@lucide/svelte";
 
   export let placeholder = "Select an option...";
   

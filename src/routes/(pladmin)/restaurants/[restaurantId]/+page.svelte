@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageData } from "./$types";
   import ImageGallery from "$lib/components/restaurant-detail/ImageGallery.svelte";
-  import { MapPin, Clock, Info, Image, MessageCircle, Star } from 'lucide-svelte';
+  import { MapPin, Clock, Info, Image, MessageCircle, Star } from '@lucide/svelte';
 
   export let data: PageData;
   console.log(data.restaurant);

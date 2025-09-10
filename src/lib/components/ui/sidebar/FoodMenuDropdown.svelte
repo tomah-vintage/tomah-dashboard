@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Pizza, ChevronDown } from "lucide-svelte";
+  import { Pizza, ChevronDown } from "@lucide/svelte";
   import { slide } from "svelte/transition";
   import { page } from "$app/stores";
   import { base } from "$app/paths";

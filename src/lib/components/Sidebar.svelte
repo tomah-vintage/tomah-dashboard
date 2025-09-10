@@ -10,7 +10,7 @@
     LayoutDashboard,
     Settings,
     Image,
-  } from "lucide-svelte";
+  } from "@lucide/svelte";
 
   import { sessionStore } from "$lib/stores/sessionStore";
   import SidebarButton from "./ui/sidebar/SidebarButton.svelte";

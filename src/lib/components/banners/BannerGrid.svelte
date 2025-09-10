@@ -11,7 +11,7 @@
     GripVertical,
     Eye,
     EyeOff,
-  } from "lucide-svelte";
+  } from "@lucide/svelte";
 
   const dispatch = createEventDispatcher();
 

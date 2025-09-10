@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createLoginMutation } from "$lib/queries/auth-queries";
   import { goto } from "$app/navigation";
-  import { Eye, EyeOff } from "lucide-svelte";
+  import { Eye, EyeOff } from "@lucide/svelte";
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
   import { page } from "$app/stores";
@@ -90,8 +90,9 @@
     </form>
     <div class="mt-8 text-center text-sm text-gray-600">
       <span>Бүртгэлтэй байгаа юу? </span>
-      <a href="{base}/register" class="font-medium text-primary-blue hover:underline"
-        >Бүртгүүлэх</a
+      <a
+        href="{base}/register"
+        class="font-medium text-primary-blue hover:underline">Бүртгүүлэх</a
       >
     </div>
   </div>

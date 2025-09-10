@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
+	import { ChevronLeft, ChevronRight } from '@lucide/svelte';
 </script>
 
 <div class="flex items-center justify-between pt-6 text-sm">

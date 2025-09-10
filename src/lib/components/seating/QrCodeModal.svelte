@@ -3,7 +3,7 @@
   import type { SeatingTable } from "$lib/types/seating";
   import { Modal } from "$lib/components/ui/modal";
   import { Button } from "$lib/components/ui/button";
-  import { Printer } from "lucide-svelte";
+  import { Printer } from "@lucide/svelte";
 
   export let open: boolean;
   export let table: SeatingTable | null;

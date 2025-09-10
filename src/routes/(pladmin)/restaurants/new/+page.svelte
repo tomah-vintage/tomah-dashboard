@@ -1,6 +1,6 @@
 <script lang="ts">
   import { NewRestaurantMain } from "$lib/components/new-restaurant";
-  import { ChevronRight } from "lucide-svelte";
+  import { ChevronRight } from "@lucide/svelte";
   import { base } from "$app/paths";
   export let form;
 </script>

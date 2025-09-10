@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Plus, X, Star, AlertCircle } from "lucide-svelte";
+  import { Plus, X, Star, AlertCircle } from "@lucide/svelte";
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
   import type { MenuItemVariant } from "$lib/types/menu";

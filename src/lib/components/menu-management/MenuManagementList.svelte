@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { MoreVertical, Pencil, Trash2, ChevronUp } from 'lucide-svelte';
+	import { MoreVertical, Pencil, Trash2, ChevronUp } from '@lucide/svelte';
 	import type { MenuItem } from '$lib/types/menu';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';

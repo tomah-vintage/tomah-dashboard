@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-  import { UploadCloud, X, Image, Grid3X3, Rows, Columns } from "lucide-svelte";
+  import { UploadCloud, X, Image, Grid3X3, Rows, Columns } from "@lucide/svelte";
   import { Button } from "$lib/components/ui/button";
 
   export let multiple: boolean = true;

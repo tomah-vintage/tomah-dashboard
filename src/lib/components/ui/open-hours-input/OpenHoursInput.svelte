@@ -2,7 +2,7 @@
   import type { OpeningHours } from '$lib/types/restaurant';
   import { createEventDispatcher } from 'svelte';
   import TimePicker from '../time-picker/TimePicker.svelte';
-  import { Plus, X } from 'lucide-svelte';
+  import { Plus, X } from '@lucide/svelte';
 
   export let value: OpeningHours = {};
 

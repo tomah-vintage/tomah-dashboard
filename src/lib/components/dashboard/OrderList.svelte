@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { OrderItem } from "$lib/types/dashboard";
-  import { ArrowRight } from "lucide-svelte";
+  import { ArrowRight } from "@lucide/svelte";
 
   export let orders: OrderItem[];
 </script>

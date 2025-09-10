@@ -3,7 +3,7 @@
   import { Modal } from "$lib/components/ui/modal";
   import { Button } from "$lib/components/ui/button";
   import { createEventDispatcher } from "svelte";
-  import { Loader2 } from "lucide-svelte";
+  import { Loader2 } from "@lucide/svelte";
 
   export let isLoading = false;
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-svelte";
+  import { X, ChevronLeft, ChevronRight, ZoomIn } from "@lucide/svelte";
 
   export let images: string[] | undefined = [];
 

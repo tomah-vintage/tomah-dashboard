@@ -16,7 +16,7 @@ SvelteKit, TypeScript, Tailwind CSS, Skeleton UI (for base components if applica
 ### Development Steps
 
 #### 1. Setup & Dependencies
-- Ensure necessary icon library is installed (e.g., `lucide-svelte` or `svelte-heroicons`). If not, install it.
+- Ensure necessary icon library is installed (e.g., `@lucide/svelte` or `svelte-heroicons`). If not, install it.
 - Review Tailwind CSS configuration for custom colors/spacing if needed.
 
 #### 2. Component Restructuring (`src/lib/components/Sidebar.svelte`)

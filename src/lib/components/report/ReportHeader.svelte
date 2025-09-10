@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Search, Filter, Download } from 'lucide-svelte';
+	import { Search, Filter, Download } from '@lucide/svelte';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 

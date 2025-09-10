@@ -5,7 +5,7 @@
   import { Badge } from "$lib/components/ui/badge";
   import type { Banner } from "$lib/types/banner";
   import { BannerLayoutType } from "$lib/types/banner";
-  import { GripVertical, Eye, EyeOff, ExternalLink } from "lucide-svelte";
+  import { GripVertical, Eye, EyeOff, ExternalLink } from "@lucide/svelte";
 
   const dispatch = createEventDispatcher();
 

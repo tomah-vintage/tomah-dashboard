@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Star, Eye, Pencil, MoreVertical } from 'lucide-svelte';
+	import { Star, Eye, Pencil, MoreVertical } from '@lucide/svelte';
 	import type { Restaurant } from '$lib/types/restaurant';
 	import { onMount, onDestroy, tick } from 'svelte';
 	  import { goto } from "$app/navigation";

@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { DashboardHeaderCardData } from "$lib/types/dashboard";
-  import { Box, History, Users } from "lucide-svelte";
+  import { Box, History, Users } from "@lucide/svelte";
   import { formatCurrency } from "$lib/utils/menu-management";
 
   export let data: DashboardHeaderCardData;

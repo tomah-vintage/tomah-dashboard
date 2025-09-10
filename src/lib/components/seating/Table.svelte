@@ -2,7 +2,7 @@
   import type { SeatingTable } from '$lib/types/seating';
   import { TableShape } from '$lib/types/seating';
   import { createEventDispatcher } from 'svelte';
-  import { Edit, Trash2, QrCode } from 'lucide-svelte';
+  import { Edit, Trash2, QrCode } from '@lucide/svelte';
 
   export let table: SeatingTable;
 

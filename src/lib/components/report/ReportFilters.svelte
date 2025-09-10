@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ArrowRightLeft } from 'lucide-svelte';
+	import { ArrowRightLeft } from '@lucide/svelte';
 	import { Input } from '$lib/components/ui/input';
 
 	export let activeFilter: string;

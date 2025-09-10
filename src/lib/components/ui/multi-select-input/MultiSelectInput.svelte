@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Category } from "$lib/types/menu";
-  import { X, ChevronDown } from "lucide-svelte"; // Re-add X import
+  import { X, ChevronDown } from "@lucide/svelte"; // Re-add X import
 
   let {
     id,

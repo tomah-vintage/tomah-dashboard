@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import CreateUserForm from "./CreateUserForm.svelte";
-  import { X } from "lucide-svelte";
+  import { X } from "@lucide/svelte";
   import { Button } from "$lib/components/ui/button";
 
   export let showModal: boolean;

@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Category } from "$lib/types/category";
-  import { FilePen, Trash2 } from "lucide-svelte";
+  import { FilePen, Trash2 } from "@lucide/svelte";
   import CategoryDeleteModal from "./CategoryDeleteModal.svelte";
   import { createDeleteCategoryMutation } from "$lib/queries/menu-queries";
   import toast from "svelte-french-toast";

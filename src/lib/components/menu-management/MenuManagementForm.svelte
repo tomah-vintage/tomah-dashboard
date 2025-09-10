@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ArrowLeft, AlertCircle, CheckCircle } from "lucide-svelte";
+  import { ArrowLeft, AlertCircle, CheckCircle } from "@lucide/svelte";
   import {
     MenuManagementActions,
     MenuManagementFields,
