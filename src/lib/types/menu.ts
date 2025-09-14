@@ -26,6 +26,7 @@ export interface MenuItem {
 		has_variants?: boolean;
 	};
 	is_available: boolean;
+	is_emphasized?: boolean;
 	created_at: string;
 	updated_at: string;
 	restaurant: number;

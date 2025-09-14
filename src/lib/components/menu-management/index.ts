@@ -5,3 +5,5 @@ export { default as MenuManagementImageUploader } from './MenuManagementImageUpl
 export { default as MenuManagementFields } from './MenuManagementFields.svelte';
 export { default as MenuManagementActions } from './MenuManagementActions.svelte';
 export { default as MenuVariantManager } from './MenuVariantManager.svelte';
+export { default as MenuHighlightsMain } from './MenuHighlightsMain.svelte';
+export { default as MenuHighlightsList } from './MenuHighlightsList.svelte';

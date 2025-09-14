@@ -50,11 +50,11 @@
       </li>
       <li>
         <a
-          href="{base}/menu/addons"
+          href="{base}/menu/highlights"
           class="text-sm hover:text-gray-300"
-          class:text-blue-400={$page.url.pathname === '/menu/addons'}
-          class:text-gray-500={$page.url.pathname !== '/menu/addons'}
-          >Нэмэлт</a
+          class:text-blue-400={$page.url.pathname === '/menu/highlights'}
+          class:text-gray-500={$page.url.pathname !== '/menu/highlights'}
+          >Онцлох хоол</a
         >
       </li>
     </ul>
