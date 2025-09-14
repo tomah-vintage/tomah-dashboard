@@ -109,11 +109,8 @@ export async function fetchOrders(params: {
 
   const url = `${PUBLIC_BACKEND_URL}/api/order/${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
 
-  console.log('Fetching orders from:', url); // Debug log
-
   try {
-    const data = await apiFetch(url, {}, 'json');
-    console.log('Orders response:', data); // Debug log
+    const data = await apiFetch(url);
     return data;
   } catch (error) {
     console.error('Failed to fetch orders:', error);
