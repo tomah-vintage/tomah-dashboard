@@ -11,6 +11,7 @@
     Settings,
     Image,
     MessageSquare,
+    ShoppingCart,
   } from "@lucide/svelte";
 
   import { sessionStore } from "$lib/stores/sessionStore";
@@ -84,6 +85,7 @@
         {/if}
 
         {#if $sessionStore.user?.role_name === "restaurant"}
+          <SidebarButton href="/orders" label="Захиалга" icon={ShoppingCart} />
           <SidebarButton href="/seating" label="Ширээ" icon={Store} />
           <SidebarButton href="/banners" label="Баннер" icon={Image} />
           <SidebarButton href="/reviews" label="Үнэлгээ" icon={MessageSquare} />
