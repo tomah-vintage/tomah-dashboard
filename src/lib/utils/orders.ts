@@ -1,6 +1,8 @@
 import { Clock, Package, Utensils, CheckCircle, XCircle } from "@lucide/svelte";
-import { OrderStatus } from "$lib/types/order";
+import { OrderStatus, OrderType } from "$lib/types/order";
 import type { ComponentType } from "svelte";
+import { apiFetch } from "$lib/utils/api";
+import { PUBLIC_BACKEND_URL } from "$env/static/public";
 
 export function getStatusColor(status: OrderStatus): string {
   switch (status) {
@@ -39,46 +41,82 @@ export function getStatusIcon(status: OrderStatus): ComponentType {
 export function getStatusLabel(status: OrderStatus): string {
   switch (status) {
     case OrderStatus.PENDING:
-      return "Pending";
+      return "Хүлээгдэж буй";
     case OrderStatus.PREPARING:
-      return "Preparing";
+      return "Бэлтгэж байна";
     case OrderStatus.IN_BOX:
-      return "In Box";
+      return "Хайрцагт орсон";
     case OrderStatus.DONE:
-      return "Done";
+      return "Дууссан";
     case OrderStatus.CANCELLED:
-      return "Cancelled";
+      return "Цуцлагдсан";
     default:
       return status;
   }
 }
 
+export function getOrderTypeLabel(type: OrderType): string {
+  switch (type) {
+    case OrderType.DINE_IN:
+      return "Газар дээр идэх";
+    case OrderType.TAKE_OUT:
+      return "Авч явах";
+    default:
+      return type;
+  }
+}
+
+export function getDateRangeLabel(range: string): string {
+  switch (range) {
+    case "today":
+      return "Өнөөдөр";
+    case "yesterday":
+      return "Өчигдөр";
+    case "last_7_days":
+      return "Сүүлийн 7 хоног";
+    case "last_30_days":
+      return "Сүүлийн 30 хоног";
+    case "this_week":
+      return "Энэ долоо хоног";
+    case "this_month":
+      return "Энэ сар";
+    case "last_week":
+      return "Өнгөрсөн долоо хоног";
+    case "last_month":
+      return "Өнгөрсөн сар";
+    default:
+      return "Бүх хугацаа";
+  }
+}
+
+
 export async function fetchOrders(params: {
-  searchTerm?: string;
+  user?: string;
   selectedStatus?: string;
   selectedOrderType?: string;
+  selectedDateRange?: string;
   currentPage?: number;
 }) {
   const queryParams = new URLSearchParams();
-  
-  if (params.searchTerm) queryParams.append("search", params.searchTerm);
-  if (params.selectedStatus) queryParams.append("status", params.selectedStatus);
+
+  if (params.user) queryParams.append("user", params.user);
+  if (params.selectedStatus) queryParams.append("order_status", params.selectedStatus);
   if (params.selectedOrderType) queryParams.append("order_type", params.selectedOrderType);
+  if (params.selectedDateRange) queryParams.append("date_range", params.selectedDateRange);
   if (params.currentPage && params.currentPage > 1) {
     queryParams.append("page", params.currentPage.toString());
   }
 
-  const url = `${import.meta.env.VITE_PUBLIC_BACKEND_URL || "http://localhost:8000"}/api/order/${
-    queryParams.toString() ? "?" + queryParams.toString() : ""
-  }`;
+  const url = `${PUBLIC_BACKEND_URL}/api/order/${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
 
-  const response = await fetch(url, {
-    headers: { "Content-Type": "application/json" },
-  });
+  console.log('Fetching orders from:', url); // Debug log
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch orders: ${response.statusText}`);
+  try {
+    const data = await apiFetch(url, {}, 'json');
+    console.log('Orders response:', data); // Debug log
+    return data;
+  } catch (error) {
+    console.error('Failed to fetch orders:', error);
+    throw error;
   }
-
-  return response.json();
 }

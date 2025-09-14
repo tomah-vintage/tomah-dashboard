@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { PageData } from "./$types";
-  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { Button } from "$lib/components/ui/button";
   import { RefreshCw } from "@lucide/svelte";
@@ -11,9 +10,10 @@
   export let data: PageData;
 
   // Filter state
-  let searchTerm = $page.url.searchParams.get("search") || "";
-  let selectedStatus = $page.url.searchParams.get("status") || "";
+  let user = $page.url.searchParams.get("user") || "";
+  let selectedStatus = $page.url.searchParams.get("order_status") || "";
   let selectedOrderType = $page.url.searchParams.get("order_type") || "";
+  let selectedDateRange = $page.url.searchParams.get("date_range") || "";
   let currentPage = parseInt($page.url.searchParams.get("page") || "1");
 
   // Data state
@@ -25,17 +25,19 @@
   // Initialize with URL parameters on load
   let isInitialized = false;
   $: if ($page.url && !isInitialized) {
-    const urlSearchTerm = $page.url.searchParams.get("search") || "";
-    const urlSelectedStatus = $page.url.searchParams.get("status") || "";
+    const urlUser = $page.url.searchParams.get("user") || "";
+    const urlSelectedStatus = $page.url.searchParams.get("order_status") || "";
     const urlSelectedOrderType = $page.url.searchParams.get("order_type") || "";
+    const urlSelectedDateRange = $page.url.searchParams.get("date_range") || "";
     const urlCurrentPage = parseInt($page.url.searchParams.get("page") || "1");
 
-    searchTerm = urlSearchTerm;
+    user = urlUser;
     selectedStatus = urlSelectedStatus;
     selectedOrderType = urlSelectedOrderType;
+    selectedDateRange = urlSelectedDateRange;
     currentPage = urlCurrentPage;
 
-    if (urlSearchTerm || urlSelectedStatus || urlSelectedOrderType || urlCurrentPage > 1) {
+    if (urlUser || urlSelectedStatus || urlSelectedOrderType || urlSelectedDateRange || urlCurrentPage > 1) {
       handleFetchOrders();
     }
     isInitialized = true;
@@ -45,14 +47,15 @@
   async function handleFetchOrders() {
     isLoading = true;
     try {
-      const data = await fetchOrders({
-        searchTerm,
+      const response = await fetchOrders({
+        user,
         selectedStatus,
         selectedOrderType,
+        selectedDateRange,
         currentPage,
       });
-      orders = data.results || [];
-      totalCount = data.count || 0;
+      orders = (response as any).results || [];
+      totalCount = (response as any).count || 0;
       totalPages = Math.ceil(totalCount / 20);
     } catch (error) {
       console.error("Failed to fetch orders:", error);
@@ -62,23 +65,16 @@
   }
 
   function applyFilters() {
-    const params = new URLSearchParams();
-    if (searchTerm) params.set("search", searchTerm);
-    if (selectedStatus) params.set("status", selectedStatus);
-    if (selectedOrderType) params.set("order_type", selectedOrderType);
-    if (currentPage > 1) params.set("page", currentPage.toString());
-
-    const url = `/orders${params.toString() ? "?" + params.toString() : ""}`;
+    // Just fetch with current filter state, don't change URL
     handleFetchOrders();
-    goto(url, { noScroll: true });
   }
 
   function resetFilters() {
-    searchTerm = "";
+    user = "";
     selectedStatus = "";
     selectedOrderType = "";
+    selectedDateRange = "";
     currentPage = 1;
-    goto("/orders");
     handleFetchOrders();
   }
 
@@ -87,11 +83,11 @@
     applyFilters();
   }
 
-  $: hasFilters = !!(searchTerm || selectedStatus || selectedOrderType);
+  $: hasFilters = !!(user || selectedStatus || selectedOrderType || selectedDateRange);
 </script>
 
 <svelte:head>
-  <title>Orders | Tomah Dashboard</title>
+  <title>Захиалга | Tomah Dashboard</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">
@@ -100,15 +96,15 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center py-6">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900">Orders Management</h1>
+          <h1 class="text-3xl font-bold text-gray-900">Захиалгын удирдлага</h1>
           <p class="mt-1 text-sm text-gray-500">
-            View and manage all restaurant orders
+            Ресторанлын бүх захиалгыг харах, удирдах
           </p>
         </div>
         <div class="flex items-center space-x-3">
           <div class="flex items-center text-sm text-gray-600">
             <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
-            <span>Total orders: {totalCount}</span>
+            <span>Нийт захиалга: {totalCount}</span>
           </div>
           <Button
             variant="secondary"
@@ -117,7 +113,7 @@
             disabled={isLoading}
           >
             <RefreshCw class="w-4 h-4 mr-2" />
-            Refresh
+            Шинэчлэх
           </Button>
         </div>
       </div>
@@ -126,9 +122,10 @@
 
   <!-- Filters Section -->
   <OrderFilters
-    bind:searchTerm
+    bind:user
     bind:selectedStatus
     bind:selectedOrderType
+    bind:selectedDateRange
     {isLoading}
     onApplyFilters={applyFilters}
     onResetFilters={resetFilters}

@@ -8,73 +8,91 @@
     SelectTrigger,
     SelectValue,
   } from "$lib/components/ui/select";
-  import { Search, RefreshCcw } from "@lucide/svelte";
+  import { RefreshCcw } from "@lucide/svelte";
   import { OrderStatus, OrderType } from "$lib/types/order";
+  import { getStatusLabel, getOrderTypeLabel, getDateRangeLabel } from "$lib/utils/orders";
 
-  export let searchTerm: string = "";
+  export let user: string = "";
   export let selectedStatus: string = "";
   export let selectedOrderType: string = "";
+  export let selectedDateRange: string = "";
   export let isLoading: boolean = false;
   export let onApplyFilters: () => void;
   export let onResetFilters: () => void;
   export let onRefresh: () => void;
-
-  function handleKeydown(e: KeyboardEvent) {
-    if (e.key === "Enter") {
-      onApplyFilters();
-    }
-  }
 </script>
 
 <div class="bg-white border-b border-gray-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
     <div class="flex flex-wrap gap-4 items-center">
-      <div class="flex-1 min-w-64">
-        <div class="relative">
-          <Search
-            class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"
-          />
-          <Input
-            bind:value={searchTerm}
-            placeholder="Search orders by customer name or order ID..."
-            class="pl-10"
-            on:keydown={handleKeydown}
-          />
-        </div>
-      </div>
-      
-      <Select bind:value={selectedStatus}>
-        <SelectTrigger class="w-48">
-          <SelectValue placeholder="Filter by status" />
+      <Input bind:value={user} placeholder="Хэрэглэгчийн ID..." class="w-48" />
+
+      <Select
+        value={selectedStatus}
+        onValueChange={(value) => (selectedStatus = value || "")}
+      >
+        <SelectTrigger class_="w-48">
+          <SelectValue placeholder="Төлөв ангилах">
+            {selectedStatus ? getStatusLabel(selectedStatus as OrderStatus) : ""}
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="">All statuses</SelectItem>
-          <SelectItem value={OrderStatus.PENDING}>Pending</SelectItem>
-          <SelectItem value={OrderStatus.PREPARING}>Preparing</SelectItem>
-          <SelectItem value={OrderStatus.IN_BOX}>In Box</SelectItem>
-          <SelectItem value={OrderStatus.DONE}>Done</SelectItem>
-          <SelectItem value={OrderStatus.CANCELLED}>Cancelled</SelectItem>
+          <SelectItem value="">Бүх төлөв</SelectItem>
+          <SelectItem value={OrderStatus.PENDING}>Хүлээгдэж буй</SelectItem>
+          <SelectItem value={OrderStatus.PREPARING}>Бэлтгэж байна</SelectItem>
+          <SelectItem value={OrderStatus.IN_BOX}>Хайрцагт орсон</SelectItem>
+          <SelectItem value={OrderStatus.DONE}>Дууссан</SelectItem>
+          <SelectItem value={OrderStatus.CANCELLED}>Цуцлагдсан</SelectItem>
         </SelectContent>
       </Select>
-      
-      <Select bind:value={selectedOrderType}>
-        <SelectTrigger class="w-48">
-          <SelectValue placeholder="Filter by type" />
+
+      <Select
+        value={selectedOrderType}
+        onValueChange={(value) => (selectedOrderType = value || "")}
+      >
+        <SelectTrigger class_="w-48">
+          <SelectValue placeholder="Төрөл ангилах">
+            {selectedOrderType ? getOrderTypeLabel(selectedOrderType as OrderType) : ""}
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="">All types</SelectItem>
-          <SelectItem value={OrderType.DINE_IN}>Dine-In</SelectItem>
-          <SelectItem value={OrderType.TAKE_OUT}>Take-Out</SelectItem>
+          <SelectItem value="">Бүх төрөл</SelectItem>
+          <SelectItem value={OrderType.DINE_IN}>Газар дээр идэх</SelectItem>
+          <SelectItem value={OrderType.TAKE_OUT}>Авч явах</SelectItem>
         </SelectContent>
       </Select>
-      
+
+      <Select
+        value={selectedDateRange}
+        onValueChange={(value) => (selectedDateRange = value || "")}
+      >
+        <SelectTrigger class_="w-48">
+          <SelectValue placeholder="Хугацаа ангилах">
+            {selectedDateRange ? getDateRangeLabel(selectedDateRange) : ""}
+          </SelectValue>
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="">Бүх хугацаа</SelectItem>
+          <SelectItem value="today">Өнөөдөр</SelectItem>
+          <SelectItem value="yesterday">Өчигдөр</SelectItem>
+          <SelectItem value="last_7_days">Сүүлийн 7 хоног</SelectItem>
+          <SelectItem value="last_30_days">Сүүлийн 30 хоног</SelectItem>
+          <SelectItem value="this_week">Энэ долоо хоног</SelectItem>
+          <SelectItem value="this_month">Энэ сар</SelectItem>
+          <SelectItem value="last_week">Өнгөрсөн долоо хоног</SelectItem>
+          <SelectItem value="last_month">Өнгөрсөн сар</SelectItem>
+        </SelectContent>
+      </Select>
+
       <div class="flex gap-2">
-        <Button on:click={onApplyFilters} disabled={isLoading}>
-          <Search class="w-4 h-4 mr-2" />
-          Apply
-        </Button>
-        <Button variant="secondary" on:click={onResetFilters}>Reset</Button>
-        <Button variant="secondary" size="sm" on:click={onRefresh} disabled={isLoading}>
+        <Button on:click={onApplyFilters} disabled={isLoading}>Хайх</Button>
+        <Button variant="secondary" on:click={onResetFilters}>Цэвэрлэх</Button>
+        <Button
+          variant="secondary"
+          size="sm"
+          on:click={onRefresh}
+          disabled={isLoading}
+        >
           <RefreshCcw class="w-4 h-4" />
         </Button>
       </div>

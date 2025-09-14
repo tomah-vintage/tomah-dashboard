@@ -16,16 +16,16 @@
 {#if isLoading && orders.length === 0}
   <div class="flex justify-center items-center py-12">
     <RefreshCw class="w-6 h-6 animate-spin mr-2" />
-    <span>Loading orders...</span>
+    <span>Захиалга ачааллаж байна...</span>
   </div>
 {:else if orders.length === 0}
   <div class="text-center py-12">
     <Package class="w-16 h-16 mx-auto text-gray-300 mb-4" />
-    <h3 class="text-lg font-medium text-gray-900 mb-2">No orders found</h3>
+    <h3 class="text-lg font-medium text-gray-900 mb-2">Захиалга олдсонгүй</h3>
     <p class="text-gray-500">
       {hasFilters
-        ? "Try adjusting your filters"
-        : "Orders will appear here once customers start placing them"}
+        ? "Хайлтын нөхцөлийг өөрчилнө үү"
+        : "Хэрэглэгчид захиалга өгсний дараа энд харагдах болно"}
     </p>
   </div>
 {:else}
@@ -35,22 +35,22 @@
         <thead class="bg-gray-50">
           <tr>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Order Details
+              Захиалгын дэлгэрэнгүй
             </th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Customer
+              Хэрэглэгч
             </th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Status
+              Төлөв
             </th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Type & Table
+              Төрөл ба ширээ
             </th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Total
+              Нийт дүн
             </th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Date
+              Огноо
             </th>
           </tr>
         </thead>
@@ -66,7 +66,7 @@
       <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
         <div class="flex items-center justify-between">
           <div class="text-sm text-gray-700">
-            Showing page {currentPage} of {totalPages} ({totalCount} total orders)
+            {currentPage}/{totalPages} хуудас ({totalCount} нийт захиалга)
           </div>
           <div class="flex space-x-2">
             <Button
@@ -75,7 +75,7 @@
               disabled={currentPage === 1}
               on:click={() => onPageChange(currentPage - 1)}
             >
-              Previous
+              Өмнөх
             </Button>
             {#each Array.from({ length: Math.min(5, totalPages) }, (_, i) => Math.max(1, currentPage - 2) + i).filter((p) => p <= totalPages) as pageNum}
               <Button
@@ -92,7 +92,7 @@
               disabled={currentPage === totalPages}
               on:click={() => onPageChange(currentPage + 1)}
             >
-              Next
+              Дараах
             </Button>
           </div>
         </div>

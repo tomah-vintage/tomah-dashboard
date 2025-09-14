@@ -3,13 +3,14 @@
   
   export let value: string;
   
-  const { handleValueChange, value: selectedValue } = getContext('select') || {};
+  const context = getContext('select') || {};
+  const { handleValueChange, value: selectedValue } = context;
   
   function handleClick() {
     handleValueChange?.(value);
   }
   
-  $: isSelected = selectedValue === value;
+  $: isSelected = $selectedValue === value;
 </script>
 
 <button
