@@ -85,7 +85,7 @@
       restaurant: "Pizza hut 1",
       activityCount: 20,
       location: "Чингэлтэй",
-      avatarUrl: "/guide/pictures/new-restaurant.png", // Placeholder image
+      avatarUrl: "https://via.placeholder.com/150x150/cccccc/666666?text=Avatar", // Placeholder image
     },
     {
       id: 2,
@@ -94,7 +94,7 @@
       restaurant: "Pizza hut 2",
       activityCount: 20,
       location: "Сонгинохайран",
-      avatarUrl: "/guide/pictures/new-restaurant.png", // Placeholder image
+      avatarUrl: "https://via.placeholder.com/150x150/cccccc/666666?text=Avatar", // Placeholder image
     },
     {
       id: 3,
@@ -103,7 +103,7 @@
       restaurant: "Pizza hut 3",
       activityCount: 20,
       location: "Хан-уул",
-      avatarUrl: "/guide/pictures/new-restaurant.png", // Placeholder image
+      avatarUrl: "https://via.placeholder.com/150x150/cccccc/666666?text=Avatar", // Placeholder image
     },
     {
       id: 4,
@@ -112,7 +112,7 @@
       restaurant: "Pizza hut 4",
       activityCount: 20,
       location: "Баянзүрх",
-      avatarUrl: "/guide/pictures/new-restaurant.png", // Placeholder image
+      avatarUrl: "https://via.placeholder.com/150x150/cccccc/666666?text=Avatar", // Placeholder image
     },
   ];
 </script>
