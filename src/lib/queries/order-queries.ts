@@ -1,15 +1,18 @@
 import { createQuery, createMutation, useQueryClient } from '@tanstack/svelte-query';
 import { apiFetch } from '$lib/utils/api';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
-import type { Order, OrderListResponse, OrderFilters, OrderStatus } from '$lib/types/order';
+import type { Order, OrderListResponse, OrderFilters, OrderStatus, DateRange } from '$lib/types/order';
 
 export function createGetOrdersQuery(filters: OrderFilters = {}) {
 	const queryParams = new URLSearchParams();
 	
-	if (filters.status) queryParams.append('status', filters.status);
+	if (filters.restaurant) queryParams.append('restaurant', filters.restaurant);
+	if (filters.user) queryParams.append('user', filters.user);
+	if (filters.order_status) queryParams.append('order_status', filters.order_status);
 	if (filters.order_type) queryParams.append('order_type', filters.order_type);
-	if (filters.date_from) queryParams.append('date_from', filters.date_from);
-	if (filters.date_to) queryParams.append('date_to', filters.date_to);
+	if (filters.created_at__gte) queryParams.append('created_at__gte', filters.created_at__gte);
+	if (filters.created_at__lte) queryParams.append('created_at__lte', filters.created_at__lte);
+	if (filters.date_range) queryParams.append('date_range', filters.date_range);
 	if (filters.search) queryParams.append('search', filters.search);
 	if (filters.page) queryParams.append('page', filters.page.toString());
 	if (filters.page_size) queryParams.append('page_size', filters.page_size.toString());
