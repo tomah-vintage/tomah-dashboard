@@ -3,6 +3,7 @@
   import { ArrowRight } from "@lucide/svelte";
 
   export let orders: OrderItem[];
+  export let onShowAll: (() => void) | undefined = undefined;
 </script>
 
 <div class="bg-white rounded-lg shadow-md p-6">
@@ -10,10 +11,12 @@
     <h2 class="text-xl font-bold text-gray-800">Захиалгын тоо</h2>
     <button
       type="button"
-      class="text-primary-blue flex items-center text-sm font-medium"
+      class="text-primary-blue flex items-center text-sm font-medium hover:underline"
+      on:click={onShowAll}
+      disabled={!onShowAll}
     >
-      Бүгдийг харах <ArrowRight class="w-4 h-4 ml-1" /></button
-    >
+      Бүгдийг харах <ArrowRight class="w-4 h-4 ml-1" />
+    </button>
   </div>
   <div class="space-y-4">
     {#each orders as order (order.id)}

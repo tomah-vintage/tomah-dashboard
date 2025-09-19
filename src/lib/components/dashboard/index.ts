@@ -3,3 +3,4 @@ export { default as SalesChart } from "./SalesChart.svelte";
 export { default as OrderList } from "./OrderList.svelte";
 export { default as RestaurantPerformanceChart } from "./RestaurantPerformanceChart.svelte";
 export { default as UserActivityList } from "./UserActivityList.svelte";
+export { default as DataModal } from "./DataModal.svelte";
