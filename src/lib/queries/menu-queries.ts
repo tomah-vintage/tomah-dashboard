@@ -1,5 +1,6 @@
 import { createQuery, createMutation, useQueryClient } from '@tanstack/svelte-query';
 import type { MenuItem, MenuItemFormForBackend, Category } from '$lib/types/menu';
+import type { DefaultCategory, DefaultCategoryForm } from '$lib/types/category';
 import { apiFetch } from '$lib/utils/api';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
 import toast from 'svelte-french-toast';
@@ -101,6 +102,68 @@ export const createUpdateEmphasizedMenuItemsMutation = () => {
 			}),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['menuItems'] });
+		}
+	});
+};
+
+// Default Categories queries
+export const createGetDefaultCategoriesQuery = () =>
+	createQuery<DefaultCategory[], Error>({
+		queryKey: ['defaultCategories'],
+		queryFn: () => apiFetch<DefaultCategory[]>(`${PUBLIC_BACKEND_URL}/api/default-categories/`)
+	});
+
+export const createAddDefaultCategoryMutation = () => {
+	const queryClient = useQueryClient();
+	return createMutation<DefaultCategory, Error, DefaultCategoryForm>({
+		mutationFn: (newCategory) =>
+			apiFetch<DefaultCategory>(`${PUBLIC_BACKEND_URL}/api/default-categories/`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(newCategory)
+			}),
+		onSuccess: () => {
+			toast.success('Үндсэн ангилал амжилттай нэмэгдлээ!');
+			queryClient.invalidateQueries({ queryKey: ['defaultCategories'] });
+		},
+		onError: (error) => {
+			toast.error(`Үндсэн ангилал нэмэхэд алдаа гарлаа: ${error.message}`);
+		}
+	});
+};
+
+export const createUpdateDefaultCategoryMutation = () => {
+	const queryClient = useQueryClient();
+	return createMutation<DefaultCategory, Error, Partial<DefaultCategory> & { id: number }>({
+		mutationFn: (category) =>
+			apiFetch<DefaultCategory>(`${PUBLIC_BACKEND_URL}/api/default-categories/${category.id}/`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(category)
+			}),
+		onSuccess: () => {
+			toast.success('Үндсэн ангилал амжилттай засагдлаа!');
+			queryClient.invalidateQueries({ queryKey: ['defaultCategories'] });
+		},
+		onError: (error) => {
+			toast.error(`Үндсэн ангилал засахад алдаа гарлаа: ${error.message}`);
+		}
+	});
+};
+
+export const createDeleteDefaultCategoryMutation = () => {
+	const queryClient = useQueryClient();
+	return createMutation<void, Error, number>({
+		mutationFn: (categoryId) =>
+			apiFetch<void>(`${PUBLIC_BACKEND_URL}/api/default-categories/${categoryId}/`, {
+				method: 'DELETE'
+			}),
+		onSuccess: () => {
+			toast.success('Үндсэн ангилал амжилттай устгагдлаа!');
+			queryClient.invalidateQueries({ queryKey: ['defaultCategories'] });
+		},
+		onError: (error) => {
+			toast.error(`Үндсэн ангилал устгахад алдаа гарлаа: ${error.message}`);
 		}
 	});
 };

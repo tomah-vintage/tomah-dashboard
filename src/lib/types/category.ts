@@ -5,3 +5,16 @@ export interface Category {
   checked?: boolean; // Optional, as it's for UI state
   menu_item_count?: number; // Optional, for product count
 }
+
+export interface DefaultCategory {
+  id: number;
+  name: string;
+  description?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface DefaultCategoryForm {
+  name: string;
+  description?: string;
+}
