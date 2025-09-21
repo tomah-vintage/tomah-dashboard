@@ -9,12 +9,16 @@ export interface Category {
 export interface DefaultCategory {
   id: number;
   name: string;
+  mongolian_name?: string;
   description?: string;
+  image_url?: string;
   created_at?: string;
   updated_at?: string;
 }
 
 export interface DefaultCategoryForm {
   name: string;
+  mongolian_name?: string;
   description?: string;
+  image_url?: string;
 }

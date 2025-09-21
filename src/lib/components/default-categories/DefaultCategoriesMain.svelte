@@ -2,6 +2,7 @@
   import { createGetDefaultCategoriesQuery } from "$lib/queries/menu-queries";
   import DefaultCategoriesList from "./DefaultCategoriesList.svelte";
   import DefaultCategoryFormModal from "./DefaultCategoryFormModal.svelte";
+  import { filterCategories } from "$lib/utils/default-category";
   import { Button } from "$lib/components/ui/button";
   import { Plus, Search } from "@lucide/svelte";
 
@@ -11,18 +12,8 @@
 
   let searchValue = "";
   let showAddCategoryModal = false;
-  let filteredCategories: typeof defaultCategories = [];
 
-  $: {
-    if (searchValue.trim()) {
-      filteredCategories = defaultCategories.filter(category =>
-        category.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-        (category.description && category.description.toLowerCase().includes(searchValue.toLowerCase()))
-      );
-    } else {
-      filteredCategories = defaultCategories;
-    }
-  }
+  $: filteredCategories = filterCategories(defaultCategories, searchValue);
 
   function openAddCategoryModal() {
     showAddCategoryModal = true;
