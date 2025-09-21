@@ -13,6 +13,7 @@
     MessageSquare,
     ShoppingCart,
     Tags,
+    Star,
   } from "@lucide/svelte";
 
   import { sessionStore } from "$lib/stores/sessionStore";
@@ -76,6 +77,13 @@
             href="/default-categories"
             label="Үндсэн ангилал"
             icon={Tags}
+          />
+        {/if}
+        {#if $sessionStore.user?.role_name === "admin"}
+          <SidebarButton
+            href="/restaurant-highlights"
+            label="Онцлох ресторан"
+            icon={Star}
           />
         {/if}
         {#if $sessionStore.user?.role_name === "admin"}

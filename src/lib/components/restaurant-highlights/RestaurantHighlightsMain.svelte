@@ -1,0 +1,80 @@
+<script lang="ts">
+  import { createGetRestaurantHighlightsQuery } from "$lib/queries/menu-queries";
+  import RestaurantHighlightsList from "./RestaurantHighlightsList.svelte";
+  import RestaurantHighlightFormModal from "./RestaurantHighlightFormModal.svelte";
+  import RestaurantAttachmentModal from "./RestaurantAttachmentModal.svelte";
+  import SearchInput from "$lib/components/ui/SearchInput.svelte";
+  import { filterHighlights } from "$lib/utils/restaurant-highlight";
+  import { Button } from "$lib/components/ui/button";
+  import { Plus } from "@lucide/svelte";
+  import type { RestaurantHighlight } from "$lib/types/restaurant-highlight";
+
+  const restaurantHighlightsQuery = createGetRestaurantHighlightsQuery();
+
+  $: restaurantHighlights = $restaurantHighlightsQuery.data || [];
+
+  let searchValue = "";
+  let showAddHighlightModal = false;
+  let showRestaurantAttachmentModal = false;
+  let selectedHighlight: RestaurantHighlight | null = null;
+
+  $: filteredHighlights = filterHighlights(restaurantHighlights, searchValue);
+
+  function openAddHighlightModal() {
+    showAddHighlightModal = true;
+  }
+
+  function handleManageRestaurants(event: CustomEvent<RestaurantHighlight>) {
+    selectedHighlight = event.detail;
+    showRestaurantAttachmentModal = true;
+  }
+</script>
+
+<div class="min-h-screen p-6 font-sans bg-gray-100">
+  <div class="p-6 bg-white rounded-lg shadow">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center">
+        <span class="w-1 h-6 mr-3 bg-blue-600"></span>
+        <h1 class="text-2xl font-bold">Онцлох ресторан</h1>
+      </div>
+      <div class="flex items-center space-x-2">
+        <SearchInput 
+          placeholder="Онцлох хайх..."
+          bind:value={searchValue}
+          size="md"
+        />
+        <Button on:click={openAddHighlightModal}>
+          <Plus class="w-4 h-4 mr-1" />
+          Онцлох нэмэх
+        </Button>
+      </div>
+    </div>
+
+    <!-- Restaurant Highlights List -->
+    {#if $restaurantHighlightsQuery.isLoading}
+      <div class="flex items-center justify-center py-8">
+        <div class="text-gray-600">Онцлох ресторан уншиж байна...</div>
+      </div>
+    {:else if $restaurantHighlightsQuery.isError}
+      <div class="flex items-center justify-center py-8">
+        <div class="text-red-600">Алдаа: {$restaurantHighlightsQuery.error?.message}</div>
+      </div>
+    {:else if filteredHighlights.length === 0}
+      <div class="flex items-center justify-center py-8">
+        <div class="text-gray-600">
+          {searchValue.trim() ? 'Хайлтад тохирох онцлох олдсонгүй.' : 'Онцлох ресторан олдсонгүй.'}
+        </div>
+      </div>
+    {:else}
+      <RestaurantHighlightsList highlights={filteredHighlights} on:manageRestaurants={handleManageRestaurants} />
+    {/if}
+  </div>
+</div>
+
+<RestaurantHighlightFormModal bind:showModal={showAddHighlightModal} />
+<RestaurantAttachmentModal 
+  bind:showModal={showRestaurantAttachmentModal} 
+  highlight={selectedHighlight}
+  on:close={() => { selectedHighlight = null; }}
+/>

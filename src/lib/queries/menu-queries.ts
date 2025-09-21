@@ -1,6 +1,7 @@
 import { createQuery, createMutation, useQueryClient } from '@tanstack/svelte-query';
 import type { MenuItem, MenuItemFormForBackend, Category } from '$lib/types/menu';
 import type { DefaultCategory, DefaultCategoryForm } from '$lib/types/category';
+import type { RestaurantHighlight, RestaurantHighlightForm, SimpleRestaurant } from '$lib/types/restaurant-highlight';
 import { apiFetch } from '$lib/utils/api';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
 import toast from 'svelte-french-toast';
@@ -164,6 +165,129 @@ export const createDeleteDefaultCategoryMutation = () => {
 		},
 		onError: (error) => {
 			toast.error(`Үндсэн ангилал устгахад алдаа гарлаа: ${error.message}`);
+		}
+	});
+};
+
+// Restaurant Highlights queries
+export const createGetRestaurantHighlightsQuery = () =>
+	createQuery<RestaurantHighlight[], Error>({
+		queryKey: ['restaurantHighlights'],
+		queryFn: () => apiFetch<RestaurantHighlight[]>(`${PUBLIC_BACKEND_URL}/api/public-restaurant-highlights/`)
+	});
+
+export const createAddRestaurantHighlightMutation = () => {
+	const queryClient = useQueryClient();
+	return createMutation<RestaurantHighlight, Error, RestaurantHighlightForm>({
+		mutationFn: (newHighlight) =>
+			apiFetch<RestaurantHighlight>(`${PUBLIC_BACKEND_URL}/api/restaurant-highlights/`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(newHighlight)
+			}),
+		onSuccess: () => {
+			toast.success('Онцлох ресторан амжилттай нэмэгдлээ!');
+			queryClient.invalidateQueries({ queryKey: ['restaurantHighlights'] });
+		},
+		onError: (error) => {
+			toast.error(`Онцлох ресторан нэмэхэд алдаа гарлаа: ${error.message}`);
+		}
+	});
+};
+
+export const createUpdateRestaurantHighlightMutation = () => {
+	const queryClient = useQueryClient();
+	return createMutation<RestaurantHighlight, Error, Partial<RestaurantHighlight> & { id: number }>({
+		mutationFn: (highlight) =>
+			apiFetch<RestaurantHighlight>(`${PUBLIC_BACKEND_URL}/api/restaurant-highlights/${highlight.id}/`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(highlight)
+			}),
+		onSuccess: () => {
+			toast.success('Онцлох ресторан амжилттай засагдлаа!');
+			queryClient.invalidateQueries({ queryKey: ['restaurantHighlights'] });
+		},
+		onError: (error) => {
+			toast.error(`Онцлох ресторан засахад алдаа гарлаа: ${error.message}`);
+		}
+	});
+};
+
+export const createDeleteRestaurantHighlightMutation = () => {
+	const queryClient = useQueryClient();
+	return createMutation<void, Error, number>({
+		mutationFn: (highlightId) =>
+			apiFetch<void>(`${PUBLIC_BACKEND_URL}/api/restaurant-highlights/${highlightId}/`, {
+				method: 'DELETE'
+			}),
+		onSuccess: () => {
+			toast.success('Онцлох ресторан амжилттай устгагдлаа!');
+			queryClient.invalidateQueries({ queryKey: ['restaurantHighlights'] });
+		},
+		onError: (error) => {
+			toast.error(`Онцлох ресторан устгахад алдаа гарлаа: ${error.message}`);
+		}
+	});
+};
+
+// Restaurant attachment to highlights
+export const createGetAllRestaurantsQuery = () =>
+	createQuery<SimpleRestaurant[] | PaginatedResponse<SimpleRestaurant>, Error>({
+		queryKey: ['allRestaurants'],
+		queryFn: async () => {
+			const response = await apiFetch<any>(`${PUBLIC_BACKEND_URL}/api/restaurants/`);
+			// Handle both array and paginated response formats
+			if (Array.isArray(response)) {
+				return response;
+			} else if (response && response.results && Array.isArray(response.results)) {
+				return response.results;
+			} else {
+				return [];
+			}
+		}
+	});
+
+export const createSetHighlightRestaurantsMutation = () => {
+	const queryClient = useQueryClient();
+	return createMutation<void, Error, { highlightId: number; restaurantIds: number[] }>({
+		mutationFn: async ({ highlightId, restaurantIds }) => {
+			// We'll add/remove restaurants to highlight for each restaurant
+			const currentHighlight = queryClient.getQueryData<RestaurantHighlight[]>(['restaurantHighlights'])
+				?.find(h => h.id === highlightId);
+			
+			const currentRestaurantIds = new Set(currentHighlight?.restaurants?.map(r => r.id) || []);
+			const newRestaurantIds = new Set(restaurantIds);
+			
+			// Restaurants to add this highlight to
+			const toAdd = restaurantIds.filter(id => !currentRestaurantIds.has(id));
+			// Restaurants to remove this highlight from  
+			const toRemove = Array.from(currentRestaurantIds).filter(id => !newRestaurantIds.has(id));
+			
+			// Add highlight to new restaurants
+			await Promise.all(toAdd.map(restaurantId =>
+				apiFetch<void>(`${PUBLIC_BACKEND_URL}/api/restaurants/${restaurantId}/add_highlights/`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ highlight_ids: [highlightId] })
+				})
+			));
+			
+			// Remove highlight from deselected restaurants
+			await Promise.all(toRemove.map(restaurantId =>
+				apiFetch<void>(`${PUBLIC_BACKEND_URL}/api/restaurants/${restaurantId}/remove_highlights/`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ highlight_ids: [highlightId] })
+				})
+			));
+		},
+		onSuccess: () => {
+			toast.success('Онцлох ресторан амжилттай тохируулагдлаа!');
+			queryClient.invalidateQueries({ queryKey: ['restaurantHighlights'] });
+		},
+		onError: (error) => {
+			toast.error(`Онцлох ресторан тохируулахад алдаа гарлаа: ${error.message}`);
 		}
 	});
 };
