@@ -16,29 +16,14 @@
 <div class="space-y-4">
   <div>
     <label for="category-mongolian-name" class="block text-sm font-medium text-gray-700 mb-1">
-      Ангиллын нэр (Монгол) *
+      Ангиллын нэр *
     </label>
     <Input
       id="category-mongolian-name"
       type="text"
-      placeholder="Монгол хэл дээр ангиллын нэр оруулах"
+      placeholder="Ангиллын нэр оруулах"
       bind:value={form.mongolian_name}
       required
-    />
-  </div>
-
-  <div>
-    <label for="category-name" class="block text-sm font-medium text-gray-700 mb-1">
-      Англи нэр 
-      <span class="text-xs text-gray-500">(автоматаар үүсэх)</span>
-    </label>
-    <Input
-      id="category-name"
-      type="text"
-      placeholder="Англи нэр (автоматаар үүсэх)"
-      bind:value={form.name}
-      disabled={!isEditing}
-      class={!isEditing ? 'bg-gray-50 text-gray-600' : ''}
     />
   </div>
 
