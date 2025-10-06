@@ -8,6 +8,9 @@
   export let restaurantId: string;
 
   let email = "";
+  let first_name = "";
+  let last_name = "";
+  let phone = "";
   let password = "";
   let errorMessage: string | null = null;
   let isLoading = false;
@@ -25,9 +28,12 @@
         },
         body: JSON.stringify({
           email,
+          first_name,
+          last_name,
+          phone,
           password,
-          restaurant_id: restaurantId,
-          role: 2,
+          role: 3, // restaurant role ID
+          restaurant: parseInt(restaurantId), // must match admin's restaurant
         }),
       });
 
@@ -42,7 +48,13 @@
 </script>
 
 <form on:submit|preventDefault={handleSubmit} class="space-y-4">
-  <Input id="email" label="И-мэйл" type="text" bind:value={email} required />
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <Input id="first_name" label="Нэр" type="text" bind:value={first_name} required />
+    <Input id="last_name" label="Овог" type="text" bind:value={last_name} required />
+  </div>
+  
+  <Input id="email" label="И-мэйл" type="email" bind:value={email} required />
+  <Input id="phone" label="Утасны дугаар" type="tel" bind:value={phone} placeholder="+976 XXXX XXXX" />
   <Input id="password" label="Нууц үг" type="password" bind:value={password} required />
 
   {#if errorMessage}
@@ -53,7 +65,7 @@
     {#if isLoading}
       Үүсгэж байна...
     {:else}
-      Хэрэглэгч үүсгэх
+      Ажилтан үүсгэх
     {/if}
   </Button>
 </form>

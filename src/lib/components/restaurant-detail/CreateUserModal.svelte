@@ -36,10 +36,10 @@
     aria-modal="true"
     tabindex="-1"
   >
-    <div class="relative p-8 border w-96 shadow-lg rounded-md bg-white">
+    <div class="relative p-6 sm:p-8 border w-full max-w-md sm:max-w-lg shadow-lg rounded-md bg-white mx-4">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-medium leading-6 text-gray-900">
-          Шинэ хэрэглэгч үүсгэх
+          Шинэ ажилтан нэмэх
         </h3>
         <Button on:click={closeModal} variant="tertiary" class="p-1 rounded-full">
           <X class="h-6 w-6" />

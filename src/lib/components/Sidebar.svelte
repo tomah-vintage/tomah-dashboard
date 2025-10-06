@@ -105,6 +105,7 @@
           <SidebarButton href="/orders" label="Захиалга" icon={ShoppingCart} />
           <SidebarButton href="/seating" label="Ширээ" icon={Store} />
           <SidebarButton href="/banners" label="Баннер" icon={Image} />
+          <SidebarButton href="/staff" label="Ажилтан" icon={Users} />
           <SidebarButton href="/reviews" label="Үнэлгээ" icon={MessageSquare} />
           <SidebarButton href="/subscription" label="Төлбөр" icon={CreditCard} />
           <SidebarButton
