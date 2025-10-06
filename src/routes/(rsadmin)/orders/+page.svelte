@@ -23,7 +23,22 @@
   let isLoading = false;
   let orders = data.orders.results;
   let totalCount = data.orders.count;
-  let totalPages = calculateTotalPages(totalCount);
+  
+  // API pagination state
+  let hasNext = !!data.orders.next;
+  let hasPrevious = !!data.orders.previous;
+  
+  // Dynamically detect page size from initial data
+  let pageSize = 10; // Default fallback
+  const initialResultsLength = orders.length;
+  
+  if (initialResultsLength > 0 && (hasNext || hasPrevious)) {
+    pageSize = initialResultsLength;
+  } else if (initialResultsLength > 0) {
+    pageSize = Math.max(initialResultsLength, totalCount);
+  }
+  
+  let totalPages = calculateTotalPages(totalCount, pageSize);
 
   // Initialize with URL parameters on load
   let isInitialized = false;
@@ -41,6 +56,14 @@
   async function handleFetchOrders() {
     isLoading = true;
     try {
+      console.log('Fetching orders with filters:', {
+        user,
+        selectedStatus,
+        selectedOrderType,
+        selectedDateRange,
+        currentPage,
+      });
+      
       const response = await fetchOrders({
         user,
         selectedStatus,
@@ -50,7 +73,24 @@
       });
       orders = (response as any).results || [];
       totalCount = (response as any).count || 0;
-      totalPages = calculateTotalPages(totalCount);
+      
+      // Update API pagination state
+      hasNext = !!(response as any).next;
+      hasPrevious = !!(response as any).previous;
+      
+      // Dynamically detect page size from API response
+      const resultsLength = orders.length;
+      
+      // If we have results and there's a next page, use the current results length as page size
+      // If no next page and we're on page 1, it means all data fits in one page
+      if (resultsLength > 0 && (hasNext || hasPrevious)) {
+        pageSize = resultsLength;
+      } else if (resultsLength > 0 && currentPage === 1) {
+        // All data is on first page, so page size is at least the total count
+        pageSize = Math.max(resultsLength, totalCount);
+      }
+      
+      totalPages = calculateTotalPages(totalCount, pageSize);
     } catch (error) {
       console.error("Failed to fetch orders:", error);
     } finally {
@@ -59,7 +99,8 @@
   }
 
   function applyFilters() {
-    // Just fetch with current filter state, don't change URL
+    // Reset to page 1 when applying filters
+    currentPage = 1;
     handleFetchOrders();
   }
 
@@ -78,6 +119,18 @@
   }
 
   $: hasFilters = hasActiveFilters({ user, selectedStatus, selectedOrderType, selectedDateRange, currentPage });
+
+  // Auto-apply filters when filter values change (debounced)
+  let filterTimeout: NodeJS.Timeout;
+  $: {
+    if (isInitialized) {
+      clearTimeout(filterTimeout);
+      filterTimeout = setTimeout(() => {
+        console.log('Filter values changed, auto-applying filters...');
+        applyFilters();
+      }, 500);
+    }
+  }
 </script>
 
 <svelte:head>
@@ -113,6 +166,8 @@
       {totalCount}
       {totalPages}
       {currentPage}
+      {hasNext}
+      {hasPrevious}
       onPageChange={handlePageChange}
     />
   </div>

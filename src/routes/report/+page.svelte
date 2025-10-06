@@ -6,16 +6,13 @@
   } from "$lib/components/report";
   import { 
     LoadingState, 
-    ErrorState, 
-    PaginationInfo 
+    ErrorState
   } from "$lib/components/ui";
-  import { Pagination } from "$lib/components/ui/pagination";
   import { createGetOrdersQuery } from "$lib/queries/order-queries";
   import { 
     calculateTotalRevenue,
     calculateAverageOrderValue,
     calculateTotalItems,
-    calculatePaginationInfo,
     DEFAULT_ORDER_FILTERS,
     resetOrderFilters,
     applyOrderFilters
@@ -37,14 +34,6 @@
   $: totalRevenue = calculateTotalRevenue(orders);
   $: averageOrderValue = calculateAverageOrderValue(orders);
   $: totalItems = calculateTotalItems(orders);
-
-  // Pagination calculations
-  $: totalPages = Math.ceil(totalCount / (filters.page_size || 20));
-  $: paginationInfo = calculatePaginationInfo(
-    totalCount, 
-    filters.page || 1, 
-    filters.page_size || 20
-  );
 
   // Event handlers using utilities
   function handleApplyFilters(newFilters: OrderFilters) {
@@ -105,24 +94,14 @@
   {:else}
     <!-- Orders Table -->
     <div class="mb-6">
-      <OrderReportTable {orders} {isLoading} />
+      <OrderReportTable 
+        {orders} 
+        {isLoading}
+        {totalCount}
+        currentPage={filters.page || 1}
+        pageSize={filters.page_size || 20}
+        onPageChange={handlePageChange}
+      />
     </div>
-
-    <!-- Pagination -->
-    {#if totalPages > 1}
-      <div class="bg-white rounded-lg border border-gray-200 p-4">
-        <div class="flex items-center justify-between">
-          <PaginationInfo {paginationInfo} />
-          
-          <Pagination
-            currentPage={filters.page || 1}
-            {totalPages}
-            onPageChange={handlePageChange}
-            totalItems={totalCount}
-            page_size={filters.page_size || 20}
-          />
-        </div>
-      </div>
-    {/if}
   {/if}
 </div>

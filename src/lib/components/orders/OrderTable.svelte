@@ -12,6 +12,8 @@
   export let totalCount: number = 0;
   export let totalPages: number = 1;
   export let currentPage: number = 1;
+  export let hasNext: boolean = false;
+  export let hasPrevious: boolean = false;
   export let onPageChange: (page: number) => void;
 </script>
 
@@ -59,11 +61,13 @@
       </table>
     </div>
 
-    {#if totalPages > 1}
+    {#if totalPages > 1 || hasNext || hasPrevious}
       <Pagination
         {currentPage}
         {totalPages}
         {totalCount}
+        {hasNext}
+        {hasPrevious}
         {onPageChange}
       />
     {/if}

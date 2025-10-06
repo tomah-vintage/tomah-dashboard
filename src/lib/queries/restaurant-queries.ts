@@ -1,5 +1,5 @@
 import { createQuery, createMutation, useQueryClient } from '@tanstack/svelte-query';
-import type { Restaurant, RestaurantFormData } from '$lib/types/restaurant';
+import type { Restaurant, RestaurantFormData, AdminRestaurantListResponse, AdminRestaurantDetail } from '$lib/types/restaurant';
 import { apiFetch } from '$lib/utils/api';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
 import type { PaginatedResponse } from '$lib/types/auth'; // Import PaginatedResponse
@@ -70,6 +70,59 @@ export const createDeleteRestaurantMutation = () => {
     }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['restaurants'] });
+    },
+  });
+};
+
+// ===== NEW ADMIN RESTAURANT ENDPOINTS =====
+
+// Fetch admin restaurant list with metrics and user info
+export const createGetAdminRestaurantsQuery = (page: number = 1, page_size: number = 10) => 
+  createQuery<AdminRestaurantListResponse, Error>({
+    queryKey: ['admin-restaurants', page, page_size],
+    queryFn: () => apiFetch<AdminRestaurantListResponse>(
+      `${PUBLIC_BACKEND_URL}/api/admin/restaurants/?page=${page}&page_size=${page_size}`
+    ),
+  });
+
+// Fetch detailed admin restaurant data with insights
+export const createGetAdminRestaurantDetailQuery = (id: string | number | undefined) => 
+  createQuery<AdminRestaurantDetail, Error>({
+    queryKey: ['admin-restaurant-detail', id],
+    queryFn: () => apiFetch<AdminRestaurantDetail>(
+      `${PUBLIC_BACKEND_URL}/api/admin/restaurants/${id}/`
+    ),
+    enabled: !!id,
+  });
+
+// Add user to restaurant
+export const createAddUserToRestaurantMutation = () => {
+  const queryClient = useQueryClient();
+  return createMutation<any, Error, { restaurantId: string | number; userData: { email: string; first_name: string; last_name: string; phone: string; password: string; role: number } }>({
+    mutationFn: ({ restaurantId, userData }) => 
+      apiFetch(`${PUBLIC_BACKEND_URL}/api/admin/restaurants/${restaurantId}/users/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData),
+      }),
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['admin-restaurant-detail', variables.restaurantId] });
+      queryClient.invalidateQueries({ queryKey: ['admin-restaurants'] });
+    },
+  });
+};
+
+// Remove user from restaurant
+export const createRemoveUserFromRestaurantMutation = () => {
+  const queryClient = useQueryClient();
+  return createMutation<void, Error, { restaurantId: string | number; userId: number }>({
+    mutationFn: ({ restaurantId, userId }) => 
+      apiFetch(`${PUBLIC_BACKEND_URL}/api/admin/restaurants/${restaurantId}/users/${userId}/`, {
+        method: 'DELETE',
+      }),
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['admin-restaurant-detail', variables.restaurantId] });
+      queryClient.invalidateQueries({ queryKey: ['admin-restaurants'] });
     },
   });
 };

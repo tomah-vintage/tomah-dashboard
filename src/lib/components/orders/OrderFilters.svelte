@@ -27,10 +27,7 @@
     <div class="flex flex-wrap gap-4 items-center">
       <Input bind:value={user} placeholder="Хэрэглэгчийн ID..." class="w-48" />
 
-      <Select
-        value={selectedStatus}
-        onValueChange={(value) => (selectedStatus = value || "")}
-      >
+      <Select bind:value={selectedStatus}>
         <SelectTrigger class_="w-48">
           <SelectValue placeholder="Төлөв ангилах">
             {selectedStatus ? getStatusLabel(selectedStatus as OrderStatus) : ""}
@@ -46,10 +43,7 @@
         </SelectContent>
       </Select>
 
-      <Select
-        value={selectedOrderType}
-        onValueChange={(value) => (selectedOrderType = value || "")}
-      >
+      <Select bind:value={selectedOrderType}>
         <SelectTrigger class_="w-48">
           <SelectValue placeholder="Төрөл ангилах">
             {selectedOrderType ? getOrderTypeLabel(selectedOrderType as OrderType) : ""}
@@ -62,10 +56,7 @@
         </SelectContent>
       </Select>
 
-      <Select
-        value={selectedDateRange}
-        onValueChange={(value) => (selectedDateRange = value || "")}
-      >
+      <Select bind:value={selectedDateRange}>
         <SelectTrigger class_="w-48">
           <SelectValue placeholder="Хугацаа ангилах">
             {selectedDateRange ? getDateRangeLabel(selectedDateRange) : ""}

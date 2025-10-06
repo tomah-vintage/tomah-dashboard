@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createGetRestaurantsQuery } from '$lib/queries/restaurant-queries';
+	import { createGetAdminRestaurantsQuery } from '$lib/queries/restaurant-queries';
 	import {
 		RestaurantsTableHeader,
 		RestaurantsTable,
@@ -11,7 +11,7 @@
 	let currentPage = 1;
 	let page_size = 10;
 
-	$: getRestaurants = createGetRestaurantsQuery(currentPage, page_size);
+	$: getRestaurants = createGetAdminRestaurantsQuery(currentPage, page_size);
 
 	$: ({ data: paginatedData, isLoading, isError, error } = $getRestaurants);
 

@@ -1,12 +1,8 @@
 <script lang="ts">
-  import type { Restaurant } from "$lib/types/restaurant";
+  import type { AdminRestaurantListItem } from "$lib/types/restaurant";
   import RestaurantsTableRow from "./RestaurantsTableRow.svelte";
 
-  export let restaurants: (Restaurant & {
-    register?: string;
-    rating?: number;
-    logo?: string;
-  })[] = [];
+  export let restaurants: AdminRestaurantListItem[] = [];
 </script>
 
 <table class="min-w-full text-sm text-left">
@@ -14,10 +10,12 @@
     <tr>
       <th class="p-3">Нэр</th>
       <th class="p-3">Зураг</th>
-      <th class="p-3">И-мэйл</th>
-      <th class="p-3">Утас</th>
       <th class="p-3">Хаяг</th>
-      <th class="p-3">Статус</th>
+      <th class="p-3">Админ хэрэглэгчид</th>
+      <th class="p-3">Захиалга</th>
+      <th class="p-3">Орлого</th>
+      <th class="p-3">Үнэлгээ</th>
+      <th class="p-3">Захиалга төлөлт</th>
       <th class="p-3">Үүссэн огноо</th>
       <th class="p-3 text-center">Үйлдэл</th>
     </tr>

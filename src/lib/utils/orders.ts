@@ -99,15 +99,18 @@ export async function fetchOrders(params: {
 }) {
   const queryParams = new URLSearchParams();
 
-  if (params.user) queryParams.append("user", params.user);
-  if (params.selectedStatus) queryParams.append("order_status", params.selectedStatus);
-  if (params.selectedOrderType) queryParams.append("order_type", params.selectedOrderType);
-  if (params.selectedDateRange) queryParams.append("date_range", params.selectedDateRange);
+  if (params.user && params.user.trim()) queryParams.append("user", params.user.trim());
+  if (params.selectedStatus && params.selectedStatus.trim()) queryParams.append("order_status", params.selectedStatus);
+  if (params.selectedOrderType && params.selectedOrderType.trim()) queryParams.append("order_type", params.selectedOrderType);
+  if (params.selectedDateRange && params.selectedDateRange.trim()) queryParams.append("date_range", params.selectedDateRange);
   if (params.currentPage && params.currentPage > 1) {
     queryParams.append("page", params.currentPage.toString());
   }
 
   const url = `${PUBLIC_BACKEND_URL}/api/order/${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+  
+  console.log('Fetching orders from URL:', url);
+  console.log('Query params:', queryParams.toString());
 
   try {
     const data = await apiFetch(url);

@@ -5,6 +5,8 @@
   export let currentPage: number;
   export let totalPages: number;
   export let totalCount: number;
+  export let hasNext: boolean = false;
+  export let hasPrevious: boolean = false;
   export let onPageChange: (page: number) => void;
 
   $: pageNumbers = generatePageNumbers(currentPage, totalPages);
@@ -19,7 +21,7 @@
       <Button
         variant="secondary"
         size="sm"
-        disabled={currentPage === 1}
+        disabled={!hasPrevious}
         on:click={() => onPageChange(currentPage - 1)}
       >
         Өмнөх
@@ -36,7 +38,7 @@
       <Button
         variant="secondary"
         size="sm"
-        disabled={currentPage === totalPages}
+        disabled={!hasNext}
         on:click={() => onPageChange(currentPage + 1)}
       >
         Дараах
