@@ -1,5 +1,5 @@
 import { createQuery, createMutation, useQueryClient } from '@tanstack/svelte-query';
-import type { Restaurant, RestaurantFormData, AdminRestaurantListResponse, AdminRestaurantDetail } from '$lib/types/restaurant';
+import type { Restaurant, RestaurantFormData, AdminRestaurantListResponse, AdminRestaurantDetail, MySubscriptionResponse } from '$lib/types/restaurant';
 import { apiFetch } from '$lib/utils/api';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
 import type { PaginatedResponse } from '$lib/types/auth'; // Import PaginatedResponse
@@ -126,3 +126,12 @@ export const createRemoveUserFromRestaurantMutation = () => {
     },
   });
 };
+
+// ===== RESTAURANT ADMIN SUBSCRIPTION ENDPOINT =====
+
+// Fetch restaurant admin's own subscription
+export const createGetMySubscriptionQuery = () => 
+  createQuery<MySubscriptionResponse, Error>({
+    queryKey: ['my-subscription'],
+    queryFn: () => apiFetch<MySubscriptionResponse>(`${PUBLIC_BACKEND_URL}/api/my-subscription/`),
+  });

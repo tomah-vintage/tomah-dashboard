@@ -14,6 +14,7 @@
     ShoppingCart,
     Tags,
     Star,
+    CreditCard,
   } from "@lucide/svelte";
 
   import { sessionStore } from "$lib/stores/sessionStore";
@@ -105,6 +106,7 @@
           <SidebarButton href="/seating" label="Ширээ" icon={Store} />
           <SidebarButton href="/banners" label="Баннер" icon={Image} />
           <SidebarButton href="/reviews" label="Үнэлгээ" icon={MessageSquare} />
+          <SidebarButton href="/subscription" label="Төлбөр" icon={CreditCard} />
           <SidebarButton
             href="/settings"
             label="Тохиргоо"

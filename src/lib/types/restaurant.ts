@@ -84,7 +84,8 @@ export interface RestaurantSubscription {
 	is_due_soon: boolean;
 	payment_summary: PaymentSummary;
 	latest_invoice: SubscriptionInvoice | null;
-	invoice_history: SubscriptionInvoice[];
+	invoice_history?: SubscriptionInvoice[];
+	recent_invoices?: SubscriptionInvoice[];
 }
 
 // Separate type for list API which has different subscription structure
@@ -244,4 +245,10 @@ export interface NewRestaurantFormData {
 	last_name: string;
 	password: string;
 	role: number;
+}
+
+// Types for restaurant admin my-subscription endpoint
+export interface MySubscriptionResponse {
+	subscription: RestaurantSubscription | null;
+	message?: string;
 }
