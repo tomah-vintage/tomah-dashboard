@@ -14,11 +14,13 @@
     BannerGrid,
     BannerUploadModal,
     BannerLayoutManager,
+    BannerTypeSelector,
   } from "$lib/components/banners";
   import { sessionStore } from "$lib/stores/sessionStore";
 
   export let data: PageData;
 
+  let showTypeSelector = false;
   let showUploadModal = false;
   let showLayoutManager = false;
   let selectedLayoutType: BannerLayoutType | null = null;
@@ -41,7 +43,18 @@
   }
 
   function handleUploadBanner() {
+    showTypeSelector = true;
+  }
+
+  function handleBannerTypeSelected(event: CustomEvent<{ bannerType: BannerLayoutType }>) {
+    selectedLayoutType = event.detail.bannerType;
+    showTypeSelector = false;
     showUploadModal = true;
+  }
+
+  function handleTypeSelectorClose() {
+    showTypeSelector = false;
+    selectedLayoutType = null;
   }
 
   function handleManageLayout(layoutType: string) {
@@ -51,6 +64,7 @@
 
   function handleCloseUploadModal() {
     showUploadModal = false;
+    selectedLayoutType = null;
   }
 
   function handleCloseLayoutManager() {
@@ -63,9 +77,6 @@
       file: File;
       layout_type: BannerLayoutType;
       position: BannerPosition;
-      width?: number;
-      height?: number;
-      animation_type?: string;
     }>
   ) {
     const restaurantId = $sessionStore.user?.restaurant?.id;
@@ -82,6 +93,7 @@
     try {
       await $addBannerMutation.mutateAsync(bannerData);
       showUploadModal = false;
+      selectedLayoutType = null;
     } catch (error) {
       console.error('Failed to create banner:', error);
       // You might want to show a toast or error message here
@@ -184,22 +196,6 @@
         </Button>
         <Button
           variant="secondary"
-          on:click={() => handleManageLayout(BannerLayoutType.Featured)}
-          class="flex items-center"
-        >
-          <Image class="w-4 h-4 mr-2" />
-          Featured Layout
-        </Button>
-        <Button
-          variant="secondary"
-          on:click={() => handleManageLayout(BannerLayoutType.Promotional)}
-          class="flex items-center"
-        >
-          <Image class="w-4 h-4 mr-2" />
-          Promotional Layout
-        </Button>
-        <Button
-          variant="secondary"
           on:click={() => handleManageLayout(BannerLayoutType.Magazine)}
           class="flex items-center"
         >
@@ -259,8 +255,15 @@
 </div>
 
 <!-- Modals -->
+<BannerTypeSelector
+  open={showTypeSelector}
+  on:select={handleBannerTypeSelected}
+  on:close={handleTypeSelectorClose}
+/>
+
 <BannerUploadModal
   open={showUploadModal}
+  selectedLayoutType={selectedLayoutType}
   on:save={handleSaveBanner}
   on:close={handleCloseUploadModal}
 />

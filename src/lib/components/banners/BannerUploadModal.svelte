@@ -11,31 +11,46 @@
   import { Input } from "$lib/components/ui/input";
   import { BannerLayoutType, BannerPosition } from "$lib/types/banner";
   import ImageUploader from "$lib/components/new-restaurant/ImageUploader.svelte";
-  import AspectRatioSelector from "./AspectRatioSelector.svelte";
 
   const dispatch = createEventDispatcher();
 
   export let open = false;
+  export let selectedLayoutType: BannerLayoutType | undefined = BannerLayoutType.Hero;
 
-  let selectedLayoutType: BannerLayoutType = BannerLayoutType.Hero;
   let selectedPosition: BannerPosition = BannerPosition.Top;
-  let animationType = "";
   let selectedFile: File | null = null;
-  let aspectRatio = "16:9";
 
   const layoutTypeOptions = [
-    { value: BannerLayoutType.Hero, label: "Hero - Том баннер" },
-    { value: BannerLayoutType.Carousel, label: "Carousel - Гүйдэг баннер" },
-    { value: BannerLayoutType.Featured, label: "Featured - Онцлох" },
-    { value: BannerLayoutType.Promotional, label: "Promotional - Зар сурталчилгаа" },
-    { value: BannerLayoutType.Magazine, label: "Magazine - Сэтгүүлийн төрөл" },
+    { value: BannerLayoutType.Hero, label: "Hero баннер" },
+    { value: BannerLayoutType.Carousel, label: "Carousel баннер" },
+    { value: BannerLayoutType.Magazine, label: "Magazine баннер" },
   ];
 
   const positionOptions = [
-    { value: BannerPosition.Top, label: "Top - Дээд хэсэг" },
-    { value: BannerPosition.Middle, label: "Middle - Дундаж хэсэг" },
-    { value: BannerPosition.Bottom, label: "Bottom - Доод хэсэг" },
-    { value: BannerPosition.Sidebar, label: "Sidebar - Хажуугийн хэсэг" },
+    { 
+      value: BannerPosition.Top, 
+      label: "Дээд хэсэг", 
+      description: "Хуудасны хамгийн дээд талд харагдана",
+      icon: "⬆️"
+    },
+    { 
+      value: BannerPosition.Middle, 
+      label: "Дунд хэсэг", 
+      description: "Хуудасны голд байрлана",
+      icon: "➡️"
+    },
+    { 
+      value: BannerPosition.Bottom, 
+      label: "Доод хэсэг", 
+      description: "Хуудасны хамгийн доод талд харагдана",
+      icon: "⬇️"
+    },
+    { 
+      value: BannerPosition.Sidebar, 
+      label: "Хажуугийн хэсэг", 
+      description: "Хуудасны хажуу талд байрлана",
+      icon: "↔️"
+    },
   ];
 
   function handleImageSelect(event: CustomEvent<{ files: File[] }>) {
@@ -45,9 +60,6 @@
     }
   }
 
-  function handleAspectRatioChange(event: CustomEvent<{ aspectRatio: string }>) {
-    aspectRatio = event.detail.aspectRatio;
-  }
 
   function handleSave() {
     if (!selectedFile) {
@@ -55,19 +67,12 @@
       return;
     }
 
-    // Parse aspect ratio to get width and height
-    const [widthRatio, heightRatio] = aspectRatio.split(':').map(Number);
-    const baseSize = 300; // Base size for calculation
-    const calculatedWidth = Math.round(baseSize * (widthRatio / Math.max(widthRatio, heightRatio)));
-    const calculatedHeight = Math.round(baseSize * (heightRatio / Math.max(widthRatio, heightRatio)));
-
+    const layoutType = selectedLayoutType || BannerLayoutType.Hero;
+    
     dispatch("save", {
       file: selectedFile,
-      layout_type: selectedLayoutType,
-      position: selectedPosition,
-      width: calculatedWidth,
-      height: calculatedHeight,
-      animation_type: animationType.trim() || undefined,
+      layout_type: layoutType,
+      position: layoutType === BannerLayoutType.Magazine ? selectedPosition : BannerPosition.Top,
     });
 
     // Reset form
@@ -80,11 +85,8 @@
   }
 
   function resetForm() {
-    selectedLayoutType = BannerLayoutType.Hero;
     selectedPosition = BannerPosition.Top;
-    animationType = "";
     selectedFile = null;
-    aspectRatio = "16:9";
   }
 </script>
 
@@ -106,53 +108,64 @@
         />
       </div>
 
-      <!-- Aspect Ratio Selector -->
-      <AspectRatioSelector 
-        bind:selectedAspectRatio={aspectRatio}
-        on:change={handleAspectRatioChange}
-      />
 
-      <!-- Form Fields -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="space-y-2">
-          <Label for_="layoutType">Төрөл *</Label>
-          <select
-            id="layoutType"
-            bind:value={selectedLayoutType}
-            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            {#each layoutTypeOptions as option}
-              <option value={option.value}>{option.label}</option>
-            {/each}
-          </select>
-        </div>
-
-        <div class="space-y-2">
-          <Label for_="position">Байрлал *</Label>
-          <select
-            id="position"
-            bind:value={selectedPosition}
-            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            {#each positionOptions as option}
-              <option value={option.value}>{option.label}</option>
-            {/each}
-          </select>
-        </div>
-      </div>
-
+      <!-- Banner Type -->
       <div class="space-y-2">
-        <Label for_="animationType">Хөдөлгөөний төрөл</Label>
-        <Input
-          id="animationType"
-          bind:value={animationType}
-          placeholder="CSS animation class (fade-in, slide-up, гэх мэт)"
-        />
+        <Label for_="layoutType">Сонгосон төрөл</Label>
+        <div class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 font-medium text-gray-700">
+          {layoutTypeOptions.find(opt => opt.value === selectedLayoutType)?.label || selectedLayoutType || BannerLayoutType.Hero}
+        </div>
       </div>
+
+      <!-- Position Selection - Only for Magazine banners -->
+      {#if selectedLayoutType === BannerLayoutType.Magazine}
+        <div class="space-y-3">
+          <Label>Баннерын байрлал *</Label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {#each positionOptions as option}
+              <button
+                type="button"
+                class="p-4 border-2 rounded-lg transition-all duration-200 text-left {selectedPosition === option.value ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'}"
+                on:click={() => selectedPosition = option.value}
+              >
+                <div class="flex items-start space-x-3">
+                  <div class="text-2xl">{option.icon}</div>
+                  <div class="flex-1">
+                    <div class="font-medium text-gray-900 mb-1">
+                      {option.label}
+                    </div>
+                    <div class="text-sm text-gray-600">
+                      {option.description}
+                    </div>
+                  </div>
+                  {#if selectedPosition === option.value}
+                    <div class="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                      <div class="w-2 h-2 bg-white rounded-full"></div>
+                    </div>
+                  {/if}
+                </div>
+              </button>
+            {/each}
+          </div>
+        </div>
+      {:else}
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+          <div class="flex items-center space-x-2">
+            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+            <span class="text-sm text-gray-600">
+              {#if selectedLayoutType === BannerLayoutType.Hero}
+                Hero баннер нүүр хуудасны дээд хэсэгт байрлана
+              {:else if selectedLayoutType === BannerLayoutType.Carousel}
+                Carousel баннер тодорхой байрлалтай байдаг
+              {/if}
+            </span>
+          </div>
+        </div>
+      {/if}
 
       <!-- Actions -->
       <div class="flex justify-end space-x-3">
-        <Button variant="outline" on:click={handleClose}>Болих</Button>
+        <Button variant="secondary" on:click={handleClose}>Болих</Button>
         <Button on:click={handleSave} disabled={!selectedFile}>
           Хадгалах
         </Button>
