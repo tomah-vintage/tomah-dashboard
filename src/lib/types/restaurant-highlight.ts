@@ -1,4 +1,4 @@
-export type HighlightType = 'BADGE' | 'BANNER' | 'FEATURED';
+export type HighlightType = 'BADGE' | 'FEATURED';
 
 export interface SimpleRestaurant {
 	id: number;
@@ -14,6 +14,7 @@ export interface RestaurantHighlight {
 	highlight_type: HighlightType;
 	color: string;
 	icon?: string;
+	image_url?: string;
 	is_active: boolean;
 	order_index: number;
 	created_at: string;
@@ -27,6 +28,7 @@ export interface RestaurantHighlightForm {
 	highlight_type: HighlightType;
 	color: string;
 	icon?: string;
+	image_url?: string;
 	is_active: boolean;
 	order_index: number;
 }

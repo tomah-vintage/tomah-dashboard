@@ -89,6 +89,13 @@
         {/if}
         {#if $sessionStore.user?.role_name === "admin"}
           <SidebarButton
+            href="/banner-highlights"
+            label="Баннер сурталчилгаа"
+            icon={Image}
+          />
+        {/if}
+        {#if $sessionStore.user?.role_name === "admin"}
+          <SidebarButton
             href="/reviews"
             label="Үнэлгээ"
             icon={MessageSquare}

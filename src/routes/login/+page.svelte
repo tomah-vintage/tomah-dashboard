@@ -6,6 +6,9 @@
   import { Input } from "$lib/components/ui/input";
   import { page } from "$app/stores";
   import { base } from "$app/paths";
+  import { sessionStore } from "$lib/stores/sessionStore";
+  import { PUBLIC_BACKEND_URL } from "$env/static/public";
+  import type { User } from "$lib/types/auth";
 
   const loginMutation = createLoginMutation();
 
@@ -17,9 +20,32 @@
     $loginMutation.mutate(
       { email, password },
       {
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
           document.cookie = `session=${data.access}; path=/; max-age=86400; SameSite=Strict`; // Expires in 1 day
           document.cookie = `refreshToken=${data.refresh}; path=/; max-age=2592000; SameSite=Strict`; // Expires in 30 days
+          
+          // Fetch user data and update session store immediately
+          try {
+            const userResponse = await fetch(`${PUBLIC_BACKEND_URL}/api/me/`, {
+              headers: {
+                Authorization: `Bearer ${data.access}`
+              }
+            });
+            
+            if (userResponse.ok) {
+              const user: User = await userResponse.json();
+              sessionStore.set({
+                user: {
+                  ...user,
+                  name: `${user.first_name} ${user.last_name}`,
+                  restaurantId: user.restaurant?.id
+                }
+              });
+            }
+          } catch (error) {
+            console.error('Failed to fetch user data after login:', error);
+          }
+          
           const redirectTo = $page.url.searchParams.get("redirectTo");
           goto(redirectTo || `${base}/`);
         },

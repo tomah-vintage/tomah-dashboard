@@ -1,0 +1,1 @@
+export { default as PlatformBannersMain } from './PlatformBannersMain.svelte';

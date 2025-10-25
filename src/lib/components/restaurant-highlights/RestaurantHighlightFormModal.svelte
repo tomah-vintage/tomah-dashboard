@@ -9,6 +9,7 @@
 
   export let showModal = false;
   export let highlight: RestaurantHighlight | null = null;
+  export let defaultType: 'BADGE' | 'FEATURED' = 'BADGE';
 
   const dispatch = createEventDispatcher();
   const addRestaurantHighlightMutation = createAddRestaurantHighlightMutation();
@@ -22,10 +23,14 @@
 
   $: if (highlight && showModal) {
     form = highlightToForm(highlight);
+  } else if (showModal && !highlight) {
+    // Initialize form with default type for new items
+    resetForm();
   }
 
   function resetForm() {
     form = createEmptyHighlightForm();
+    form.highlight_type = defaultType;
   }
 
   function closeModal() {

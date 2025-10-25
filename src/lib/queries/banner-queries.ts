@@ -1,24 +1,8 @@
 import { createQuery, createMutation, useQueryClient } from '@tanstack/svelte-query';
 import type { Banner } from '$lib/types/banner';
 import { apiFetch } from '$lib/utils/api';
+import { uploadImage } from '$lib/utils/image-upload';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
-
-// Upload image and get URL
-async function uploadImage(file: File): Promise<string> {
-  const formData = new FormData();
-  formData.append('file', file);
-  
-  const response = await apiFetch<{ url: string }>(
-    `${PUBLIC_BACKEND_URL}/api/upload/`,
-    {
-      method: 'POST',
-      body: formData
-    },
-    'file'
-  );
-  
-  return response.url;
-}
 
 // Get all banners for a restaurant
 export function createGetBannersQuery(initialData?: Banner[]) {

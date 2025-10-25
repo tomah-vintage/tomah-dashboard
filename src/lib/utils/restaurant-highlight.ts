@@ -34,8 +34,6 @@ export function getHighlightTypeLabel(type: string): string {
   switch (type) {
     case 'BADGE':
       return 'Тэмдэг/Шошго';
-    case 'BANNER':
-      return 'Баннер/Сурталчилгаа';
     case 'FEATURED':
       return 'Онцлох';
     default:
@@ -47,8 +45,6 @@ export function getHighlightTypeColor(type: string): string {
   switch (type) {
     case 'BADGE':
       return 'bg-blue-100 text-blue-800';
-    case 'BANNER':
-      return 'bg-purple-100 text-purple-800';
     case 'FEATURED':
       return 'bg-green-100 text-green-800';
     default:
@@ -74,6 +70,7 @@ export function createEmptyHighlightForm(): RestaurantHighlightForm {
     highlight_type: 'BADGE',
     color: '#007bff',
     icon: '',
+    image_url: '',
     is_active: true,
     order_index: 0
   };
@@ -86,6 +83,7 @@ export function highlightToForm(highlight: RestaurantHighlight): RestaurantHighl
     highlight_type: highlight.highlight_type,
     color: highlight.color,
     icon: highlight.icon || '',
+    image_url: highlight.image_url || '',
     is_active: highlight.is_active,
     order_index: highlight.order_index
   };

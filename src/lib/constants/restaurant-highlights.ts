@@ -14,11 +14,6 @@ export const HIGHLIGHT_TYPES: Array<{
     description: 'Жижиг шошго "Санал болгосон", "Өглөөний цай", "Гэр бүлийн"'
   },
   {
-    value: 'BANNER',
-    label: 'Баннер/Сурталчилгаа',
-    description: 'Нүүр хуудасны том сурталчилгааны баннер'
-  },
-  {
     value: 'FEATURED',
     label: 'Онцлох',
     description: 'Тусгайлан онцолсон ресторанууд'
