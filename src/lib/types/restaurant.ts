@@ -217,6 +217,25 @@ export interface RestaurantFormData {
 	status: 'active' | 'inactive';
 }
 
+// Extended type for restaurant settings updates (PATCH endpoint)
+export interface RestaurantSettingsData {
+	name?: string;
+	description?: string;
+	phone?: string;
+	email?: string;
+	address?: string;
+	latitude?: number;
+	longitude?: number;
+	cuisine_type?: string;
+	opening_hours?: string;
+	delivery_fee?: number;
+	minimum_order?: number;
+	estimated_delivery_time?: number;
+	is_active?: boolean;
+	logo_url?: string;
+	cover_image_url?: string;
+}
+
 export interface DailyHours {
   open: string; // e.g., "09:00"
   close: string; // e.g., "17:00"

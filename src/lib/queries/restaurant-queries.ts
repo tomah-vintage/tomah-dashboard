@@ -1,5 +1,5 @@
 import { createQuery, createMutation, useQueryClient } from '@tanstack/svelte-query';
-import type { Restaurant, RestaurantFormData, AdminRestaurantListResponse, AdminRestaurantDetail, MySubscriptionResponse } from '$lib/types/restaurant';
+import type { Restaurant, RestaurantFormData, AdminRestaurantListResponse, AdminRestaurantDetail, MySubscriptionResponse, RestaurantSettingsData } from '$lib/types/restaurant';
 import { apiFetch } from '$lib/utils/api';
 import { PUBLIC_BACKEND_URL } from '$env/static/public';
 import type { PaginatedResponse } from '$lib/types/auth'; // Import PaginatedResponse
@@ -54,6 +54,29 @@ export const createUpdateRestaurantMutation = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }),
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['restaurants'] });
+      queryClient.invalidateQueries({ queryKey: ['restaurant', variables.id] });
+    },
+  });
+};
+
+// Update restaurant settings using PUT
+export const createPatchRestaurantMutation = () => {
+  const queryClient = useQueryClient();
+  return createMutation<Restaurant, Error, { id: string; data: RestaurantSettingsData }>({
+    mutationFn: ({ id, data }) => {
+      console.log('🔧 PUT Restaurant Request:', {
+        url: `${PUBLIC_BACKEND_URL}/api/restaurants/${id}/`,
+        method: 'PUT',
+        data
+      });
+      return apiFetch<Restaurant>(`${PUBLIC_BACKEND_URL}/api/restaurants/${id}/`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+    },
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['restaurants'] });
       queryClient.invalidateQueries({ queryKey: ['restaurant', variables.id] });
@@ -185,7 +208,7 @@ export const createUpdateRestaurantStaffMutation = () => {
   return createMutation<RestaurantStaffUser, Error, { id: string | number; data: Partial<{ email: string; first_name: string; last_name: string; phone: string; role: number }> }>({
     mutationFn: ({ id, data }) => 
       apiFetch<RestaurantStaffUser>(`${PUBLIC_BACKEND_URL}/api/users/${id}/`, {
-        method: 'PATCH',
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       }),

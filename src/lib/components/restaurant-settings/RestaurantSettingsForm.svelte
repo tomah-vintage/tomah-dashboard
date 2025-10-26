@@ -5,6 +5,7 @@
   import { Input } from "$lib/components/ui/input";
   import MapPicker from "$lib/components/ui/map-picker/MapPicker.svelte";
   import OpenHoursInput from "$lib/components/ui/open-hours-input/OpenHoursInput.svelte";
+  import { DAY_MAPPING, REVERSE_DAY_MAPPING } from '$lib/utils/day-mapping';
   import type {
     OpeningHours,
     FormattedDailyHours,
@@ -42,15 +43,7 @@
     form.longitude = event.detail.longitude;
   }
 
-  const dayMapping: { [key: string]: number } = {
-    monday: 0,
-    tuesday: 1,
-    wednesday: 2,
-    thursday: 3,
-    friday: 4,
-    saturday: 5,
-    sunday: 6,
-  };
+  const dayMapping = DAY_MAPPING;
 
   function handleOpenHoursChange(event: CustomEvent<OpeningHours>) {
     const formattedOpenHours: FormattedDailyHours[] = [];
@@ -72,15 +65,7 @@
     form.open_hours = formattedOpenHours;
   }
 
-  const reverseDayMapping: { [key: number]: string } = {
-    0: "monday",
-    1: "tuesday",
-    2: "wednesday",
-    3: "thursday",
-    4: "friday",
-    5: "saturday",
-    6: "sunday",
-  };
+  const reverseDayMapping = REVERSE_DAY_MAPPING;
 
   function convertFormattedToOpeningHours(
     formattedHours: FormattedDailyHours[]

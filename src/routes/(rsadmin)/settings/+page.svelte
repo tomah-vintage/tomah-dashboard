@@ -1,10 +1,10 @@
 <script lang="ts">
-  import RestaurantSettingsMain from "$lib/components/restaurant-settings/RestaurantSettingsMain.svelte";
+  import RestaurantSettingsMainModern from "$lib/components/restaurant-settings/RestaurantSettingsMainModern.svelte";
   import { ChevronRight } from "@lucide/svelte";
-  import { base } from "$app/paths";
-  import type { Restaurant } from "$lib/types/restaurant";
-  export let data;
-  export let form;
+  import { sessionStore } from "$lib/stores/sessionStore";
+
+  // Get restaurant ID from session store - this goes directly to backend
+  $: restaurantId = $sessionStore.user?.restaurant?.id || $sessionStore.user?.restaurantId || "1";
 </script>
 
 <svelte:head>
@@ -22,17 +22,11 @@
         <ChevronRight size={16} class="text-gray-400" />
         <span class="font-medium text-gray-900">Ресторан тохиргоо</span>
       </div>
-      
-      <!-- Page Header -->
-      <div class="pb-6">
-        <h1 class="text-3xl font-bold text-gray-900">Ресторан тохиргоо</h1>
-        <p class="mt-2 text-gray-600">Рестораны мэдээлэл, байршил болон ажлын цагийг тохируулна уу</p>
-      </div>
     </div>
   </div>
 
   <!-- Main Content -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <RestaurantSettingsMain restaurant={data.restaurant as Restaurant | null} {form} />
+    <RestaurantSettingsMainModern {restaurantId} />
   </div>
 </div>

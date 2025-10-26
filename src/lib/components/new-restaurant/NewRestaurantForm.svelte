@@ -25,13 +25,13 @@
   }
 
   const dayMapping: { [key: string]: number } = {
-    monday: 0,
-    tuesday: 1,
-    wednesday: 2,
-    thursday: 3,
-    friday: 4,
-    saturday: 5,
-    sunday: 6,
+    monday: 1,
+    tuesday: 2,
+    wednesday: 3,
+    thursday: 4,
+    friday: 5,
+    saturday: 6,
+    sunday: 7,
   };
 
   function handleOpenHoursChange(event: CustomEvent<OpeningHours>) {
@@ -55,13 +55,13 @@
   }
 
   const reverseDayMapping: { [key: number]: string } = {
-    0: "monday",
-    1: "tuesday",
-    2: "wednesday",
-    3: "thursday",
-    4: "friday",
-    5: "saturday",
-    6: "sunday",
+    1: "monday",
+    2: "tuesday",
+    3: "wednesday",
+    4: "thursday",
+    5: "friday",
+    6: "saturday",
+    7: "sunday",
   };
 
   function convertFormattedToOpeningHours(

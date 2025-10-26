@@ -19,7 +19,9 @@
 
 	let searchQuery = '';
 
-	$: filteredRestaurants = restaurants.filter(r => r.name.toLowerCase().includes(searchQuery.toLowerCase()));
+	$: filteredRestaurants = restaurants.filter(r => 
+		r.name.toLowerCase().includes(searchQuery.toLowerCase())
+	);
 
 	function handlePageChange(page: number) {
 		currentPage = page;
