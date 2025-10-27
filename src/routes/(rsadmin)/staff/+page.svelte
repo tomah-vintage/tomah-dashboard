@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageData } from "./$types";
   import { createQuery } from "@tanstack/svelte-query";
-  import { UserPlus, Edit, Trash2, Eye } from "@lucide/svelte";
+  import { UserPlus, Edit, Trash2 } from "@lucide/svelte";
   import { Button } from "$lib/components/ui/button";
   import { Badge } from "$lib/components/ui/badge";
   import {
@@ -11,11 +11,14 @@
     type RestaurantStaffUser,
   } from "$lib/queries/restaurant-queries";
   import CreateUserModal from "$lib/components/restaurant-detail/CreateUserModal.svelte";
+  import EditUserModal from "$lib/components/restaurant-detail/EditUserModal.svelte";
   import toast from "svelte-french-toast";
 
   export let data: PageData;
 
   let showCreateModal = false;
+  let showEditModal = false;
+  let selectedUserForEdit: RestaurantStaffUser | null = null;
 
   const staffQuery = createGetRestaurantStaffQuery();
   const deleteStaffMutation = createDeleteRestaurantStaffMutation();
@@ -33,18 +36,22 @@
     toast.success("Шинэ ажилтан амжилттай нэмэгдлээ");
   }
 
-  function handleViewUser(user: RestaurantStaffUser) {
-    // TODO: Implement user detail view
-    toast("Ажилтангийн дэлгэрэнгүй мэдээлэл харах функц удахгүй нэмэгдэнэ", {
-      icon: "ℹ️",
-    });
-  }
 
   function handleEditUser(user: RestaurantStaffUser) {
-    // TODO: Implement user edit functionality
-    toast("Ажилтангийн мэдээлэл засах функц удахгүй нэмэгдэнэ", {
-      icon: "ℹ️",
-    });
+    selectedUserForEdit = user;
+    showEditModal = true;
+  }
+
+  function handleUserUpdated() {
+    showEditModal = false;
+    selectedUserForEdit = null;
+    // Refresh the staff list
+    $staffQuery.refetch();
+  }
+
+  function handleCloseEditModal() {
+    showEditModal = false;
+    selectedUserForEdit = null;
   }
 
   async function handleDeleteUser(user: RestaurantStaffUser) {
@@ -238,15 +245,6 @@
             <Button
               variant="secondary"
               size="sm"
-              on:click={() => handleViewUser(user)}
-              class="flex-1 flex items-center justify-center gap-1"
-            >
-              <Eye size={14} />
-              <span class="hidden sm:inline text-xs">Харах</span>
-            </Button>
-            <Button
-              variant="secondary"
-              size="sm"
               on:click={() => handleEditUser(user)}
               class="flex-1 flex items-center justify-center gap-1"
             >
@@ -297,5 +295,14 @@
     restaurantId={data.restaurantId}
     bind:showModal={showCreateModal}
     on:userCreated={handleUserCreated}
+  />
+{/if}
+
+{#if showEditModal}
+  <EditUserModal
+    bind:showModal={showEditModal}
+    user={selectedUserForEdit}
+    on:userUpdated={handleUserUpdated}
+    on:close={handleCloseEditModal}
   />
 {/if}
