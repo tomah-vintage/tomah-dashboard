@@ -8,6 +8,7 @@
   export let open: boolean;
   export let table: SeatingTable | null;
   export let siteUrl: string;
+  export let restaurantId: string;
 
   const dispatch = createEventDispatcher();
 
@@ -15,8 +16,8 @@
   let iframe: HTMLIFrameElement;
 
   $: {
-    if (table && siteUrl) {
-      const menuUrl = `${siteUrl}/menu?table=${table.id}`;
+    if (table && restaurantId) {
+      const menuUrl = `qpick.mn/restaurant/${restaurantId}?table=${table.id}`;
       qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
         menuUrl
       )}&size=200x200`;

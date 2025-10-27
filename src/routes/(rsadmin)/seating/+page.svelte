@@ -328,5 +328,6 @@
   open={showQrModal}
   table={selectedTableForQr}
   siteUrl={PUBLIC_SITE_URL}
+  restaurantId={$sessionStore.user?.restaurant?.id || ""}
   on:close={handleCloseQrModal}
 />
