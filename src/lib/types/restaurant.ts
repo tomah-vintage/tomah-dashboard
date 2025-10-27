@@ -227,7 +227,7 @@ export interface RestaurantSettingsData {
 	latitude?: number;
 	longitude?: number;
 	cuisine_type?: string;
-	opening_hours?: string;
+	open_hours?: string;
 	delivery_fee?: number;
 	minimum_order?: number;
 	estimated_delivery_time?: number;

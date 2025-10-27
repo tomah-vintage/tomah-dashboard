@@ -73,6 +73,24 @@ export const createUpdateMenuItemMutation = () => {
 	});
 };
 
+// Delete a menu item
+export const createDeleteMenuItemMutation = () => {
+	const queryClient = useQueryClient();
+	return createMutation<void, Error, number>({
+		mutationFn: (menuItemId) =>
+			apiFetch<void>(`${PUBLIC_BACKEND_URL}/api/menu-item/${menuItemId}/`, {
+				method: 'DELETE'
+			}),
+		onSuccess: () => {
+			toast.success('Хоол амжилттай устгагдлаа!');
+			queryClient.invalidateQueries({ queryKey: ['menuItems'] });
+		},
+		onError: (error) => {
+			toast.error(`Хоол устгахад алдаа гарлаа: ${error.message}`);
+		}
+	});
+};
+
 // Delete a category
 export const createDeleteCategoryMutation = () => {
 	const queryClient = useQueryClient();

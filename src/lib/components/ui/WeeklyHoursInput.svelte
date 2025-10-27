@@ -27,34 +27,60 @@
   };
 
   // Parse existing value when component loads
-  $: if (value && value.trim()) {
+  $: if (value && typeof value === 'string' && value.trim()) {
     parseOpeningHours(value);
   }
 
   function parseOpeningHours(hoursString: string) {
     try {
-      // Expected format: "1:09:00-22:00,2:09:00-22:00,3:closed,..."
-      const dayEntries = hoursString.split(',');
+      // Reset all days to closed first
+      for (let day = 1; day <= 7; day++) {
+        weeklyHours[day] = { open: '', close: '', isClosed: true };
+      }
       
-      dayEntries.forEach(entry => {
-        const [dayStr, timeStr] = entry.split(':');
-        const dayNum = parseInt(dayStr);
+      // Try to parse as JSON array first (new format)
+      if (hoursString.startsWith('[')) {
+        const hoursArray = JSON.parse(hoursString);
+        hoursArray.forEach((entry: any) => {
+          // Convert API day (0=Sunday, 6=Saturday) to ISO day (1=Monday, 7=Sunday)
+          const isoDay = entry.day_of_week === 0 ? 7 : entry.day_of_week;
+          
+          if (isoDay >= 1 && isoDay <= 7) {
+            // Remove seconds from time format (09:00:00 -> 09:00)
+            const openTime = entry.opening_time?.substring(0, 5) || '';
+            const closeTime = entry.closing_time?.substring(0, 5) || '';
+            
+            weeklyHours[isoDay] = {
+              open: openTime,
+              close: closeTime,
+              isClosed: false
+            };
+          }
+        });
+      } else {
+        // Legacy format: "1:09:00-22:00,2:09:00-22:00,3:closed,..."
+        const dayEntries = hoursString.split(',');
         
-        if (dayNum >= 1 && dayNum <= 7) {
-          if (timeStr === 'closed') {
-            weeklyHours[dayNum] = { open: '', close: '', isClosed: true };
-          } else {
-            const [openTime, closeTime] = timeStr.split('-');
-            if (openTime && closeTime) {
-              weeklyHours[dayNum] = { 
-                open: openTime, 
-                close: closeTime, 
-                isClosed: false 
-              };
+        dayEntries.forEach(entry => {
+          const [dayStr, timeStr] = entry.split(':');
+          const dayNum = parseInt(dayStr);
+          
+          if (dayNum >= 1 && dayNum <= 7) {
+            if (timeStr === 'closed') {
+              weeklyHours[dayNum] = { open: '', close: '', isClosed: true };
+            } else {
+              const [openTime, closeTime] = timeStr.split('-');
+              if (openTime && closeTime) {
+                weeklyHours[dayNum] = { 
+                  open: openTime, 
+                  close: closeTime, 
+                  isClosed: false 
+                };
+              }
             }
           }
-        }
-      });
+        });
+      }
       
       // Trigger reactivity
       weeklyHours = { ...weeklyHours };
@@ -64,18 +90,23 @@
   }
 
   function generateOpeningHours(): string {
-    const hoursArray: string[] = [];
+    const hoursArray: any[] = [];
     
     for (let day = 1; day <= 7; day++) {
       const hours = weeklyHours[day];
-      if (hours.isClosed) {
-        hoursArray.push(`${day}:closed`);
-      } else if (hours.open && hours.close) {
-        hoursArray.push(`${day}:${hours.open}-${hours.close}`);
+      // Convert ISO day (1=Monday, 7=Sunday) to API format (0=Sunday, 6=Saturday)
+      const apiDay = day === 7 ? 0 : day;
+      
+      if (!hours.isClosed && hours.open && hours.close) {
+        hoursArray.push({
+          day_of_week: apiDay,
+          opening_time: `${hours.open}:00`,
+          closing_time: `${hours.close}:00`
+        });
       }
     }
     
-    return hoursArray.join(',');
+    return JSON.stringify(hoursArray);
   }
 
   function updateHours() {
@@ -182,9 +213,4 @@
     {/each}
   </div>
 
-  <!-- Preview of generated value -->
-  <div class="bg-gray-50 rounded-lg p-3">
-    <label class="block text-xs font-medium text-gray-700 mb-1">Үүссэн утга (API-д илгээгдэх)</label>
-    <code class="text-xs text-gray-600 font-mono break-all">{value || generateOpeningHours()}</code>
-  </div>
 </div>

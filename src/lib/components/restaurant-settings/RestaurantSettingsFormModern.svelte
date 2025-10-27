@@ -25,9 +25,9 @@
     formData = {
       name: restaurant.name || '',
       address: restaurant.address || '',
-      latitude: restaurant.latitude || undefined,
-      longitude: restaurant.longitude || undefined,
-      opening_hours: restaurant.opening_hours || ''
+      latitude: typeof restaurant.latitude === 'string' ? parseFloat(restaurant.latitude) : restaurant.latitude || undefined,
+      longitude: typeof restaurant.longitude === 'string' ? parseFloat(restaurant.longitude) : restaurant.longitude || undefined,
+      open_hours: restaurant.open_hours || restaurant.opening_hours || ''
     };
   }
 
@@ -38,10 +38,24 @@
     // Filter out undefined/empty values to only send changed fields
     const dataToUpdate: RestaurantSettingsData = {};
     Object.entries(formData).forEach(([key, value]) => {
-      if (value !== undefined && value !== '' && value !== null) {
+      // Special handling for open_hours - parse JSON string to array
+      if (key === 'open_hours') {
+        if (value && typeof value === 'string') {
+          try {
+            (dataToUpdate as any)[key] = JSON.parse(value);
+          } catch (error) {
+            console.error('Error parsing open_hours JSON:', error);
+            (dataToUpdate as any)[key] = [];
+          }
+        } else {
+          (dataToUpdate as any)[key] = [];
+        }
+      } else if (value !== undefined && value !== '' && value !== null) {
         (dataToUpdate as any)[key] = value;
       }
     });
+
+    console.log('Form data being sent:', dataToUpdate);
 
     patchRestaurant(
       { id: restaurantId, data: dataToUpdate },
@@ -63,7 +77,7 @@
   }
 
   function handleHoursChange(hours: string) {
-    formData.opening_hours = hours;
+    formData.open_hours = hours;
   }
 
 </script>
@@ -134,7 +148,7 @@
       </div>
 
       <WeeklyHoursInput
-        value={formData.opening_hours}
+        value={formData.open_hours}
         onChange={handleHoursChange}
       />
     </div>

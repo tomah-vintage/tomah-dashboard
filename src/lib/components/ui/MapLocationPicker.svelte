@@ -7,20 +7,10 @@
   export let longitude: number = 106.9167;
   export let onLocationChange: (lat: number, lng: number) => void = () => {};
 
-  // Helper function to limit coordinate precision to max 9 digits total
+  // Helper function to limit coordinate precision to max 6 decimal places
   function limitCoordinatePrecision(coord: number): number {
-    // Convert to string to count digits
-    const coordStr = Math.abs(coord).toString();
-    const [intPart, decPart] = coordStr.split('.');
-    
-    // If total digits exceed 9, reduce decimal places
-    const totalDigits = intPart.length + (decPart?.length || 0);
-    if (totalDigits > 9) {
-      const maxDecimalPlaces = Math.max(0, 9 - intPart.length);
-      return parseFloat(coord.toFixed(maxDecimalPlaces));
-    }
-    
-    return coord;
+    // Limit to 6 decimal places to match backend validation
+    return parseFloat(coord.toFixed(6));
   }
 
   let mapContainer: HTMLElement;
