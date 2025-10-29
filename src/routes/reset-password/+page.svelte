@@ -29,9 +29,7 @@
 
   // Handle form result
   $: if (form?.success) {
-    setTimeout(() => {
-      goto(`${base}/login`);
-    }, 3000);
+    goto(`${base}/login`);
   }
 </script>
 
@@ -43,7 +41,7 @@
   <div class="w-full max-w-md rounded-xl bg-card-background p-8">
     <h2 class="mb-2 text-center text-2xl font-bold text-gray-900">Нууц үг сэргээх</h2>
     <p class="mb-8 text-center text-sm text-gray-600">
-      <strong>{email}</strong> хаяг руу илгээсэн 6 оронтой кодыг оруулна уу
+      <strong>{email}</strong> хаяг руу илгээсэн 4 оронтой кодыг оруулна уу
     </p>
     
     <form method="POST" use:enhance={() => {
@@ -59,9 +57,9 @@
         name="otp_code"
         type="text"
         label=""
-        placeholder="6 оронтой код (жишээ: 123456)"
+        placeholder="4 оронтой код (жишээ: 1234)"
         bind:value={otpCode}
-        maxlength="6"
+        maxlength="4"
         required
         disabled={isLoading}
       />
