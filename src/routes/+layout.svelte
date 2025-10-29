@@ -13,7 +13,7 @@
   // Set the store value whenever the layout data changes
   $: $sessionStore.user = data.user!;
 
-  const noSidebarRoutes = ["/login", "/register"];
+  const noSidebarRoutes = ["/login", "/forgot-password", "/reset-password"];
 </script>
 
 <QueryClientProvider client={queryClient}>

@@ -23,29 +23,29 @@
         onSuccess: async (data) => {
           document.cookie = `session=${data.access}; path=/; max-age=86400; SameSite=Strict`; // Expires in 1 day
           document.cookie = `refreshToken=${data.refresh}; path=/; max-age=2592000; SameSite=Strict`; // Expires in 30 days
-          
+
           // Fetch user data and update session store immediately
           try {
             const userResponse = await fetch(`${PUBLIC_BACKEND_URL}/api/me/`, {
               headers: {
-                Authorization: `Bearer ${data.access}`
-              }
+                Authorization: `Bearer ${data.access}`,
+              },
             });
-            
+
             if (userResponse.ok) {
               const user: User = await userResponse.json();
               sessionStore.set({
                 user: {
                   ...user,
                   name: `${user.first_name} ${user.last_name}`,
-                  restaurantId: user.restaurant?.id
-                }
+                  restaurantId: user.restaurant?.id,
+                },
               });
             }
           } catch (error) {
-            console.error('Failed to fetch user data after login:', error);
+            console.error("Failed to fetch user data after login:", error);
           }
-          
+
           const redirectTo = $page.url.searchParams.get("redirectTo");
           goto(redirectTo || `${base}/`);
         },
@@ -94,14 +94,6 @@
           {/if}
         </Button>
       </Input>
-      <div class="text-right">
-        <a
-          href="{base}/forgot-password"
-          class="text-sm font-medium text-primary-blue hover:underline"
-          >Нууц үгээ мартсан уу?</a
-        >
-      </div>
-
       {#if $loginMutation.isError}
         <p class="text-sm text-status-error">{$loginMutation.error?.message}</p>
       {/if}
@@ -114,11 +106,13 @@
         {/if}
       </Button>
     </form>
-    <div class="mt-8 text-center text-sm text-gray-600">
-      <span>Бүртгэлтэй байгаа юу? </span>
-      <a
-        href="{base}/register"
-        class="font-medium text-primary-blue hover:underline">Бүртгүүлэх</a
+
+    <div class="mt-6 text-center">
+      <button
+        type="button"
+        on:click={() => goto(`/forgot-password`)}
+        class="text-sm font-medium text-primary-blue hover:underline bg-transparent border-none cursor-pointer"
+        >Нууц үгээ мартсан уу?</button
       >
     </div>
   </div>
