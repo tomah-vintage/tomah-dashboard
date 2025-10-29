@@ -67,7 +67,8 @@
     return new Intl.NumberFormat('mn-MN').format(revenue) + '₮';
   }
 
-  function getSubscriptionStatusColor(status: string): string {
+  function getSubscriptionStatusColor(status: string | undefined): string {
+    if (!status) return 'bg-gray-100 text-gray-800';
     switch (status.toLowerCase()) {
       case 'active':
         return 'bg-green-100 text-green-800';
@@ -83,7 +84,8 @@
     }
   }
 
-  function getSubscriptionStatusLabel(status: string): string {
+  function getSubscriptionStatusLabel(status: string | undefined): string {
+    if (!status) return 'Тодорхойгүй';
     switch (status.toLowerCase()) {
       case 'active':
         return 'Идэвхтэй';
@@ -180,7 +182,7 @@
   <td class="p-3">
     <div class="flex items-center gap-1">
       <Star class="h-4 w-4 text-yellow-500 fill-current" />
-      <span class="text-sm">{restaurant.average_rating.toFixed(1)}</span>
+      <span class="text-sm">{restaurant.average_rating?.toFixed(1) || 'N/A'}</span>
     </div>
   </td>
 
@@ -188,16 +190,16 @@
   <td class="p-3">
     <div class="space-y-1">
       <div class="flex items-center gap-1">
-        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium {getSubscriptionStatusColor(restaurant.subscription.status)}">
-          {getSubscriptionStatusLabel(restaurant.subscription.status)}
+        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium {getSubscriptionStatusColor(restaurant.subscription?.status)}">
+          {getSubscriptionStatusLabel(restaurant.subscription?.status)}
         </span>
       </div>
       <div class="text-xs text-gray-600">
-        {restaurant.subscription.plan_name}
+        {restaurant.subscription?.plan_name || 'N/A'}
       </div>
       <div class="flex items-center gap-1 text-xs text-gray-500">
         <Calendar class="h-3 w-3" />
-        {restaurant.subscription.days_until_expiry} өдөр үлдсэн
+        {restaurant.subscription?.days_until_expiry || 0} өдөр үлдсэн
       </div>
     </div>
   </td>
