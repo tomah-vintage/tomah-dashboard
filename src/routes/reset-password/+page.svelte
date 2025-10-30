@@ -46,8 +46,9 @@
     
     <form method="POST" use:enhance={() => {
       isLoading = true;
-      return async ({ result }) => {
+      return async ({ update }) => {
         isLoading = false;
+        await update();
       };
     }} class="space-y-6">
       <input type="hidden" name="email" value={email} />
