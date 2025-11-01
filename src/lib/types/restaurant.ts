@@ -18,6 +18,7 @@ export interface Restaurant {
 	longitude: number; // Added
 	open_hours: FormattedDailyHours[]; // Added
 	user?: User; // Added, assuming User type exists
+	bonum_api_key?: string; // Bonum Terminal ID (read-only from API)
 }
 
 // New types for admin restaurant endpoints
@@ -234,6 +235,8 @@ export interface RestaurantSettingsData {
 	is_active?: boolean;
 	logo_url?: string;
 	cover_image_url?: string;
+	bonum_api_key?: string; // Bonum Terminal ID (can be updated)
+	bonum_secret_key?: string; // Bonum App Secret (write-only, never returned)
 }
 
 export interface DailyHours {
