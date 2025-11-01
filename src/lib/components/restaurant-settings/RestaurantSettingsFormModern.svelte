@@ -106,9 +106,9 @@
   </div>
 {:else if restaurant}
   <div class="space-y-8">
-    
+
     <!-- Basic Information Section -->
-    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+    <div id="section-basic" class="scroll-mt-24">
       <div class="flex items-center mb-6">
         <div class="w-2 h-8 bg-blue-600 rounded-sm mr-3"></div>
         <div>
@@ -137,8 +137,11 @@
       </div>
     </div>
 
+    <!-- Divider -->
+    <div class="border-t border-gray-200"></div>
+
     <!-- Location Section -->
-    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+    <div id="section-location" class="scroll-mt-24">
       <div class="flex items-center mb-6">
         <div class="w-2 h-8 bg-green-600 rounded-sm mr-3"></div>
         <div>
@@ -154,9 +157,11 @@
       />
     </div>
 
+    <!-- Divider -->
+    <div class="border-t border-gray-200"></div>
 
     <!-- Operating Hours Section -->
-    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+    <div id="section-hours" class="scroll-mt-24">
       <div class="flex items-center mb-6">
         <div class="w-2 h-8 bg-orange-600 rounded-sm mr-3"></div>
         <div>
@@ -171,8 +176,11 @@
       />
     </div>
 
+    <!-- Divider -->
+    <div class="border-t border-gray-200"></div>
+
     <!-- Payment Credentials Section -->
-    <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+    <div id="section-payment" class="scroll-mt-24">
       <div class="flex items-center mb-6">
         <div class="w-2 h-8 bg-purple-600 rounded-sm mr-3"></div>
         <div>
@@ -255,8 +263,11 @@
       </div>
     </div>
 
+    <!-- Divider -->
+    <div class="border-t border-gray-200"></div>
+
     <!-- Save Section -->
-    <div class="bg-blue-50 rounded-xl p-6 border border-blue-200">
+    <div class="bg-blue-50 rounded-xl p-6 border border-blue-200 mt-8">
       <div class="flex justify-between items-center">
         <div>
           <h3 class="text-lg font-semibold text-gray-900">Өөрчлөлт хадгалах</h3>
