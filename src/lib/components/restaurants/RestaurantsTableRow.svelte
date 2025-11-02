@@ -1,63 +1,12 @@
 <script lang="ts">
-  import { Eye, Pencil, MoreVertical, Star, Users, DollarSign, CreditCard, Calendar } from "@lucide/svelte";
+  import { Pencil, Star, Users, DollarSign, Calendar } from "@lucide/svelte";
   import type { AdminRestaurantListItem } from "$lib/types/restaurant";
-  import { onMount, onDestroy, tick } from "svelte";
   import { goto } from "$app/navigation";
   import { base } from "$app/paths";
   import { Button } from "$lib/components/ui/button";
   import { Badge } from "$lib/components/ui/badge";
-  import { browser } from "$app/environment";
 
   export let restaurant: AdminRestaurantListItem;
-
-  let openMenu = false;
-  let menuButton: HTMLDivElement;
-  let menuElement: HTMLDivElement;
-  let opensUp = false;
-
-  function toggleMenu() {
-    openMenu = !openMenu;
-    if (openMenu) {
-      tick().then(() => {
-        if (!menuElement || !menuButton) return;
-        const menuRect = menuElement.getBoundingClientRect();
-        const buttonRect = menuButton.getBoundingClientRect();
-        const spaceBelow = window.innerHeight - buttonRect.bottom;
-
-        if (spaceBelow < menuRect.height + 10) {
-          opensUp = true;
-        } else {
-          opensUp = false;
-        }
-      });
-    } else {
-      opensUp = false;
-    }
-  }
-
-  function handleClickOutside(event: MouseEvent) {
-    if (
-      openMenu &&
-      menuButton &&
-      !menuButton.contains(event.target as Node) &&
-      menuElement &&
-      !menuElement.contains(event.target as Node)
-    ) {
-      openMenu = false;
-    }
-  }
-
-  onMount(() => {
-    if (browser) {
-      window.addEventListener("click", handleClickOutside, true);
-    }
-  });
-
-  onDestroy(() => {
-    if (browser) {
-      window.removeEventListener("click", handleClickOutside, true);
-    }
-  });
 
   function handleRowClick() {
     goto(`${base}/restaurants/${restaurant.id}`);
@@ -212,44 +161,19 @@
       day: "numeric",
     })}
   </td>
-  <td class="p-3 text-center relative">
+  <td class="p-3 text-center">
     <div
-      bind:this={menuButton}
       on:click|stopPropagation
       on:keydown={(e) => e.key === "Enter" && e.stopPropagation()}
       role="button"
       tabindex="0"
     >
-      <Button on:click={toggleMenu} variant="tertiary" class="p-1 rounded-full">
-        <MoreVertical class="h-5 w-5" />
-      </Button>
+      <a href="{base}/restaurants/{restaurant.id}/edit">
+        <Button variant="tertiary" size="sm" class="flex items-center gap-2">
+          <Pencil class="h-4 w-4" />
+          <span>Засах</span>
+        </Button>
+      </a>
     </div>
-    {#if openMenu}
-      <div
-        bind:this={menuElement}
-        on:click|stopPropagation
-        on:keydown={(e) => e.key === "Enter" && e.stopPropagation()}
-        role="menu"
-        tabindex="0"
-        class="absolute right-0 z-20 w-32 rounded-md border bg-white shadow-lg"
-        class:top-full={!opensUp}
-        class:mt-1={!opensUp}
-        class:bottom-full={opensUp}
-        class:mb-1={opensUp}
-      >
-        <a
-          href="{base}/restaurants/{restaurant.id}"
-          class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
-        >
-          <Eye class="h-4 w-4" /> Харах
-        </a>
-        <a
-          href="{base}/restaurants/{restaurant.id}/edit"
-          class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100"
-        >
-          <Pencil class="h-4 w-4" /> Засах
-        </a>
-      </div>
-    {/if}
   </td>
 </tr>
