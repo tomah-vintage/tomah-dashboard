@@ -1,18 +1,20 @@
 <script lang="ts">
-  import { 
+  import {
     createGetAdminRestaurantDetailQuery,
     createAddUserToRestaurantMutation,
-    createRemoveUserFromRestaurantMutation
+    createRemoveUserFromRestaurantMutation,
+    createActivateSubscriptionMutation,
+    createDeactivateSubscriptionMutation
   } from '$lib/queries/restaurant-queries';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import { base } from '$app/paths';
-  import { 
-    DollarSign, 
-    ShoppingCart, 
-    Star, 
-    Users, 
-    TrendingUp, 
+  import {
+    DollarSign,
+    ShoppingCart,
+    Star,
+    Users,
+    TrendingUp,
     Calendar,
     MapPin,
     Phone,
@@ -27,11 +29,14 @@
     ArrowLeft,
     CreditCard,
     Calendar as CalendarIcon,
-    AlertCircle
+    AlertCircle,
+    CheckCircle,
+    XCircle
   } from "@lucide/svelte";
   import { Badge } from "$lib/components/ui/badge";
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
+  import { Dialog, DialogContent, DialogHeader, DialogTitle } from "$lib/components/ui/dialog";
   import type { AddUserToRestaurantData } from '$lib/types/restaurant';
 
   $: restaurantId = $page.params.restaurantId;
@@ -41,6 +46,10 @@
   // User management mutations
   const addUserMutation = createAddUserToRestaurantMutation();
   const removeUserMutation = createRemoveUserFromRestaurantMutation();
+
+  // Subscription management mutations
+  const activateSubscriptionMutation = createActivateSubscriptionMutation();
+  const deactivateSubscriptionMutation = createDeactivateSubscriptionMutation();
 
   // Add user form state
   let showAddUserForm = false;
@@ -52,6 +61,10 @@
     password: '',
     role: 3 // Default role for restaurant admin
   };
+
+  // Subscription action confirmation modal state
+  let showSubscriptionModal = false;
+  let subscriptionAction: 'activate' | 'deactivate' | null = null;
 
   function formatRevenue(revenue: string): string {
     return new Intl.NumberFormat('mn-MN').format(parseFloat(revenue)) + '₮';
@@ -121,6 +134,55 @@
 
   function handleGoBack() {
     goto(`${base}/restaurants`);
+  }
+
+  function handleActivateSubscription() {
+    subscriptionAction = 'activate';
+    showSubscriptionModal = true;
+  }
+
+  function handleDeactivateSubscription() {
+    subscriptionAction = 'deactivate';
+    showSubscriptionModal = true;
+  }
+
+  function confirmSubscriptionAction() {
+    if (!restaurant?.subscription?.id || !restaurantId || !subscriptionAction) return;
+
+    if (subscriptionAction === 'activate') {
+      $activateSubscriptionMutation.mutate(
+        { subscriptionId: restaurant.subscription.id, restaurantId },
+        {
+          onError: (error) => {
+            console.error('Failed to activate subscription:', error);
+            alert('Захиалгыг идэвхжүүлэхэд алдаа гарлаа');
+          },
+          onSuccess: () => {
+            showSubscriptionModal = false;
+            subscriptionAction = null;
+          }
+        }
+      );
+    } else if (subscriptionAction === 'deactivate') {
+      $deactivateSubscriptionMutation.mutate(
+        { subscriptionId: restaurant.subscription.id, restaurantId },
+        {
+          onError: (error) => {
+            console.error('Failed to deactivate subscription:', error);
+            alert('Захиалгыг идэвхгүй болгоход алдаа гарлаа');
+          },
+          onSuccess: () => {
+            showSubscriptionModal = false;
+            subscriptionAction = null;
+          }
+        }
+      );
+    }
+  }
+
+  function cancelSubscriptionAction() {
+    showSubscriptionModal = false;
+    subscriptionAction = null;
   }
 
   function getSubscriptionStatusColor(status: string): string {
@@ -226,114 +288,166 @@
             <CreditCard class="w-7 h-7 mr-3 text-gray-700" />
             Захиалга төлөлтийн мэдээлэл
           </h2>
-          <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold {getSubscriptionStatusColor(restaurant.subscription.status)}">
-            {getSubscriptionStatusLabel(restaurant.subscription.status)}
-          </span>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Plan Details -->
-          <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
-            <h3 class="text-sm font-semibold text-gray-900 mb-4">Төлөвлөгөөний мэдээлэл</h3>
-            <div class="space-y-3">
-              <div>
-                <p class="text-xs text-gray-600">Төлөвлөгөө</p>
-                <p class="text-lg font-bold text-gray-900">{restaurant.subscription.plan.name}</p>
-              </div>
-              <div>
-                <p class="text-xs text-gray-600">Үнэ</p>
-                <p class="text-2xl font-bold text-gray-900">{formatRevenue(restaurant.subscription.plan.price.toString())}</p>
-              </div>
-              <div>
-                <p class="text-xs text-gray-600">Давтамж</p>
-                <p class="text-sm font-medium text-gray-900">{restaurant.subscription.plan.interval === 'monthly' ? 'Сар бүр' : restaurant.subscription.plan.interval}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Expiry & Status -->
-          <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
-            <h3 class="text-sm font-semibold text-gray-900 mb-4">Хугацааны мэдээлэл</h3>
-            <div class="space-y-3">
-              <div>
-                <p class="text-xs text-gray-600">Эхлэх огноо</p>
-                <p class="text-sm font-medium text-gray-900">{formatDate(restaurant.subscription.start_date)}</p>
-              </div>
-              <div>
-                <p class="text-xs text-gray-600">Дуусах огноо</p>
-                <p class="text-sm font-medium text-gray-900">{formatDate(restaurant.subscription.end_date)}</p>
-              </div>
-              <div class="flex items-center gap-2 mt-2 p-2 bg-white rounded border border-gray-200">
-                {#if restaurant.subscription.is_due_soon}
-                  <AlertCircle class="w-5 h-5 text-yellow-600" />
-                  <span class="text-sm font-semibold text-yellow-700">Удахгүй дуусах</span>
-                {:else if restaurant.subscription.is_expired}
-                  <AlertCircle class="w-5 h-5 text-red-600" />
-                  <span class="text-sm font-semibold text-red-700">Дууссан</span>
-                {:else}
-                  <Clock class="w-5 h-5 text-gray-600" />
-                  <span class="text-sm font-semibold text-gray-700">{restaurant.subscription.days_until_expiry} өдөр үлдсэн</span>
+          {#if restaurant.subscription}
+            <div class="flex items-center gap-3">
+              <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold {getSubscriptionStatusColor(restaurant.subscription.status)}">
+                {getSubscriptionStatusLabel(restaurant.subscription.status)}
+              </span>
+              <div class="flex gap-2">
+                {#if restaurant.subscription.status !== 'active'}
+                  <Button
+                    on:click={handleActivateSubscription}
+                    disabled={$activateSubscriptionMutation.isPending}
+                    size="sm"
+                    variant="outline"
+                    class="flex items-center gap-2 text-green-600 hover:text-green-700 hover:bg-green-50 border-green-300"
+                  >
+                    {#if $activateSubscriptionMutation.isPending}
+                      <div class="w-4 h-4 border-2 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+                    {:else}
+                      <CheckCircle class="w-4 h-4" />
+                    {/if}
+                    Идэвхжүүлэх
+                  </Button>
+                {/if}
+                {#if restaurant.subscription.status === 'active'}
+                  <Button
+                    on:click={handleDeactivateSubscription}
+                    disabled={$deactivateSubscriptionMutation.isPending}
+                    size="sm"
+                    variant="outline"
+                    class="flex items-center gap-2 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-300"
+                  >
+                    {#if $deactivateSubscriptionMutation.isPending}
+                      <div class="w-4 h-4 border-2 border-red-600 border-t-transparent rounded-full animate-spin"></div>
+                    {:else}
+                      <XCircle class="w-4 h-4" />
+                    {/if}
+                    Идэвхгүй болгох
+                  </Button>
                 {/if}
               </div>
             </div>
-          </div>
+          {:else}
+            <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold bg-gray-100 text-gray-800">
+              Захиалга байхгүй
+            </span>
+          {/if}
+        </div>
 
-          <!-- Payment Summary -->
-          <div class="md:col-span-2 bg-gray-50 rounded-lg p-5 border border-gray-200">
-            <h3 class="text-sm font-semibold text-gray-900 mb-4">Төлбөрийн хураангуй</h3>
-            <div class="grid grid-cols-3 gap-4">
-              <div class="bg-white rounded border border-gray-200 p-4 text-center">
-                <p class="text-xs text-gray-600 mb-1">Нийт төлөгдсөн</p>
-                <p class="text-xl font-bold text-gray-900">{formatRevenue(restaurant.subscription.payment_summary.total_paid.toString())}</p>
-              </div>
-              <div class="bg-white rounded border border-gray-200 p-4 text-center">
-                <p class="text-xs text-gray-600 mb-1">Үлдэгдэл дүн</p>
-                <p class="text-xl font-bold" class:text-red-600={restaurant.subscription.payment_summary.outstanding_amount > 0} class:text-gray-900={restaurant.subscription.payment_summary.outstanding_amount === 0}>
-                  {formatRevenue(restaurant.subscription.payment_summary.outstanding_amount.toString())}
-                </p>
-              </div>
-              <div class="bg-white rounded border border-gray-200 p-4 text-center">
-                <p class="text-xs text-gray-600 mb-1">Хугацаа хэтэрсэн</p>
-                <p class="text-xl font-bold" class:text-red-600={restaurant.subscription.payment_summary.overdue_invoices_count > 0} class:text-gray-900={restaurant.subscription.payment_summary.overdue_invoices_count === 0}>
-                  {restaurant.subscription.payment_summary.overdue_invoices_count}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Latest Invoice -->
-          <div class="md:col-span-2">
-            {#if restaurant.subscription.latest_invoice}
-              <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
-                <h3 class="text-sm font-semibold text-gray-900 mb-4">Сүүлийн нэхэмжлэх</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div>
-                    <p class="text-xs text-gray-600">Дугаар</p>
-                    <p class="text-sm font-mono font-medium text-gray-900">{restaurant.subscription.latest_invoice.invoice_number}</p>
-                  </div>
-                  <div>
-                    <p class="text-xs text-gray-600">Дүн</p>
-                    <p class="text-sm font-bold text-gray-900">{formatRevenue(restaurant.subscription.latest_invoice.amount_due.toString())}</p>
-                  </div>
-                  <div>
-                    <p class="text-xs text-gray-600">Төлбөр</p>
-                    <p class="text-sm font-bold text-gray-900">{formatRevenue(restaurant.subscription.latest_invoice.amount_paid.toString())}</p>
-                  </div>
-                  <div>
-                    <p class="text-xs text-gray-600">Статус</p>
-                    <p class="text-sm font-semibold" class:text-green-600={restaurant.subscription.latest_invoice.status === 'paid'} class:text-red-600={restaurant.subscription.latest_invoice.status !== 'paid'}>
-                      {restaurant.subscription.latest_invoice.status === 'paid' ? 'Төлөгдсөн' : 'Төлөгдөөгүй'}
-                    </p>
-                  </div>
+        {#if restaurant.subscription}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Plan Details -->
+            <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+              <h3 class="text-sm font-semibold text-gray-900 mb-4">Төлөвлөгөөний мэдээлэл</h3>
+              <div class="space-y-3">
+                <div>
+                  <p class="text-xs text-gray-600">Төлөвлөгөө</p>
+                  <p class="text-lg font-bold text-gray-900">{restaurant.subscription.plan.name}</p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-600">Үнэ</p>
+                  <p class="text-2xl font-bold text-gray-900">{formatRevenue(restaurant.subscription.plan.price.toString())}</p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-600">Давтамж</p>
+                  <p class="text-sm font-medium text-gray-900">{restaurant.subscription.plan.interval === 'monthly' ? 'Сар бүр' : restaurant.subscription.plan.interval}</p>
                 </div>
               </div>
-            {:else}
-              <div class="bg-gray-50 rounded-lg p-5 border border-gray-200 text-center">
-                <p class="text-sm text-gray-500">Нэхэмжлэх байхгүй</p>
+            </div>
+
+            <!-- Expiry & Status -->
+            <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+              <h3 class="text-sm font-semibold text-gray-900 mb-4">Хугацааны мэдээлэл</h3>
+              <div class="space-y-3">
+                <div>
+                  <p class="text-xs text-gray-600">Эхлэх огноо</p>
+                  <p class="text-sm font-medium text-gray-900">{formatDate(restaurant.subscription.start_date)}</p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-600">Дуусах огноо</p>
+                  <p class="text-sm font-medium text-gray-900">{formatDate(restaurant.subscription.end_date)}</p>
+                </div>
+                <div class="flex items-center gap-2 mt-2 p-2 bg-white rounded border border-gray-200">
+                  {#if restaurant.subscription.is_due_soon}
+                    <AlertCircle class="w-5 h-5 text-yellow-600" />
+                    <span class="text-sm font-semibold text-yellow-700">Удахгүй дуусах</span>
+                  {:else if restaurant.subscription.is_expired}
+                    <AlertCircle class="w-5 h-5 text-red-600" />
+                    <span class="text-sm font-semibold text-red-700">Дууссан</span>
+                  {:else}
+                    <Clock class="w-5 h-5 text-gray-600" />
+                    <span class="text-sm font-semibold text-gray-700">{restaurant.subscription.days_until_expiry} өдөр үлдсэн</span>
+                  {/if}
+                </div>
               </div>
-            {/if}
+            </div>
+
+            <!-- Payment Summary -->
+            <div class="md:col-span-2 bg-gray-50 rounded-lg p-5 border border-gray-200">
+              <h3 class="text-sm font-semibold text-gray-900 mb-4">Төлбөрийн хураангуй</h3>
+              <div class="grid grid-cols-3 gap-4">
+                <div class="bg-white rounded border border-gray-200 p-4 text-center">
+                  <p class="text-xs text-gray-600 mb-1">Нийт төлөгдсөн</p>
+                  <p class="text-xl font-bold text-gray-900">{formatRevenue(restaurant.subscription.payment_summary.total_paid.toString())}</p>
+                </div>
+                <div class="bg-white rounded border border-gray-200 p-4 text-center">
+                  <p class="text-xs text-gray-600 mb-1">Үлдэгдэл дүн</p>
+                  <p class="text-xl font-bold" class:text-red-600={restaurant.subscription.payment_summary.outstanding_amount > 0} class:text-gray-900={restaurant.subscription.payment_summary.outstanding_amount === 0}>
+                    {formatRevenue(restaurant.subscription.payment_summary.outstanding_amount.toString())}
+                  </p>
+                </div>
+                <div class="bg-white rounded border border-gray-200 p-4 text-center">
+                  <p class="text-xs text-gray-600 mb-1">Хугацаа хэтэрсэн</p>
+                  <p class="text-xl font-bold" class:text-red-600={restaurant.subscription.payment_summary.overdue_invoices_count > 0} class:text-gray-900={restaurant.subscription.payment_summary.overdue_invoices_count === 0}>
+                    {restaurant.subscription.payment_summary.overdue_invoices_count}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Latest Invoice -->
+            <div class="md:col-span-2">
+              {#if restaurant.subscription.latest_invoice}
+                <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+                  <h3 class="text-sm font-semibold text-gray-900 mb-4">Сүүлийн нэхэмжлэх</h3>
+                  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div>
+                      <p class="text-xs text-gray-600">Дугаар</p>
+                      <p class="text-sm font-mono font-medium text-gray-900">{restaurant.subscription.latest_invoice.invoice_number}</p>
+                    </div>
+                    <div>
+                      <p class="text-xs text-gray-600">Дүн</p>
+                      <p class="text-sm font-bold text-gray-900">{formatRevenue(restaurant.subscription.latest_invoice.amount_due.toString())}</p>
+                    </div>
+                    <div>
+                      <p class="text-xs text-gray-600">Төлбөр</p>
+                      <p class="text-sm font-bold text-gray-900">{formatRevenue(restaurant.subscription.latest_invoice.amount_paid.toString())}</p>
+                    </div>
+                    <div>
+                      <p class="text-xs text-gray-600">Статус</p>
+                      <p class="text-sm font-semibold" class:text-green-600={restaurant.subscription.latest_invoice.status === 'paid'} class:text-red-600={restaurant.subscription.latest_invoice.status !== 'paid'}>
+                        {restaurant.subscription.latest_invoice.status === 'paid' ? 'Төлөгдсөн' : 'Төлөгдөөгүй'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              {:else}
+                <div class="bg-gray-50 rounded-lg p-5 border border-gray-200 text-center">
+                  <p class="text-sm text-gray-500">Нэхэмжлэх байхгүй</p>
+                </div>
+              {/if}
+            </div>
           </div>
-        </div>
+        {:else}
+          <div class="flex flex-col items-center justify-center py-12 text-center">
+            <AlertCircle class="w-16 h-16 text-gray-300 mb-4" />
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Захиалгын мэдээлэл байхгүй</h3>
+            <p class="text-sm text-gray-500 max-w-md">
+              Энэ рестораны захиалгын төлөлтийн мэдээлэл одоогоор байхгүй байна. Системд захиалга нэмэх шаардлагатай.
+            </p>
+          </div>
+        {/if}
       </div>
 
       <!-- Quick Stats Sidebar -->
@@ -533,4 +647,73 @@
       </div>
     </div>
   {/if}
+
+  <!-- Subscription Action Confirmation Modal -->
+  <Dialog bind:open={showSubscriptionModal}>
+    <DialogContent class_="max-w-md">
+      <DialogHeader>
+        <DialogTitle>
+          {#if subscriptionAction === 'activate'}
+            Захиалгыг идэвхжүүлэх
+          {:else if subscriptionAction === 'deactivate'}
+            Захиалгыг цуцлах
+          {/if}
+        </DialogTitle>
+      </DialogHeader>
+
+      <div class="px-6 py-4">
+        {#if subscriptionAction === 'activate'}
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+              <CheckCircle class="w-6 h-6 text-green-600" />
+            </div>
+            <div class="flex-1">
+              <p class="text-gray-700 mb-2">
+                Та энэ ресторан руу захиалгын төлөлтийг идэвхжүүлэхдээ итгэлтэй байна уу?
+              </p>
+              <p class="text-sm text-gray-500">
+                Идэвхжүүлснээр ресторан системийн бүх үйлчилгээг ашиглах боломжтой болно.
+              </p>
+            </div>
+          </div>
+        {:else if subscriptionAction === 'deactivate'}
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+              <XCircle class="w-6 h-6 text-red-600" />
+            </div>
+            <div class="flex-1">
+              <p class="text-gray-700 mb-2">
+                Та энэ ресторан руу захиалгын төлөлтийг цуцлахдаа итгэлтэй байна уу?
+              </p>
+              <p class="text-sm text-gray-500">
+                Цуцласнаар ресторан системийн үйлчилгээг ашиглах боломжгүй болно.
+              </p>
+            </div>
+          </div>
+        {/if}
+      </div>
+
+      <div class="px-6 py-4 bg-gray-50 flex gap-3 justify-end rounded-b-lg">
+        <Button
+          on:click={cancelSubscriptionAction}
+          variant="outline"
+          disabled={$activateSubscriptionMutation.isPending || $deactivateSubscriptionMutation.isPending}
+        >
+          Болих
+        </Button>
+        <Button
+          on:click={confirmSubscriptionAction}
+          disabled={$activateSubscriptionMutation.isPending || $deactivateSubscriptionMutation.isPending}
+          class="{subscriptionAction === 'activate'
+            ? 'bg-green-600 hover:bg-green-700'
+            : 'bg-red-600 hover:bg-red-700'}"
+        >
+          {#if $activateSubscriptionMutation.isPending || $deactivateSubscriptionMutation.isPending}
+            <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+          {/if}
+          {subscriptionAction === 'activate' ? 'Идэвхжүүлэх' : 'Цуцлах'}
+        </Button>
+      </div>
+    </DialogContent>
+  </Dialog>
 </div>

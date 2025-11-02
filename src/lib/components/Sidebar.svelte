@@ -20,7 +20,6 @@
   import { sessionStore } from "$lib/stores/sessionStore";
   import SidebarButton from "./ui/sidebar/SidebarButton.svelte";
   import FoodMenuDropdown from "./ui/sidebar/FoodMenuDropdown.svelte";
-  import { Button } from "./ui/button";
 
   const handleLogout = async () => {
     await fetch("/logout", {
@@ -32,19 +31,19 @@
 </script>
 
 <aside
-  class="sticky top-0 flex flex-col justify-between w-64 h-screen p-4 text-white shadow-lg bg-sidebar-background rounded-e-xl"
+  class="sticky top-0 flex flex-col justify-between w-64 h-screen p-4 shadow-lg bg-sidebar-background rounded-e-xl"
 >
   <div>
     <!-- Header/Logo Section -->
-    <div class="flex items-center p-4 mb-8">
+    <div class="flex items-center px-4 py-6 mb-6">
       {#if $sessionStore.user?.restaurant?.logo}
-        <img 
-          src={$sessionStore.user.restaurant.logo} 
+        <img
+          src={$sessionStore.user.restaurant.logo}
           alt="{$sessionStore.user.restaurant.name} logo"
-          class="w-8 h-8 rounded-full mr-3 object-cover"
+          class="w-10 h-10 rounded-lg mr-3 object-cover shadow-sm"
         />
       {/if}
-      <h2 class="text-xl font-bold text-red-500">
+      <h2 class="text-lg font-bold text-gray-800">
         {$sessionStore.user?.restaurant?.name || 'Ресторан'}
       </h2>
     </div>
@@ -127,34 +126,13 @@
   </div>
 
   <!-- Bottom Section -->
-  <div>
-    <div class="mb-4">
-      <Button
-        on:click={handleLogout}
-        variant="tertiary"
-        class="justify-start w-full"
-      >
-        Гарах
-        <LogOut class="w-5 h-5 ml-3" />
-      </Button>
-    </div>
-    <!-- <div class="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
-      <div class="flex items-center">
-        <Moon class="w-5 h-5 mr-3 text-white" />
-        <span class="text-white">Dark mode</span>
-      </div>
-      <label class="relative inline-flex items-center cursor-pointer">
-        <input
-          type="checkbox"
-          value=""
-          class="sr-only peer"
-          on:change={toggleDarkMode}
-          checked={$themeStore}
-        />
-        <div
-          class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-blue rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-blue"
-        ></div>
-      </label>
-    </div> -->
+  <div class="border-t border-gray-200 pt-4">
+    <button
+      on:click={handleLogout}
+      class="px-4 py-3 rounded-lg font-semibold text-sm flex items-center justify-start gap-3 transition-colors duration-200 w-full text-red-500 hover:bg-red-50 hover:text-red-600"
+    >
+      <LogOut class="w-5 h-5" />
+      <span>Гарах</span>
+    </button>
   </div>
 </aside>
