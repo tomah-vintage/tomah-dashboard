@@ -220,7 +220,7 @@
     <!-- Payment & Subscription Focus Section -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
       <!-- Subscription Info - MAIN FOCUS -->
-      <div class="lg:col-span-2 bg-white rounded-lg border-2 border-gray-300 p-6">
+      <div class="lg:col-span-2 bg-white rounded-lg border border-gray-200 p-6">
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-2xl font-bold flex items-center text-gray-900">
             <CreditCard class="w-7 h-7 mr-3 text-gray-700" />
