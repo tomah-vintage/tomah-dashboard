@@ -116,24 +116,32 @@
   <title>Ажилтангийн удирдлага - Ресторан</title>
 </svelte:head>
 
-<div class="container mx-auto p-4 sm:p-6">
-  <div
-    class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6"
-  >
-    <div>
-      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">
-        Ажилтангийн удирдлага
-      </h1>
-      <p class="text-gray-600 mt-2">Рестораны ажилтангуудыг удирдах</p>
+<div class="min-h-screen bg-gray-50">
+  <!-- Header Section -->
+  <div class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="py-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900">
+              Ажилтангийн удирдлага
+            </h1>
+            <p class="mt-1 text-sm text-gray-500">Рестораны ажилтангуудыг удирдах</p>
+          </div>
+          <Button
+            on:click={handleCreateUser}
+            class="flex items-center justify-center gap-2 w-full sm:w-auto"
+          >
+            <UserPlus size={16} />
+            <span>Шинэ ажилтан нэмэх</span>
+          </Button>
+        </div>
+      </div>
     </div>
-    <Button
-      on:click={handleCreateUser}
-      class="flex items-center justify-center gap-2 w-full sm:w-auto"
-    >
-      <UserPlus size={16} />
-      <span class="sm:inline">Шинэ ажилтан нэмэх</span>
-    </Button>
   </div>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
   {#if $staffQuery.isLoading}
     <div class="flex items-center justify-center py-12">
@@ -288,6 +296,7 @@
       {/each}
     </div>
   {/if}
+  </div>
 </div>
 
 {#if showCreateModal}

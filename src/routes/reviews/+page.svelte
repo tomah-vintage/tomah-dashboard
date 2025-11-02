@@ -81,28 +81,27 @@
   <title>Reviews Management - Tomah Dashboard</title>
 </svelte:head>
 
-<div class="flex flex-col min-h-screen p-6 lg:p-8 space-y-8 max-w-7xl mx-auto">
+<div class="min-h-screen bg-gray-50">
   <!-- Header Section -->
-  <div class="flex items-center justify-between">
-    <div>
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">Reviews Dashboard</h1>
-      <p class="text-gray-600 text-lg">
-        {#if isAdmin}
-          Monitor customer feedback across all restaurant locations
-        {:else}
-          Track and respond to customer reviews for your restaurant
-        {/if}
-      </p>
-    </div>
-    <div class="flex items-center space-x-3">
-      <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-lg">
-        <MessageSquare class="w-6 h-6 text-white" />
+  <div class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="py-6">
+        <h1 class="text-3xl font-bold text-gray-900">Reviews Dashboard</h1>
+        <p class="mt-1 text-sm text-gray-500">
+          {#if isAdmin}
+            Monitor customer feedback across all restaurant locations
+          {:else}
+            Track and respond to customer reviews for your restaurant
+          {/if}
+        </p>
       </div>
     </div>
   </div>
 
-  <!-- Stats Cards -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
       <div class="flex items-center justify-between">
         <div>
@@ -155,48 +154,49 @@
         </div>
       </div>
     </div>
-  </div>
+    </div>
 
-  <!-- Filters Section -->
-  <div class="bg-gradient-to-r from-gray-50 to-white p-1 rounded-xl">
-    <ReviewsFilters
-      on:filtersChange={handleFiltersChange}
-      hideRestaurantFilter={isRestaurantAdmin}
-    />
-  </div>
-
-  <!-- Reviews Table Section -->
-  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-    {#if $reviewsQuery.isLoading}
-      <div class="flex items-center justify-center h-64">
-        <LoadingSpinner />
-      </div>
-    {:else if $reviewsQuery.error}
-      <div class="flex items-center justify-center h-64">
-        <div class="text-center">
-          <p class="text-red-600 mb-2">Error loading reviews</p>
-          <p class="text-gray-500 text-sm">{$reviewsQuery.error.message}</p>
-          <Button
-            variant="tertiary"
-            on:click={() => $reviewsQuery.refetch()}
-            class="mt-4"
-          >
-            Try Again
-          </Button>
-        </div>
-      </div>
-    {:else if $reviewsQuery.data}
-      <ReviewsTable
-        reviews={$reviewsQuery.data.results}
-        {currentPage}
-        {pageSize}
-        totalCount={$reviewsQuery.data.count}
-        hideDeleteAction={isRestaurantAdmin}
-        on:pageChange={(e) => handlePageChange(e.detail)}
-        on:viewReview={handleViewReview}
-        on:deleteReview={handleDeleteReview}
+    <!-- Filters Section -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-1">
+      <ReviewsFilters
+        on:filtersChange={handleFiltersChange}
+        hideRestaurantFilter={isRestaurantAdmin}
       />
-    {/if}
+    </div>
+
+    <!-- Reviews Table Section -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      {#if $reviewsQuery.isLoading}
+        <div class="flex items-center justify-center h-64">
+          <LoadingSpinner />
+        </div>
+      {:else if $reviewsQuery.error}
+        <div class="flex items-center justify-center h-64">
+          <div class="text-center">
+            <p class="text-red-600 mb-2">Error loading reviews</p>
+            <p class="text-gray-500 text-sm">{$reviewsQuery.error.message}</p>
+            <Button
+              variant="tertiary"
+              on:click={() => $reviewsQuery.refetch()}
+              class="mt-4"
+            >
+              Try Again
+            </Button>
+          </div>
+        </div>
+      {:else if $reviewsQuery.data}
+        <ReviewsTable
+          reviews={$reviewsQuery.data.results}
+          {currentPage}
+          {pageSize}
+          totalCount={$reviewsQuery.data.count}
+          hideDeleteAction={isRestaurantAdmin}
+          on:pageChange={(e) => handlePageChange(e.detail)}
+          on:viewReview={handleViewReview}
+          on:deleteReview={handleDeleteReview}
+        />
+      {/if}
+    </div>
   </div>
 </div>
 

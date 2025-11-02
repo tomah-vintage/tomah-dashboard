@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Pencil, Star, Users, DollarSign, Calendar } from "@lucide/svelte";
+  import { Pencil, Star, DollarSign, Calendar } from "@lucide/svelte";
   import type { AdminRestaurantListItem } from "$lib/types/restaurant";
   import { goto } from "$app/navigation";
   import { base } from "$app/paths";
@@ -86,37 +86,6 @@
         e.currentTarget.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><rect width="40" height="40" fill="%23f3f4f6"/><text x="20" y="25" text-anchor="middle" fill="%236b7280" font-size="12">No Image</text></svg>';
       }}
     />
-  </td>
-
-  <!-- Address -->
-  <td class="p-3 max-w-xs truncate" title={restaurant.address}>
-    {restaurant.address}
-  </td>
-
-  <!-- Admin Users -->
-  <td class="p-3">
-    <div class="flex items-center gap-1">
-      <Users class="h-4 w-4 text-gray-500" />
-      <span class="text-sm">{restaurant.user_count}</span>
-      {#if restaurant.admin_users && restaurant.admin_users.length > 0}
-        <div class="ml-2">
-          {#each restaurant.admin_users.slice(0, 2) as user}
-            <div class="inline-block w-6 h-6 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center ml-1"
-                 title="{user.first_name} {user.last_name}">
-              {user.first_name.charAt(0)}
-            </div>
-          {/each}
-        </div>
-      {/if}
-    </div>
-  </td>
-
-  <!-- Orders Count -->
-  <td class="p-3">
-    <div class="flex items-center gap-1">
-      <span class="text-sm font-medium">{restaurant.total_orders}</span>
-      <span class="text-xs text-gray-500">захиалга</span>
-    </div>
   </td>
 
   <!-- Revenue -->

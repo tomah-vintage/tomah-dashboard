@@ -107,22 +107,26 @@
   <title>Ресторан засах | Qpick</title>
 </svelte:head>
 
-<div class="bg-slate-100 w-full h-full">
-  <!-- Breadcrumbs -->
-  <div class="flex items-center space-x-2 text-sm text-gray-500 py-6 bg-white">
-    <div class="h-5 w-2 bg-primary-blue rounded-sm"></div>
-    <a href="{base}/restaurants" class="hover:underline text-lg">Ресторанууд</a>
-    <ChevronRight size={20} />
-    <a href="{base}/restaurants/{restaurant?.id}" class="hover:underline text-lg">{restaurant?.name || 'Ресторан'}</a>
-    <ChevronRight size={20} />
-    <span class="font-semibold">Засах</span>
+<div class="min-h-screen bg-gray-50">
+  <!-- Header Section -->
+  <div class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Breadcrumbs -->
+      <div class="flex items-center space-x-2 text-sm text-gray-500 py-4">
+        <div class="h-4 w-1 bg-blue-600 rounded-sm"></div>
+        <a href="{base}/restaurants" class="hover:text-blue-600 transition-colors">Ресторанууд</a>
+        <ChevronRight size={16} class="text-gray-400" />
+        <a href="{base}/restaurants/{restaurant?.id}" class="hover:text-blue-600 transition-colors">{restaurant?.name || 'Ресторан'}</a>
+        <ChevronRight size={16} class="text-gray-400" />
+        <span class="font-medium text-gray-900">Засах</span>
+      </div>
+    </div>
   </div>
 
-  <div class="card m-6 bg-white rounded-lg">
-    <div class="flex items-center gap-2 pt-5 mb-8">
-      <div class="h-5 w-2 bg-primary-blue rounded-sm"></div>
-      <h1 class="text-xl font-bold">Ресторан засах - {restaurant?.name || 'Ресторан'}</h1>
-    </div>
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h1 class="text-2xl font-bold text-gray-900 mb-8">Ресторан засах - {restaurant?.name || 'Ресторан'}</h1>
 
     <form
       method="POST"
@@ -279,5 +283,6 @@
         </div>
       </div>
     </form>
+    </div>
   </div>
 </div>

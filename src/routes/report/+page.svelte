@@ -57,51 +57,56 @@
   <title>Тайлан | Qpick</title>
 </svelte:head>
 
-<div class="p-4 sm:p-6 bg-content-background min-h-screen font-sans text-gray-800">
-  <!-- Page Header -->
-  <div class="mb-6">
-    <h1 class="text-2xl font-bold text-gray-800 mb-2">Захиалгын тайлан</h1>
-    <p class="text-gray-600">
-      Захиалгын мэдээлэл, шүүлтүүр, болон экспорт хийх боломжтой
-    </p>
+<div class="min-h-screen bg-gray-50">
+  <!-- Header Section -->
+  <div class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="py-6">
+        <h1 class="text-3xl font-bold text-gray-900">Захиалгын тайлан</h1>
+        <p class="mt-1 text-sm text-gray-500">
+          Захиалгын мэдээлэл, шүүлтүүр, болон экспорт хийх боломжтой
+        </p>
+      </div>
+    </div>
   </div>
 
-  <!-- Summary Cards -->
-  <OrderSummaryCards
-    {orders}
-    {totalCount}
-    {totalRevenue}
-    {averageOrderValue}
-    {totalItems}
-    loading={isLoading}
-  />
-
-  <!-- Filters -->
-  <div class="mb-6">
-    <OrderReportFilters
-      bind:filters
-      onApplyFilters={handleApplyFilters}
-      onExport={handleExport}
-      onReset={handleResetFilters}
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <!-- Summary Cards -->
+    <OrderSummaryCards
+      {orders}
+      {totalCount}
+      {totalRevenue}
+      {averageOrderValue}
+      {totalItems}
+      loading={isLoading}
     />
-  </div>
 
-  <!-- Content States -->
-  {#if isLoading}
-    <LoadingState message="Тайлан ачааллаж байна..." />
-  {:else if error}
-    <ErrorState message={error.message} />
-  {:else}
-    <!-- Orders Table -->
-    <div class="mb-6">
-      <OrderReportTable 
-        {orders} 
+    <!-- Filters -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <OrderReportFilters
+        bind:filters
+        onApplyFilters={handleApplyFilters}
+        onExport={handleExport}
+        onReset={handleResetFilters}
+      />
+    </div>
+
+    <!-- Content States -->
+    {#if isLoading}
+      <LoadingState message="Тайлан ачааллаж байна..." />
+    {:else if error}
+      <ErrorState message={error.message} />
+    {:else}
+      <!-- Orders Table -->
+      <OrderReportTable
+        {orders}
         {isLoading}
         {totalCount}
         currentPage={filters.page || 1}
         pageSize={filters.page_size || 20}
         onPageChange={handlePageChange}
       />
-    </div>
-  {/if}
+    {/if}
+  </div>
 </div>

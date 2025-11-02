@@ -82,44 +82,54 @@
   }
 </script>
 
-<div class="p-4 sm:p-6 bg-content-background">
-  <div class="p-4 rounded-lg shadow bg-card-background sm:p-6">
-    <div
-      class="flex flex-col items-start justify-between mb-4 sm:flex-row sm:items-center"
-    >
-      <div class="flex items-center mb-4 sm:mb-0">
-        <Sparkles class="w-6 h-6 mr-2 text-yellow-500" />
-        <h1 class="text-xl font-bold text-gray-800">Онцлох хоолны цэс</h1>
-      </div>
-      <div class="flex items-center w-full space-x-2 sm:w-auto">
-        <div class="relative flex-grow">
-          <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-            <Search class="w-5 h-5" />
-          </span>
-          <Input
-            type="text"
-            placeholder="Хоол хайх..."
-            class="w-full py-2 pl-10 pr-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue"
-            oninput={handleSearchInput}
-          />
-        </div>
-        <Button variant="secondary" onclick={handleShowAll}>
-          {showAll ? "Хуудаслах" : "Бүгдийг харах"}
-        </Button>
-        <Button
-          variant="primary"
-          disabled={!hasChanges || $updateEmphasizedMutation.isPending}
-          onclick={handleSaveChanges}
-        >
-          {#if $updateEmphasizedMutation.isPending}
-            Хадгалж байна...
-          {:else}
-            <Save class="w-4 h-4 mr-2" />
-            Хадгалах
-          {/if}
-        </Button>
+<div class="min-h-screen bg-gray-50">
+  <!-- Header Section -->
+  <div class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="py-6">
+        <h1 class="text-3xl font-bold text-gray-900">Онцлох хоолны цэс</h1>
+        <p class="mt-1 text-sm text-gray-500">Нүүр хуудсанд тусгайлан харагдах онцлох хоолнуудыг удирдах</p>
       </div>
     </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div class="flex flex-col items-start justify-between mb-6 sm:flex-row sm:items-center gap-4">
+        <div class="flex items-center">
+          <Sparkles class="w-6 h-6 mr-2 text-yellow-500" />
+          <h2 class="text-xl font-semibold text-gray-900">Хоолны жагсаалт</h2>
+        </div>
+        <div class="flex items-center w-full space-x-2 sm:w-auto">
+          <div class="relative flex-grow">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+              <Search class="w-5 h-5 text-gray-400" />
+            </span>
+            <Input
+              type="text"
+              placeholder="Хоол хайх..."
+              class="w-full py-2 pl-10 pr-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              oninput={handleSearchInput}
+            />
+          </div>
+          <Button variant="secondary" onclick={handleShowAll}>
+            {showAll ? "Хуудаслах" : "Бүгдийг харах"}
+          </Button>
+          <Button
+            variant="primary"
+            disabled={!hasChanges || $updateEmphasizedMutation.isPending}
+            onclick={handleSaveChanges}
+          >
+            {#if $updateEmphasizedMutation.isPending}
+              Хадгалж байна...
+            {:else}
+              <Save class="w-4 h-4 mr-2" />
+              Хадгалах
+            {/if}
+          </Button>
+        </div>
+      </div>
 
     <div class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
       <div class="flex items-center justify-between">
@@ -156,15 +166,18 @@
     {:else}
       <MenuHighlightsList {menuItems} {selectedItems} {handleItemToggle} />
     {/if}
-  </div>
+    </div>
 
-  {#if !isLoading && !isError && paginatedData && !showAll}
-    <Pagination
-      {currentPage}
-      totalPages={Math.ceil(paginatedData.count / effectivePageSize)}
-      onPageChange={handlePageChange}
-      totalItems={paginatedData.count}
-      page_size={effectivePageSize}
-    />
-  {/if}
+    {#if !isLoading && !isError && paginatedData && !showAll}
+      <div class="mt-6">
+        <Pagination
+          {currentPage}
+          totalPages={Math.ceil(paginatedData.count / effectivePageSize)}
+          onPageChange={handlePageChange}
+          totalItems={paginatedData.count}
+          page_size={effectivePageSize}
+        />
+      </div>
+    {/if}
+  </div>
 </div>

@@ -10,9 +10,6 @@
     <tr>
       <th class="p-3">Нэр</th>
       <th class="p-3">Зураг</th>
-      <th class="p-3">Хаяг</th>
-      <th class="p-3">Админ хэрэглэгчид</th>
-      <th class="p-3">Захиалга</th>
       <th class="p-3">Орлого</th>
       <th class="p-3">Үнэлгээ</th>
       <th class="p-3">Захиалга төлөлт</th>

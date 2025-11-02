@@ -143,55 +143,70 @@
   }
 </script>
 
-<div class="p-4 sm:p-6 bg-content-background">
-  <div class="p-4 rounded-lg shadow bg-card-background sm:p-6">
-    <!-- Header with Search, Filters, and Actions -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
-      <SearchAndFilters
-        bind:searchTerm
-        bind:showFilters
-        bind:selectedCategories
-        bind:availabilityFilter
-        {categories}
-        {hasActiveFilters}
-        onSearchInput={handleSearchInput}
-        onToggleFilter={toggleFilter}
-        onToggleCategory={toggleCategory}
-        onClearFilters={clearFilters}
-      />
-      
-      <ActionButtons
-        bind:viewMode
-        onViewModeChange={handleViewModeChange}
-        onExport={handleExport}
-      />
+<div class="min-h-screen bg-gray-50">
+  <!-- Header Section -->
+  <div class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="py-6">
+        <h1 class="text-3xl font-bold text-gray-900">Цэсний удирдлага</h1>
+        <p class="mt-1 text-sm text-gray-500">Ресторанаа цэсний бүтээгдэхүүнүүдийг удирдах</p>
+      </div>
     </div>
-
-    <!-- Content Display -->
-    {#if isLoading}
-      <MenuTableSkeleton />
-    {:else if isError}
-      <ErrorState {error} onRetry={handleRetry} />
-    {:else if menuItems.length === 0}
-      <EmptyState type="no-items" />
-    {:else if filteredMenuItems.length === 0}
-      <EmptyState type="no-results" onClearFilters={clearFilters} />
-    {:else}
-      {#if (viewMode === 'table' && !isMobile)}
-        <MenuManagementList menuItems={filteredMenuItems} onsort={handleSort} />
-      {:else}
-        <MenuCardView menuItems={filteredMenuItems} />
-      {/if}
-    {/if}
   </div>
 
-  {#if !isLoading && !isError && paginatedData}
-    <Pagination
-      {currentPage}
-      totalPages={Math.ceil(paginatedData.count / page_size)}
-      onPageChange={handlePageChange}
-      totalItems={paginatedData.count}
-      {page_size}
-    />
-  {/if}
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <!-- Header with Search, Filters, and Actions -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <SearchAndFilters
+          bind:searchTerm
+          bind:showFilters
+          bind:selectedCategories
+          bind:availabilityFilter
+          {categories}
+          {hasActiveFilters}
+          onSearchInput={handleSearchInput}
+          onToggleFilter={toggleFilter}
+          onToggleCategory={toggleCategory}
+          onClearFilters={clearFilters}
+        />
+
+        <ActionButtons
+          bind:viewMode
+          onViewModeChange={handleViewModeChange}
+          onExport={handleExport}
+        />
+      </div>
+
+      <!-- Content Display -->
+      {#if isLoading}
+        <MenuTableSkeleton />
+      {:else if isError}
+        <ErrorState {error} onRetry={handleRetry} />
+      {:else if menuItems.length === 0}
+        <EmptyState type="no-items" />
+      {:else if filteredMenuItems.length === 0}
+        <EmptyState type="no-results" onClearFilters={clearFilters} />
+      {:else}
+        {#if (viewMode === 'table' && !isMobile)}
+          <MenuManagementList menuItems={filteredMenuItems} onsort={handleSort} />
+        {:else}
+          <MenuCardView menuItems={filteredMenuItems} />
+        {/if}
+      {/if}
+    </div>
+
+    {#if !isLoading && !isError && paginatedData}
+      <div class="mt-6">
+        <Pagination
+          {currentPage}
+          totalPages={Math.ceil(paginatedData.count / page_size)}
+          onPageChange={handlePageChange}
+          totalItems={paginatedData.count}
+          {page_size}
+        />
+      </div>
+    {/if}
+  </div>
 </div>

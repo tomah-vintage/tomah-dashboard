@@ -186,58 +186,69 @@
   <title>Тойм дэлгэц | Qpick</title>
 </svelte:head>
 
-<div class="p-4 sm:p-6 bg-content-background min-h-screen font-sans text-gray-800">
-  <h1 class="text-2xl font-bold mb-6">Тойм дэлгэц</h1>
-
-  {#if $insightsQuery.isLoading}
-    <div class="flex items-center justify-center h-64">
-      <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-    </div>
-  {:else if $insightsQuery.error}
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
-      <strong>Алдаа гарлаа:</strong> {$insightsQuery.error.message}
-    </div>
-  {:else}
-
-  <!-- Header Cards -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-    {#each headerCards as card (card.title)}
-      <DashboardHeaderCard data={card} />
-    {/each}
-  </div>
-
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-    <!-- Sales Chart -->
-    <div class="lg:col-span-2">
-      <SalesChart data={salesChartData} />
-    </div>
-
-    <!-- Order List -->
-    <div>
-      <OrderList orders={orderItems.slice(0, 3)} onShowAll={openOrdersModal} />
-    </div>
-  </div>
-
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    {#if isAdmin}
-      <!-- Restaurant Performance Chart - Admin only -->
-      <div class="lg:col-span-2">
-        <RestaurantPerformanceChart data={restaurantPerformanceData} />
+<div class="min-h-screen bg-gray-50">
+  <!-- Header Section -->
+  <div class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="py-6">
+        <h1 class="text-3xl font-bold text-gray-900">Тойм дэлгэц</h1>
+        <p class="mt-1 text-sm text-gray-500">Таны бизнесийн ерөнхий тойм</p>
       </div>
+    </div>
+  </div>
 
-      <!-- User Activity List -->
-      <div>
-        <UserActivityList users={userActivities.slice(0, 4)} onShowAll={openCustomersModal} />
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    {#if $insightsQuery.isLoading}
+      <div class="flex items-center justify-center h-64">
+        <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
+      </div>
+    {:else if $insightsQuery.error}
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+        <strong>Алдаа гарлаа:</strong> {$insightsQuery.error.message}
       </div>
     {:else}
-      <!-- User Activity List - Full width for restaurant users -->
-      <div class="lg:col-span-3">
-        <UserActivityList users={userActivities.slice(0, 4)} onShowAll={openCustomersModal} />
+
+    <!-- Header Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      {#each headerCards as card (card.title)}
+        <DashboardHeaderCard data={card} />
+      {/each}
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+      <!-- Sales Chart -->
+      <div class="lg:col-span-2">
+        <SalesChart data={salesChartData} />
       </div>
+
+      <!-- Order List -->
+      <div>
+        <OrderList orders={orderItems.slice(0, 3)} onShowAll={openOrdersModal} />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {#if isAdmin}
+        <!-- Restaurant Performance Chart - Admin only -->
+        <div class="lg:col-span-2">
+          <RestaurantPerformanceChart data={restaurantPerformanceData} />
+        </div>
+
+        <!-- User Activity List -->
+        <div>
+          <UserActivityList users={userActivities.slice(0, 4)} onShowAll={openCustomersModal} />
+        </div>
+      {:else}
+        <!-- User Activity List - Full width for restaurant users -->
+        <div class="lg:col-span-3">
+          <UserActivityList users={userActivities.slice(0, 4)} onShowAll={openCustomersModal} />
+        </div>
+      {/if}
+    </div>
+
     {/if}
   </div>
-
-  {/if}
 </div>
 
 <!-- Modals -->

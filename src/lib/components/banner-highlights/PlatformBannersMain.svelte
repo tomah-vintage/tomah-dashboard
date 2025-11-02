@@ -33,45 +33,55 @@
   }
 </script>
 
-<div class="min-h-screen p-6 font-sans bg-gray-100">
-  <div class="p-6 bg-white rounded-lg shadow">
-    <!-- Header -->
-    <div class="flex items-center justify-between mb-6">
-      <div class="flex items-center">
-        <span class="w-1 h-6 mr-3 bg-purple-600"></span>
-        <h1 class="text-2xl font-bold">Баннер сурталчилгаа</h1>
-      </div>
-      <div class="flex items-center space-x-2">
-        <SearchInput 
-          placeholder="Ресторанаар хайх..."
-          bind:value={searchValue}
-          size="md"
-        />
-        <Button on:click={openAddBannerModal}>
-          <Plus class="w-4 h-4 mr-1" />
-          Баннер нэмэх
-        </Button>
+<div class="min-h-screen bg-gray-50">
+  <!-- Header Section -->
+  <div class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="py-6">
+        <h1 class="text-3xl font-bold text-gray-900">Баннер сурталчилгаа</h1>
+        <p class="mt-1 text-sm text-gray-500">Платформ дээрх баннер сурталчилгааг удирдах</p>
       </div>
     </div>
+  </div>
 
-    <!-- Platform Banners List -->
-    {#if $platformBannersQuery.isLoading}
-      <div class="flex items-center justify-center py-8">
-        <div class="text-gray-600">Баннер сурталчилгаа уншиж байна...</div>
-      </div>
-    {:else if $platformBannersQuery.isError}
-      <div class="flex items-center justify-center py-8">
-        <div class="text-red-600">Алдаа: {$platformBannersQuery.error?.message}</div>
-      </div>
-    {:else if filteredBanners.length === 0}
-      <div class="flex items-center justify-center py-8">
-        <div class="text-gray-600">
-          {searchValue.trim() ? 'Хайлтад тохирох баннер олдсонгүй.' : 'Баннер сурталчилгаа олдсонгүй.'}
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold text-gray-900">Баннер жагсаалт</h2>
+        <div class="flex items-center space-x-2">
+          <SearchInput
+            placeholder="Ресторанаар хайх..."
+            bind:value={searchValue}
+            size="md"
+          />
+          <Button on:click={openAddBannerModal}>
+            <Plus class="w-4 h-4 mr-1" />
+            Баннер нэмэх
+          </Button>
         </div>
       </div>
-    {:else}
-      <PlatformBannersList banners={filteredBanners} on:edit={handleEdit} />
-    {/if}
+
+      <!-- Platform Banners List -->
+      {#if $platformBannersQuery.isLoading}
+        <div class="flex items-center justify-center py-8">
+          <div class="text-gray-600">Баннер сурталчилгаа уншиж байна...</div>
+        </div>
+      {:else if $platformBannersQuery.isError}
+        <div class="flex items-center justify-center py-8">
+          <div class="text-red-600">Алдаа: {$platformBannersQuery.error?.message}</div>
+        </div>
+      {:else if filteredBanners.length === 0}
+        <div class="flex items-center justify-center py-8">
+          <div class="text-gray-600">
+            {searchValue.trim() ? 'Хайлтад тохирох баннер олдсонгүй.' : 'Баннер сурталчилгаа олдсонгүй.'}
+          </div>
+        </div>
+      {:else}
+        <PlatformBannersList banners={filteredBanners} on:edit={handleEdit} />
+      {/if}
+    </div>
   </div>
 </div>
 

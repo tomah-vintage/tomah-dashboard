@@ -88,18 +88,25 @@
   <title>Захиалга төлөлт | Томах</title>
 </svelte:head>
 
-<div class="p-4 md:p-6 bg-gray-50 min-h-screen">
-  <div class="max-w-4xl mx-auto space-y-6">
-    <!-- Header -->
-    <div class="bg-white rounded-lg shadow-sm p-6">
-      <div class="flex items-center gap-3">
-        <CreditCard class="w-8 h-8 text-blue-600" />
-        <div>
-          <h1 class="text-2xl font-bold text-gray-900">Захиалга төлөлт</h1>
-          <p class="text-gray-600">Таны ресторанд захиалгын төлөлтийн мэдээлэл</p>
+<div class="min-h-screen bg-gray-50">
+  <!-- Header Section -->
+  <div class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="py-6">
+        <div class="flex items-center gap-3">
+          <CreditCard class="w-8 h-8 text-blue-600" />
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900">Захиалга төлөлт</h1>
+            <p class="mt-1 text-sm text-gray-500">Таны ресторанд захиалгын төлөлтийн мэдээлэл</p>
+          </div>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-4xl mx-auto space-y-6">
 
     {#if isLoading}
       <div class="flex items-center justify-center py-12">
@@ -306,5 +313,6 @@
         </div>
       {/if}
     {/if}
+    </div>
   </div>
 </div>
