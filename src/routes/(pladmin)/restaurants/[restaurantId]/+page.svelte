@@ -186,7 +186,7 @@
     </div>
   {:else if restaurant}
     <!-- Restaurant Header - Compact -->
-    <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
+    <div class="bg-white rounded-lg border border-gray-200 p-4 mb-6">
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
           <img
@@ -220,10 +220,10 @@
     <!-- Payment & Subscription Focus Section -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
       <!-- Subscription Info - MAIN FOCUS -->
-      <div class="lg:col-span-2 bg-white rounded-lg shadow-lg border-2 border-blue-200 p-6">
+      <div class="lg:col-span-2 bg-white rounded-lg border-2 border-gray-300 p-6">
         <div class="flex items-center justify-between mb-6">
-          <h2 class="text-2xl font-bold flex items-center">
-            <CreditCard class="w-7 h-7 mr-3 text-blue-600" />
+          <h2 class="text-2xl font-bold flex items-center text-gray-900">
+            <CreditCard class="w-7 h-7 mr-3 text-gray-700" />
             Захиалга төлөлтийн мэдээлэл
           </h2>
           <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold {getSubscriptionStatusColor(restaurant.subscription.status)}">
@@ -233,11 +233,8 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Plan Details -->
-          <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-5 border border-blue-100">
-            <h3 class="text-sm font-semibold text-gray-700 mb-4 flex items-center">
-              <BadgeIcon class="w-4 h-4 mr-2 text-blue-600" />
-              Төлөвлөгөөний мэдээлэл
-            </h3>
+          <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+            <h3 class="text-sm font-semibold text-gray-900 mb-4">Төлөвлөгөөний мэдээлэл</h3>
             <div class="space-y-3">
               <div>
                 <p class="text-xs text-gray-600">Төлөвлөгөө</p>
@@ -245,65 +242,59 @@
               </div>
               <div>
                 <p class="text-xs text-gray-600">Үнэ</p>
-                <p class="text-2xl font-bold text-green-600">{formatRevenue(restaurant.subscription.plan.price.toString())}</p>
+                <p class="text-2xl font-bold text-gray-900">{formatRevenue(restaurant.subscription.plan.price.toString())}</p>
               </div>
               <div>
                 <p class="text-xs text-gray-600">Давтамж</p>
-                <p class="text-sm font-medium">{restaurant.subscription.plan.interval === 'monthly' ? 'Сар бүр' : restaurant.subscription.plan.interval}</p>
+                <p class="text-sm font-medium text-gray-900">{restaurant.subscription.plan.interval === 'monthly' ? 'Сар бүр' : restaurant.subscription.plan.interval}</p>
               </div>
             </div>
           </div>
 
           <!-- Expiry & Status -->
-          <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg p-5 border border-amber-100">
-            <h3 class="text-sm font-semibold text-gray-700 mb-4 flex items-center">
-              <CalendarIcon class="w-4 h-4 mr-2 text-orange-600" />
-              Хугацааны мэдээлэл
-            </h3>
+          <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
+            <h3 class="text-sm font-semibold text-gray-900 mb-4">Хугацааны мэдээлэл</h3>
             <div class="space-y-3">
               <div>
                 <p class="text-xs text-gray-600">Эхлэх огноо</p>
-                <p class="text-sm font-medium">{formatDate(restaurant.subscription.start_date)}</p>
+                <p class="text-sm font-medium text-gray-900">{formatDate(restaurant.subscription.start_date)}</p>
               </div>
               <div>
                 <p class="text-xs text-gray-600">Дуусах огноо</p>
-                <p class="text-sm font-medium">{formatDate(restaurant.subscription.end_date)}</p>
+                <p class="text-sm font-medium text-gray-900">{formatDate(restaurant.subscription.end_date)}</p>
               </div>
-              <div class="flex items-center gap-2 mt-2 p-2 bg-white rounded-lg">
+              <div class="flex items-center gap-2 mt-2 p-2 bg-white rounded border border-gray-200">
                 {#if restaurant.subscription.is_due_soon}
-                  <AlertCircle class="w-5 h-5 text-yellow-500" />
+                  <AlertCircle class="w-5 h-5 text-yellow-600" />
                   <span class="text-sm font-semibold text-yellow-700">Удахгүй дуусах</span>
                 {:else if restaurant.subscription.is_expired}
-                  <AlertCircle class="w-5 h-5 text-red-500" />
+                  <AlertCircle class="w-5 h-5 text-red-600" />
                   <span class="text-sm font-semibold text-red-700">Дууссан</span>
                 {:else}
-                  <Clock class="w-5 h-5 text-green-500" />
-                  <span class="text-sm font-semibold text-green-700">{restaurant.subscription.days_until_expiry} өдөр үлдсэн</span>
+                  <Clock class="w-5 h-5 text-gray-600" />
+                  <span class="text-sm font-semibold text-gray-700">{restaurant.subscription.days_until_expiry} өдөр үлдсэн</span>
                 {/if}
               </div>
             </div>
           </div>
 
           <!-- Payment Summary -->
-          <div class="md:col-span-2 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-5 border border-green-100">
-            <h3 class="text-sm font-semibold text-gray-700 mb-4 flex items-center">
-              <DollarSign class="w-4 h-4 mr-2 text-green-600" />
-              Төлбөрийн хураангуй
-            </h3>
+          <div class="md:col-span-2 bg-gray-50 rounded-lg p-5 border border-gray-200">
+            <h3 class="text-sm font-semibold text-gray-900 mb-4">Төлбөрийн хураангуй</h3>
             <div class="grid grid-cols-3 gap-4">
-              <div class="bg-white rounded-lg p-4 text-center">
+              <div class="bg-white rounded border border-gray-200 p-4 text-center">
                 <p class="text-xs text-gray-600 mb-1">Нийт төлөгдсөн</p>
-                <p class="text-xl font-bold text-green-600">{formatRevenue(restaurant.subscription.payment_summary.total_paid.toString())}</p>
+                <p class="text-xl font-bold text-gray-900">{formatRevenue(restaurant.subscription.payment_summary.total_paid.toString())}</p>
               </div>
-              <div class="bg-white rounded-lg p-4 text-center">
+              <div class="bg-white rounded border border-gray-200 p-4 text-center">
                 <p class="text-xs text-gray-600 mb-1">Үлдэгдэл дүн</p>
-                <p class="text-xl font-bold" class:text-red-600={restaurant.subscription.payment_summary.outstanding_amount > 0} class:text-gray-600={restaurant.subscription.payment_summary.outstanding_amount === 0}>
+                <p class="text-xl font-bold" class:text-red-600={restaurant.subscription.payment_summary.outstanding_amount > 0} class:text-gray-900={restaurant.subscription.payment_summary.outstanding_amount === 0}>
                   {formatRevenue(restaurant.subscription.payment_summary.outstanding_amount.toString())}
                 </p>
               </div>
-              <div class="bg-white rounded-lg p-4 text-center">
+              <div class="bg-white rounded border border-gray-200 p-4 text-center">
                 <p class="text-xs text-gray-600 mb-1">Хугацаа хэтэрсэн</p>
-                <p class="text-xl font-bold" class:text-red-600={restaurant.subscription.payment_summary.overdue_invoices_count > 0} class:text-gray-600={restaurant.subscription.payment_summary.overdue_invoices_count === 0}>
+                <p class="text-xl font-bold" class:text-red-600={restaurant.subscription.payment_summary.overdue_invoices_count > 0} class:text-gray-900={restaurant.subscription.payment_summary.overdue_invoices_count === 0}>
                   {restaurant.subscription.payment_summary.overdue_invoices_count}
                 </p>
               </div>
@@ -314,19 +305,19 @@
           <div class="md:col-span-2">
             {#if restaurant.subscription.latest_invoice}
               <div class="bg-gray-50 rounded-lg p-5 border border-gray-200">
-                <h3 class="text-sm font-semibold text-gray-700 mb-4">Сүүлийн нэхэмжлэх</h3>
+                <h3 class="text-sm font-semibold text-gray-900 mb-4">Сүүлийн нэхэмжлэх</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
                     <p class="text-xs text-gray-600">Дугаар</p>
-                    <p class="text-sm font-mono font-medium">{restaurant.subscription.latest_invoice.invoice_number}</p>
+                    <p class="text-sm font-mono font-medium text-gray-900">{restaurant.subscription.latest_invoice.invoice_number}</p>
                   </div>
                   <div>
                     <p class="text-xs text-gray-600">Дүн</p>
-                    <p class="text-sm font-bold">{formatRevenue(restaurant.subscription.latest_invoice.amount_due.toString())}</p>
+                    <p class="text-sm font-bold text-gray-900">{formatRevenue(restaurant.subscription.latest_invoice.amount_due.toString())}</p>
                   </div>
                   <div>
                     <p class="text-xs text-gray-600">Төлбөр</p>
-                    <p class="text-sm font-bold text-green-600">{formatRevenue(restaurant.subscription.latest_invoice.amount_paid.toString())}</p>
+                    <p class="text-sm font-bold text-gray-900">{formatRevenue(restaurant.subscription.latest_invoice.amount_paid.toString())}</p>
                   </div>
                   <div>
                     <p class="text-xs text-gray-600">Статус</p>
@@ -348,33 +339,33 @@
       <!-- Quick Stats Sidebar -->
       <div class="space-y-4">
         <!-- Total Revenue Card -->
-        <div class="bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow-md p-5 text-white">
+        <div class="bg-white rounded-lg border border-gray-200 p-5">
           <div class="flex items-center justify-between mb-2">
-            <p class="text-sm font-medium opacity-90">Нийт орлого</p>
-            <DollarSign class="w-6 h-6 opacity-75" />
+            <p class="text-sm font-medium text-gray-600">Нийт орлого</p>
+            <DollarSign class="w-6 h-6 text-gray-400" />
           </div>
-          <p class="text-3xl font-bold">{formatRevenue(restaurant.insights.orders.total_revenue)}</p>
-          <p class="text-xs opacity-75 mt-1">{restaurant.insights.orders.total_orders} захиалга</p>
+          <p class="text-3xl font-bold text-gray-900">{formatRevenue(restaurant.insights.orders.total_revenue)}</p>
+          <p class="text-xs text-gray-500 mt-1">{restaurant.insights.orders.total_orders} захиалга</p>
         </div>
 
         <!-- Rating Card -->
-        <div class="bg-gradient-to-br from-yellow-500 to-amber-600 rounded-lg shadow-md p-5 text-white">
+        <div class="bg-white rounded-lg border border-gray-200 p-5">
           <div class="flex items-center justify-between mb-2">
-            <p class="text-sm font-medium opacity-90">Дундаж үнэлгээ</p>
-            <Star class="w-6 h-6 opacity-75 fill-current" />
+            <p class="text-sm font-medium text-gray-600">Дундаж үнэлгээ</p>
+            <Star class="w-6 h-6 text-gray-400" />
           </div>
-          <p class="text-3xl font-bold">{restaurant.insights.reviews.average_rating.toFixed(1)}</p>
-          <p class="text-xs opacity-75 mt-1">{restaurant.insights.reviews.total_reviews} үнэлгээ</p>
+          <p class="text-3xl font-bold text-gray-900">{restaurant.insights.reviews.average_rating.toFixed(1)}</p>
+          <p class="text-xs text-gray-500 mt-1">{restaurant.insights.reviews.total_reviews} үнэлгээ</p>
         </div>
 
         <!-- Menu Items Card -->
-        <div class="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-lg shadow-md p-5 text-white">
+        <div class="bg-white rounded-lg border border-gray-200 p-5">
           <div class="flex items-center justify-between mb-2">
-            <p class="text-sm font-medium opacity-90">Меню зүйл</p>
-            <Menu class="w-6 h-6 opacity-75" />
+            <p class="text-sm font-medium text-gray-600">Меню зүйл</p>
+            <Menu class="w-6 h-6 text-gray-400" />
           </div>
-          <p class="text-3xl font-bold">{restaurant.insights.menu_items_count}</p>
-          <p class="text-xs opacity-75 mt-1">{restaurant.insights.tables_count} ширээ</p>
+          <p class="text-3xl font-bold text-gray-900">{restaurant.insights.menu_items_count}</p>
+          <p class="text-xs text-gray-500 mt-1">{restaurant.insights.tables_count} ширээ</p>
         </div>
       </div>
     </div>
@@ -382,27 +373,27 @@
     <!-- Secondary Content -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <!-- Order Analytics -->
-      <div class="lg:col-span-2 bg-white rounded-lg shadow-sm p-6">
-        <h2 class="text-xl font-semibold mb-4">Захиалгын дэлгэрэнгүй</h2>
+      <div class="lg:col-span-2 bg-white rounded-lg border border-gray-200 p-6">
+        <h2 class="text-xl font-semibold mb-4 text-gray-900">Захиалгын дэлгэрэнгүй</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="text-center p-4 bg-yellow-50 rounded-lg">
-            <Clock class="w-6 h-6 text-yellow-600 mx-auto mb-2" />
-            <p class="text-2xl font-bold text-yellow-600">{restaurant.insights.orders.pending_orders}</p>
+          <div class="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <Clock class="w-6 h-6 text-gray-600 mx-auto mb-2" />
+            <p class="text-2xl font-bold text-gray-900">{restaurant.insights.orders.pending_orders}</p>
             <p class="text-sm text-gray-600">Хүлээгдэж буй</p>
           </div>
-          <div class="text-center p-4 bg-green-50 rounded-lg">
-            <ShoppingCart class="w-6 h-6 text-green-600 mx-auto mb-2" />
-            <p class="text-2xl font-bold text-green-600">{restaurant.insights.orders.completed_orders}</p>
+          <div class="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <ShoppingCart class="w-6 h-6 text-gray-600 mx-auto mb-2" />
+            <p class="text-2xl font-bold text-gray-900">{restaurant.insights.orders.completed_orders}</p>
             <p class="text-sm text-gray-600">Дууссан</p>
           </div>
-          <div class="text-center p-4 bg-red-50 rounded-lg">
-            <TrendingUp class="w-6 h-6 text-red-600 mx-auto mb-2" />
-            <p class="text-2xl font-bold text-red-600">{restaurant.insights.orders.cancelled_orders}</p>
+          <div class="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <TrendingUp class="w-6 h-6 text-gray-600 mx-auto mb-2" />
+            <p class="text-2xl font-bold text-gray-900">{restaurant.insights.orders.cancelled_orders}</p>
             <p class="text-sm text-gray-600">Цуцлагдсан</p>
           </div>
-          <div class="text-center p-4 bg-blue-50 rounded-lg">
-            <DollarSign class="w-6 h-6 text-blue-600 mx-auto mb-2" />
-            <p class="text-xl font-bold text-blue-600">{formatRevenue(restaurant.insights.orders.average_order_value)}</p>
+          <div class="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
+            <DollarSign class="w-6 h-6 text-gray-600 mx-auto mb-2" />
+            <p class="text-xl font-bold text-gray-900">{formatRevenue(restaurant.insights.orders.average_order_value)}</p>
             <p class="text-sm text-gray-600">Дундаж дүн</p>
           </div>
         </div>
@@ -412,7 +403,7 @@
       <!-- Admin Users & Info -->
       <div class="space-y-6">
         <!-- Admin Users -->
-        <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class="bg-white rounded-lg border border-gray-200 p-6">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg font-semibold flex items-center">
               <Users class="w-5 h-5 mr-2" />
@@ -530,8 +521,8 @@
 
         <!-- Restaurant Images -->
         {#if restaurant.restaurant_img_urls && restaurant.restaurant_img_urls.length > 0}
-          <div class="bg-white rounded-lg shadow-sm p-6">
-            <h3 class="text-lg font-semibold mb-4">Рестораны зургууд</h3>
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <h3 class="text-lg font-semibold mb-4 text-gray-900">Рестораны зургууд</h3>
             <div class="grid grid-cols-2 gap-2">
               {#each restaurant.restaurant_img_urls.slice(0, 4) as img}
                 <img src={img} alt="Restaurant" class="w-full h-20 object-cover rounded-lg" />
