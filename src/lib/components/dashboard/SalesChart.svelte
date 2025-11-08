@@ -17,7 +17,7 @@
   <div
     class="h-64 flex items-end justify-between gap-2 px-4 py-2 border-b border-l border-gray-200 relative"
   >
-    {#each values as value, index}
+    {#each values as value, index (index)}
       {@const height = (value / maxValue) * 100}
       <div class="flex-1 flex flex-col items-center gap-1 group relative">
         <div

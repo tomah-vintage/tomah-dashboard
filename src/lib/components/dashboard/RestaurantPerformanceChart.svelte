@@ -29,15 +29,10 @@
   <div class="flex items-center gap-8">
     <div class="relative w-64 h-64">
       <svg viewBox="0 0 200 200" class="w-full h-full">
-        {#each chartData as item, index}
+        {#each chartData as item, index (item.name)}
           {@const startRad = ((item.startAngle - 90) * Math.PI) / 180}
           {@const endRad = ((item.endAngle - 90) * Math.PI) / 180}
           {@const largeArc = item.endAngle - item.startAngle > 180 ? 1 : 0}
-          {@const x1 = 100 + 80 * Math.cos(startRad)}
-          {@const y1 = 100 + 80 * Math.sin(startRad)}
-          {@const x2 = 100 + 80 * Math.cos(endRad)}
-          {@const y2 = 100 + 80 * Math.sin(endRad)}
-          {@const scale = hoveredIndex === index ? 1.05 : 1}
           {@const radius = hoveredIndex === index ? 85 : 80}
           {@const hx1 = 100 + radius * Math.cos(startRad)}
           {@const hy1 = 100 + radius * Math.sin(startRad)}
@@ -64,7 +59,7 @@
     </div>
     <div class="flex-1">
       <div class="space-y-2">
-        {#each data as item, index}
+        {#each data as item, index (item.name)}
           <button
             class="flex items-center gap-2 w-full text-left hover:bg-gray-50 p-2 rounded transition-colors"
             onmouseenter={() => (hoveredIndex = index)}

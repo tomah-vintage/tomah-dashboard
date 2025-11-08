@@ -129,7 +129,9 @@
               on:drop={(e) => handleDrop(e, 0)}
             >
               <!-- Drag Handle -->
-              <div class="absolute top-2 left-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div
+                class="absolute top-2 left-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity"
+              >
                 <div class="bg-white rounded p-2 shadow-md cursor-move">
                   <GripVertical class="w-4 h-4 text-gray-600" />
                 </div>
@@ -137,23 +139,44 @@
 
               <!-- Order Badge -->
               <div class="absolute top-2 right-2 z-20">
-                <Badge variant="default" class="bg-blue-600">Main Banner #{banners[0].order_index}</Badge>
+                <Badge variant="default" class_="bg-blue-600"
+                  >Main Banner #{banners[0].order_index}</Badge
+                >
               </div>
 
               <!-- Image -->
-              <img src={banners[0].image_url} alt="Main banner" class="w-full h-full object-cover" />
+              <img
+                src={banners[0].image_url}
+                alt="Main banner"
+                class="w-full h-full object-cover"
+              />
 
               <!-- Delete overlay on hover -->
-              <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <Button size="sm" variant="secondary" on:click={() => handleDelete(banners[0].id)} class="bg-white hover:bg-red-50 text-red-600">
+              <div
+                class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+              >
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  on:click={() => handleDelete(banners[0].id)}
+                  class="bg-white hover:bg-red-50 text-red-600"
+                >
                   <Trash2 class="w-4 h-4" />
                 </Button>
               </div>
 
               <!-- Content overlay -->
-              <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                <h3 class="text-white font-semibold text-lg">{banners[0].position} Position</h3>
-                <p class="text-white/80 text-sm mt-1">Updated: {new Date(banners[0].updated_at).toLocaleDateString("mn-MN")}</p>
+              <div
+                class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4"
+              >
+                <h3 class="text-white font-semibold text-lg">
+                  {banners[0].position} Position
+                </h3>
+                <p class="text-white/80 text-sm mt-1">
+                  Updated: {new Date(banners[0].updated_at).toLocaleDateString(
+                    "mn-MN",
+                  )}
+                </p>
               </div>
             </div>
           </div>
@@ -175,7 +198,9 @@
                 on:drop={(e) => handleDrop(e, index + 1)}
               >
                 <!-- Drag Handle -->
-                <div class="absolute top-1 left-1 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div
+                  class="absolute top-1 left-1 z-20 opacity-0 group-hover:opacity-100 transition-opacity"
+                >
                   <div class="bg-white rounded p-1 shadow-sm cursor-move">
                     <GripVertical class="w-3 h-3 text-gray-500" />
                   </div>
@@ -183,22 +208,39 @@
 
                 <!-- Order Badge -->
                 <div class="absolute top-1 right-1 z-20">
-                  <Badge variant="default" class="bg-green-600 text-xs">#{banner.order_index}</Badge>
+                  <Badge variant="default" class_="bg-green-600 text-xs"
+                    >#{banner.order_index}</Badge
+                  >
                 </div>
 
                 <!-- Image -->
-                <img src={banner.image_url} alt="Side banner" class="w-full h-full object-cover" />
+                <img
+                  src={banner.image_url}
+                  alt="Side banner"
+                  class="w-full h-full object-cover"
+                />
 
                 <!-- Delete overlay on hover -->
-                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <Button size="sm" variant="secondary" on:click={() => handleDelete(banner.id)} class="bg-white hover:bg-red-50 text-red-600">
+                <div
+                  class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                >
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    on:click={() => handleDelete(banner.id)}
+                    class="bg-white hover:bg-red-50 text-red-600"
+                  >
                     <Trash2 class="w-3 h-3" />
                   </Button>
                 </div>
 
                 <!-- Content overlay -->
-                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2">
-                  <h5 class="text-white font-medium text-xs">{banner.position}</h5>
+                <div
+                  class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2"
+                >
+                  <h5 class="text-white font-medium text-xs">
+                    {banner.position}
+                  </h5>
                 </div>
               </div>
             </div>
@@ -206,8 +248,12 @@
 
           <!-- Show empty slots if less than 3 side banners -->
           {#each Array(3 - Math.min(banners.length - 1, 3)) as _, emptyIndex}
-            <div class="flex-1 border-2 border-dashed border-gray-300 rounded-lg bg-gray-100 min-h-20 flex items-center justify-center">
-              <span class="text-gray-400 text-xs">Empty slot #{banners.length + emptyIndex}</span>
+            <div
+              class="flex-1 border-2 border-dashed border-gray-300 rounded-lg bg-gray-100 min-h-20 flex items-center justify-center"
+            >
+              <span class="text-gray-400 text-xs"
+                >Empty slot #{banners.length + emptyIndex}</span
+              >
             </div>
           {/each}
         </div>
@@ -216,7 +262,10 @@
       <!-- Info panel -->
       <div class="mt-4 p-3 bg-white rounded-lg border">
         <h4 class="font-medium text-gray-900 mb-2">Magazine Layout Preview</h4>
-        <p class="text-sm text-gray-600">This shows how your magazine banners will appear to customers. Drag to reorder, hover to delete.</p>
+        <p class="text-sm text-gray-600">
+          This shows how your magazine banners will appear to customers. Drag to
+          reorder, hover to delete.
+        </p>
         <div class="flex items-center gap-4 mt-2 text-xs text-gray-500">
           <span>Total banners: {banners.length}</span>
           <span>Max recommended: 4 (1 main + 3 side)</span>

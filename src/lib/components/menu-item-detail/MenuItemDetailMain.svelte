@@ -34,7 +34,9 @@
       is_available: data.menuItem.is_available,
       meta_data: {
         calories: parseInt(data.menuItem.meta_data.calories) || 0,
-        ingredients: data.menuItem.meta_data.ingredients || []
+        ingredients: data.menuItem.meta_data.ingredients || [],
+        variants: data.menuItem.variants || [],
+        has_variants: data.menuItem.has_variants || false,
       },
       img_urls: [], // Initialize as empty array since we can't convert strings to Files
       code: data.menuItem.code,
@@ -68,7 +70,9 @@
       queryClient.invalidateQueries({ queryKey: ["menuItem", menuItemId] });
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Хоолны зүйл шинэчлэхэд алдаа гарлаа."
+        error instanceof Error
+          ? error.message
+          : "Хоолны зүйл шинэчлэхэд алдаа гарлаа.",
       );
       console.error("Update error:", error);
     } finally {
@@ -92,7 +96,7 @@
   {:else if formData}
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
       <div class="space-y-6 lg:col-span-1">
-        <MenuItemImageDisplay imageUrl={data.menuItem.img_urls[0] || ''} />
+        <MenuItemImageDisplay imageUrl={data.menuItem.img_urls[0] || ""} />
       </div>
       <div class="space-y-6 lg:col-span-2">
         <MenuItemDetailForm bind:formData {categories} bind:formErrors />
