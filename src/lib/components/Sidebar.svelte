@@ -40,7 +40,7 @@
       {#if $sessionStore.user?.restaurant?.logo}
         <img
           src={$sessionStore.user.restaurant.logo}
-          alt="{$sessionStore.user.restaurant.name} logo"
+          alt="{$sessionStore.user.restaurant.name} лого"
           class="w-10 h-10 rounded-lg mr-3 object-cover shadow-sm"
         />
       {/if}
@@ -52,7 +52,7 @@
     <!-- Navigation Menu -->
     <nav>
       <ul>
-        <SidebarButton href="/" label="Тойм дэлгэц" icon={LayoutDashboard} />
+        <SidebarButton href="/" label="Хяналтын самбар" icon={LayoutDashboard} />
         <!-- Platform Admin Links -->
         <SidebarButton
           href="/report"
@@ -62,7 +62,7 @@
         {#if $sessionStore.user?.role_name === "admin"}
           <SidebarButton
             href="/restaurants"
-            label="Ресторан"
+            label="Ресторанууд"
             icon={ShieldCheck}
           />
         {/if}
@@ -72,14 +72,14 @@
         {#if $sessionStore.user?.role_name === "admin"}
           <SidebarButton
             href="/default-categories"
-            label="Үндсэн ангилал"
+            label="Үндсэн ангиллууд"
             icon={Tags}
           />
         {/if}
         {#if $sessionStore.user?.role_name === "admin"}
           <SidebarButton
             href="/restaurant-highlights"
-            label="Онцлох ресторан"
+            label="Онцлох ресторанууд"
             icon={Star}
           />
         {/if}
@@ -93,7 +93,7 @@
         {#if $sessionStore.user?.role_name === "admin"}
           <SidebarButton
             href="/reviews"
-            label="Үнэлгээ"
+            label="Үнэлгээнүүд"
             icon={MessageSquare}
             class="mb-4"
           />
@@ -105,20 +105,20 @@
         {/if}
 
         {#if $sessionStore.user?.role_name === "restaurant"}
-          <SidebarButton href="/orders" label="Захиалга" icon={ShoppingCart} />
-          <SidebarButton href="/seating" label="Ширээ" icon={Store} />
-          <SidebarButton href="/banners" label="Баннер" icon={Image} />
-          <SidebarButton href="/staff" label="Ажилтан" icon={Users} />
-          <SidebarButton href="/reviews" label="Үнэлгээ" icon={MessageSquare} />
+          <SidebarButton href="/orders" label="Захиалгууд" icon={ShoppingCart} />
+          <SidebarButton href="/seating" label="Ширээний зохион байгуулалт" icon={Store} />
+          <SidebarButton href="/banners" label="Баннерууд" icon={Image} />
+          <SidebarButton href="/staff" label="Ажилтнууд" icon={Users} />
+          <SidebarButton href="/reviews" label="Үнэлгээнүүд" icon={MessageSquare} />
           <SidebarButton
             href="/subscription"
-            label="Төлбөр"
+            label="Захиалгын төлөв"
             icon={CreditCard}
           />
           <SidebarButton href="/settings" label="Тохиргоо" icon={Settings} />
           <SidebarButton
             href="/ebarimt"
-            label="EBARIMT"
+            label="E-barimt"
             icon={Receipt}
             class="mb-4"
           />

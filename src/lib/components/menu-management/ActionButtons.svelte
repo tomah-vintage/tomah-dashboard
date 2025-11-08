@@ -24,6 +24,6 @@
   
   <Button variant="tertiary" onclick={onExport}>
     <FileDown class="w-4 h-4" />
-    <span>Export</span>
+    <span>Экспорт</span>
   </Button>
 </div>

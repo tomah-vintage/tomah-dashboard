@@ -181,7 +181,7 @@
     <div class="grid grid-cols-1 gap-4">
       <Input
         label="Хоолны нэр"
-        placeholder="Хоолны нэрээ оруулна уу"
+        placeholder="Хоолны нэрийг оруулна уу"
         bind:value={formData.name}
         required
         error={errors.name}

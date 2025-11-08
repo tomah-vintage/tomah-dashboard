@@ -85,7 +85,7 @@
 </script>
 
 <svelte:head>
-  <title>Захиалга төлөлт | Томах</title>
+  <title>Захиалгын төлөв | Tomah</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">
@@ -96,8 +96,8 @@
         <div class="flex items-center gap-3">
           <CreditCard class="w-8 h-8 text-blue-600" />
           <div>
-            <h1 class="text-3xl font-bold text-gray-900">Захиалга төлөлт</h1>
-            <p class="mt-1 text-sm text-gray-500">Таны ресторанд захиалгын төлөлтийн мэдээлэл</p>
+            <h1 class="text-3xl font-bold text-gray-900">Захиалгын төлөв</h1>
+            <p class="mt-1 text-sm text-gray-500">Таны рестораны захиалгын төлөвийн мэдээлэл</p>
           </div>
         </div>
       </div>
@@ -122,10 +122,10 @@
     {:else if !subscription}
       <div class="bg-white rounded-lg shadow-sm p-6 text-center">
         <CreditCard class="w-12 h-12 text-gray-400 mx-auto mb-4" />
-        <h3 class="text-lg font-medium text-gray-900 mb-2">Захиалга төлөлт олдсонгүй</h3>
-        <p class="text-gray-600 mb-4">{subscriptionData?.message || 'Танд идэвхтэй захиалга төлөлт байхгүй байна.'}</p>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">Захиалгын төлөв олдсонгүй</h3>
+        <p class="text-gray-600 mb-4">{subscriptionData?.message || 'Танд идэвхтэй захиалгын төлөв байхгүй байна.'}</p>
         <Button class="bg-blue-600 hover:bg-blue-700">
-          Захиалга төлөлт эхлүүлэх
+          Захиалгын төлөв эхлүүлэх
         </Button>
       </div>
     {:else}
@@ -306,7 +306,7 @@
             <div>
               <h4 class="font-medium text-yellow-800">Цуцлах хүсэлт</h4>
               <p class="text-sm text-yellow-700">
-                Таны захиалга төлөлт {formatDate(subscription.end_date)}-нд цуцлагдах болно.
+                Таны захиалгын төлөв {formatDate(subscription.end_date)}-нд цуцлагдах болно.
               </p>
             </div>
           </div>

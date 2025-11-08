@@ -68,7 +68,7 @@
 
   function handleDeleteReview(event: CustomEvent<Review>) {
     // TODO: Implement delete confirmation and API call
-    console.log("Delete review:", event.detail);
+    console.log("Шүүмж устгах:", event.detail);
   }
 
   function handleCloseModal() {
@@ -78,7 +78,7 @@
 </script>
 
 <svelte:head>
-  <title>Reviews Management - Tomah Dashboard</title>
+  <title>Шүүмжийн удирдлага - Tomah</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">
@@ -86,12 +86,12 @@
   <div class="bg-white border-b border-gray-200 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="py-6">
-        <h1 class="text-3xl font-bold text-gray-900">Reviews Dashboard</h1>
+        <h1 class="text-3xl font-bold text-gray-900">Шүүмжийн хяналтын самбар</h1>
         <p class="mt-1 text-sm text-gray-500">
           {#if isAdmin}
-            Monitor customer feedback across all restaurant locations
+            Бүх рестораны байршлын хэрэглэгчийн санал хүсэлтийг хянах
           {:else}
-            Track and respond to customer reviews for your restaurant
+            Рестораныхаа хэрэглэгчийн сэтгэгдлийг хянах, хариу өгөх
           {/if}
         </p>
       </div>
@@ -105,7 +105,7 @@
     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-600">Total Reviews</p>
+          <p class="text-sm font-medium text-gray-600">Нийт шүүмж</p>
           <p class="text-2xl font-bold text-gray-900">{totalReviews}</p>
         </div>
         <div class="bg-blue-50 p-3 rounded-lg">
@@ -117,7 +117,7 @@
     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-600">Average Rating</p>
+          <p class="text-sm font-medium text-gray-600">Дундаж үнэлгээ</p>
           <div class="flex items-center space-x-2">
             <p class="text-2xl font-bold text-gray-900">{averageRating.toFixed(1)}</p>
             <div class="flex items-center">
@@ -134,7 +134,7 @@
     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-600">5-Star Reviews</p>
+          <p class="text-sm font-medium text-gray-600">5 одтой шүүмж</p>
           <p class="text-2xl font-bold text-green-600">{fiveStarReviews}</p>
         </div>
         <div class="bg-green-50 p-3 rounded-lg">
@@ -146,7 +146,7 @@
     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-sm font-medium text-gray-600">Current Page Reviews</p>
+          <p class="text-sm font-medium text-gray-600">Энэ хуудасны шүүмж</p>
           <p class="text-2xl font-bold text-purple-600">{reviewsData.length}</p>
         </div>
         <div class="bg-purple-50 p-3 rounded-lg">
@@ -173,14 +173,14 @@
       {:else if $reviewsQuery.error}
         <div class="flex items-center justify-center h-64">
           <div class="text-center">
-            <p class="text-red-600 mb-2">Error loading reviews</p>
+            <p class="text-red-600 mb-2">Шүүмж ачаалахад алдаа гарлаа</p>
             <p class="text-gray-500 text-sm">{$reviewsQuery.error.message}</p>
             <Button
               variant="tertiary"
               on:click={() => $reviewsQuery.refetch()}
               class="mt-4"
             >
-              Try Again
+              Дахин оролдоно уу
             </Button>
           </div>
         </div>

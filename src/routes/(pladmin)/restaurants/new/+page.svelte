@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-  <title>Шинэ ресторан | Qpick</title>
+  <title>Шинэ ресторан | Tomah</title>
 </svelte:head>
 
 <div class="bg-slate-100 w-full h-full">

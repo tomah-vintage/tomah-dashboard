@@ -43,7 +43,7 @@
               });
             }
           } catch (error) {
-            console.error("Failed to fetch user data after login:", error);
+            console.error("Нэвтэрсний дараа хэрэглэгчийн мэдээллийг авахад алдаа гарлаа:", error);
           }
 
           const redirectTo = $page.url.searchParams.get("redirectTo");
@@ -55,7 +55,7 @@
 </script>
 
 <svelte:head>
-  <title>Login | Qpick</title>
+  <title>Нэвтрэх | Tomah</title>
 </svelte:head>
 
 <div

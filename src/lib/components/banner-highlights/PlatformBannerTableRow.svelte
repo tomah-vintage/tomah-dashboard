@@ -18,7 +18,7 @@
   }
 
   function handleDelete() {
-    if (confirm('Энэ баннер устгахдаа итгэлтэй байна уу?')) {
+    if (confirm('Та энэ баннерыг устгахдаа итгэлтэй байна уу?')) {
       dispatch('delete', banner.id);
     }
   }

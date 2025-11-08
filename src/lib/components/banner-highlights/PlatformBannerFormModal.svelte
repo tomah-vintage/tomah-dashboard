@@ -22,7 +22,7 @@
   let uploading = false;
 
   $: isEditing = !!banner;
-  $: modalTitle = isEditing ? 'Баннер засах' : 'Баннер нэмэх';
+  $: modalTitle = isEditing ? 'Баннер засах' : 'Шинэ баннер нэмэх';
   $: submitButtonText = isEditing ? 'Баннер засах' : 'Баннер нэмэх';
 
   // Get restaurants data - handle both array and paginated response
@@ -97,7 +97,7 @@
         });
       }
     } catch (error) {
-      console.error('Error submitting banner:', error);
+      console.error('Баннер илгээхэд алдаа гарлаа:', error);
     } finally {
       uploading = false;
     }
@@ -131,7 +131,7 @@
         <button
           on:click={closeModal}
           class="text-gray-500 hover:text-gray-700"
-          aria-label="Close modal"
+          aria-label="Хаах"
         >
           <X class="w-5 h-5" />
         </button>
@@ -144,7 +144,7 @@
             Ресторан *
           </label>
           {#if $restaurantsQuery.isLoading}
-            <div class="text-gray-500">Ресторан ачаалж байна...</div>
+            <div class="text-gray-500">Рестораны жагсаалт ачаалж байна...</div>
           {:else if restaurants.length === 0}
             <div class="text-red-500">Ресторан олдсонгүй</div>
           {:else}
@@ -165,7 +165,7 @@
         <!-- Image Upload -->
         <div>
           <label for="banner-image-upload" class="block text-sm font-medium text-gray-700 mb-1">
-            Баннер зураг *
+            Баннерын зураг *
           </label>
           
           {#if imagePreview}
@@ -173,7 +173,7 @@
               <div class="relative inline-block">
                 <img 
                   src={imagePreview} 
-                  alt="Banner preview" 
+                  alt="Баннерын урьдчилсан харагдац" 
                   class="w-48 h-32 object-cover rounded border"
                 />
                 <button
@@ -230,7 +230,7 @@
             disabled={!selectedRestaurant || (!imageFile && !isEditing) || uploading || $addPlatformBannerMutation.isPending || $updatePlatformBannerMutation.isPending}
           >
             {#if $addPlatformBannerMutation.isPending || $updatePlatformBannerMutation.isPending}
-              {isEditing ? 'Засч байна...' : 'Нэмж байна...'}
+              {isEditing ? 'Засварлаж байна...' : 'Нэмж байна...'}
             {:else}
               {submitButtonText}
             {/if}

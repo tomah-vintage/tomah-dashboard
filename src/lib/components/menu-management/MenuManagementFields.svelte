@@ -27,7 +27,7 @@
         id="name"
         label="Хоолны нэр"
         bind:value={formData.name}
-        placeholder="Жишээ: Цуйван"
+        placeholder="Жишээ нь: Цуйван"
         error={errors.name}
       />
       <Input
@@ -35,7 +35,7 @@
         label="Тайлбар"
         type="textarea"
         bind:value={formData.description}
-        placeholder="Хоолны талаарх дэлгэрэнгүй мэдээлэл бичнэ үү"
+        placeholder="Хоолны талаар дэлгэрэнгүй мэдээлэл бичнэ үү"
         error={errors.description}
       />
       <Input
@@ -43,14 +43,14 @@
         label="Үнэ"
         type="price"
         bind:value={formData.price}
-        placeholder="Жишээ: 12000.00"
+        placeholder="Жишээ нь: 12000.00"
         error={errors.price}
       />
       <div class="flex items-center">
         <Input
           type="checkbox"
           id="is_available"
-          label="Идэвхтэй статустай"
+          label="Идэвхтэй"
           bind:value={formData.is_available}
         />
       </div>
@@ -79,14 +79,14 @@
         label="Калори"
         type="number"
         bind:value={formData.meta_data.calories}
-        placeholder="Жишээ: 700"
+        placeholder="Жишээ нь: 700"
         error={errors["meta_data.calories"]}
       />
       <Input
         id="ingredients"
         label="Орц найрлага"
         bind:value={ingredientsInput}
-        placeholder="Жишээ: үхрийн мах, бяслаг, сонгино"
+        placeholder="Жишээ нь: үхрийн мах, бяслаг, сонгино"
         error={errors["meta_data.ingredients"]}
       />
     </div>

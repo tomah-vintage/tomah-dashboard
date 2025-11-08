@@ -66,7 +66,7 @@
             toast.success(`Амжилттай! ${data.message}`);
           } else {
             toast.error(
-              `${data.message}. Татварын албанд хүсэлтийг зөвшөөрнө үү.`,
+              `${data.message}. Татварын системд хүсэлтийг зөвшөөрнө үү.`,
             );
           }
         },
@@ -85,7 +85,7 @@
     if (ebarimtFormData.ebarimt_enabled) {
       if (!ebarimtFormData.restaurant_tin || !ebarimtFormData.district_code) {
         toast.error(
-          "EBARIMT идэвхжүүлэхийн тулд ТТД болон дүүргийн кодыг оруулна уу",
+          "E-barimt идэвхжүүлэхийн тулд байгууллагын дугаар болон дүүргийн кодыг оруулна уу",
         );
         return;
       }
@@ -97,10 +97,10 @@
       { restaurantId, data: ebarimtFormData },
       {
         onSuccess: (data) => {
-          toast.success("EBARIMT тохиргоо амжилттай шинэчлэгдлээ");
+          toast.success("E-barimt тохиргоо амжилттай шинэчлэгдлээ");
           if (data.merchant_registered && wasNotRegisteredBefore) {
             toast.success(
-              "Мерчант амжилттай бүртгэгдлээ! Татварын албанд хүсэлтийг зөвшөөрнө үү.",
+              "PosAPI-д амжилттай бүртгэгдлээ! Татварын системд хүсэлтийг зөвшөөрнө үү.",
             );
             showEtaxInstructions = true;
           }
@@ -114,7 +114,7 @@
 </script>
 
 <svelte:head>
-  <title>EBARIMT тохиргоо | Qpick</title>
+  <title>E-barimt тохиргоо | Tomah</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">
@@ -124,7 +124,7 @@
       <!-- Breadcrumbs -->
       <div class="flex items-center space-x-2 text-sm text-gray-500 py-4">
         <div class="h-4 w-1 bg-indigo-600 rounded-sm"></div>
-        <span class="font-medium text-gray-900">EBARIMT тохиргоо</span>
+        <span class="font-medium text-gray-900">E-barimt тохиргоо</span>
       </div>
     </div>
   </div>
@@ -183,13 +183,13 @@
           <div class="flex justify-between items-center">
             <div>
               <h3 class="text-lg font-semibold text-gray-900">
-                EBARIMT тохиргоо хадгалах
+                E-barimt тохиргоог хадгалах
               </h3>
               <p class="text-sm text-gray-600 mt-1">
                 {#if ebarimtFormData.ebarimt_enabled && !ebarimtConfig?.merchant_registered}
-                  Идэвхжүүлсэн тохиолдолд мерчант автоматаар бүртгэгдэнэ
+                  Идэвхжүүлсэн тохиолдолд PosAPI-д автоматаар бүртгэгдэнэ
                 {:else}
-                  EBARIMT тохиргоог шинэчлэх
+                  E-barimt тохиргоог шинэчлэх
                 {/if}
               </p>
             </div>

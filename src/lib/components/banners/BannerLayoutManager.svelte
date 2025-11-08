@@ -65,7 +65,7 @@
 
   function handleToggleActive(index: number) {
     // Remove this functionality as is_active doesn't exist in backend model
-    console.log('Toggle active not implemented');
+    console.log('Идэвхтэй/идэвхгүй болгох функц хэрэгжээгүй');
   }
 
   function handleSave() {
@@ -84,32 +84,32 @@
   function getLayoutTitle(layoutType: string | null) {
     switch (layoutType) {
       case 'HERO':
-        return 'Hero Layout - Том баннер';
+        return 'Hero - Нүүрний том баннер';
       case 'CAROUSEL':
-        return 'Carousel Layout - Гүйдэг баннер';
+        return 'Carousel - Гүйдэг баннер';
       case 'FEATURED':
-        return 'Featured Layout - Онцлох';
+        return 'Featured - Онцлох баннер';
       case 'PROMOTIONAL':
-        return 'Promotional Layout - Зар сурталчилгаа';
+        return 'Promotional - Сурталчилгааны баннер';
       case 'MAGAZINE':
-        return 'Magazine Layout - Сэтгүүлийн төрөл';
+        return 'Magazine - Сэтгүүл хэлбэрийн баннер';
       default:
-        return 'Layout удирдах';
+        return 'Баннер байршлыг удирдах';
     }
   }
 
   function getLayoutDescription(layoutType: string | null) {
     switch (layoutType) {
       case 'HERO':
-        return 'Сайтын дээд хэсэгт харагдах том баннер. Онцлох зарууд.';
+        return 'Вебсайтын нүүр хуудсанд байрлах гол, том хэмжээтэй баннер.';
       case 'CAROUSEL':
-        return 'Гүйдэг баннер хэлбэрээр харуулах. Дараалан солигдох баннерууд.';
+        return 'Олон баннерыг гүйлгэж харуулах хэлбэр.';
       case 'FEATURED':
-        return 'Онцлох хэсэгт байрлах баннер. Чухал мэдээллүүдэд зориулагдсан.';
+        return 'Онцлох бүтээгдэхүүн, үйлчилгээг сурталчлах зориулалттай баннер.';
       case 'PROMOTIONAL':
-        return 'Зар сурталчилгааны баннерууд. Урамшуулал, хөнгөлөлт зэрэг.';
+        return 'Хямдрал, урамшуулал, онцгой саналуудыг сурталчлах баннер.';
       case 'MAGAZINE':
-        return 'Сэтгүүлийн төрлийн байрлал. Том баннер болон жижиг баннерууд хослуулан харуулах.';
+        return 'Нэг том, хэд хэдэн жижиг баннерыг сэтгүүл мэт зохион байгуулалттайгаар харуулах хэлбэр.';
       default:
         return '';
     }
@@ -147,8 +147,8 @@
       {#if layoutType}
         <div class="bg-blue-50 p-4 rounded-lg">
           <div class="flex justify-between items-center text-sm">
-            <span>Нийт баннер: <strong>{localBanners.length}</strong></span>
-            <span>Максимум: <strong>{getMaxItems(layoutType)}</strong></span>
+            <span>Нийт баннерын тоо: <strong>{localBanners.length}</strong></span>
+            <span>Хамгийн ихдээ: <strong>{getMaxItems(layoutType)}</strong></span>
           </div>
         </div>
       {/if}
@@ -156,7 +156,7 @@
       <!-- Banner List -->
       {#if localBanners.length > 0}
         <div class="space-y-3">
-          <h4 class="font-medium text-gray-900">Баннерууд (дарааллаар эрэмбэлэх боломжтой)</h4>
+          <h4 class="font-medium text-gray-900">Баннерууд (чирч эрэмбэлэх боломжтой)</h4>
           
           <div class="space-y-2">
             {#each localBanners as banner, index (banner.id)}
@@ -184,7 +184,7 @@
                 <div class="flex-shrink-0 w-16 h-12 bg-gray-200 rounded overflow-hidden mr-4">
                   <img
                     src={banner.image_url}
-                    alt="Banner preview"
+                    alt="Баннерын урьдчилсан харагдац"
                     class="w-full h-full object-cover"
                   />
                 </div>
@@ -219,8 +219,8 @@
         </div>
       {:else}
         <div class="text-center py-8 text-gray-500">
-          <p>Энэ байрлалд баннер байхгүй байна</p>
-          <p class="text-sm mt-2">Шинэ баннер нэмэхийн тулд "Шинэ баннер нэмэх" товчийг дарна уу</p>
+          <p>Энэ байршилд баннер олдсонгүй</p>
+          <p class="text-sm mt-2">Та 'Шинэ баннер нэмэх' товчийг дарж, шинээр баннер үүсгэх боломжтой.</p>
         </div>
       {/if}
 

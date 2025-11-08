@@ -40,7 +40,7 @@
       dispatch("success");
     } catch (error) {
       errorMessage = error instanceof Error ? error.message : "Хэрэглэгч үүсгэхэд алдаа гарлаа";
-      console.error("Error creating user:", error);
+      console.error("Хэрэглэгч үүсгэхэд алдаа гарлаа:", error);
     } finally {
       isLoading = false;
     }

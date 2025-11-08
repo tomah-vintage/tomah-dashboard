@@ -61,7 +61,7 @@
           try {
             (dataToUpdate as any)[key] = JSON.parse(value);
           } catch (error) {
-            console.error("Error parsing open_hours JSON:", error);
+            console.error("Ажлын цагийн JSON-г задлахад алдаа гарлаа:", error);
             (dataToUpdate as any)[key] = [];
           }
         } else {
@@ -80,13 +80,13 @@
       dataToUpdate.bonum_secret_key = newBonumSecretKey;
     }
 
-    console.log("Form data being sent:", dataToUpdate);
+    console.log("Илгээгдэж буй формын өгөгдөл:", dataToUpdate);
 
     patchRestaurant(
       { id: restaurantId, data: dataToUpdate },
       {
         onSuccess: () => {
-          toast.success("Ресторанй мэдээлэл амжилттай шинэчлэгдлээ");
+          toast.success("Рестораны мэдээлэл амжилттай шинэчлэгдлээ");
           // Clear credentials fields after successful update
           newBonumApiKey = "";
           newBonumSecretKey = "";
@@ -122,7 +122,7 @@
         <div class="w-2 h-8 bg-blue-600 rounded-sm mr-3"></div>
         <div>
           <h2 class="text-xl font-semibold text-gray-900">Үндсэн мэдээлэл</h2>
-          <p class="text-sm text-gray-600 mt-1">Рестораны нэр, хаяг</p>
+          <p class="text-sm text-gray-600 mt-1">Рестораны нэр, хаяг болон бусад үндсэн мэдээллийг тохируулах</p>
         </div>
       </div>
 
@@ -130,7 +130,7 @@
         <div class="md:col-span-2">
           <Input
             label="Рестораны нэр"
-            placeholder="Рестораны нэрээ оруулна уу"
+            placeholder="Рестораны нэрийг оруулна уу"
             bind:value={formData.name}
           />
         </div>
@@ -139,7 +139,7 @@
           <Input
             label="Хаяг"
             type="textarea"
-            placeholder="Рестораны хаягаа оруулна уу"
+            placeholder="Рестораны дэлгэрэнгүй хаягийг оруулна уу"
             bind:value={formData.address}
           />
         </div>
@@ -156,7 +156,7 @@
         <div>
           <h2 class="text-xl font-semibold text-gray-900">Байршил</h2>
           <p class="text-sm text-gray-600 mt-1">
-            Газрын зураг дээрээс байршлаа сонгоно уу
+            Газрын зураг дээрээс рестораны байршлыг сонгоно уу
           </p>
         </div>
       </div>
@@ -178,7 +178,7 @@
         <div>
           <h2 class="text-xl font-semibold text-gray-900">Ажлын цаг</h2>
           <p class="text-sm text-gray-600 mt-1">
-            Долоо хоногийн ажлын цагийг тохируулна уу
+            7 хоногийн ажлын цагийн хуваарийг эндээс тохируулна уу
           </p>
         </div>
       </div>
@@ -201,7 +201,7 @@
             Төлбөрийн тохиргоо
           </h2>
           <p class="text-sm text-gray-600 mt-1">
-            Bonum төлбөрийн системийн нэвтрэх мэдээлэл
+            Bonum төлбөрийн системийн нэвтрэх мэдээллийг тохируулах
           </p>
         </div>
       </div>
@@ -211,7 +211,7 @@
         {#if currentApiKey}
           <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
             <label class="block text-sm font-medium text-gray-700 mb-2">
-              Одоогийн Terminal ID
+              Одоо ашиглаж буй Terminal ID
             </label>
             <div
               class="font-mono text-sm text-gray-900 bg-white px-3 py-2 rounded border border-gray-300"
@@ -240,8 +240,7 @@
             <div>
               <h3 class="text-sm font-medium text-yellow-800">Анхааруулга</h3>
               <p class="text-sm text-yellow-700 mt-1">
-                App Secret-ийг хадгалсны дараа дахин харах боломжгүй. Мэдээллийг
-                аюулгүй газарт хадгална уу.
+                App Secret-г хадгалсны дараа дахин харах боломжгүй тул мэдээллийг аюулгүй газар хадгална уу.
               </p>
             </div>
           </div>
@@ -252,7 +251,7 @@
           <div>
             <Input
               label="Terminal ID (API Key)"
-              placeholder="Bonum-аас олгосон Terminal ID-ээ оруулна уу"
+              placeholder="Bonum-с олгосон Terminal ID-г энд оруулна уу"
               bind:value={newBonumApiKey}
               type="text"
             />
@@ -264,7 +263,7 @@
           <div>
             <Input
               label="App Secret"
-              placeholder="Bonum-аас олгосон App Secret-ээ оруулна уу"
+              placeholder="Bonum-с олгосон App Secret-г энд оруулна уу"
               bind:value={newBonumSecretKey}
               type="password"
             />
@@ -296,12 +295,13 @@
                 class="text-sm text-blue-700 mt-1 list-disc list-inside space-y-1"
               >
                 <li>
-                  Terminal ID болон App Secret хоёуланг оруулах шаардлагатай
+                  Terminal ID болон App Secret-г хамтад нь заавал оруулах шаардлагатай
                 </li>
-                <li>Мэдээллийг шинэчлэх үед хоёр талбарыг дахин бөглөнө үү</li>
                 <li>
-                  Bonum системтэй холбоотой асуудал гарвал тэдэнтэй холбогдоно
-                  уу
+                  Мэдээллийг шинэчлэх үед хоёр талбарыг дахин бөглөх шаардлагатай
+                </li>
+                <li>
+                  Bonum системтэй холбоотой асуудал гарвал Bonum-н оператортой холбогдоно уу
                 </li>
               </ul>
             </div>
@@ -315,11 +315,10 @@
       <div class="flex justify-between items-center">
         <div>
           <h3 class="text-lg font-semibold text-gray-900">
-            Үндсэн мэдээлэл хадгалах
+            Тохиргоог хадгалах
           </h3>
           <p class="text-sm text-gray-600 mt-1">
-            Үндсэн мэдээлэл, байршил, цагийн тохиргоо, төлбөрийн тохиргоог
-            хадгална уу
+            Рестораны үндсэн мэдээлэл, байршил, ажлын цаг болон төлбөрийн тохиргоог хадгалах
           </p>
         </div>
         <Button
@@ -336,6 +335,6 @@
   </div>
 {:else}
   <div class="text-center py-8">
-    <p class="text-gray-500">Ресторанй мэдээлэл олдсонгүй</p>
+    <p class="text-gray-500">Рестораны мэдээлэл олдсонгүй</p>
   </div>
 {/if}

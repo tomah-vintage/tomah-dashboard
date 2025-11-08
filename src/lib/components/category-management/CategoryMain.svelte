@@ -25,7 +25,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="py-6">
         <h1 class="text-3xl font-bold text-gray-900">Цэсний ангилал</h1>
-        <p class="mt-1 text-sm text-gray-500">Рестораны цэсний ангиллуудыг удирдах</p>
+        <p class="mt-1 text-sm text-gray-500">Рестораны цэсний ангиллыг удирдах хэсэг</p>
       </div>
     </div>
   </div>
@@ -43,14 +43,14 @@
             />
             <input
               type="text"
-              placeholder="Хайх..."
+              placeholder="Ангиллын нэрээр хайх..."
               class="w-64 py-2 pl-10 pr-4 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
               bind:value={searchValue}
             />
           </div>
           <Button on:click={openAddCategoryModal}>
             <Plus class="w-4 h-4 mr-1" />
-            Ангилал нэмэх
+            Шинэ ангилал
           </Button>
           <Button variant="secondary">
             <Upload class="w-4 h-4 mr-1" />
@@ -61,11 +61,11 @@
 
       <!-- Category List -->
       {#if $categoriesQuery.isLoading}
-        <div class="text-center py-8 text-gray-600">Ангиллуудыг уншиж байна...</div>
+        <div class="text-center py-8 text-gray-600">Ачаалж байна...</div>
       {:else if $categoriesQuery.isError}
-        <div class="text-center py-8 text-red-600">Алдаа: {$categoriesQuery.error?.message}</div>
+        <div class="text-center py-8 text-red-600">Алдаа гарлаа: {$categoriesQuery.error?.message}</div>
       {:else if categories.length === 0}
-        <div class="text-center py-8 text-gray-500">Ангилал олдсонгүй.</div>
+        <div class="text-center py-8 text-gray-500">Одоогоор ангилал байхгүй байна.</div>
       {:else}
         <CategoryList {categories} />
       {/if}

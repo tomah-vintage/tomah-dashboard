@@ -65,12 +65,12 @@
       user.first_name && user.last_name
         ? `${user.first_name} ${user.last_name}`
         : user.email;
-    if (confirm(`Та "${userName}" ажилтныг устгахдаа итгэлтэй байна уу?`)) {
+    if (confirm(`Та "${userName}" гэх ажилтныг устгахдаа итгэлтэй байна уу?`)) {
       try {
         await $deleteStaffMutation.mutateAsync(user.id);
         toast.success(`${userName} ажилтныг амжилттай устгалаа`);
       } catch (error) {
-        console.error("Error removing user:", error);
+        console.error("Хэрэглэгч устгахад алдаа гарлаа:", error);
         toast.error("Ажилтныг устгахад алдаа гарлаа");
       }
     }
@@ -113,7 +113,7 @@
 </script>
 
 <svelte:head>
-  <title>Ажилтангийн удирдлага - Ресторан</title>
+  <title>Ажилтны удирдлага - Tomah</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">

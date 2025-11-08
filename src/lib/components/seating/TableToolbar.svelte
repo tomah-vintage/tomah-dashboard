@@ -71,7 +71,7 @@
             </div>
             <div class="text-center p-3 bg-emerald-50 rounded-lg">
                 <div class="text-2xl font-bold text-emerald-600">{availableTables.length}</div>
-                <div class="text-sm text-emerald-800">Боломжтой</div>
+                <div class="text-sm text-emerald-800">Сул</div>
             </div>
             <div class="text-center p-3 bg-red-50 rounded-lg">
                 <div class="text-2xl font-bold text-red-600">{occupiedTables.length}</div>
@@ -128,7 +128,7 @@
             >
                 <div class="flex items-center">
                     <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                    Боломжтой ({availableTables.length})
+                    Сул ({availableTables.length})
                 </div>
             </button>
             <button 
@@ -146,7 +146,7 @@
             >
                 <div class="flex items-center">
                     <div class="w-2 h-2 bg-yellow-500 rounded-full mr-2"></div>
-                    Захиалга хүлээж буй ({reservedTables.length})
+                    Захиалгатай ({reservedTables.length})
                 </div>
             </button>
         </div>
@@ -203,9 +203,9 @@
                                 class:bg-yellow-100={table.status === 'reserved'}
                                 class:text-yellow-800={table.status === 'reserved'}
                             >
-                                {table.status === 'available' ? 'Боломжтой' : 
+                                {table.status === 'available' ? 'Сул' : 
                                  table.status === 'occupied' ? 'Эзлэгдсэн' : 
-                                 'Захиалга хүлээж буй'}
+                                 'Захиалгатай'}
                             </div>
                         </div>
                     </div>

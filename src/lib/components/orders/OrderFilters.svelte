@@ -29,7 +29,7 @@
 
       <Select bind:value={selectedStatus}>
         <SelectTrigger class_="w-48">
-          <SelectValue placeholder="Төлөв ангилах">
+          <SelectValue placeholder="Төлөвөөр шүүх">
             {selectedStatus ? getStatusLabel(selectedStatus as OrderStatus) : ""}
           </SelectValue>
         </SelectTrigger>
@@ -45,7 +45,7 @@
 
       <Select bind:value={selectedOrderType}>
         <SelectTrigger class_="w-48">
-          <SelectValue placeholder="Төрөл ангилах">
+          <SelectValue placeholder="Төрлөөр шүүх">
             {selectedOrderType ? getOrderTypeLabel(selectedOrderType as OrderType) : ""}
           </SelectValue>
         </SelectTrigger>
@@ -58,7 +58,7 @@
 
       <Select bind:value={selectedDateRange}>
         <SelectTrigger class_="w-48">
-          <SelectValue placeholder="Хугацаа ангилах">
+          <SelectValue placeholder="Хугацаагаар шүүх">
             {selectedDateRange ? getDateRangeLabel(selectedDateRange) : ""}
           </SelectValue>
         </SelectTrigger>

@@ -17,13 +17,13 @@
 
   $: allRestaurants = (() => {
     const data = $allRestaurantsQuery.data;
-    console.log('Restaurants API response:', data); // Debug log
+    console.log('Рестораны API хариу:', data); // Debug log
     if (Array.isArray(data)) {
       return data;
     } else if (data && Array.isArray(data.results)) {
       return data.results;
     } else {
-      console.warn('Unexpected restaurants API response format:', data);
+      console.warn('Рестораны API хариуны формат таарахгүй байна:', data);
       return [];
     }
   })();
@@ -93,7 +93,7 @@
         <button
           on:click={closeModal}
           class="text-gray-500 hover:text-gray-700"
-          aria-label="Close modal"
+          aria-label="Хаах"
         >
           <X class="w-5 h-5" />
         </button>

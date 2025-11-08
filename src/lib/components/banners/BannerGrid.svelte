@@ -304,7 +304,7 @@
             <div
               class="mt-2 flex items-center justify-between text-xs text-gray-500"
             >
-              <span>Дараалал: #{banner.order_index}</span>
+              <span>Эрэмбэ: #{banner.order_index}</span>
               <span>
                 {new Date(banner.updated_at).toLocaleDateString("mn-MN")}
               </span>
@@ -316,6 +316,6 @@
   {/if}
 {:else}
   <div class="text-center py-8 text-gray-500">
-    <p>Энэ байрлалд баннер байхгүй байна</p>
+    <p>Энэ байршилд баннер олдсонгүй</p>
   </div>
 {/if}

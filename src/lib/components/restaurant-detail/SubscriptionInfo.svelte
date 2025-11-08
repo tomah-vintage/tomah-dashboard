@@ -16,7 +16,7 @@
   <div class="flex items-center justify-between mb-6">
     <h2 class="text-2xl font-bold flex items-center text-gray-900">
       <CreditCard class="w-7 h-7 mr-3 text-gray-700" />
-      Захиалга төлөлтийн мэдээлэл
+      Захиалгын төлөвийн мэдээлэл
     </h2>
     {#if restaurant.subscription}
       <div class="flex items-center gap-3">
@@ -60,7 +60,7 @@
       </div>
     {:else}
       <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold bg-gray-100 text-gray-800">
-        Захиалга байхгүй
+        Захиалгын төлөв байхгүй
       </span>
     {/if}
   </div>
@@ -172,9 +172,9 @@
   {:else}
     <div class="flex flex-col items-center justify-center py-12 text-center">
       <AlertCircle class="w-16 h-16 text-gray-300 mb-4" />
-      <h3 class="text-lg font-semibold text-gray-900 mb-2">Захиалгын мэдээлэл байхгүй</h3>
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">Захиалгын төлөвийн мэдээлэл байхгүй</h3>
       <p class="text-sm text-gray-500 max-w-md">
-        Энэ рестораны захиалгын төлөлтийн мэдээлэл одоогоор байхгүй байна. Системд захиалга нэмэх шаардлагатай.
+        Энэ рестораны захиалгын төлөвийн мэдээлэл одоогоор байхгүй байна. Системд захиалга нэмэх шаардлагатай.
       </p>
     </div>
   {/if}

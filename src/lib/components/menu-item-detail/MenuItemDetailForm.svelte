@@ -28,27 +28,27 @@
   <Input
     label="Нэр (Англи)"
     bind:value={formData.name}
-    placeholder="Хоолны нэр оруулна уу"
+    placeholder="Хоолны нэрийг оруулна уу"
     error={formErrors.name}
   />
   <Input
     label="Тайлбар"
     type="textarea"
     bind:value={formData.description}
-    placeholder="Тайлбар оруулна уу"
+    placeholder="Тайлбарыг оруулна уу"
     error={formErrors.description}
   />
   <Input
     label="Үнэ"
     type="number"
     bind:value={formData.price}
-    placeholder="Үнэ оруулна уу"
+    placeholder="Үнийг оруулна уу"
     error={formErrors.price}
   />
   <Input
     label="Код"
     bind:value={formData.code}
-    placeholder="Өвөрмөц код оруулна уу"
+    placeholder="Өвөрмөц кодыг оруулна уу"
     error={formErrors.code}
   />
 

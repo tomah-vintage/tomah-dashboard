@@ -13,7 +13,7 @@
       <div>
         <h1 class="text-3xl font-bold text-gray-900">Захиалгын удирдлага</h1>
         <p class="mt-1 text-sm text-gray-500">
-          Ресторанлын бүх захиалгыг харах, удирдах
+          Рестораны бүх захиалгыг харах, удирдах
         </p>
       </div>
       <div class="flex items-center space-x-3">

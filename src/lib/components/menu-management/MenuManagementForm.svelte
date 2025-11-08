@@ -111,7 +111,7 @@
             <span class="text-gray-900">Шинэ хоол нэмэх</span>
           </nav>
           <h1 class="text-2xl font-bold text-gray-900">Шинэ хоол нэмэх</h1>
-          <p class="text-gray-600 mt-1">Хоолны цэсэнд шинэ зүйл нэмж тохиргоог хийнэ үү</p>
+          <p class="text-gray-600 mt-1">Хоолны цэсэнд шинэ хоол нэмж, тохиргоог хийнэ үү</p>
         </div>
         <a
           href="{base}/menu"
@@ -130,7 +130,7 @@
           <CheckCircle class="w-5 h-5 text-green-600 mr-3" />
           <div>
             <h3 class="text-green-800 font-medium">Амжилттай!</h3>
-            <p class="text-green-700 text-sm">Хоолны цэс амжилттай нэмэгдлээ. Хуудас шилжүүлж байна...</p>
+            <p class="text-green-700 text-sm">Хоолны цэс амжилттай нэмэгдлээ. Хуудас руу шилжиж байна...</p>
           </div>
         </div>
       </div>

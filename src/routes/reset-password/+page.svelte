@@ -34,7 +34,7 @@
 </script>
 
 <svelte:head>
-  <title>Нууц үг сэргээх | Qpick</title>
+  <title>Нууц үг сэргээх | Tomah</title>
 </svelte:head>
 
 <div class="flex min-h-screen items-center justify-center bg-content-background font-sans">

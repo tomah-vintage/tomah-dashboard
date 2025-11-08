@@ -24,8 +24,8 @@
     icon={Package}
     title="Захиалга олдсонгүй"
     description={hasFilters
-      ? "Хайлтын нөхцөлийг өөрчилнө үү"
-      : "Хэрэглэгчид захиалга өгсний дараа энд харагдах болно"}
+      ? "Шүүлтүүрийн нөхцөлийг өөрчилнө үү"
+      : "Хэрэглэгчид захиалга өгсний дараа энд харагдана"}
   />
 {:else}
   <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">

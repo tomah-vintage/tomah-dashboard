@@ -22,9 +22,9 @@
       </div>
     </div>
     <div class="ml-4 flex-1">
-      <h1 class="text-2xl font-bold">EBARIMT тохиргоо</h1>
+      <h1 class="text-2xl font-bold">E-barimt тохиргоо</h1>
       <p class="text-indigo-100 mt-1">
-        Цахим баримтын тохиргоо (НӨАТ-ын баримт)
+        НӨАТ-ын баримт үүсгэх тохиргоо.
       </p>
     </div>
   </div>

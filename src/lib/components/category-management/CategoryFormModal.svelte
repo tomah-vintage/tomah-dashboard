@@ -95,11 +95,11 @@
   >
     <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
       <div class="flex items-center justify-between mb-4">
-        <h2 id="modal-title" class="text-xl font-bold">Ангилал нэмэх</h2>
+        <h2 id="modal-title" class="text-xl font-bold">Шинэ ангилал нэмэх</h2>
         <button
           on:click={closeModal}
           class="text-gray-500 hover:text-gray-700"
-          aria-label="Close modal"
+          aria-label="Хаах"
         >
           <X class="w-5 h-5" />
         </button>
@@ -108,9 +108,9 @@
       <form on:submit|preventDefault={handleSubmit}>
         <div class="mb-4">
           <Input
-            label="Ангилал нэр"
+            label="Ангиллын нэр"
             bind:value={categoryName}
-            placeholder="Ангилал нэр"
+            placeholder="Ангиллын нэрийг оруулна уу"
             type="text"
             id="category-name"
             error={categoryNameError || undefined}
@@ -131,9 +131,9 @@
           disabled={$addCategoryMutation.isPending || !categoryName.trim()}
         >
           {#if $addCategoryMutation.isPending}
-            Илгээж байна...
+            Хадгалж байна...
           {:else}
-            Илгээх
+            Хадгалах
           {/if}
         </Button>
       </form>

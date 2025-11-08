@@ -38,7 +38,7 @@
       badgeClass: 'bg-blue-100 text-blue-800 border-blue-300'
     },
     [OrderStatus.IN_BOX]: { 
-      label: 'Савнаш', 
+      label: 'Хайрцагласан', 
       variant: 'secondary' as const,
       icon: Package,
       bgClass: 'bg-purple-50',
@@ -71,7 +71,7 @@
 
   // Order type display configuration
   const typeConfig = {
-    [OrderType.DINE_IN]: { label: 'Суугаад идэх', icon: Utensils },
+    [OrderType.DINE_IN]: { label: 'Газар дээр нь', icon: Utensils },
     [OrderType.TAKE_OUT]: { label: 'Авч явах', icon: ShoppingBag }
   };
 

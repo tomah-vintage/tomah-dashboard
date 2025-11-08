@@ -24,7 +24,7 @@
   let isUploading = false;
 
   $: isEditing = !!category;
-  $: modalTitle = isEditing ? 'Үндсэн ангилал засах' : 'Үндсэн ангилал нэмэх';
+  $: modalTitle = isEditing ? 'Үндсэн ангилал засах' : 'Шинэ үндсэн ангилал нэмэх';
   $: submitButtonText = isEditing ? 'Ангилал засах' : 'Ангилал нэмэх';
 
 
@@ -77,8 +77,8 @@
         $addDefaultCategoryMutation.mutate(submitData);
       }
     } catch (error) {
-      toast.error('Зураг байршуулахад алдаа гарлаа');
-      console.error('Upload error:', error);
+      toast.error('Зураг байршуулахад алдаа гарлаа.');
+      console.error('Байршуулахад алдаа гарлаа:', error);
     } finally {
       isUploading = false;
     }
@@ -112,7 +112,7 @@
         <button
           on:click={closeModal}
           class="text-gray-500 hover:text-gray-700"
-          aria-label="Close modal"
+          aria-label="Хаах"
         >
           <X class="w-5 h-5" />
         </button>

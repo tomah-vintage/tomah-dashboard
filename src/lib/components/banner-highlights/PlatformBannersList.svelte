@@ -27,7 +27,7 @@
         <th class="p-4 text-left text-sm font-medium text-gray-600">Зураг</th>
         <th class="p-4 text-left text-sm font-medium text-gray-600">Ресторан</th>
         <th class="p-4 text-left text-sm font-medium text-gray-600">Эрэмбэ</th>
-        <th class="p-4 text-left text-sm font-medium text-gray-600">Үүсгэсэн</th>
+        <th class="p-4 text-left text-sm font-medium text-gray-600">Огноо</th>
         <th class="p-4 text-right text-sm font-medium text-gray-600">Үйлдэл</th>
       </tr>
     </thead>

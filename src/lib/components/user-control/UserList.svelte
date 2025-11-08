@@ -17,7 +17,7 @@
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat("en-US", {
+    return new Intl.DateTimeFormat("mn-MN", {
       month: "short",
       day: "numeric",
       year: "numeric",
@@ -38,7 +38,7 @@
               type="checkbox"
               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
             />
-            <label for="checkbox-all" class="sr-only">checkbox</label>
+            <label for="checkbox-all" class="sr-only">сонгох</label>
           </div>
         </th>
         <th scope="col" class="px-6 py-3">Хэрэглэгч</th>
@@ -59,7 +59,7 @@
                 type="checkbox"
                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
               />
-              <label for="checkbox-{user.id}" class="sr-only">checkbox</label>
+              <label for="checkbox-{user.id}" class="sr-only">сонгох</label>
             </div>
           </td>
           <th
@@ -94,7 +94,7 @@
             </span>
           </td>
           <td class="px-6 py-4">
-            {user.last_login ? formatDate(user.last_login) : "N/A"}
+            {user.last_login ? formatDate(user.last_login) : "байхгүй"}
           </td>
           <td class="px-6 py-4">
             {formatDate(user.created_at)}

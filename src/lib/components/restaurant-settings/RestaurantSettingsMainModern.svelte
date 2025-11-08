@@ -7,7 +7,7 @@
   let activeSection: string = "basic";
 
   const sections = [
-    { id: "basic", label: "Үндсэn мэдээлэл", icon: Info },
+    { id: "basic", label: "Үндсэн мэдээлэл", icon: Info },
     { id: "location", label: "Байршил", icon: MapPin },
     { id: "hours", label: "Ажлын цаг", icon: Clock },
     { id: "payment", label: "Төлбөрийн тохиргоо", icon: CreditCard },
@@ -81,9 +81,9 @@
           </svg>
         </div>
         <div>
-          <h1 class="text-2xl font-bold">Ресторан тохиргоо</h1>
+          <h1 class="text-2xl font-bold">Рестораны тохиргоо</h1>
           <p class="text-blue-100 mt-1">
-            Рестораны мэдээлэл, байршил болон ажлын цагийг тохируулна уу
+            Рестораны мэдээлэл, байршил, ажлын цагийг эндээс тохируулна уу
           </p>
         </div>
       </div>
@@ -96,7 +96,7 @@
     <div class="hidden lg:block w-64 flex-shrink-0">
       <div class="sticky top-20">
         <nav class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-          <h3 class="text-sm font-semibold text-gray-900 mb-3 px-3">Хэсгүүд</h3>
+          <h3 class="text-sm font-semibold text-gray-900 mb-3 px-3">Тохиргооны хэсгүүд</h3>
           <ul class="space-y-1">
             {#each sections as section}
               <li>

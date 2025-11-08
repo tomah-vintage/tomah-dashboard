@@ -36,11 +36,11 @@
             </th>
             <td class="px-6 py-4">{item.date}</td>
             <td class="px-6 py-4">{item.restaurantName}</td>
-            <td class="px-6 py-4">${item.totalAmount.toFixed(2)}</td>
+            <td class="px-6 py-4">₮{item.totalAmount}</td>
             <td class="px-6 py-4">
               <span class:text-status-success={item.status === 'Completed'}
                     class:text-status-error={item.status === 'Cancelled'}>
-                {item.status === 'Completed' ? 'Дууссан' : item.status === 'Cancelled' ? 'Цуцлагдсан' : item.status}
+                {item.status === 'Completed' ? 'Дууссан' : item.status === 'Cancelled' ? 'Цуцлагдсан' : 'Хүлээгдэж буй'}
               </span>
             </td>
           </tr>

@@ -14,7 +14,7 @@
         alt={restaurant.name}
         class="w-12 h-12 rounded-lg object-cover"
         on:error={(e) => {
-          e.currentTarget.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><rect width="48" height="48" fill="%23f3f4f6"/><text x="24" y="28" text-anchor="middle" fill="%236b7280" font-size="10">No Image</text></svg>';
+          e.currentTarget.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><rect width="48" height="48" fill="%23f3f4f6"/><text x="24" y="28" text-anchor="middle" fill="%236b7280" font-size="10">Зураг байхгүй</text></svg>';
         }}
       />
       <div>

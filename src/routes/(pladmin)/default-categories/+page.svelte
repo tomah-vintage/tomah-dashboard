@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-  <title>Үндсэн ангилал | Qpick</title>
+  <title>Үндсэн ангилал | Tomah</title>
 </svelte:head>
 
 <DefaultCategoriesMain />

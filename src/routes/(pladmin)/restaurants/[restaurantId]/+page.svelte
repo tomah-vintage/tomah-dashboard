@@ -57,7 +57,7 @@
           resetAddUserForm();
         },
         onError: (error) => {
-          console.error("Failed to add user:", error);
+          console.error("Хэрэглэгч нэмэхэд алдаа гарлаа:", error);
         },
       }
     );
@@ -71,7 +71,7 @@
         { restaurantId, userId },
         {
           onError: (error) => {
-            console.error("Failed to remove user:", error);
+            console.error("Хэрэглэгч устгахад алдаа гарлаа:", error);
           },
         }
       );
@@ -113,7 +113,7 @@
         { subscriptionId: restaurant.subscription.id, restaurantId },
         {
           onError: (error) => {
-            console.error("Failed to activate subscription:", error);
+            console.error("Захиалгыг идэвхжүүлэхэд алдаа гарлаа:", error);
             alert("Захиалгыг идэвхжүүлэхэд алдаа гарлаа");
           },
           onSuccess: () => {
@@ -127,7 +127,7 @@
         { subscriptionId: restaurant.subscription.id, restaurantId },
         {
           onError: (error) => {
-            console.error("Failed to deactivate subscription:", error);
+            console.error("Захиалгыг идэвхгүй болгоход алдаа гарлаа:", error);
             alert("Захиалгыг идэвхгүй болгоход алдаа гарлаа");
           },
           onSuccess: () => {
@@ -146,7 +146,7 @@
 </script>
 
 <svelte:head>
-  <title>{restaurant?.name || "Ресторан"} | Admin</title>
+  <title>{restaurant?.name || "Ресторан"} | Админ</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">
@@ -240,7 +240,7 @@
                 {#each restaurant.restaurant_img_urls.slice(0, 4) as img}
                   <img
                     src={img}
-                    alt="Restaurant"
+                    alt="Ресторан"
                     class="w-full h-20 object-cover rounded-lg"
                   />
                 {/each}

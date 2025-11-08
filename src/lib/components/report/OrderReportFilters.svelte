@@ -28,14 +28,14 @@
   const orderStatusOptions = [
     { value: OrderStatus.PENDING, label: 'Хүлээж байна' },
     { value: OrderStatus.PREPARING, label: 'Бэлтгэж байна' },
-    { value: OrderStatus.IN_BOX, label: 'Савнаш' },
+    { value: OrderStatus.IN_BOX, label: 'Хайрцагласан' },
     { value: OrderStatus.DONE, label: 'Дууссан' },
     { value: OrderStatus.CANCELLED, label: 'Цуцлагдсан' }
   ];
 
   // Order type options with Mongolian labels
   const orderTypeOptions = [
-    { value: OrderType.DINE_IN, label: 'Суугаад идэх' },
+    { value: OrderType.DINE_IN, label: 'Газар дээр нь' },
     { value: OrderType.TAKE_OUT, label: 'Авч явах' }
   ];
 

@@ -29,26 +29,26 @@
   const positionOptions = [
     { 
       value: BannerPosition.Top, 
-      label: "Дээд хэсэг", 
-      description: "Хуудасны хамгийн дээд талд харагдана",
+      label: "Дээд", 
+      description: "Хуудасны дээд хэсэгт харагдана",
       icon: "⬆️"
     },
     { 
       value: BannerPosition.Middle, 
-      label: "Дунд хэсэг", 
-      description: "Хуудасны голд байрлана",
+      label: "Дунд", 
+      description: "Хуудасны дунд хэсэгт харагдана",
       icon: "➡️"
     },
     { 
       value: BannerPosition.Bottom, 
-      label: "Доод хэсэг", 
-      description: "Хуудасны хамгийн доод талд харагдана",
+      label: "Доод", 
+      description: "Хуудасны доод хэсэгт харагдана",
       icon: "⬇️"
     },
     { 
       value: BannerPosition.Sidebar, 
-      label: "Хажуугийн хэсэг", 
-      description: "Хуудасны хажуу талд байрлана",
+      label: "Хажуу", 
+      description: "Хуудасны хажуу талд харагдана",
       icon: "↔️"
     },
   ];
@@ -99,7 +99,7 @@
     <div class="p-6 space-y-6">
       <!-- File Upload Area -->
       <div class="space-y-2">
-        <Label>Баннер зураг сонгох</Label>
+        <Label>Баннерын зураг</Label>
         <ImageUploader
           multiple={false}
           id="banner-uploader"
@@ -111,7 +111,7 @@
 
       <!-- Banner Type -->
       <div class="space-y-2">
-        <Label for_="layoutType">Сонгосон төрөл</Label>
+        <Label for_="layoutType">Сонгогдсон төрөл</Label>
         <div class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 font-medium text-gray-700">
           {layoutTypeOptions.find(opt => opt.value === selectedLayoutType)?.label || selectedLayoutType || BannerLayoutType.Hero}
         </div>
@@ -154,9 +154,9 @@
             <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
             <span class="text-sm text-gray-600">
               {#if selectedLayoutType === BannerLayoutType.Hero}
-                Hero баннер нүүр хуудасны дээд хэсэгт байрлана
+                Hero баннер нь нүүр хуудасны дээд хэсэгт байрлана.
               {:else if selectedLayoutType === BannerLayoutType.Carousel}
-                Carousel баннер тодорхой байрлалтай байдаг
+                Carousel баннер нь тодорхой байршилд харагдана.
               {/if}
             </span>
           </div>

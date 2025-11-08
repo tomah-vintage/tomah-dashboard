@@ -11,11 +11,11 @@
   let previewRef: HTMLDivElement;
 
   const aspectRatios = [
-    { label: "16:9 - Хэвтээ баннер", value: "16:9", width: 16, height: 9 },
+    { label: "16:9 - Хэвтээ", value: "16:9", width: 16, height: 9 },
     { label: "4:3 - Стандарт", value: "4:3", width: 4, height: 3 },
-    { label: "1:1 - Квадрат", value: "1:1", width: 1, height: 1 },
-    { label: "3:2 - Зураг", value: "3:2", width: 3, height: 2 },
-    { label: "21:9 - Хэмжээт хэвтээ", value: "21:9", width: 21, height: 9 },
+    { label: "1:1 - Дөрвөлжин", value: "1:1", width: 1, height: 1 },
+    { label: "3:2 - Фото", value: "3:2", width: 3, height: 2 },
+    { label: "21:9 - Өргөн", value: "21:9", width: 21, height: 9 },
     { label: "9:16 - Босоо", value: "9:16", width: 9, height: 16 },
   ];
 
@@ -92,7 +92,7 @@
 
   <!-- Interactive Preview -->
   <div class="space-y-2">
-    <label class="block text-sm font-medium text-gray-700">Өөрчлөх боломжтой харьцаа</label>
+    <label class="block text-sm font-medium text-gray-700">Харилцан үйлчлэлт харьцаа</label>
     <div 
       bind:this={containerRef}
       class="relative w-full h-32 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg cursor-crosshair {disabled ? 'opacity-50 cursor-not-allowed' : ''}"
@@ -117,12 +117,12 @@
       
       {#if !disabled}
         <div class="absolute bottom-2 right-2 text-xs text-gray-500">
-          Дарж татах
+          Чирж өөрчлөх
         </div>
       {/if}
     </div>
     <p class="text-xs text-gray-500">
-      Баннерын харьцааг тохируулахын тулд дээрх талбар дээр дарж татна уу
+      Баннерын харьцааг өөрчлөхийн тулд дээрх талбарт чирж удирдах боломжтой.
     </p>
   </div>
 </div>

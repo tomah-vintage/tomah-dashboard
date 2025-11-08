@@ -33,7 +33,7 @@ export function filterRestaurants(restaurants: SimpleRestaurant[], searchValue: 
 export function getHighlightTypeLabel(type: string): string {
   switch (type) {
     case 'BADGE':
-      return 'Тэмдэг/Шошго';
+      return 'Тэмдэг';
     case 'FEATURED':
       return 'Онцлох';
     default:

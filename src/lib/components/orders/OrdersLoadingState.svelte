@@ -1,7 +1,7 @@
 <script lang="ts">
   import { RefreshCw } from "@lucide/svelte";
   
-  export let message: string = "Захиалга ачааллаж байна...";
+  export let message: string = "Захиалга ачаалж байна...";
 </script>
 
 <div class="flex justify-center items-center py-12">

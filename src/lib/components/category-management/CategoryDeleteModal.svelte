@@ -34,11 +34,10 @@
       <h2 class="text-xl font-bold mb-4">Ангилал устгах</h2>
       {#if category.menu_item_count && category.menu_item_count > 0}
         <p>
-          Энэ ангилал дотор бүтээгдэхүүнүүд байгаа тул устгах боломжгүй.
-          Устгахын тулд эхлээд бүх бүтээгдэхүүнийг устгана уу.
+          Энэ ангилалд бүтээгдэхүүн байгаа тул устгах боломжгүй. Устгахын тулд эхлээд холбогдох бүх бүтээгдэхүүнийг устгана уу.
         </p>
         <div class="mt-6 flex justify-center">
-          <Button on:click={closeModal}>OK</Button>
+          <Button on:click={closeModal}>Ойлголоо</Button>
         </div>
       {:else}
         <p>Та "{category.name}" ангиллыг устгахдаа итгэлтэй байна уу?</p>

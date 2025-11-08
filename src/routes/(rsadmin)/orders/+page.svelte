@@ -56,7 +56,7 @@
   async function handleFetchOrders() {
     isLoading = true;
     try {
-      console.log('Fetching orders with filters:', {
+      console.log('Захиалгуудыг шүүлтүүрээр авч байна:', {
         user,
         selectedStatus,
         selectedOrderType,
@@ -92,7 +92,7 @@
       
       totalPages = calculateTotalPages(totalCount, pageSize);
     } catch (error) {
-      console.error("Failed to fetch orders:", error);
+      console.error("Захиалга авахад алдаа гарлаа:", error);
     } finally {
       isLoading = false;
     }
@@ -126,7 +126,7 @@
     if (isInitialized) {
       clearTimeout(filterTimeout);
       filterTimeout = setTimeout(() => {
-        console.log('Filter values changed, auto-applying filters...');
+        console.log('Шүүлтүүрийн утгууд өөрчлөгдсөн, шүүлтүүрийг автоматаар ашиглаж байна...');
         applyFilters();
       }, 500);
     }
@@ -134,7 +134,7 @@
 </script>
 
 <svelte:head>
-  <title>Захиалга | Tomah Dashboard</title>
+  <title>Захиалга | Tomah</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">

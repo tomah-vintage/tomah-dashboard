@@ -83,7 +83,7 @@
       alt={restaurant.name}
       class="h-10 w-10 rounded-md object-cover"
       on:error={(e) => {
-        e.currentTarget.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><rect width="40" height="40" fill="%23f3f4f6"/><text x="20" y="25" text-anchor="middle" fill="%236b7280" font-size="12">No Image</text></svg>';
+        e.currentTarget.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><rect width="40" height="40" fill="%23f3f4f6"/><text x="20" y="25" text-anchor="middle" fill="%236b7280" font-size="12">Зураг байхгүй</text></svg>';
       }}
     />
   </td>
@@ -100,7 +100,7 @@
   <td class="p-3">
     <div class="flex items-center gap-1">
       <Star class="h-4 w-4 text-yellow-500 fill-current" />
-      <span class="text-sm">{restaurant.average_rating?.toFixed(1) || 'N/A'}</span>
+      <span class="text-sm">{restaurant.average_rating?.toFixed(1) || 'Байхгүй'}</span>
     </div>
   </td>
 
@@ -113,7 +113,7 @@
         </span>
       </div>
       <div class="text-xs text-gray-600">
-        {restaurant.subscription?.plan_name || 'N/A'}
+        {restaurant.subscription?.plan_name || 'Байхгүй'}
       </div>
       <div class="flex items-center gap-1 text-xs text-gray-500">
         <Calendar class="h-3 w-3" />

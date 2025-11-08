@@ -18,7 +18,7 @@
       categoryToDelete.menu_item_count &&
       categoryToDelete.menu_item_count > 0
     ) {
-      toast.error("Cannot delete a category with associated menu items.");
+      toast.error("Цэсний зүйлтэй ангиллыг устгах боломжгүй.");
       return;
     }
 
@@ -36,7 +36,7 @@
     class="flex items-center px-4 py-3 border-b border-gray-200 rounded-t-lg bg-gray-50"
   >
     <div class="flex-1 font-semibold text-gray-600">Ангиллын нэр</div>
-    <div class="w-48 font-semibold text-gray-600">Бүтээгдэхүүн</div>
+    <div class="w-48 font-semibold text-gray-600">Бүтээгдэхүүний тоо</div>
     <div class="w-32 font-semibold text-center text-gray-600">Үйлдэл</div>
   </div>
 

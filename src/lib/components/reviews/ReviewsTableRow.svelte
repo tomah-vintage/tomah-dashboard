@@ -29,11 +29,11 @@
 	function getReviewTypeLabel(type: string) {
 		switch (type) {
 			case 'SERVICE':
-				return 'Service';
+				return 'Үйлчилгээ';
 			case 'TASTE':
-				return 'Taste';
+				return 'Амт';
 			case 'ENVIRONMENT':
-				return 'Environment';
+				return 'Орчин';
 			default:
 				return type;
 		}
@@ -106,15 +106,15 @@
 		<div class="inline-flex">
 			{#if review.reviewType === 'SERVICE'}
 				<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-					🛎️ Service
+					🛎️ Үйлчилгээ
 				</span>
 			{:else if review.reviewType === 'TASTE'}
 				<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
-					🍽️ Taste
+					🍽️ Амт
 				</span>
 			{:else if review.reviewType === 'ENVIRONMENT'}
 				<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-					🏪 Environment
+					🏪 Орчин
 				</span>
 			{/if}
 		</div>
@@ -133,7 +133,7 @@
 				</div>
 			{:else}
 				<div class="text-xs text-gray-400 italic bg-gray-50 px-3 py-2 rounded-lg">
-					No comment provided
+					Сэтгэгдэл байхгүй
 				</div>
 			{/if}
 		</div>

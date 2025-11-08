@@ -19,12 +19,10 @@
     </svg>
     <div class="flex-1">
       <h3 class="text-base font-semibold text-red-900 mb-2">
-        Анхааруулга: Мерчант бүртгэгдээгүй байна
+        Анхааруулга: PosAPI-д бүртгэгдээгүй байна
       </h3>
       <p class="text-sm text-red-800 mb-3">
-        Таны ТТД ({restaurantTin}) оруулсан боловч мерчант систем дээр
-        бүртгэгдээгүй байна. Та татварын албанаас ирсэн хүсэлтийг зөвшөөрөх
-        шаардлагатай.
+        Танай байгууллагын дугаар ({restaurantTin}) бүртгэлтэй ч PosAPI системд бүртгэгдээгүй байна. Татварын системээс илгээсэн хүсэлтийг зөвшөөрнө үү.
       </p>
       <div class="bg-white rounded-lg p-4 border border-red-200 mb-3">
         <h4 class="text-sm font-semibold text-gray-900 mb-2">
@@ -61,7 +59,7 @@
           ></path>
         </svg>
         <p class="text-sm text-red-900">
-          <strong>Чухал:</strong> Хүсэлтийг зөвшөөрөх хүртэл EBARIMT баримт үүсэхгүй.
+          <strong>Чухал:</strong> Хүсэлтийг зөвшөөрөх хүртэл e-barimt үүсэхгүй.
         </p>
       </div>
     </div>

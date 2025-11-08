@@ -8,7 +8,7 @@
 
 <div class="bg-white rounded-lg shadow-md p-6">
   <div class="flex justify-between items-center mb-4">
-    <h2 class="text-xl font-bold text-gray-800">Үйлчлүүлэгч</h2>
+    <h2 class="text-xl font-bold text-gray-800">Сүүлийн үеийн идэвх</h2>
     <button 
       type="button" 
       class="text-primary-blue flex items-center text-sm font-medium hover:underline"
@@ -19,22 +19,28 @@
     </button>
   </div>
   <div class="space-y-4">
-    {#each users as user (user.id)}
-      <div class="flex items-center space-x-4">
-        <img
-          src={user.avatarUrl}
-          alt={user.name}
-          class="w-12 h-12 rounded-full object-cover"
-        />
-        <div class="flex-1">
-          <h3 class="font-semibold text-gray-800">{user.name}</h3>
-          <p class="text-gray-500 text-sm">{user.email}</p>
+    {#if users.length > 0}
+      {#each users as user (user.id)}
+        <div class="flex items-center space-x-4">
+          <img
+            src={user.avatarUrl}
+            alt={user.name}
+            class="w-12 h-12 rounded-full object-cover"
+          />
+          <div class="flex-1">
+            <h3 class="font-semibold text-gray-800">{user.name}</h3>
+            <p class="text-gray-500 text-sm">{user.email}</p>
+          </div>
+          <div class="text-right">
+            <p class="font-bold text-gray-800">{user.activityCount} удаа</p>
+            <p class="text-gray-500 text-sm">{user.location}</p>
+          </div>
         </div>
-        <div class="text-right">
-          <p class="font-bold text-gray-800">{user.activityCount} удаа</p>
-          <p class="text-gray-500 text-sm">{user.location}</p>
-        </div>
+      {/each}
+    {:else}
+      <div class="text-center py-8 text-gray-500">
+        <p>Сүүлийн үед идэвх ороогүй байна.</p>
       </div>
-    {/each}
+    {/if}
   </div>
 </div>

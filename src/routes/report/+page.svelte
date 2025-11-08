@@ -54,7 +54,7 @@
 </script>
 
 <svelte:head>
-  <title>Тайлан | Qpick</title>
+  <title>Тайлан | Tomah</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">

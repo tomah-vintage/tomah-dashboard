@@ -17,7 +17,7 @@
 
   $: {
     if (table && restaurantId) {
-      const menuUrl = `qpick.mn/restaurant/${restaurantId}?table=${table.id}`;
+      const menuUrl = `tomah.mn/restaurant/${restaurantId}?table=${table.id}`;
       qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
         menuUrl
       )}&size=200x200`;
@@ -30,7 +30,7 @@
     const content = `
       <html>
         <head>
-          <title>Print QR Code - Table ${table?.table_number}</title>
+          <title>QR код хэвлэх - Ширээ ${table?.table_number}</title>
           <style>
             @page {
               size: 3in 3in;
@@ -58,7 +58,7 @@
         </head>
         <body>
           <img src="${qrCodeUrl}" alt="QR Code for table ${table?.table_number}" />
-          <p>Table: ${table?.table_number}</p>
+          <p>Ширээ: ${table?.table_number}</p>
         </body>
       </html>
     `;
@@ -76,7 +76,7 @@
 
 <Modal isOpen={open} onClose={() => dispatch("close")}>
   <div class="flex justify-between items-center">
-    <h2 class="text-xl font-bold">QR Menu for Table {table?.table_number}</h2>
+    <h2 class="text-xl font-bold">Ширээний QR цэс {table?.table_number}</h2>
   </div>
 
   <div class="mt-4 text-center">
@@ -85,22 +85,22 @@
         <img src={qrCodeUrl} alt="QR Code for table {table?.table_number}" />
       </div>
       <p class="text-sm text-gray-500 mt-2">
-        Scan this QR code to view the menu for this table.
+        Энэ QR кодыг уншуулж, энэ ширээний цэсийг харна уу.
       </p>
     {:else}
-      <p>Generating QR code...</p>
+      <p>QR код үүсгэж байна...</p>
     {/if}
   </div>
 
   <div class="mt-6 flex justify-end space-x-2">
     <Button variant="secondary" on:click={() => dispatch("close")}
-      >Cancel</Button
+      >Болих</Button
     >
     <Button on:click={handlePrint}>
       <Printer class="w-4 h-4 mr-2" />
-      Print
+      Хэвлэх
     </Button>
   </div>
 </Modal>
 
-<iframe bind:this={iframe} style="display: none;" title="Print Frame"></iframe>
+<iframe bind:this={iframe} style="display: none;" title="QR код хэвлэх - Ширээ ${table?.table_number}"></iframe>

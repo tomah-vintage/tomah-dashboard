@@ -123,7 +123,7 @@
         id="name"
         name="name"
         label="Рестораны нэр"
-        placeholder="Рестораны нэрээ оруулна уу"
+        placeholder="Рестораны нэрийг оруулна уу"
         bind:value={form.name}
         error={form?.errors?.name?.[0]}
       />
@@ -132,7 +132,7 @@
         name="address"
         label="Хаяг"
         type="textarea"
-        placeholder="Хаягаа оруулна уу"
+        placeholder="Хаягийг оруулна уу"
         bind:value={form.address}
         error={form?.errors?.address?.[0]}
       />
@@ -146,7 +146,7 @@
         name="latitude"
         label="Өргөрөг"
         type="number"
-        placeholder="Өргөрөг оруулна уу"
+        placeholder="Өргөргийг оруулна уу"
         bind:value={form.latitude}
         error={form?.errors?.latitude?.[0]}
         readonly
@@ -156,7 +156,7 @@
         name="longitude"
         label="Уртраг"
         type="number"
-        placeholder="Уртраг оруулна уу"
+        placeholder="Уртрагийг оруулна уу"
         bind:value={form.longitude}
         error={form?.errors?.longitude?.[0]}
         readonly
@@ -179,7 +179,7 @@
         id="first_name"
         name="first_name"
         label="Нэр"
-        placeholder="Нэрээ оруулна уу"
+        placeholder="Нэрийг оруулна уу"
         bind:value={form.first_name}
         error={form?.errors?.first_name?.[0]}
       />
@@ -187,7 +187,7 @@
         id="last_name"
         name="last_name"
         label="Овог"
-        placeholder="Овогоо оруулна уу"
+        placeholder="Овогийг оруулна уу"
         bind:value={form.last_name}
         error={form?.errors?.last_name?.[0]}
       />
@@ -196,7 +196,7 @@
         name="email"
         label="И-мэйл"
         type="email"
-        placeholder="И-мэйл хаягаа оруулна уу"
+        placeholder="И-мэйл хаягийг оруулна уу"
         bind:value={form.email}
         error={form?.errors?.email?.[0]}
       />
@@ -205,7 +205,7 @@
         name="password"
         label="Нууц үг"
         type="password"
-        placeholder="Нууц үгээ оруулна уу"
+        placeholder="Нууц үгийг оруулна уу"
         bind:value={form.password}
         error={form?.errors?.password?.[0]}
       />
@@ -213,7 +213,7 @@
         id="phone"
         name="phone"
         label="Утас"
-        placeholder="Утасны дугаараа оруулна уу"
+        placeholder="Утасны дугаарыг оруулна уу"
         bind:value={form.phone}
         error={form?.errors?.phone?.[0]}
       />

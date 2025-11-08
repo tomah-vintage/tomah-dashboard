@@ -17,7 +17,7 @@
 </script>
 
 <svelte:head>
-  <title>User Management | Qpick</title>
+  <title>Хэрэглэгчийн удирдлага | Tomah</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">

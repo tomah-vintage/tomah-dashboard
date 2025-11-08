@@ -35,7 +35,7 @@
     } catch (error) {
       errorMessage = error instanceof Error ? error.message : "Ажилтангийн мэдээлэл шинэчлэхэд алдаа гарлаа";
       toast.error(errorMessage);
-      console.error("Error updating user:", error);
+      console.error("Хэрэглэгч шинэчлэхэд алдаа гарлаа:", error);
     }
   }
 </script>

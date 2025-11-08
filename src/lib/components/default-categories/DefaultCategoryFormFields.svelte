@@ -21,7 +21,7 @@
     <Input
       id="category-mongolian-name"
       type="text"
-      placeholder="Ангиллын нэр оруулах"
+      placeholder="Ангиллын нэрийг оруулна уу"
       bind:value={form.mongolian_name}
       required
     />
@@ -33,7 +33,7 @@
     </label>
     <Textarea
       id="category-description"
-      placeholder="Ангиллын тайлбар оруулах (заавал биш)"
+      placeholder="Ангиллын тайлбарыг оруулна уу (заавал биш)"
       bind:value={form.description}
       rows={3}
     />

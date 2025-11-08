@@ -81,7 +81,7 @@
   ) {
     const restaurantId = $sessionStore.user?.restaurant?.id;
     if (!restaurantId) {
-      console.error('Restaurant ID not found in session');
+      console.error('Рестораны ID сессэнд олдсонгүй');
       return;
     }
 
@@ -95,7 +95,7 @@
       showUploadModal = false;
       selectedLayoutType = null;
     } catch (error) {
-      console.error('Failed to create banner:', error);
+      console.error('Баннер үүсгэхэд алдаа гарлаа:', error);
       // You might want to show a toast or error message here
     }
   }
@@ -145,7 +145,7 @@
 </script>
 
 <svelte:head>
-  <title>Баннер менежмент | Qpick</title>
+  <title>Баннер удирдлага | Tomah</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">
@@ -155,9 +155,9 @@
       <div class="py-6">
         <div class="flex justify-between items-center">
           <div>
-            <h1 class="text-3xl font-bold text-gray-900">Баннер менежмент</h1>
+            <h1 class="text-3xl font-bold text-gray-900">Баннер удирдлага</h1>
             <p class="mt-1 text-sm text-gray-500">
-              Ресторанаа баннеруудыг удирдаж, байрлалыг тохируулах
+              Рестораны баннеруудыг удирдаж, байрлалыг тохируулах
             </p>
           </div>
           <div class="flex items-center text-sm text-gray-600">
@@ -184,7 +184,7 @@
           class="flex items-center"
         >
           <LayoutGrid class="w-4 h-4 mr-2" />
-          Hero Layout
+          Hero загвар
         </Button>
         <Button
           variant="secondary"
@@ -192,7 +192,7 @@
           class="flex items-center"
         >
           <Settings class="w-4 h-4 mr-2" />
-          Carousel Layout
+          Carousel загвар
         </Button>
         <Button
           variant="secondary"
@@ -200,7 +200,7 @@
           class="flex items-center"
         >
           <LayoutGrid class="w-4 h-4 mr-2" />
-          Magazine Layout
+          Magazine загвар
         </Button>
       </div>
     </div>
@@ -213,7 +213,7 @@
             <div class="flex justify-between items-center">
               <div>
                 <h3 class="text-lg font-semibold text-gray-900 capitalize">
-                  {layoutType} Layout
+                  {layoutType} Загвар
                 </h3>
                 <p class="text-sm text-gray-500">
                   {layoutBanners.length} баннер

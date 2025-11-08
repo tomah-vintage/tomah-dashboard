@@ -54,7 +54,7 @@
   function handleDeleteReview(event: CustomEvent<Review>) {
     dispatch("deleteReview", event.detail);
   }
-  console.log("reviews", reviews);
+  console.log("шүүмжүүд", reviews);
 </script>
 
 <div class="overflow-hidden">
@@ -63,9 +63,9 @@
       <div class="bg-gradient-to-br from-blue-100 to-purple-100 p-6 rounded-full mb-6">
         <Star class="w-16 h-16 text-gray-400" />
       </div>
-      <h3 class="text-xl font-semibold text-gray-900 mb-2">No reviews found</h3>
+      <h3 class="text-xl font-semibold text-gray-900 mb-2">Шүүмж олдсонгүй</h3>
       <p class="text-gray-500 text-center max-w-md">
-        It looks like there are no reviews matching your current filters. Try adjusting your search criteria or check back later for new reviews.
+        Таны одоогийн шүүлтүүрт тохирох шүүмж байхгүй байна. Хайлтын шалгуураа тохируулж үзээрэй эсвэл дараа нь шинэ шүүмж байгаа эсэхийг шалгана уу.
       </p>
     </div>
   {:else}
@@ -76,43 +76,43 @@
             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
               <div class="flex items-center space-x-2">
                 <span>👤</span>
-                <span>Customer</span>
+                <span>Хэрэглэгч</span>
               </div>
             </th>
             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
               <div class="flex items-center space-x-2">
                 <span>🏪</span>
-                <span>Restaurant</span>
+                <span>Ресторан</span>
               </div>
             </th>
             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
               <div class="flex items-center space-x-2">
                 <span>⭐</span>
-                <span>Rating</span>
+                <span>Үнэлгээ</span>
               </div>
             </th>
             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
               <div class="flex items-center space-x-2">
                 <span>📂</span>
-                <span>Category</span>
+                <span>Ангилал</span>
               </div>
             </th>
             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
               <div class="flex items-center space-x-2">
                 <span>💬</span>
-                <span>Feedback</span>
+                <span>Санал хүсэлт</span>
               </div>
             </th>
             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
               <div class="flex items-center space-x-2">
                 <span>📅</span>
-                <span>Date</span>
+                <span>Огноо</span>
               </div>
             </th>
             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">
               <div class="flex items-center space-x-2">
                 <span>⚡</span>
-                <span>Actions</span>
+                <span>Үйлдэл</span>
               </div>
             </th>
           </tr>
@@ -133,15 +133,15 @@
     <div class="px-6 py-6 border-t bg-gradient-to-r from-gray-50 to-white">
       <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="text-sm text-gray-700 bg-white px-4 py-2 rounded-lg border border-gray-200">
-          Showing <span class="font-bold text-blue-600"
+          <span class="font-bold text-blue-600">{totalCount}</span>-н
+          <span class="font-bold text-blue-600"
             >{(currentPage - 1) * pageSize + 1}</span
           >
-          to
+          -с
           <span class="font-bold text-blue-600"
             >{Math.min(currentPage * pageSize, totalCount)}</span
           >
-          of
-          <span class="font-bold text-blue-600">{totalCount}</span> reviews
+           шүүмжийг харуулж байна
         </div>
 
         <div class="bg-white rounded-lg border border-gray-200 p-1">

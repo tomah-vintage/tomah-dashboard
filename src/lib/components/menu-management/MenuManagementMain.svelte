@@ -117,7 +117,7 @@
 
   function handleExport() {
     // TODO: Implement export functionality
-    console.log('Export menu items');
+    console.log('Цэсний зүйлсийг экспортлох');
   }
 
   function handleRetry() {
@@ -149,7 +149,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="py-6">
         <h1 class="text-3xl font-bold text-gray-900">Цэсний удирдлага</h1>
-        <p class="mt-1 text-sm text-gray-500">Ресторанаа цэсний бүтээгдэхүүнүүдийг удирдах</p>
+        <p class="mt-1 text-sm text-gray-500">Рестораны цэсний бүтээгдэхүүнүүдийг удирдах хэсэг</p>
       </div>
     </div>
   </div>

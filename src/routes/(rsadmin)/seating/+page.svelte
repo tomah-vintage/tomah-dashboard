@@ -81,7 +81,7 @@
     // Get restaurantId from sessionStore
     const restaurantId = $sessionStore.user?.restaurant?.id;
     if (!restaurantId) {
-      console.error("Restaurant ID not found in session.");
+      console.error("Рестораны ID сессэнд олдсонгүй.");
       // Optionally show a toast error to the user
       return;
     }
@@ -210,7 +210,7 @@
 </script>
 
 <svelte:head>
-  <title>Ширээний менежмент | Qpick</title>
+  <title>Ширээний удирдлага | Tomah</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">
@@ -219,16 +219,16 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center py-6">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900">Ширээний менежмент</h1>
+          <h1 class="text-3xl font-bold text-gray-900">Ширээний удирдлага</h1>
           <p class="mt-1 text-sm text-gray-500">
-            Ресторанаа ширээг удирдаж, QR код үүсгэх
+            Рестораны ширээг удирдаж, QR код үүсгэх
           </p>
         </div>
         <div class="flex items-center space-x-3">
           <div class="flex items-center text-sm text-gray-600">
             <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
             <span
-              >Боломжтой: {$seatingStore.tables.filter(
+              >Сул: {$seatingStore.tables.filter(
                 (t) => t.status === "available"
               ).length}</span
             >
@@ -244,7 +244,7 @@
           <div class="flex items-center text-sm text-gray-600">
             <div class="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
             <span
-              >Захиалга хүлээж буй: {$seatingStore.tables.filter(
+              >Захиалгатай: {$seatingStore.tables.filter(
                 (t) => t.status === "reserved"
               ).length}</span
             >
@@ -276,20 +276,20 @@
             <div class="flex items-center justify-between">
               <div class="flex items-center space-x-4">
                 <h3 class="text-lg font-semibold text-gray-900">
-                  Ресторанаа зураг
+                  Рестораны зураг
                 </h3>
                 <div class="flex items-center space-x-2">
                   <button
                     class="px-3 py-1.5 text-sm bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 transition-colors"
                     on:click={toggleGrid}
                   >
-                    Grid {showGrid ? "нуух" : "харуулах"}
+                    Торыг {showGrid ? "нуух" : "харуулах"}
                   </button>
                   <button
                     class="px-3 py-1.5 text-sm bg-green-100 text-green-700 rounded-md hover:bg-green-200 transition-colors"
                     on:click={centerTables}
                   >
-                    Ширээг төвлөх
+                    Ширээг төвлөрүүлэх
                   </button>
                 </div>
               </div>

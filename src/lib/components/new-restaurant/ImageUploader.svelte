@@ -122,7 +122,7 @@
               type="button"
               class="p-2 rounded-md transition-colors {currentLayout === 'grid' ? 'bg-white shadow-sm text-blue-600' : 'text-gray-600 hover:text-gray-800'}"
               on:click={() => currentLayout = 'grid'}
-              title="Grid цэгцүүлэг"
+              title="Сүлжээ хэлбэрээр харуулах"
             >
               <Grid3X3 class="w-4 h-4" />
             </button>
@@ -130,7 +130,7 @@
               type="button"
               class="p-2 rounded-md transition-colors {currentLayout === 'horizontal' ? 'bg-white shadow-sm text-blue-600' : 'text-gray-600 hover:text-gray-800'}"
               on:click={() => currentLayout = 'horizontal'}
-              title="Хэвтээ харуулах"
+              title="Хэвтээ хэлбэрээр харуулах"
             >
               <Rows class="w-4 h-4" />
             </button>
@@ -138,7 +138,7 @@
               type="button"
               class="p-2 rounded-md transition-colors {currentLayout === 'vertical' ? 'bg-white shadow-sm text-blue-600' : 'text-gray-600 hover:text-gray-800'}"
               on:click={() => currentLayout = 'vertical'}
-              title="Босоо харуулах"
+              title="Босоо хэлбэрээр харуулах"
             >
               <Columns class="w-4 h-4" />
             </button>

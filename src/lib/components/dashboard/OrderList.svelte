@@ -8,7 +8,7 @@
 
 <div class="bg-white rounded-lg shadow-md p-6">
   <div class="flex justify-between items-center mb-4">
-    <h2 class="text-xl font-bold text-gray-800">Захиалгын тоо</h2>
+    <h2 class="text-xl font-bold text-gray-800">Сүүлийн үеийн захиалгууд</h2>
     <button
       type="button"
       class="text-primary-blue flex items-center text-sm font-medium hover:underline"
@@ -19,22 +19,28 @@
     </button>
   </div>
   <div class="space-y-4">
-    {#each orders as order (order.id)}
-      <div class="flex items-center space-x-4">
-        <img
-          src={order.imageUrl}
-          alt={order.name}
-          class="w-12 h-12 rounded-md object-cover"
-        />
-        <div class="flex-1">
-          <h3 class="font-semibold text-gray-800">{order.name}</h3>
-          <p class="text-gray-500 text-sm">{order.restaurant}</p>
+    {#if orders.length > 0}
+      {#each orders as order (order.id)}
+        <div class="flex items-center space-x-4">
+          <img
+            src={order.imageUrl}
+            alt={order.name}
+            class="w-12 h-12 rounded-md object-cover"
+          />
+          <div class="flex-1">
+            <h3 class="font-semibold text-gray-800">{order.name}</h3>
+            <p class="text-gray-500 text-sm">{order.restaurant}</p>
+          </div>
+          <div class="text-right">
+            <p class="font-bold text-gray-800">{order.orderCount}</p>
+            <p class="text-gray-500 text-sm">Захиалга</p>
+          </div>
         </div>
-        <div class="text-right">
-          <p class="font-bold text-gray-800">{order.orderCount}</p>
-          <p class="text-gray-500 text-sm">Захиалга</p>
-        </div>
+      {/each}
+    {:else}
+      <div class="text-center py-8 text-gray-500">
+        <p>Сүүлийн үед захиалга ороогүй байна.</p>
       </div>
-    {/each}
+    {/if}
   </div>
 </div>
