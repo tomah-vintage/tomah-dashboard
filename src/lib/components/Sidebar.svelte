@@ -15,6 +15,7 @@
     Tags,
     Star,
     CreditCard,
+    Receipt,
   } from "@lucide/svelte";
 
   import { sessionStore } from "$lib/stores/sessionStore";
@@ -44,7 +45,7 @@
         />
       {/if}
       <h2 class="text-lg font-bold text-gray-800">
-        {$sessionStore.user?.restaurant?.name || 'Ресторан'}
+        {$sessionStore.user?.restaurant?.name || "Ресторан"}
       </h2>
     </div>
 
@@ -66,11 +67,7 @@
           />
         {/if}
         {#if $sessionStore.user?.role_name === "admin"}
-          <SidebarButton
-            href="/users"
-            label="Хэрэглэгчид"
-            icon={Users}
-          />
+          <SidebarButton href="/users" label="Хэрэглэгчид" icon={Users} />
         {/if}
         {#if $sessionStore.user?.role_name === "admin"}
           <SidebarButton
@@ -113,11 +110,16 @@
           <SidebarButton href="/banners" label="Баннер" icon={Image} />
           <SidebarButton href="/staff" label="Ажилтан" icon={Users} />
           <SidebarButton href="/reviews" label="Үнэлгээ" icon={MessageSquare} />
-          <SidebarButton href="/subscription" label="Төлбөр" icon={CreditCard} />
           <SidebarButton
-            href="/settings"
-            label="Тохиргоо"
-            icon={Settings}
+            href="/subscription"
+            label="Төлбөр"
+            icon={CreditCard}
+          />
+          <SidebarButton href="/settings" label="Тохиргоо" icon={Settings} />
+          <SidebarButton
+            href="/ebarimt"
+            label="EBARIMT"
+            icon={Receipt}
             class="mb-4"
           />
         {/if}
