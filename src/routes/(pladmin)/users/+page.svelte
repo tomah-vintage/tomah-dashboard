@@ -17,7 +17,7 @@
 </script>
 
 <svelte:head>
-  <title>Хэрэглэгчийн удирдлага | Tomah</title>
+  <title>Хэрэглэгчийн удирдлага | Qpick</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">
@@ -26,19 +26,24 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="py-6">
         <h1 class="text-3xl font-bold text-gray-900">Хэрэглэгчийн удирдлага</h1>
-        <p class="mt-1 text-sm text-gray-500">Багийн гишүүд болон тэдний эрхийн тохиргоог эндээс удирдах</p>
+        <p class="mt-1 text-sm text-gray-500">
+          Багийн гишүүд болон тэдний эрхийн тохиргоог эндээс удирдах
+        </p>
       </div>
     </div>
   </div>
 
   <!-- Main Content -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 space-y-6">
+    <div
+      class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 space-y-6"
+    >
       <div class="flex justify-between items-center">
         <h2 class="text-xl font-semibold text-gray-900">
           {#if $getUsersQuery.data}
             Бүх хэрэглэгчид <span class="text-gray-500">
-              {($getUsersQuery.data as PaginatedResponse<UserListData>).count}</span
+              {($getUsersQuery.data as PaginatedResponse<UserListData>)
+                .count}</span
             >
           {/if}
         </h2>
@@ -71,14 +76,21 @@
           Алдаа гарлаа: {$getUsersQuery.error.message}
         </p>
       {:else if $getUsersQuery.data}
-        <UserList users={($getUsersQuery.data as PaginatedResponse<UserListData>).results} />
+        <UserList
+          users={($getUsersQuery.data as PaginatedResponse<UserListData>)
+            .results}
+        />
 
         <Pagination
-          currentPage={currentPage}
-          totalPages={Math.ceil(($getUsersQuery.data as PaginatedResponse<UserListData>).count / page_size)}
+          {currentPage}
+          totalPages={Math.ceil(
+            ($getUsersQuery.data as PaginatedResponse<UserListData>).count /
+              page_size,
+          )}
           onPageChange={handlePageChange}
-          totalItems={($getUsersQuery.data as PaginatedResponse<UserListData>).count}
-          page_size={page_size}
+          totalItems={($getUsersQuery.data as PaginatedResponse<UserListData>)
+            .count}
+          {page_size}
         />
       {/if}
     </div>

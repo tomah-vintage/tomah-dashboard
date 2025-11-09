@@ -39,10 +39,14 @@
   const deleteTableMutation = createDeleteTableMutation();
 
   // Update store when tables data changes from query but avoid overwriting with same data
-  $: if ($getTablesQuery.data && JSON.stringify($getTablesQuery.data) !== JSON.stringify($seatingStore.tables)) {
+  $: if (
+    $getTablesQuery.data &&
+    JSON.stringify($getTablesQuery.data) !==
+      JSON.stringify($seatingStore.tables)
+  ) {
     seatingStore.setTables($getTablesQuery.data);
   }
-  
+
   // Initialize store with server data immediately
   if (data.tables && $seatingStore.tables.length === 0) {
     seatingStore.setTables(data.tables);
@@ -74,7 +78,7 @@
       seat_capacity: number;
       id?: string;
       table_number: string;
-    }>
+    }>,
   ) {
     const { shape, seat_capacity, id, table_number } = event.detail; // Get seat_capacity from event detail
 
@@ -142,14 +146,12 @@
 
     // Move all tables
     tables.forEach(async (table) => {
-      const newX = Math.round(Math.max(
-        0,
-        Math.min(canvas.width - table.width, table.x + offsetX)
-      ));
-      const newY = Math.round(Math.max(
-        0,
-        Math.min(canvas.height - table.height, table.y + offsetY)
-      ));
+      const newX = Math.round(
+        Math.max(0, Math.min(canvas.width - table.width, table.x + offsetX)),
+      );
+      const newY = Math.round(
+        Math.max(0, Math.min(canvas.height - table.height, table.y + offsetY)),
+      );
 
       const updatedTable: SeatingTable = {
         ...table,
@@ -172,7 +174,7 @@
   }
 
   function handleTableSelect(
-    event: CustomEvent<{ tableId: string; selected: boolean }>
+    event: CustomEvent<{ tableId: string; selected: boolean }>,
   ) {
     const { tableId, selected } = event.detail;
     if (selected) {
@@ -194,7 +196,7 @@
   }
 
   async function handleTableMoveEnd(
-    event: CustomEvent<{ tableId: string; x: number; y: number }>
+    event: CustomEvent<{ tableId: string; x: number; y: number }>,
   ) {
     const { tableId, x, y } = event.detail;
     const tableToUpdate = $seatingStore.tables.find((t) => t.id === tableId);
@@ -210,7 +212,7 @@
 </script>
 
 <svelte:head>
-  <title>Ширээний удирдлага | Tomah</title>
+  <title>Ширээний удирдлага | Qpick</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">
@@ -229,7 +231,7 @@
             <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
             <span
               >Сул: {$seatingStore.tables.filter(
-                (t) => t.status === "available"
+                (t) => t.status === "available",
               ).length}</span
             >
           </div>
@@ -237,7 +239,7 @@
             <div class="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
             <span
               >Эзлэгдсэн: {$seatingStore.tables.filter(
-                (t) => t.status === "occupied"
+                (t) => t.status === "occupied",
               ).length}</span
             >
           </div>
@@ -245,7 +247,7 @@
             <div class="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
             <span
               >Захиалгатай: {$seatingStore.tables.filter(
-                (t) => t.status === "reserved"
+                (t) => t.status === "reserved",
               ).length}</span
             >
           </div>
@@ -296,7 +298,7 @@
               <div class="text-sm text-gray-500">
                 Нийт ширээ: {$seatingStore.tables.length} • Нийт суудал: {$seatingStore.tables.reduce(
                   (sum, t) => sum + t.seat_capacity,
-                  0
+                  0,
                 )}
               </div>
             </div>

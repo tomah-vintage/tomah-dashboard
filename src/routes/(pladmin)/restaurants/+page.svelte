@@ -1,110 +1,142 @@
 <script lang="ts">
-	import { createGetAdminRestaurantsQuery } from '$lib/queries/restaurant-queries';
-	import {
-		RestaurantsTableHeader,
-		RestaurantsTable,
-		RestaurantsTableSkeleton
-	} from '$lib/components/restaurants';
-	  import { Pagination } from '$lib/components/ui/pagination';
+  import { createGetAdminRestaurantsQuery } from "$lib/queries/restaurant-queries";
+  import {
+    RestaurantsTableHeader,
+    RestaurantsTable,
+    RestaurantsTableSkeleton,
+  } from "$lib/components/restaurants";
+  import { Pagination } from "$lib/components/ui/pagination";
   import { base } from "$app/paths";
 
-	let currentPage = 1;
-	let page_size = 10;
+  let currentPage = 1;
+  let page_size = 10;
 
-	$: getRestaurants = createGetAdminRestaurantsQuery(currentPage, page_size);
+  $: getRestaurants = createGetAdminRestaurantsQuery(currentPage, page_size);
 
-	$: ({ data: paginatedData, isLoading, isError, error } = $getRestaurants);
+  $: ({ data: paginatedData, isLoading, isError, error } = $getRestaurants);
 
-	$: restaurants = paginatedData?.results || [];
+  $: restaurants = paginatedData?.results || [];
 
-	let searchQuery = '';
+  let searchQuery = "";
 
-	$: filteredRestaurants = restaurants.filter(r => 
-		r.name.toLowerCase().includes(searchQuery.toLowerCase())
-	);
+  $: filteredRestaurants = restaurants.filter((r) =>
+    r.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
-	function handlePageChange(page: number) {
-		currentPage = page;
-	}
+  function handlePageChange(page: number) {
+    currentPage = page;
+  }
 </script>
 
 <svelte:head>
-	<title>Ресторанууд | Tomah</title>
+  <title>Ресторанууд | Qpick</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">
-	<!-- Header Section -->
-	<div class="bg-white border-b border-gray-200 shadow-sm">
-		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-			<div class="py-6">
-				<h1 class="text-3xl font-bold text-gray-900">Ресторанууд</h1>
-				<p class="mt-1 text-sm text-gray-500">Бүх ресторануудын жагсаалт болон удирдлага</p>
-			</div>
-		</div>
-	</div>
+  <!-- Header Section -->
+  <div class="bg-white border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="py-6">
+        <h1 class="text-3xl font-bold text-gray-900">Ресторанууд</h1>
+        <p class="mt-1 text-sm text-gray-500">
+          Бүх ресторануудын жагсаалт болон удирдлага
+        </p>
+      </div>
+    </div>
+  </div>
 
-	<!-- Main Content -->
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-		<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 space-y-6">
-			<RestaurantsTableHeader bind:searchQuery={searchQuery} />
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div
+      class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 space-y-6"
+    >
+      <RestaurantsTableHeader bind:searchQuery />
 
-			{#if isLoading}
-				<RestaurantsTableSkeleton />
-			{:else if isError}
-				<div class="text-center py-10">
-					<p class="text-red-600">Алдаа гарлаа: {error?.message || 'Тодорхойгүй алдаа'}</p>
-				</div>
-			{:else if filteredRestaurants.length === 0}
-				<div class="text-center py-16">
-					<div class="flex flex-col items-center space-y-4">
-						{#if searchQuery}
-							<!-- Search no results -->
-							<svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-							</svg>
-							<div class="space-y-2">
-								<h3 class="text-lg font-semibold text-gray-700">Хайлтын үр дүн олдсонгүй</h3>
-								<p class="text-gray-500">"{searchQuery}" хайлтад тохирох ресторан байхгүй байна.</p>
-								<button
-									class="text-blue-600 hover:text-blue-700 text-sm font-medium"
-									on:click={() => searchQuery = ''}
-								>
-									Хайлтыг арилгах
-								</button>
-							</div>
-						{:else}
-							<!-- Empty state -->
-							<svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-							</svg>
-							<div class="space-y-2">
-								<h3 class="text-lg font-semibold text-gray-700">Ресторан байхгүй байна</h3>
-								<p class="text-gray-500">Эхний ресторангаа нэмж эхлээрэй.</p>
-							</div>
-							<a
-								href="{base}/restaurants/new"
-								class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
-							>
-								Шинэ ресторан нэмэх
-							</a>
-						{/if}
-					</div>
-				</div>
-			{:else}
-				<RestaurantsTable restaurants={filteredRestaurants} />
-			{/if}
-		</div>
+      {#if isLoading}
+        <RestaurantsTableSkeleton />
+      {:else if isError}
+        <div class="text-center py-10">
+          <p class="text-red-600">
+            Алдаа гарлаа: {error?.message || "Тодорхойгүй алдаа"}
+          </p>
+        </div>
+      {:else if filteredRestaurants.length === 0}
+        <div class="text-center py-16">
+          <div class="flex flex-col items-center space-y-4">
+            {#if searchQuery}
+              <!-- Search no results -->
+              <svg
+                class="w-16 h-16 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+              <div class="space-y-2">
+                <h3 class="text-lg font-semibold text-gray-700">
+                  Хайлтын үр дүн олдсонгүй
+                </h3>
+                <p class="text-gray-500">
+                  "{searchQuery}" хайлтад тохирох ресторан байхгүй байна.
+                </p>
+                <button
+                  class="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                  on:click={() => (searchQuery = "")}
+                >
+                  Хайлтыг арилгах
+                </button>
+              </div>
+            {:else}
+              <!-- Empty state -->
+              <svg
+                class="w-16 h-16 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                />
+              </svg>
+              <div class="space-y-2">
+                <h3 class="text-lg font-semibold text-gray-700">
+                  Ресторан байхгүй байна
+                </h3>
+                <p class="text-gray-500">Эхний ресторангаа нэмж эхлээрэй.</p>
+              </div>
+              <a
+                href="{base}/restaurants/new"
+                class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              >
+                Шинэ ресторан нэмэх
+              </a>
+            {/if}
+          </div>
+        </div>
+      {:else}
+        <RestaurantsTable restaurants={filteredRestaurants} />
+      {/if}
+    </div>
 
-		{#if !isLoading && !isError && paginatedData}
-			<div class="mt-6">
-				<Pagination
-					currentPage={currentPage}
-					totalPages={Math.ceil(paginatedData.count / page_size)}
-					onPageChange={handlePageChange}
-					totalItems={paginatedData.count}
-					page_size={page_size}
-				/>
-			</div>
-		{/if}
-	</div>
+    {#if !isLoading && !isError && paginatedData}
+      <div class="mt-6">
+        <Pagination
+          {currentPage}
+          totalPages={Math.ceil(paginatedData.count / page_size)}
+          onPageChange={handlePageChange}
+          totalItems={paginatedData.count}
+          {page_size}
+        />
+      </div>
+    {/if}
+  </div>
 </div>

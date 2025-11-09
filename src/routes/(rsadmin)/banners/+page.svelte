@@ -46,7 +46,9 @@
     showTypeSelector = true;
   }
 
-  function handleBannerTypeSelected(event: CustomEvent<{ bannerType: BannerLayoutType }>) {
+  function handleBannerTypeSelected(
+    event: CustomEvent<{ bannerType: BannerLayoutType }>,
+  ) {
     selectedLayoutType = event.detail.bannerType;
     showTypeSelector = false;
     showUploadModal = true;
@@ -77,17 +79,17 @@
       file: File;
       layout_type: BannerLayoutType;
       position: BannerPosition;
-    }>
+    }>,
   ) {
     const restaurantId = $sessionStore.user?.restaurant?.id;
     if (!restaurantId) {
-      console.error('Рестораны ID сессэнд олдсонгүй');
+      console.error("Рестораны ID сессэнд олдсонгүй");
       return;
     }
 
     const bannerData = {
       ...event.detail,
-      restaurant: restaurantId.toString()
+      restaurant: restaurantId.toString(),
     };
 
     try {
@@ -95,7 +97,7 @@
       showUploadModal = false;
       selectedLayoutType = null;
     } catch (error) {
-      console.error('Баннер үүсгэхэд алдаа гарлаа:', error);
+      console.error("Баннер үүсгэхэд алдаа гарлаа:", error);
       // You might want to show a toast or error message here
     }
   }
@@ -111,7 +113,7 @@
   }
 
   async function handleReorderBanners(
-    event: CustomEvent<{ banners: Banner[] }>
+    event: CustomEvent<{ banners: Banner[] }>,
   ) {
     const updatedBanners = event.detail.banners;
     // Update order_index for all banners
@@ -133,19 +135,19 @@
       acc[layoutKey].push(banner);
       return acc;
     },
-    {} as Record<string, Banner[]>
+    {} as Record<string, Banner[]>,
   );
 
   // Sort each layout group by order_index
   $: Object.keys(bannersByLayoutType).forEach((layoutType) => {
     bannersByLayoutType[layoutType].sort(
-      (a, b) => a.order_index - b.order_index
+      (a, b) => a.order_index - b.order_index,
     );
   });
 </script>
 
 <svelte:head>
-  <title>Баннер удирдлага | Tomah</title>
+  <title>Баннер удирдлага | Qpick</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">
@@ -232,7 +234,7 @@
           <div class="p-6">
             <BannerGrid
               banners={layoutBanners}
-              layoutType={layoutType}
+              {layoutType}
               on:updateBanner={(e) => handleUpdateBanner(e.detail)}
               on:deleteBanner={(e) => handleDeleteBanner(e.detail)}
               on:reorderBanners={handleReorderBanners}
@@ -247,7 +249,9 @@
           <h3 class="text-lg font-medium text-gray-900 mb-2">
             Баннер байхгүй байна
           </h3>
-          <p class="text-gray-500">Дээрх "Шинэ баннер нэмэх" товчийг дарж эхлээрэй</p>
+          <p class="text-gray-500">
+            Дээрх "Шинэ баннер нэмэх" товчийг дарж эхлээрэй
+          </p>
         </div>
       {/if}
     </div>
@@ -263,7 +267,7 @@
 
 <BannerUploadModal
   open={showUploadModal}
-  selectedLayoutType={selectedLayoutType}
+  {selectedLayoutType}
   on:save={handleSaveBanner}
   on:close={handleCloseUploadModal}
 />
@@ -271,7 +275,9 @@
 <BannerLayoutManager
   open={showLayoutManager}
   layoutType={selectedLayoutType}
-  banners={selectedLayoutType ? bannersByLayoutType[selectedLayoutType] || [] : []}
+  banners={selectedLayoutType
+    ? bannersByLayoutType[selectedLayoutType] || []
+    : []}
   on:updateBanners={(e) => handleReorderBanners(e)}
   on:close={handleCloseLayoutManager}
 />

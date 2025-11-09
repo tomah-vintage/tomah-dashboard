@@ -1,4 +1,4 @@
-# Tomah Dashboard Development Plan - Phase 2 (Revised)
+# Qpick Dashboard Development Plan - Phase 2 (Revised)
 
 This document outlines the revised development plan for **Phase 2: Seating Area Control**, prioritizing an API-driven approach consistent with the project's architecture.
 

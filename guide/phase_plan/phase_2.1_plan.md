@@ -1,4 +1,4 @@
-# Tomah Dashboard Development Plan - Phase 2.1: Token Auto-Refresh (Revised)
+# Qpick Dashboard Development Plan - Phase 2.1: Token Auto-Refresh (Revised)
 
 This document outlines the revised development plan for implementing a token refresh mechanism that securely proxies requests to an external authentication server.
 

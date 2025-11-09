@@ -1,4 +1,4 @@
-# Tomah Dashboard
+# Qpick Dashboard
 
 A comprehensive restaurant management dashboard built with SvelteKit, TypeScript, and Tailwind CSS. This application provides restaurant owners and administrators with tools to manage their business operations, including menu management, order tracking, user management, and analytics.
 

@@ -1,6 +1,6 @@
-# Tomah Dashboard Development Plan (Detailed)
+# Qpick Dashboard Development Plan (Detailed)
 
-This document outlines the detailed development plan for the Tomah Dashboard, breaking down each feature into functional requirements and technical implementation steps, as per the guidelines in `GEMINI.md`.
+This document outlines the detailed development plan for the Qpick Dashboard, breaking down each feature into functional requirements and technical implementation steps, as per the guidelines in `GEMINI.md`.
 
 ---
 

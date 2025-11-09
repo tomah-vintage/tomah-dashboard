@@ -36,7 +36,6 @@
     toast.success("Шинэ ажилтан амжилттай нэмэгдлээ");
   }
 
-
   function handleEditUser(user: RestaurantStaffUser) {
     selectedUserForEdit = user;
     showEditModal = true;
@@ -113,7 +112,7 @@
 </script>
 
 <svelte:head>
-  <title>Ажилтны удирдлага - Tomah</title>
+  <title>Ажилтны удирдлага - Qpick</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">
@@ -121,12 +120,16 @@
   <div class="bg-white border-b border-gray-200 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="py-6">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div
+          class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+        >
           <div>
             <h1 class="text-3xl font-bold text-gray-900">
               Ажилтангийн удирдлага
             </h1>
-            <p class="mt-1 text-sm text-gray-500">Рестораны ажилтангуудыг удирдах</p>
+            <p class="mt-1 text-sm text-gray-500">
+              Рестораны ажилтангуудыг удирдах
+            </p>
           </div>
           <Button
             on:click={handleCreateUser}
@@ -142,160 +145,163 @@
 
   <!-- Main Content -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
-  {#if $staffQuery.isLoading}
-    <div class="flex items-center justify-center py-12">
-      <div
-        class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"
-      ></div>
-    </div>
-  {:else if $staffQuery.error}
-    <div class="text-center py-12">
-      <p class="text-red-600">Алдаа гарлаа: {$staffQuery.error.message}</p>
-    </div>
-  {:else if users.length === 0}
-    <div class="bg-white rounded-lg border border-gray-200 p-4 sm:p-6">
-      <div class="text-center py-8 sm:py-12">
-        <UserPlus size={48} class="mx-auto text-gray-400 mb-4" />
-        <h3 class="text-lg font-semibold text-gray-900 mb-2">
-          Ажилтан байхгүй
-        </h3>
-        <p class="text-gray-600 mb-6 text-sm sm:text-base">
-          Танай ресторанд бүртгэгдсэн ажилтан байхгүй байна.
-        </p>
-        <Button on:click={handleCreateUser} class="w-full sm:w-auto"
-          >Анхны ажилтан нэмэх</Button
-        >
-      </div>
-    </div>
-  {:else}
-    <div class="grid gap-4 grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
-      {#each users as user (user.id)}
+    {#if $staffQuery.isLoading}
+      <div class="flex items-center justify-center py-12">
         <div
-          class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 lg:p-6"
-        >
-          <div class="mb-4">
-            <div class="flex flex-col gap-3">
-              <div class="flex items-start justify-between gap-2">
-                <h3
-                  class="text-lg font-semibold text-gray-900 truncate flex-1 min-w-0"
-                >
-                  {#if user.first_name && user.last_name}
-                    {user.first_name} {user.last_name}
-                  {:else}
-                    <span class="text-sm sm:text-lg break-all"
-                      >{user.email}</span
-                    >
-                  {/if}
-                  {#if isCurrentUser(user)}
-                    <span class="text-xs text-blue-600 font-medium ml-1"
-                      >(Та)</span
-                    >
-                  {/if}
-                </h3>
-                <Badge variant={getBadgeVariant(user)} class="shrink-0">
-                  {getRoleName(user)}
-                </Badge>
-              </div>
-              {#if isCurrentUser(user)}
-                <div class="flex">
-                  <Badge variant="primary" class="text-xs">
-                    Одоогийн хэрэглэгч
+          class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"
+        ></div>
+      </div>
+    {:else if $staffQuery.error}
+      <div class="text-center py-12">
+        <p class="text-red-600">Алдаа гарлаа: {$staffQuery.error.message}</p>
+      </div>
+    {:else if users.length === 0}
+      <div class="bg-white rounded-lg border border-gray-200 p-4 sm:p-6">
+        <div class="text-center py-8 sm:py-12">
+          <UserPlus size={48} class="mx-auto text-gray-400 mb-4" />
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">
+            Ажилтан байхгүй
+          </h3>
+          <p class="text-gray-600 mb-6 text-sm sm:text-base">
+            Танай ресторанд бүртгэгдсэн ажилтан байхгүй байна.
+          </p>
+          <Button on:click={handleCreateUser} class="w-full sm:w-auto"
+            >Анхны ажилтан нэмэх</Button
+          >
+        </div>
+      </div>
+    {:else}
+      <div class="grid gap-4 grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
+        {#each users as user (user.id)}
+          <div
+            class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 lg:p-6"
+          >
+            <div class="mb-4">
+              <div class="flex flex-col gap-3">
+                <div class="flex items-start justify-between gap-2">
+                  <h3
+                    class="text-lg font-semibold text-gray-900 truncate flex-1 min-w-0"
+                  >
+                    {#if user.first_name && user.last_name}
+                      {user.first_name} {user.last_name}
+                    {:else}
+                      <span class="text-sm sm:text-lg break-all"
+                        >{user.email}</span
+                      >
+                    {/if}
+                    {#if isCurrentUser(user)}
+                      <span class="text-xs text-blue-600 font-medium ml-1"
+                        >(Та)</span
+                      >
+                    {/if}
+                  </h3>
+                  <Badge variant={getBadgeVariant(user)} class="shrink-0">
+                    {getRoleName(user)}
                   </Badge>
+                </div>
+                {#if isCurrentUser(user)}
+                  <div class="flex">
+                    <Badge variant="primary" class="text-xs">
+                      Одоогийн хэрэглэгч
+                    </Badge>
+                  </div>
+                {/if}
+              </div>
+            </div>
+            <div class="space-y-2 mb-4">
+              <div class="text-sm text-gray-600 break-all">
+                <strong>И-мэйл:</strong>
+                {user.email}
+              </div>
+              {#if user.first_name || user.last_name}
+                <div class="text-sm text-gray-600">
+                  <strong>Нэр:</strong>
+                  {user.first_name || ""}
+                  {user.last_name || ""}
+                </div>
+              {/if}
+              {#if user.phone}
+                <div class="text-sm text-gray-600">
+                  <strong>Утас:</strong>
+                  {user.phone}
+                </div>
+              {:else}
+                <div class="text-sm text-gray-400">
+                  <strong>Утас:</strong>
+                  Бөглөөгүй
+                </div>
+              {/if}
+              <div class="text-sm text-gray-600">
+                <strong>Ресторан ID:</strong>
+                {user.restaurant}
+              </div>
+              <div class="text-sm text-gray-600">
+                <strong>Бүртгүүлсэн:</strong>
+                <span class="block sm:inline"
+                  >{formatDate(user.created_at)}</span
+                >
+              </div>
+              {#if user.last_login}
+                <div class="text-sm text-gray-600">
+                  <strong>Сүүлд нэвтэрсэн:</strong>
+                  <span class="block sm:inline"
+                    >{formatDate(user.last_login)}</span
+                  >
                 </div>
               {/if}
             </div>
-          </div>
-          <div class="space-y-2 mb-4">
-            <div class="text-sm text-gray-600 break-all">
-              <strong>И-мэйл:</strong>
-              {user.email}
-            </div>
-            {#if user.first_name || user.last_name}
-              <div class="text-sm text-gray-600">
-                <strong>Нэр:</strong>
-                {user.first_name || ""}
-                {user.last_name || ""}
-              </div>
-            {/if}
-            {#if user.phone}
-              <div class="text-sm text-gray-600">
-                <strong>Утас:</strong>
-                {user.phone}
-              </div>
-            {:else}
-              <div class="text-sm text-gray-400">
-                <strong>Утас:</strong>
-                Бөглөөгүй
-              </div>
-            {/if}
-            <div class="text-sm text-gray-600">
-              <strong>Ресторан ID:</strong>
-              {user.restaurant}
-            </div>
-            <div class="text-sm text-gray-600">
-              <strong>Бүртгүүлсэн:</strong>
-              <span class="block sm:inline">{formatDate(user.created_at)}</span>
-            </div>
-            {#if user.last_login}
-              <div class="text-sm text-gray-600">
-                <strong>Сүүлд нэвтэрсэн:</strong>
-                <span class="block sm:inline"
-                  >{formatDate(user.last_login)}</span
-                >
-              </div>
-            {/if}
-          </div>
 
-          <div
-            class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
-          >
-            <Button
-              variant="secondary"
-              size="sm"
-              on:click={() => handleEditUser(user)}
-              class="flex-1 flex items-center justify-center gap-1"
+            <div
+              class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
             >
-              <Edit size={14} />
-              <span class="hidden sm:inline text-xs">Засах</span>
-            </Button>
-            <Button
-              variant="error"
-              size="sm"
-              on:click={() => handleDeleteUser(user)}
-              disabled={$deleteStaffMutation.isPending || isCurrentUser(user)}
-              class="flex-1 flex items-center justify-center gap-1 {isCurrentUser(
-                user
-              )
-                ? 'opacity-50 cursor-not-allowed'
-                : ''}"
-              title={isCurrentUser(user) ? "Та өөрийгөө устгах боломжгүй" : ""}
-            >
-              <Trash2 size={14} />
-              <span class="hidden sm:inline text-xs">
-                {#if isCurrentUser(user)}
-                  Хориотой
-                {:else if $deleteStaffMutation.isPending}
-                  Устгаж байна...
-                {:else}
-                  Устгах
-                {/if}
-              </span>
-              <span class="sm:hidden text-xs">
-                {#if isCurrentUser(user)}
-                  Хориотой
-                {:else if $deleteStaffMutation.isPending}
-                  ...
-                {:else}
-                  Устгах
-                {/if}
-              </span>
-            </Button>
+              <Button
+                variant="secondary"
+                size="sm"
+                on:click={() => handleEditUser(user)}
+                class="flex-1 flex items-center justify-center gap-1"
+              >
+                <Edit size={14} />
+                <span class="hidden sm:inline text-xs">Засах</span>
+              </Button>
+              <Button
+                variant="error"
+                size="sm"
+                on:click={() => handleDeleteUser(user)}
+                disabled={$deleteStaffMutation.isPending || isCurrentUser(user)}
+                class="flex-1 flex items-center justify-center gap-1 {isCurrentUser(
+                  user,
+                )
+                  ? 'opacity-50 cursor-not-allowed'
+                  : ''}"
+                title={isCurrentUser(user)
+                  ? "Та өөрийгөө устгах боломжгүй"
+                  : ""}
+              >
+                <Trash2 size={14} />
+                <span class="hidden sm:inline text-xs">
+                  {#if isCurrentUser(user)}
+                    Хориотой
+                  {:else if $deleteStaffMutation.isPending}
+                    Устгаж байна...
+                  {:else}
+                    Устгах
+                  {/if}
+                </span>
+                <span class="sm:hidden text-xs">
+                  {#if isCurrentUser(user)}
+                    Хориотой
+                  {:else if $deleteStaffMutation.isPending}
+                    ...
+                  {:else}
+                    Устгах
+                  {/if}
+                </span>
+              </Button>
+            </div>
           </div>
-        </div>
-      {/each}
-    </div>
-  {/if}
+        {/each}
+      </div>
+    {/if}
   </div>
 </div>
 

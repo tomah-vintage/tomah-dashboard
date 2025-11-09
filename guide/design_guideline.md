@@ -1,4 +1,4 @@
-# Tomah Dashboard Design Guidelines
+# Qpick Dashboard Design Guidelines
 
 ## Brand Identity
 

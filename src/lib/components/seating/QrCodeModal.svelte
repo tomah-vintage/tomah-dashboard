@@ -17,9 +17,9 @@
 
   $: {
     if (table && restaurantId) {
-      const menuUrl = `tomah.mn/restaurant/${restaurantId}?table=${table.id}`;
+      const menuUrl = `qpick.mn/restaurant/${restaurantId}?table=${table.id}`;
       qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
-        menuUrl
+        menuUrl,
       )}&size=200x200`;
     }
   }
@@ -93,8 +93,7 @@
   </div>
 
   <div class="mt-6 flex justify-end space-x-2">
-    <Button variant="secondary" on:click={() => dispatch("close")}
-      >Болих</Button
+    <Button variant="secondary" on:click={() => dispatch("close")}>Болих</Button
     >
     <Button on:click={handlePrint}>
       <Printer class="w-4 h-4 mr-2" />
@@ -103,4 +102,8 @@
   </div>
 </Modal>
 
-<iframe bind:this={iframe} style="display: none;" title="QR код хэвлэх - Ширээ ${table?.table_number}"></iframe>
+<iframe
+  bind:this={iframe}
+  style="display: none;"
+  title="QR код хэвлэх - Ширээ ${table?.table_number}"
+></iframe>

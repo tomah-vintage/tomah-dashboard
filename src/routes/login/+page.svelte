@@ -43,19 +43,22 @@
               });
             }
           } catch (error) {
-            console.error("Нэвтэрсний дараа хэрэглэгчийн мэдээллийг авахад алдаа гарлаа:", error);
+            console.error(
+              "Нэвтэрсний дараа хэрэглэгчийн мэдээллийг авахад алдаа гарлаа:",
+              error,
+            );
           }
 
           const redirectTo = $page.url.searchParams.get("redirectTo");
           goto(redirectTo || `${base}/`);
         },
-      }
+      },
     );
   };
 </script>
 
 <svelte:head>
-  <title>Нэвтрэх | Tomah</title>
+  <title>Нэвтрэх | Qpick</title>
 </svelte:head>
 
 <div

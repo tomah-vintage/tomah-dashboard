@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-  <title>Онцлох ресторан | Tomah</title>
+  <title>Онцлох ресторан | Qpick</title>
 </svelte:head>
 
 <RestaurantHighlightsMain />

@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-  <title>Баннер сурталчилгаа | Tomah</title>
+  <title>Баннер сурталчилгаа | Qpick</title>
 </svelte:head>
 
 <PlatformBannersMain />

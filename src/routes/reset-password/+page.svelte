@@ -5,19 +5,19 @@
   import { base } from "$app/paths";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
-  import { enhance } from '$app/forms';
-  import type { ActionData } from './$types';
+  import { enhance } from "$app/forms";
+  import type { ActionData } from "./$types";
 
   export let form: ActionData;
 
-  let email = '';
-  let otpCode = '';
-  let newPassword = '';
-  let confirmPassword = '';
+  let email = "";
+  let otpCode = "";
+  let newPassword = "";
+  let confirmPassword = "";
   let isLoading = false;
 
   onMount(() => {
-    email = $page.url.searchParams.get('email') || '';
+    email = $page.url.searchParams.get("email") || "";
     if (!email) {
       goto(`${base}/forgot-password`);
     }
@@ -34,25 +34,33 @@
 </script>
 
 <svelte:head>
-  <title>Нууц үг сэргээх | Tomah</title>
+  <title>Нууц үг сэргээх | Qpick</title>
 </svelte:head>
 
-<div class="flex min-h-screen items-center justify-center bg-content-background font-sans">
+<div
+  class="flex min-h-screen items-center justify-center bg-content-background font-sans"
+>
   <div class="w-full max-w-md rounded-xl bg-card-background p-8">
-    <h2 class="mb-2 text-center text-2xl font-bold text-gray-900">Нууц үг сэргээх</h2>
+    <h2 class="mb-2 text-center text-2xl font-bold text-gray-900">
+      Нууц үг сэргээх
+    </h2>
     <p class="mb-8 text-center text-sm text-gray-600">
       <strong>{email}</strong> хаяг руу илгээсэн 4 оронтой кодыг оруулна уу
     </p>
-    
-    <form method="POST" use:enhance={() => {
-      isLoading = true;
-      return async ({ update }) => {
-        isLoading = false;
-        await update();
-      };
-    }} class="space-y-6">
+
+    <form
+      method="POST"
+      use:enhance={() => {
+        isLoading = true;
+        return async ({ update }) => {
+          isLoading = false;
+          await update();
+        };
+      }}
+      class="space-y-6"
+    >
       <input type="hidden" name="email" value={email} />
-      
+
       <Input
         id="otp_code"
         name="otp_code"
@@ -88,7 +96,11 @@
       />
 
       {#if form?.message}
-        <p class="text-sm {form?.success ? 'text-status-success' : 'text-status-error'}">
+        <p
+          class="text-sm {form?.success
+            ? 'text-status-success'
+            : 'text-status-error'}"
+        >
           {form.message}
         </p>
       {/if}
@@ -102,10 +114,10 @@
           {/if}
         </Button>
 
-        <Button 
-          type="button" 
-          variant="tertiary" 
-          class="w-full" 
+        <Button
+          type="button"
+          variant="tertiary"
+          class="w-full"
           on:click={goBack}
           disabled={isLoading}
         >
@@ -116,8 +128,8 @@
 
     <div class="mt-6 text-center text-sm text-gray-600">
       <p>Код аваагүй юу?</p>
-      <button 
-        type="button" 
+      <button
+        type="button"
         class="mt-1 text-primary-blue hover:underline"
         on:click={goBack}
         disabled={isLoading}

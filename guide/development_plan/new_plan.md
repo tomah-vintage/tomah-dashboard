@@ -1,4 +1,4 @@
-# Tomah Dashboard Development Plan (Updated for Two Admin Types)
+# Qpick Dashboard Development Plan (Updated for Two Admin Types)
 
 This plan separates features between **Platform Admin (`pladmin`)** and **Restaurant Admin (`rsadmin`)** roles.
 Each section contains feature breakdowns, user stories, technical implementations, and updated folder structures.

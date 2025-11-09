@@ -1,21 +1,18 @@
 <script lang="ts">
-  import { 
-    OrderReportFilters, 
-    OrderReportTable, 
-    OrderSummaryCards 
+  import {
+    OrderReportFilters,
+    OrderReportTable,
+    OrderSummaryCards,
   } from "$lib/components/report";
-  import { 
-    LoadingState, 
-    ErrorState
-  } from "$lib/components/ui";
+  import { LoadingState, ErrorState } from "$lib/components/ui";
   import { createGetOrdersQuery } from "$lib/queries/order-queries";
-  import { 
+  import {
     calculateTotalRevenue,
     calculateAverageOrderValue,
     calculateTotalItems,
     DEFAULT_ORDER_FILTERS,
     resetOrderFilters,
-    applyOrderFilters
+    applyOrderFilters,
   } from "$lib/utils/order-utils";
   import { exportOrdersToCSV } from "$lib/utils/csv-export";
   import type { OrderFilters } from "$lib/types/order";
@@ -47,14 +44,14 @@
   function handlePageChange(page: number) {
     filters = { ...filters, page };
   }
-  
+
   function handleExport() {
     exportOrdersToCSV(orders);
   }
 </script>
 
 <svelte:head>
-  <title>Тайлан | Tomah</title>
+  <title>Тайлан | Qpick</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">

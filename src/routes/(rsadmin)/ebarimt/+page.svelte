@@ -114,7 +114,7 @@
 </script>
 
 <svelte:head>
-  <title>E-barimt тохиргоо | Tomah</title>
+  <title>E-barimt тохиргоо | Qpick</title>
 </svelte:head>
 
 <div class="min-h-screen bg-gray-50">

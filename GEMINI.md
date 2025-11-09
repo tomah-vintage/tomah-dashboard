@@ -1,6 +1,6 @@
 # Gemini Project Development Guidelines
 
-This document provides comprehensive development, design, and feature implementation guidelines for the Tomah Dashboard project.
+This document provides comprehensive development, design, and feature implementation guidelines for the Qpick Dashboard project.
 
 ---
 
@@ -278,7 +278,7 @@ export const featureStore = writable({
 <script lang="ts">
   import type { PageData } from './$types';
   import { FeatureMain } from '$lib/components/[feature-name]';
-  
+
   export let data: PageData;
 </script>
 
@@ -297,7 +297,7 @@ import type { FeatureItem } from '$lib/types/[feature-name]';
 export const load: PageServerLoad = async () => {
   try {
     // Load data from API or other sources
-    const items: FeatureItem[] = []; 
+    const items: FeatureItem[] = [];
     return { items };
   } catch (error) {****
     return { items: [], error: 'Failed to load data' };
