@@ -21,6 +21,7 @@
   } from "$lib/composables/useEbarimt";
 
   // Components
+  import CircularLoader from "$lib/components/ui/CircularLoader.svelte";
   import EbarimtSubNav from "$lib/components/ebarimt/EbarimtSubNav.svelte";
   import EbarimtConfigurationTab from "$lib/components/ebarimt/EbarimtConfigurationTab.svelte";
   import EbarimtReceiptsTab from "$lib/components/ebarimt/EbarimtReceiptsTab.svelte";
@@ -168,9 +169,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     {#if isLoadingEbarimt}
       <div class="flex justify-center items-center py-8">
-        <div
-          class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"
-        ></div>
+        <CircularLoader size="md" color="indigo" />
       </div>
     {:else}
       <div class="flex gap-6">

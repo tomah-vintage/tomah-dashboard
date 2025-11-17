@@ -4,6 +4,7 @@
   import { UserPlus, Edit, Trash2 } from "@lucide/svelte";
   import { Button } from "$lib/components/ui/button";
   import { Badge } from "$lib/components/ui/badge";
+  import CircularLoader from "$lib/components/ui/CircularLoader.svelte";
   import {
     createGetRestaurantStaffQuery,
     createDeleteRestaurantStaffMutation,
@@ -147,9 +148,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     {#if $staffQuery.isLoading}
       <div class="flex items-center justify-center py-12">
-        <div
-          class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"
-        ></div>
+        <CircularLoader size="md" color="primary" />
       </div>
     {:else if $staffQuery.error}
       <div class="text-center py-12">

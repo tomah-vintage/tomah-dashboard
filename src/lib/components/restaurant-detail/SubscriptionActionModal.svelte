@@ -1,11 +1,17 @@
 <script lang="ts">
   import { CheckCircle, XCircle } from "@lucide/svelte";
   import { Button } from "$lib/components/ui/button";
-  import { Dialog, DialogContent, DialogHeader, DialogTitle } from "$lib/components/ui/dialog";
+  import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+  } from "$lib/components/ui/dialog";
+  import CircularLoader from "$lib/components/ui/CircularLoader.svelte";
   import type { TanStackMutation } from "$lib/types/tanstack";
 
   export let open: boolean = false;
-  export let action: 'activate' | 'deactivate' | null = null;
+  export let action: "activate" | "deactivate" | null = null;
   export let onConfirm: () => void;
   export let onCancel: () => void;
   export let activateSubscriptionMutation: TanStackMutation<any, any, any>;
@@ -16,32 +22,38 @@
   <DialogContent class="max-w-md">
     <DialogHeader>
       <DialogTitle>
-        {#if action === 'activate'}
+        {#if action === "activate"}
           Захиалгын төлөвийг идэвхжүүлэх
-        {:else if action === 'deactivate'}
+        {:else if action === "deactivate"}
           Захиалгын төлөвийг цуцлах
         {/if}
       </DialogTitle>
     </DialogHeader>
 
     <div class="px-6 py-4">
-      {#if action === 'activate'}
+      {#if action === "activate"}
         <div class="flex items-start gap-4">
-          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+          <div
+            class="flex-shrink-0 w-12 h-12 rounded-full bg-green-100 flex items-center justify-center"
+          >
             <CheckCircle class="w-6 h-6 text-green-600" />
           </div>
           <div class="flex-1">
             <p class="text-gray-700 mb-2">
-              Та энэ рестораны захиалгын төлөвийг идэвхжүүлэхдээ итгэлтэй байна уу?
+              Та энэ рестораны захиалгын төлөвийг идэвхжүүлэхдээ итгэлтэй байна
+              уу?
             </p>
             <p class="text-sm text-gray-500">
-              Идэвхжүүлснээр ресторан системийн бүх үйлчилгээг ашиглах боломжтой болно.
+              Идэвхжүүлснээр ресторан системийн бүх үйлчилгээг ашиглах боломжтой
+              болно.
             </p>
           </div>
         </div>
-      {:else if action === 'deactivate'}
+      {:else if action === "deactivate"}
         <div class="flex items-start gap-4">
-          <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
+          <div
+            class="flex-shrink-0 w-12 h-12 rounded-full bg-red-100 flex items-center justify-center"
+          >
             <XCircle class="w-6 h-6 text-red-600" />
           </div>
           <div class="flex-1">
@@ -60,21 +72,23 @@
       <Button
         on:click={onCancel}
         variant="secondary"
-        disabled={$activateSubscriptionMutation.isPending || $deactivateSubscriptionMutation.isPending}
+        disabled={$activateSubscriptionMutation.isPending ||
+          $deactivateSubscriptionMutation.isPending}
       >
         Болих
       </Button>
       <Button
         on:click={onConfirm}
-        disabled={$activateSubscriptionMutation.isPending || $deactivateSubscriptionMutation.isPending}
-        class="{action === 'activate'
-          ? 'bg-green-600 hover:bg-green-700'
-          : 'bg-red-600 hover:bg-red-700'}"
+        disabled={$activateSubscriptionMutation.isPending ||
+          $deactivateSubscriptionMutation.isPending}
+        class={action === "activate"
+          ? "bg-green-600 hover:bg-green-700"
+          : "bg-red-600 hover:bg-red-700"}
       >
         {#if $activateSubscriptionMutation.isPending || $deactivateSubscriptionMutation.isPending}
-          <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+          <CircularLoader size="xs" color="white" className="mr-2" />
         {/if}
-        {action === 'activate' ? 'Идэвхжүүлэх' : 'Цуцлах'}
+        {action === "activate" ? "Идэвхжүүлэх" : "Цуцлах"}
       </Button>
     </div>
   </DialogContent>

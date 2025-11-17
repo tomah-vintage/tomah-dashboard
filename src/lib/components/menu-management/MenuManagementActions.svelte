@@ -1,7 +1,8 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
-  import { Save, Loader2 } from "@lucide/svelte";
-  
+  import { Save } from "@lucide/svelte";
+  import CircularLoader from "$lib/components/ui/CircularLoader.svelte";
+
   let { isPending } = $props<{ isPending: boolean }>();
 </script>
 
@@ -10,14 +11,14 @@
     <div class="text-sm text-gray-600">
       {#if isPending}
         <div class="flex items-center space-x-2">
-          <Loader2 class="w-4 h-4 animate-spin" />
+          <CircularLoader size="xs" color="gray" />
           <span>Хадгалж байна...</span>
         </div>
       {:else}
         <span>Бүх мэдээллийг бөглөсний дараа хадгална уу.</span>
       {/if}
     </div>
-    
+
     <div class="flex space-x-3">
       <Button href="/menu" variant="secondary" disabled={isPending}>
         Цуцлах
@@ -25,7 +26,7 @@
       <Button type="submit" disabled={isPending} class="min-w-[120px]">
         {#if isPending}
           <div class="flex items-center space-x-2">
-            <Loader2 class="w-4 h-4 animate-spin" />
+            <CircularLoader size="xs" color="white" />
             <span>Хадгалж байна...</span>
           </div>
         {:else}

@@ -13,6 +13,7 @@
   } from "@lucide/svelte";
   import { Badge } from "$lib/components/ui/badge";
   import { Button } from "$lib/components/ui/button";
+  import CircularLoader from "$lib/components/ui/CircularLoader.svelte";
 
   $: subscriptionQuery = createGetMySubscriptionQuery();
   $: ({
@@ -116,9 +117,7 @@
     <div class="max-w-4xl mx-auto space-y-6">
       {#if isLoading}
         <div class="flex items-center justify-center py-12">
-          <div
-            class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"
-          ></div>
+          <CircularLoader size="md" color="blue" />
           <span class="ml-3 text-gray-600">Ачааллаж байна...</span>
         </div>
       {:else if isError}

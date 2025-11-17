@@ -7,6 +7,7 @@
   import { Input } from "$lib/components/ui/input";
   import MapLocationPicker from "$lib/components/ui/MapLocationPicker.svelte";
   import WeeklyHoursInput from "$lib/components/ui/WeeklyHoursInput.svelte";
+  import CircularLoader from "$lib/components/ui/CircularLoader.svelte";
   import type { RestaurantSettingsData } from "$lib/types/restaurant";
   import { toast } from "svelte-french-toast";
 
@@ -110,9 +111,7 @@
 
 {#if isLoadingRestaurant}
   <div class="flex justify-center items-center py-8">
-    <div
-      class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
-    ></div>
+    <CircularLoader size="md" color="blue" />
   </div>
 {:else if restaurant}
   <div class="space-y-8">
@@ -122,7 +121,9 @@
         <div class="w-2 h-8 bg-blue-600 rounded-sm mr-3"></div>
         <div>
           <h2 class="text-xl font-semibold text-gray-900">Үндсэн мэдээлэл</h2>
-          <p class="text-sm text-gray-600 mt-1">Рестораны нэр, хаяг болон бусад үндсэн мэдээллийг тохируулах</p>
+          <p class="text-sm text-gray-600 mt-1">
+            Рестораны нэр, хаяг болон бусад үндсэн мэдээллийг тохируулах
+          </p>
         </div>
       </div>
 
@@ -240,7 +241,8 @@
             <div>
               <h3 class="text-sm font-medium text-yellow-800">Анхааруулга</h3>
               <p class="text-sm text-yellow-700 mt-1">
-                App Secret-г хадгалсны дараа дахин харах боломжгүй тул мэдээллийг аюулгүй газар хадгална уу.
+                App Secret-г хадгалсны дараа дахин харах боломжгүй тул
+                мэдээллийг аюулгүй газар хадгална уу.
               </p>
             </div>
           </div>
@@ -295,13 +297,16 @@
                 class="text-sm text-blue-700 mt-1 list-disc list-inside space-y-1"
               >
                 <li>
-                  Terminal ID болон App Secret-г хамтад нь заавал оруулах шаардлагатай
+                  Terminal ID болон App Secret-г хамтад нь заавал оруулах
+                  шаардлагатай
                 </li>
                 <li>
-                  Мэдээллийг шинэчлэх үед хоёр талбарыг дахин бөглөх шаардлагатай
+                  Мэдээллийг шинэчлэх үед хоёр талбарыг дахин бөглөх
+                  шаардлагатай
                 </li>
                 <li>
-                  Bonum системтэй холбоотой асуудал гарвал Bonum-н оператортой холбогдоно уу
+                  Bonum системтэй холбоотой асуудал гарвал Bonum-н оператортой
+                  холбогдоно уу
                 </li>
               </ul>
             </div>
@@ -318,7 +323,8 @@
             Тохиргоог хадгалах
           </h3>
           <p class="text-sm text-gray-600 mt-1">
-            Рестораны үндсэн мэдээлэл, байршил, ажлын цаг болон төлбөрийн тохиргоог хадгалах
+            Рестораны үндсэн мэдээлэл, байршил, ажлын цаг болон төлбөрийн
+            тохиргоог хадгалах
           </p>
         </div>
         <Button

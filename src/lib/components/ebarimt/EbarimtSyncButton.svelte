@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
   import { RefreshCw } from "@lucide/svelte";
+  import CircularLoader from "$lib/components/ui/CircularLoader.svelte";
 
   export let isSyncing: boolean = false;
   export let onSync: () => void;
@@ -33,7 +34,7 @@
         class="bg-yellow-600 hover:bg-yellow-700"
       >
         {#if isSyncing}
-          <RefreshCw class="w-4 h-4 mr-2 animate-spin" />
+          <CircularLoader size="xs" color="white" className="mr-2" />
           Шалгаж байна...
         {:else}
           <RefreshCw class="w-4 h-4 mr-2" />

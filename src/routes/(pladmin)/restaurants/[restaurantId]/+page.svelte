@@ -19,6 +19,7 @@
     OrderAnalytics,
     SubscriptionActionModal,
   } from "$lib/components/restaurant-detail";
+  import CircularLoader from "$lib/components/ui/CircularLoader.svelte";
 
   $: restaurantId = $page.params.restaurantId;
   $: restaurantQuery = createGetAdminRestaurantDetailQuery(restaurantId);
@@ -59,7 +60,7 @@
         onError: (error) => {
           console.error("Хэрэглэгч нэмэхэд алдаа гарлаа:", error);
         },
-      }
+      },
     );
   }
 
@@ -73,7 +74,7 @@
           onError: (error) => {
             console.error("Хэрэглэгч устгахад алдаа гарлаа:", error);
           },
-        }
+        },
       );
     }
   }
@@ -120,7 +121,7 @@
             showSubscriptionModal = false;
             subscriptionAction = null;
           },
-        }
+        },
       );
     } else if (subscriptionAction === "deactivate") {
       $deactivateSubscriptionMutation.mutate(
@@ -134,7 +135,7 @@
             showSubscriptionModal = false;
             subscriptionAction = null;
           },
-        }
+        },
       );
     }
   }
@@ -181,9 +182,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     {#if isLoading}
       <div class="flex items-center justify-center py-12">
-        <div
-          class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"
-        ></div>
+        <CircularLoader size="md" color="blue" />
         <span class="ml-3 text-gray-600">Ачааллаж байна...</span>
       </div>
     {:else if isError}

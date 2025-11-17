@@ -14,6 +14,7 @@
     UserActivityList,
     DataModal,
   } from "$lib/components/dashboard";
+  import CircularLoader from "$lib/components/ui/CircularLoader.svelte";
   import { createGetInsightsQuery } from "$lib/queries/insights-queries";
   import type {
     RestaurantInsights,
@@ -261,9 +262,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     {#if $insightsQuery.isLoading}
       <div class="flex items-center justify-center h-64">
-        <div
-          class="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"
-        ></div>
+        <CircularLoader size="xl" color="gray" />
       </div>
     {:else if $insightsQuery.error}
       <div

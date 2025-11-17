@@ -3,7 +3,7 @@
   import { Modal } from "$lib/components/ui/modal";
   import { Button } from "$lib/components/ui/button";
   import { createEventDispatcher } from "svelte";
-  import { Loader2 } from "@lucide/svelte";
+  import CircularLoader from "$lib/components/ui/CircularLoader.svelte";
 
   export let isLoading = false;
 
@@ -34,7 +34,8 @@
       <h2 class="text-xl font-bold mb-4">Ангилал устгах</h2>
       {#if category.menu_item_count && category.menu_item_count > 0}
         <p>
-          Энэ ангилалд бүтээгдэхүүн байгаа тул устгах боломжгүй. Устгахын тулд эхлээд холбогдох бүх бүтээгдэхүүнийг устгана уу.
+          Энэ ангилалд бүтээгдэхүүн байгаа тул устгах боломжгүй. Устгахын тулд
+          эхлээд холбогдох бүх бүтээгдэхүүнийг устгана уу.
         </p>
         <div class="mt-6 flex justify-center">
           <Button on:click={closeModal}>Ойлголоо</Button>
@@ -47,7 +48,7 @@
           >
           <Button on:click={handleDelete} disabled={isLoading}>
             {#if isLoading}
-              <Loader2 class="w-4 h-4 animate-spin mr-2" />
+              <CircularLoader size="xs" color="white" className="mr-2" />
               Устгаж байна...
             {:else}
               Устгах

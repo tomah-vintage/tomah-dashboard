@@ -2,7 +2,11 @@
   import { Users, Plus, Trash2, X } from "@lucide/svelte";
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
-  import type { AdminRestaurantDetail, AddUserToRestaurantData } from "$lib/types/restaurant";
+  import CircularLoader from "$lib/components/ui/CircularLoader.svelte";
+  import type {
+    AdminRestaurantDetail,
+    AddUserToRestaurantData,
+  } from "$lib/types/restaurant";
   import type { TanStackMutation } from "$lib/types/tanstack";
 
   export let restaurant: AdminRestaurantDetail;
@@ -22,7 +26,7 @@
       Админ хэрэглэгчид
     </h3>
     <Button
-      on:click={() => showAddUserForm = true}
+      on:click={() => (showAddUserForm = true)}
       size="sm"
       variant="secondary"
       class="flex items-center gap-2"
@@ -43,16 +47,8 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Input
-          bind:value={addUserData.first_name}
-          placeholder="Нэр"
-          required
-        />
-        <Input
-          bind:value={addUserData.last_name}
-          placeholder="Овог"
-          required
-        />
+        <Input bind:value={addUserData.first_name} placeholder="Нэр" required />
+        <Input bind:value={addUserData.last_name} placeholder="Овог" required />
         <Input
           bind:value={addUserData.email}
           type="email"
@@ -79,15 +75,13 @@
           class="flex items-center gap-2"
         >
           {#if $addUserMutation.isPending}
-            <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            <CircularLoader size="xs" color="white" />
           {:else}
             <Plus class="w-4 h-4" />
           {/if}
           Нэмэх
         </Button>
-        <Button on:click={onResetForm} variant="secondary">
-          Цуцлах
-        </Button>
+        <Button on:click={onResetForm} variant="secondary">Цуцлах</Button>
       </div>
     </div>
   {/if}
@@ -96,7 +90,9 @@
   <div class="space-y-3">
     {#each restaurant.admin_users as user}
       <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-        <div class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center">
+        <div
+          class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center"
+        >
           {user.first_name.charAt(0)}{user.last_name.charAt(0)}
         </div>
         <div class="flex-1">
@@ -104,12 +100,13 @@
           <p class="text-sm text-gray-600">{user.email}</p>
           <p class="text-xs text-gray-500">{user.phone}</p>
           <div class="flex items-center mt-1">
-            <div class="w-2 h-2 rounded-full mr-2"
-                 class:bg-green-500={user.is_active}
-                 class:bg-red-500={!user.is_active}>
-            </div>
+            <div
+              class="w-2 h-2 rounded-full mr-2"
+              class:bg-green-500={user.is_active}
+              class:bg-red-500={!user.is_active}
+            ></div>
             <span class="text-xs text-gray-500">
-              {user.is_active ? 'Идэвхтэй' : 'Идэвхгүй'}
+              {user.is_active ? "Идэвхтэй" : "Идэвхгүй"}
             </span>
           </div>
         </div>
@@ -121,7 +118,7 @@
           class="text-red-600 hover:text-red-700 hover:bg-red-50"
         >
           {#if $removeUserMutation.isPending}
-            <div class="w-4 h-4 border-2 border-red-600 border-t-transparent rounded-full animate-spin"></div>
+            <CircularLoader size="xs" color="red" />
           {:else}
             <Trash2 class="w-4 h-4" />
           {/if}
