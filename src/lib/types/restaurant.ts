@@ -305,3 +305,41 @@ export interface EbarimtStatusResponse {
   restaurant_tin: string;
   message: string;
 }
+
+// VAT Receipt Types
+export type VatReceiptStatus = "pending" | "created" | "failed" | "cancelled";
+export type VatReceiptType = "B2C" | "B2B";
+
+export interface VatReceipt {
+  id: number;
+  receipt_id: string | null;
+  bill_id: string;
+  status: VatReceiptStatus;
+  receipt_type: VatReceiptType;
+  customer_tin: string | null;
+  consumer_no: string | null;
+  error_message: string | null;
+  retry_count: number;
+  created_at: string;
+  updated_at: string;
+  receipt_date: string | null;
+  order_id: number;
+  order_code: string;
+  order_total: string;
+  restaurant_name: string;
+}
+
+export interface VatReceiptSummary {
+  total: number;
+  pending: number;
+  created: number;
+  failed: number;
+  cancelled: number;
+}
+
+export interface VatReceiptsResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: VatReceipt[];
+}

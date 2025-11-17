@@ -4,18 +4,26 @@
     createGetEbarimtConfigQuery,
     createUpdateEbarimtConfigMutation,
     createCheckEbarimtStatusMutation,
+    createSyncMerchantMutation,
+    createGetVatReceiptsQuery,
+    createGetVatReceiptsSummaryQuery,
   } from "$lib/queries/restaurant-queries";
-  import { Button } from "$lib/components/ui/button";
   import type { EbarimtConfigUpdate } from "$lib/types/restaurant";
   import { toast } from "svelte-french-toast";
+  import {
+    validateEbarimtForm,
+    hasFormDataChanged,
+    handleStatusCheckSuccess,
+    handleMerchantSyncSuccess,
+    handleConfigSaveSuccess,
+    shouldShowReceiptsTab,
+    initializeFormData,
+  } from "$lib/composables/useEbarimt";
 
   // Components
-  import EbarimtHeader from "$lib/components/ebarimt/EbarimtHeader.svelte";
-  import EbarimtEnableCheckbox from "$lib/components/ebarimt/EbarimtEnableCheckbox.svelte";
-  import EbarimtWarningNotRegistered from "$lib/components/ebarimt/EbarimtWarningNotRegistered.svelte";
-  import EbarimtStatusCard from "$lib/components/ebarimt/EbarimtStatusCard.svelte";
-  import EbarimtConfigForm from "$lib/components/ebarimt/EbarimtConfigForm.svelte";
-  import EbarimtInstructions from "$lib/components/ebarimt/EbarimtInstructions.svelte";
+  import EbarimtSubNav from "$lib/components/ebarimt/EbarimtSubNav.svelte";
+  import EbarimtConfigurationTab from "$lib/components/ebarimt/EbarimtConfigurationTab.svelte";
+  import EbarimtReceiptsTab from "$lib/components/ebarimt/EbarimtReceiptsTab.svelte";
 
   // Get restaurant ID from session store
   $: restaurantId =
@@ -27,49 +35,72 @@
   $: getEbarimtConfig = createGetEbarimtConfigQuery(restaurantId);
   $: ({ data: ebarimtConfig, isLoading: isLoadingEbarimt } = $getEbarimtConfig);
 
-  // Create EBARIMT update mutation
+  // Mutations
   const updateEbarimtMutation = createUpdateEbarimtConfigMutation();
   $: ({ mutate: updateEbarimt, isPending: isSavingEbarimt } =
     $updateEbarimtMutation);
 
-  // Create EBARIMT status check mutation
   const checkEbarimtStatusMutation = createCheckEbarimtStatusMutation();
   $: ({ mutate: checkEbarimtStatus, isPending: isCheckingStatus } =
     $checkEbarimtStatusMutation);
 
-  // EBARIMT form data
+  const syncMerchantMutation = createSyncMerchantMutation();
+  $: ({ mutate: syncMerchant, isPending: isSyncingMerchant } =
+    $syncMerchantMutation);
+
+  // Get VAT receipts
+  $: getVatReceipts = createGetVatReceiptsQuery({ page: 1, page_size: 10 });
+  $: getVatSummary = createGetVatReceiptsSummaryQuery();
+
+  // Form state
   let ebarimtFormData: EbarimtConfigUpdate = {
     restaurant_tin: "",
     district_code: "",
     ebarimt_enabled: false,
   };
 
-  // Track if merchant was just registered
+  let originalFormData: EbarimtConfigUpdate = {
+    restaurant_tin: "",
+    district_code: "",
+    ebarimt_enabled: false,
+  };
+
   let showEtaxInstructions = false;
 
-  // Update EBARIMT form when config loads
+  // Tab state
+  let activeTab: "config" | "receipts" = "config";
+  let hasSetDefaultTab = false;
+
+  // Computed values
+  $: showReceiptsTab = shouldShowReceiptsTab(
+    ebarimtFormData.ebarimt_enabled,
+    ebarimtConfig?.merchant_registered,
+  );
+
+  $: hasFormChanged = hasFormDataChanged(ebarimtFormData, originalFormData);
+
+  // Update form when config loads
   $: if (ebarimtConfig && !isLoadingEbarimt) {
-    ebarimtFormData = {
-      restaurant_tin: ebarimtConfig.restaurant_tin || "",
-      district_code: ebarimtConfig.district_code || "",
-      ebarimt_enabled: ebarimtConfig.ebarimt_enabled || false,
-    };
+    ebarimtFormData = initializeFormData(ebarimtConfig);
+    originalFormData = initializeFormData(ebarimtConfig);
   }
 
-  // Handle checking EBARIMT status
+  // Auto-switch to receipts tab when conditions are met
+  $: if (showReceiptsTab && !hasSetDefaultTab) {
+    activeTab = "receipts";
+    hasSetDefaultTab = true;
+  }
+
+  // Event handlers
+  function handleTabChange(tab: "config" | "receipts") {
+    activeTab = tab;
+  }
+
   function handleCheckStatus() {
     checkEbarimtStatus(
       { restaurantId },
       {
-        onSuccess: (data) => {
-          if (data.registered) {
-            toast.success(`Амжилттай! ${data.message}`);
-          } else {
-            toast.error(
-              `${data.message}. Татварын системд хүсэлтийг зөвшөөрнө үү.`,
-            );
-          }
-        },
+        onSuccess: handleStatusCheckSuccess,
         onError: (error) => {
           toast.error(`Статус шалгахад алдаа гарлаа: ${error.message}`);
         },
@@ -77,18 +108,23 @@
     );
   }
 
-  // Handle EBARIMT configuration submission
+  function handleMerchantSync() {
+    syncMerchant(undefined, {
+      onSuccess: handleMerchantSyncSuccess,
+      onError: (error) => {
+        toast.error(`Төлөв шинэчлэхэд алдаа гарлаа: ${error.message}`);
+      },
+    });
+  }
+
   function handleEbarimtSubmit(e: Event) {
     e.preventDefault();
 
-    // Validate required fields when enabling EBARIMT
-    if (ebarimtFormData.ebarimt_enabled) {
-      if (!ebarimtFormData.restaurant_tin || !ebarimtFormData.district_code) {
-        toast.error(
-          "E-barimt идэвхжүүлэхийн тулд байгууллагын дугаар болон дүүргийн кодыг оруулна уу",
-        );
-        return;
-      }
+    // Validate form
+    const validation = validateEbarimtForm(ebarimtFormData);
+    if (!validation.valid) {
+      toast.error(validation.error || "Алдаа гарлаа");
+      return;
     }
 
     const wasNotRegisteredBefore = !ebarimtConfig?.merchant_registered;
@@ -97,13 +133,13 @@
       { restaurantId, data: ebarimtFormData },
       {
         onSuccess: (data) => {
-          toast.success("E-barimt тохиргоо амжилттай шинэчлэгдлээ");
-          if (data.merchant_registered && wasNotRegisteredBefore) {
-            toast.success(
-              "PosAPI-д амжилттай бүртгэгдлээ! Татварын системд хүсэлтийг зөвшөөрнө үү.",
-            );
-            showEtaxInstructions = true;
-          }
+          showEtaxInstructions = handleConfigSaveSuccess(
+            data,
+            wasNotRegisteredBefore,
+          );
+
+          // Update original form data
+          originalFormData = { ...ebarimtFormData };
         },
         onError: (error) => {
           toast.error(`Алдаа гарлаа: ${error.message}`);
@@ -121,7 +157,6 @@
   <!-- Header Section -->
   <div class="bg-white border-b border-gray-200 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Breadcrumbs -->
       <div class="flex items-center space-x-2 text-sm text-gray-500 py-4">
         <div class="h-4 w-1 bg-indigo-600 rounded-sm"></div>
         <span class="font-medium text-gray-900">E-barimt тохиргоо</span>
@@ -129,8 +164,8 @@
     </div>
   </div>
 
-  <!-- Main Content -->
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Main Content with Sidebar -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     {#if isLoadingEbarimt}
       <div class="flex justify-center items-center py-8">
         <div
@@ -138,71 +173,38 @@
         ></div>
       </div>
     {:else}
-      <div class="space-y-8">
-        <!-- Header -->
-        <EbarimtHeader />
-
-        <!-- Enable/Disable EBARIMT (only show if TIN not set yet) -->
-        {#if !ebarimtConfig?.restaurant_tin}
-          <EbarimtEnableCheckbox
-            bind:enabled={ebarimtFormData.ebarimt_enabled}
+      <div class="flex gap-6">
+        <!-- Sidebar Navigation -->
+        <div class="hidden lg:block w-64 flex-shrink-0">
+          <EbarimtSubNav
+            {activeTab}
+            showReceipts={showReceiptsTab}
+            onTabChange={handleTabChange}
           />
-        {/if}
+        </div>
 
-        <!-- Warning: TIN exists but merchant not registered -->
-        {#if ebarimtConfig?.restaurant_tin && !ebarimtConfig?.merchant_registered}
-          <EbarimtWarningNotRegistered
-            restaurantTin={ebarimtConfig.restaurant_tin}
-          />
-        {/if}
-
-        <!-- Merchant Registration Status -->
-        {#if ebarimtConfig?.merchant_registered}
-          <EbarimtStatusCard
-            merchantRegistered={ebarimtConfig.merchant_registered}
-            restaurantStatus={ebarimtConfig.restaurant_status}
-            {isCheckingStatus}
-            onCheckStatus={handleCheckStatus}
-          />
-        {/if}
-
-        <!-- eTax Instructions (shown after successful registration but not approved) -->
-        {#if (showEtaxInstructions || ebarimtConfig?.merchant_registered) && !ebarimtConfig?.restaurant_status}
-          <EbarimtInstructions />
-        {/if}
-
-        <!-- Configuration Form -->
-        <EbarimtConfigForm
-          bind:restaurantTin={ebarimtFormData.restaurant_tin}
-          bind:districtCode={ebarimtFormData.district_code}
-          ebarimtEnabled={ebarimtFormData.ebarimt_enabled}
-        />
-
-        <!-- Save Section -->
-        <div class="bg-indigo-50 rounded-xl p-6 border border-indigo-200">
-          <div class="flex justify-between items-center">
-            <div>
-              <h3 class="text-lg font-semibold text-gray-900">
-                E-barimt тохиргоог хадгалах
-              </h3>
-              <p class="text-sm text-gray-600 mt-1">
-                {#if ebarimtFormData.ebarimt_enabled && !ebarimtConfig?.merchant_registered}
-                  Идэвхжүүлсэн тохиолдолд PosAPI-д автоматаар бүртгэгдэнэ
-                {:else}
-                  E-barimt тохиргоог шинэчлэх
-                {/if}
-              </p>
-            </div>
-            <Button
-              on:click={handleEbarimtSubmit}
-              disabled={isSavingEbarimt}
-              variant="primary"
-              size="lg"
-              class="px-8 bg-indigo-600 hover:bg-indigo-700"
-            >
-              {isSavingEbarimt ? "Хадгалж байна..." : "Хадгалах"}
-            </Button>
-          </div>
+        <!-- Main Content Area -->
+        <div class="flex-1 min-w-0">
+          {#if activeTab === "config"}
+            <EbarimtConfigurationTab
+              {ebarimtConfig}
+              bind:ebarimtFormData
+              {showEtaxInstructions}
+              {isSavingEbarimt}
+              {hasFormChanged}
+              {isSyncingMerchant}
+              {isCheckingStatus}
+              onSubmit={handleEbarimtSubmit}
+              onCheckStatus={handleCheckStatus}
+              onMerchantSync={handleMerchantSync}
+            />
+          {:else if activeTab === "receipts" && showReceiptsTab}
+            <EbarimtReceiptsTab
+              receipts={$getVatReceipts.data?.results || []}
+              summary={$getVatSummary.data}
+              isLoading={$getVatReceipts.isLoading}
+            />
+          {/if}
         </div>
       </div>
     {/if}

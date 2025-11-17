@@ -13,6 +13,8 @@ import type {
   EbarimtConfig,
   EbarimtConfigUpdate,
   EbarimtStatusResponse,
+  VatReceiptsResponse,
+  VatReceiptSummary,
 } from "$lib/types/restaurant";
 import { apiFetch } from "$lib/utils/api";
 import { PUBLIC_BACKEND_URL } from "$env/static/public";
@@ -480,3 +482,89 @@ export const createCheckEbarimtStatusMutation = () => {
     },
   });
 };
+
+// Sync merchant registration status from EBARIMT system
+export const createSyncMerchantMutation = () => {
+  const queryClient = useQueryClient();
+  return createMutation<
+    {
+      success: boolean;
+      message: string;
+      data: {
+        restaurant_id: number;
+        restaurant_name: string;
+        restaurant_tin: string;
+        merchant_registered: boolean;
+        status_changed: boolean;
+      };
+    },
+    Error,
+    void
+  >({
+    mutationFn: () => {
+      console.log("🔄 Syncing Merchant Status:", {
+        url: `${PUBLIC_BACKEND_URL}/api/merchants/sync/`,
+        method: "POST",
+      });
+      return apiFetch(`${PUBLIC_BACKEND_URL}/api/merchants/sync/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+      });
+    },
+    onSuccess: (data) => {
+      // Invalidate all EBARIMT-related queries to refresh data
+      queryClient.invalidateQueries({ queryKey: ["ebarimt-config"] });
+      queryClient.invalidateQueries({ queryKey: ["restaurant"] });
+      queryClient.invalidateQueries({ queryKey: ["restaurants"] });
+    },
+  });
+};
+
+// ===== VAT RECEIPT ENDPOINTS =====
+
+// Get VAT receipts list with optional filters
+export const createGetVatReceiptsQuery = (params?: {
+  page?: number;
+  page_size?: number;
+  start_date?: string;
+  end_date?: string;
+  receipt_type?: string;
+}) =>
+  createQuery<VatReceiptsResponse, Error>({
+    queryKey: ["vat-receipts", params],
+    queryFn: () => {
+      const queryParams = new URLSearchParams();
+      if (params?.page) queryParams.append("page", params.page.toString());
+      if (params?.page_size)
+        queryParams.append("page_size", params.page_size.toString());
+      if (params?.start_date)
+        queryParams.append("start_date", params.start_date);
+      if (params?.end_date) queryParams.append("end_date", params.end_date);
+      if (params?.receipt_type)
+        queryParams.append("receipt_type", params.receipt_type);
+
+      const url = `${PUBLIC_BACKEND_URL}/api/vat-receipts/${queryParams.toString() ? `?${queryParams.toString()}` : ""}`;
+      return apiFetch<VatReceiptsResponse>(url);
+    },
+  });
+
+// Get failed VAT receipts
+export const createGetFailedVatReceiptsQuery = () =>
+  createQuery<VatReceiptsResponse, Error>({
+    queryKey: ["vat-receipts-failed"],
+    queryFn: () =>
+      apiFetch<VatReceiptsResponse>(
+        `${PUBLIC_BACKEND_URL}/api/vat-receipts/failed/`,
+      ),
+  });
+
+// Get VAT receipts summary
+export const createGetVatReceiptsSummaryQuery = () =>
+  createQuery<VatReceiptSummary, Error>({
+    queryKey: ["vat-receipts-summary"],
+    queryFn: () =>
+      apiFetch<VatReceiptSummary>(
+        `${PUBLIC_BACKEND_URL}/api/vat-receipts/summary/`,
+      ),
+  });

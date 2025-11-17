@@ -3,6 +3,7 @@
   export let restaurantStatus: boolean | undefined;
   export let isCheckingStatus: boolean;
   export let onCheckStatus: () => void;
+  export let ebarimtEnabled: boolean = false;
 </script>
 
 {#if merchantRegistered}
@@ -24,7 +25,9 @@
           ></path>
         </svg>
         <div>
-          <h3 class="text-sm font-medium text-green-800">PosAPI-д бүртгэгдсэн</h3>
+          <h3 class="text-sm font-medium text-green-800">
+            PosAPI-д бүртгэгдсэн
+          </h3>
           <p class="text-sm text-green-700 mt-1">
             Танай ресторан PosAPI системд амжилттай бүртгэгдлээ.
           </p>
@@ -84,13 +87,14 @@
             Татварын системд зөвшөөрөгдсөн
           </h3>
           <p class="text-sm text-green-700 mt-1">
-            Танай хүсэлт татварын системд зөвшөөрөгдлөө. E-barimt автоматаар үүсгэгдэнэ.
+            Танай хүсэлт татварын системд зөвшөөрөгдлөө. E-barimt автоматаар
+            үүсгэгдэнэ.
           </p>
         </div>
       </div>
     </div>
-  {:else}
-    <!-- Pending -->
+  {:else if !ebarimtEnabled}
+    <!-- Pending (only show if EBARIMT is not enabled) -->
     <div class="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4">
       <div class="flex items-center justify-between">
         <div class="flex items-center">
@@ -112,7 +116,8 @@
               Татварын системд хүлээгдэж байна
             </h3>
             <p class="text-sm text-yellow-700 mt-1">
-              Хүсэлт илгээгдсэн боловч татварын системээс хараахан зөвшөөрөөгүй байна.
+              Хүсэлт илгээгдсэн боловч татварын системээс хараахан зөвшөөрөөгүй
+              байна.
             </p>
           </div>
         </div>
