@@ -43,7 +43,7 @@
         typeof restaurant.longitude === "string"
           ? parseFloat(restaurant.longitude)
           : restaurant.longitude || undefined,
-      open_hours: restaurant.open_hours || restaurant.opening_hours || "",
+      open_hours: restaurant.open_hours || restaurant.opening_hours || [],
     };
     // Set current API key for display only
     currentApiKey = restaurant.bonum_api_key || "";
@@ -56,15 +56,10 @@
     // Filter out undefined/empty values to only send changed fields
     const dataToUpdate: RestaurantSettingsData = {};
     Object.entries(formData).forEach(([key, value]) => {
-      // Special handling for open_hours - parse JSON string to array
+      // Special handling for open_hours - it's already an array
       if (key === "open_hours") {
-        if (value && typeof value === "string") {
-          try {
-            (dataToUpdate as any)[key] = JSON.parse(value);
-          } catch (error) {
-            console.error("Ажлын цагийн JSON-г задлахад алдаа гарлаа:", error);
-            (dataToUpdate as any)[key] = [];
-          }
+        if (Array.isArray(value) && value.length > 0) {
+          (dataToUpdate as any)[key] = value;
         } else {
           (dataToUpdate as any)[key] = [];
         }
@@ -104,7 +99,13 @@
     formData.longitude = lng;
   }
 
-  function handleHoursChange(hours: string) {
+  interface OpenHoursEntry {
+    day_of_week: number;
+    opening_time: string;
+    closing_time: string;
+  }
+
+  function handleHoursChange(hours: OpenHoursEntry[]) {
     formData.open_hours = hours;
   }
 </script>
