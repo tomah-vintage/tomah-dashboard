@@ -128,7 +128,7 @@
 
   function handlePageChange(page: number) {
     currentPage = page;
-    applyFilters();
+    handleFetchOrders();
   }
 
   $: hasFilters = hasActiveFilters({
