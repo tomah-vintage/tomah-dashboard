@@ -14,6 +14,7 @@ import type {
   EbarimtConfigUpdate,
   EbarimtStatusResponse,
   VatReceiptsResponse,
+  VatReceipt,
   VatReceiptSummary,
 } from "$lib/types/restaurant";
 import { apiFetch } from "$lib/utils/api";
@@ -525,6 +526,7 @@ export const createSyncMerchantMutation = () => {
 
 // Get VAT receipts list with optional filters
 export const createGetVatReceiptsQuery = (params?: {
+  restaurant_id?: string;
   page?: number;
   page_size?: number;
   start_date?: string;
@@ -533,8 +535,10 @@ export const createGetVatReceiptsQuery = (params?: {
 }) =>
   createQuery<VatReceiptsResponse, Error>({
     queryKey: ["vat-receipts", params],
-    queryFn: () => {
+    queryFn: async () => {
       const queryParams = new URLSearchParams();
+      if (params?.restaurant_id)
+        queryParams.append("restaurant_id", params.restaurant_id);
       if (params?.page) queryParams.append("page", params.page.toString());
       if (params?.page_size)
         queryParams.append("page_size", params.page_size.toString());
@@ -545,7 +549,18 @@ export const createGetVatReceiptsQuery = (params?: {
         queryParams.append("receipt_type", params.receipt_type);
 
       const url = `${PUBLIC_BACKEND_URL}/api/vat-receipts/${queryParams.toString() ? `?${queryParams.toString()}` : ""}`;
-      return apiFetch<VatReceiptsResponse>(url);
+      const data = await apiFetch<VatReceiptsResponse | VatReceipt[]>(url);
+
+      // Handle both array response and paginated response
+      if (Array.isArray(data)) {
+        return {
+          count: data.length,
+          next: null,
+          previous: null,
+          results: data,
+        };
+      }
+      return data;
     },
   });
 

@@ -313,7 +313,7 @@ export type VatReceiptType = "B2C" | "B2B";
 export interface VatReceipt {
   id: number;
   receipt_id: string | null;
-  bill_id: string;
+  bill_id: string | null;
   status: VatReceiptStatus;
   receipt_type: VatReceiptType;
   customer_tin: string | null;
@@ -324,7 +324,7 @@ export interface VatReceipt {
   updated_at: string;
   receipt_date: string | null;
   order_id: number;
-  order_code: string;
+  order_code: string | null;
   order_total: string;
   restaurant_name: string;
 }

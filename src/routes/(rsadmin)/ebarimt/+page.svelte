@@ -50,7 +50,11 @@
     $syncMerchantMutation);
 
   // Get VAT receipts
-  $: getVatReceipts = createGetVatReceiptsQuery({ page: 1, page_size: 10 });
+  $: getVatReceipts = createGetVatReceiptsQuery({
+    restaurant_id: restaurantId,
+    page: 1,
+    page_size: 10,
+  });
   $: getVatSummary = createGetVatReceiptsSummaryQuery();
 
   // Form state

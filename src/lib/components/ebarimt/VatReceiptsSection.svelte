@@ -26,34 +26,39 @@
 
   // Get status badge color and icon
   function getStatusInfo(status: string) {
-    switch (status) {
+    switch (status.toLowerCase()) {
       case "created":
         return {
-          color: "bg-green-100 text-green-800",
+          color:
+            "bg-green-50 text-green-700 border border-green-200 ring-1 ring-green-600/20",
           icon: CheckCircle,
           label: "Үүссэн",
         };
       case "failed":
         return {
-          color: "bg-red-100 text-red-800",
+          color:
+            "bg-red-50 text-red-700 border border-red-200 ring-1 ring-red-600/20",
           icon: XCircle,
           label: "Алдаатай",
         };
       case "pending":
         return {
-          color: "bg-yellow-100 text-yellow-800",
+          color:
+            "bg-amber-50 text-amber-700 border border-amber-200 ring-1 ring-amber-600/20",
           icon: Clock,
           label: "Хүлээгдэж байна",
         };
       case "cancelled":
         return {
-          color: "bg-gray-100 text-gray-800",
+          color:
+            "bg-gray-50 text-gray-700 border border-gray-200 ring-1 ring-gray-600/20",
           icon: Ban,
           label: "Цуцлагдсан",
         };
       default:
         return {
-          color: "bg-gray-100 text-gray-800",
+          color:
+            "bg-slate-50 text-slate-700 border border-slate-200 ring-1 ring-slate-600/20",
           icon: Clock,
           label: status,
         };
@@ -160,11 +165,13 @@
             <tr class="hover:bg-gray-50 transition-colors">
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm font-medium text-gray-900">
-                  {receipt.order_code}
+                  {receipt.order_code || `Order #${receipt.order_id}`}
                 </div>
-                <div class="text-xs text-gray-500">
-                  Order #{receipt.order_id}
-                </div>
+                {#if receipt.order_code}
+                  <div class="text-xs text-gray-500">
+                    Order #{receipt.order_id}
+                  </div>
+                {/if}
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-900">
