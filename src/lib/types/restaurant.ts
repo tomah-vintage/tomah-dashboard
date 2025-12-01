@@ -19,6 +19,7 @@ export interface Restaurant {
   open_hours: FormattedDailyHours[]; // Added
   user?: User; // Added, assuming User type exists
   bonum_api_key?: string; // Bonum Terminal ID (read-only from API)
+  takeout_container_price?: string; // Food container/packaging fee for takeout
   // EBARIMT VAT Receipt fields
   restaurant_tin?: string; // Restaurant's own TIN for merchant registration
   merchant_tin?: string; // Merchant TIN for receipts
@@ -238,6 +239,7 @@ export interface RestaurantSettingsData {
   delivery_fee?: number;
   minimum_order?: number;
   estimated_delivery_time?: number;
+  takeout_container_price?: string; // Food container/packaging fee for takeout
   is_active?: boolean;
   logo_url?: string;
   cover_image_url?: string;

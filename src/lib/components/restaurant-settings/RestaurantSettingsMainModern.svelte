@@ -1,6 +1,6 @@
 <script lang="ts">
   import RestaurantSettingsFormModern from "./RestaurantSettingsFormModern.svelte";
-  import { Info, MapPin, Clock, CreditCard } from "@lucide/svelte";
+  import { Info, MapPin, Clock, CreditCard, Package } from "@lucide/svelte";
 
   export let restaurantId: string;
 
@@ -8,6 +8,7 @@
 
   const sections = [
     { id: "basic", label: "Үндсэн мэдээлэл", icon: Info },
+    { id: "container", label: "Савлагааны төлбөр", icon: Package },
     { id: "location", label: "Байршил", icon: MapPin },
     { id: "hours", label: "Ажлын цаг", icon: Clock },
     { id: "payment", label: "Төлбөрийн тохиргоо", icon: CreditCard },
@@ -96,7 +97,9 @@
     <div class="hidden lg:block w-64 flex-shrink-0">
       <div class="sticky top-20">
         <nav class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-          <h3 class="text-sm font-semibold text-gray-900 mb-3 px-3">Тохиргооны хэсгүүд</h3>
+          <h3 class="text-sm font-semibold text-gray-900 mb-3 px-3">
+            Тохиргооны хэсгүүд
+          </h3>
           <ul class="space-y-1">
             {#each sections as section}
               <li>

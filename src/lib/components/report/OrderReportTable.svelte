@@ -329,19 +329,56 @@
 
                   <!-- Total Amount -->
                   <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm font-medium text-gray-900">
-                      {formatPrice(order.total_price)}
-                    </div>
-                    {#if order.payments && order.payments.length > 0}
-                      <div
-                        class="flex items-center gap-1 text-xs text-gray-500"
-                      >
-                        <CreditCard class="h-3 w-3" />
-                        {order.payments[0].status === "COMPLETED"
-                          ? "Төлөгдсөн"
-                          : "Төлөгдөөгүй"}
+                    <div class="flex flex-col space-y-1">
+                      {#if order.container_fee && parseFloat(order.container_fee) > 0}
+                        <!-- Subtotal -->
+                        <div class="text-xs text-gray-500">
+                          Бараа: {formatPrice(
+                            (
+                              parseFloat(order.total_price) -
+                              parseFloat(order.container_fee)
+                            ).toString(),
+                          )}
+                        </div>
+                        <!-- Container fee -->
+                        <div
+                          class="text-xs text-gray-600 flex items-center gap-1"
+                        >
+                          <svg
+                            class="w-3 h-3"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                            />
+                          </svg>
+                          Савны төлбөр: {formatPrice(order.container_fee)}
+                        </div>
+                      {/if}
+                      <!-- Total -->
+                      <div class="text-sm font-medium text-gray-900">
+                        {#if order.container_fee && parseFloat(order.container_fee) > 0}
+                          Нийт: {formatPrice(order.total_price)}
+                        {:else}
+                          {formatPrice(order.total_price)}
+                        {/if}
                       </div>
-                    {/if}
+                      {#if order.payments && order.payments.length > 0}
+                        <div
+                          class="flex items-center gap-1 text-xs text-gray-500"
+                        >
+                          <CreditCard class="h-3 w-3" />
+                          {order.payments[0].status === "COMPLETED"
+                            ? "Төлөгдсөн"
+                            : "Төлөгдөөгүй"}
+                        </div>
+                      {/if}
+                    </div>
                   </td>
 
                   <!-- Date -->
