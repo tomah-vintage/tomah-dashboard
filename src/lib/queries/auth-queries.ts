@@ -1,20 +1,42 @@
-import { createMutation } from '@tanstack/svelte-query';
-import type { UserCredentials} from '$lib/types/auth';
-import { PUBLIC_BACKEND_URL } from '$env/static/public';
+import { createMutation } from "@tanstack/svelte-query";
+import type { UserCredentials } from "$lib/types/auth";
+import { PUBLIC_BACKEND_URL } from "$env/static/public";
+import { logger } from "$lib/utils/logger";
+import { parseErrorResponse, AuthenticationError } from "$lib/utils/errors";
 
-// Login
+// Login - Now uses server endpoint that sets HttpOnly cookies
 export const createLoginMutation = () => {
-  return createMutation<{ access: string; refresh: string }, Error, UserCredentials>({
+  return createMutation<
+    { access: string; message: string },
+    Error,
+    UserCredentials
+  >({
     mutationFn: async (credentials) => {
-      const response = await fetch(`${PUBLIC_BACKEND_URL}/api/token/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      logger.debug("Attempting login", {
+        context: "auth_login",
+        username: credentials.username,
+      });
+
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
       });
+
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.detail || 'Failed to login');
+        const apiError = await parseErrorResponse(response);
+        logger.error("Login failed", apiError, {
+          context: "auth_login",
+          username: credentials.username,
+        });
+        throw new AuthenticationError(apiError.message, response.status);
       }
+
+      logger.info("Login successful", {
+        context: "auth_login",
+        username: credentials.username,
+      });
+
       return response.json();
     },
   });
@@ -24,14 +46,23 @@ export const createLoginMutation = () => {
 export const createRefreshTokenMutation = () => {
   return createMutation<{ access: string }, Error, { refresh: string }>({
     mutationFn: async ({ refresh }) => {
+      logger.debug("Attempting token refresh", { context: "auth_refresh" });
+
       const response = await fetch(`${PUBLIC_BACKEND_URL}/api/token/refresh/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ refresh }),
       });
+
       if (!response.ok) {
-        throw new Error('Failed to refresh token');
+        const apiError = await parseErrorResponse(response);
+        logger.error("Token refresh failed", apiError, {
+          context: "auth_refresh",
+        });
+        throw new AuthenticationError(apiError.message, response.status);
       }
+
+      logger.debug("Token refresh successful", { context: "auth_refresh" });
       return response.json();
     },
   });

@@ -1,5 +1,7 @@
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
+import { logger } from "$lib/utils/logger";
+import { handleError } from "$lib/utils/errors";
 
 // Mock restaurant data for now
 const mockRestaurants = [
@@ -83,17 +85,30 @@ const mockRestaurants = [
 ];
 
 export const GET: RequestHandler = async ({ url }) => {
-  // Parse pagination parameters
-  const page = parseInt(url.searchParams.get("page") || "1");
-  const page_size = parseInt(url.searchParams.get("page_size") || "10");
-  const offset = (page - 1) * page_size;
-
   try {
+    // Parse pagination parameters
+    const page = parseInt(url.searchParams.get("page") || "1");
+    const page_size = parseInt(url.searchParams.get("page_size") || "10");
+    const offset = (page - 1) * page_size;
+
+    logger.debug("Fetching admin restaurants", {
+      context: "admin_restaurants_api",
+      page,
+      page_size,
+      offset,
+    });
+
     const totalCount = mockRestaurants.length;
     const paginatedRestaurants = mockRestaurants.slice(
       offset,
       offset + page_size,
     );
+
+    logger.info("Successfully fetched admin restaurants", {
+      context: "admin_restaurants_api",
+      count: paginatedRestaurants.length,
+      total: totalCount,
+    });
 
     return json({
       count: totalCount,
@@ -107,8 +122,8 @@ export const GET: RequestHandler = async ({ url }) => {
           : null,
       results: paginatedRestaurants,
     });
-  } catch (error) {
-    console.error("Error fetching admin restaurants:", error);
-    return json({ error: "Failed to fetch restaurants" }, { status: 500 });
+  } catch (err) {
+    const { message, statusCode } = handleError(err, "admin_restaurants_api");
+    return json({ error: message }, { status: statusCode || 500 });
   }
 };

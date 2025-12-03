@@ -1,9 +1,12 @@
-import { redirect, type Handle, type RequestEvent } from "@sveltejs/kit";
+import { redirect, error, type Handle, type RequestEvent } from "@sveltejs/kit";
 import { PUBLIC_BACKEND_URL } from "$env/static/public";
 import type { User } from "$lib/types/auth";
 import { memoryCache } from "$lib/cache/memory-cache";
 import { withDbCache } from "$lib/cache/db-cache";
 import { startPeriodicCacheLogging } from "$lib/cache/monitoring";
+import { generateCsrfToken, validateCsrfToken } from "$lib/utils/csrf";
+import { logger } from "$lib/utils/logger";
+import { handleError, AuthenticationError } from "$lib/utils/errors";
 
 // --- Cache Warming and Graceful Shutdown ---
 
@@ -26,7 +29,7 @@ async function warmCacheOnStartup() {
 
 // Run cache warming once on server start
 warmCacheOnStartup().catch((err) => {
-  console.error("[CACHE WARMING] Error during cache warming:", err);
+  logger.error("Error during cache warming", err, { context: "cache_warming" });
 });
 
 // Start periodic logging in development
@@ -36,7 +39,9 @@ startPeriodicCacheLogging();
  * Handles graceful shutdown by stopping the cache cleanup interval.
  */
 function gracefulShutdown() {
-  console.log("Gracefully shutting down. Stopping cache cleanup...");
+  logger.info("Gracefully shutting down. Stopping cache cleanup...", {
+    context: "shutdown",
+  });
   memoryCache.stopCleanup();
   process.exit(0);
 }
@@ -76,18 +81,55 @@ async function refreshSession(event: RequestEvent): Promise<string | null> {
     event.cookies.set("session", newAccessToken, {
       path: "/",
       sameSite: "strict",
-      httpOnly: false,
+      httpOnly: true,
+      secure: true, // Require HTTPS
       maxAge: 60 * 60 * 24, // 1 day
     });
 
     return newAccessToken;
-  } catch (error) {
-    console.error("An internal error occurred during token refresh:", error);
+  } catch (err) {
+    const errorInfo = handleError(err, "token_refresh");
+    logger.error("An internal error occurred during token refresh", err, {
+      context: "token_refresh",
+      hasRefreshToken: !!refreshToken,
+      statusCode: errorInfo.statusCode,
+    });
     return null;
   }
 }
 
 export const handle: Handle = async ({ event, resolve }) => {
+  // Generate CSRF token for each session if not present
+  if (!event.cookies.get("csrf_token")) {
+    const csrfToken = generateCsrfToken();
+    event.cookies.set("csrf_token", csrfToken, {
+      path: "/",
+      httpOnly: false, // Client needs to read this
+      secure: true,
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24, // 1 day
+    });
+  }
+
+  // Validate CSRF token for state-changing requests
+  const method = event.request.method;
+  if (["POST", "PUT", "DELETE", "PATCH"].includes(method)) {
+    // Exclude login and refresh endpoints from CSRF validation
+    // (users don't have CSRF token yet when logging in)
+    const isAuthEndpoint =
+      event.route.id?.includes("/api/auth/login") ||
+      event.route.id?.includes("/api/auth/refresh");
+
+    if (!isAuthEndpoint) {
+      const csrfCookie = event.cookies.get("csrf_token");
+      const csrfHeader = event.request.headers.get("x-csrf-token");
+
+      if (!validateCsrfToken(csrfCookie, csrfHeader)) {
+        throw error(403, "CSRF validation failed");
+      }
+    }
+  }
+
   let sessionId = event.cookies.get("session");
 
   if (sessionId) {
@@ -122,8 +164,13 @@ export const handle: Handle = async ({ event, resolve }) => {
       } else {
         event.locals.user = undefined;
       }
-    } catch (error) {
-      console.error("Failed to fetch user:", error);
+    } catch (err) {
+      const errorInfo = handleError(err, "user_fetch");
+      logger.error("Failed to fetch user", err, {
+        context: "user_fetch",
+        route: event.route.id,
+        statusCode: errorInfo.statusCode,
+      });
       event.locals.user = undefined;
     }
   }
