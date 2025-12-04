@@ -122,7 +122,8 @@ async function proxyRequest(
     const responseHeaders: Record<string, string> = {};
     response.headers.forEach((value, key) => {
       // Don't forward certain headers
-      if (!["set-cookie", "cookie"].includes(key.toLowerCase())) {
+      // Exclude Content-Length as SvelteKit will set it correctly based on the actual response body
+      if (!["set-cookie", "cookie", "content-length"].includes(key.toLowerCase())) {
         responseHeaders[key] = value;
       }
     });

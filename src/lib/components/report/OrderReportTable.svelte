@@ -1,20 +1,14 @@
 <script lang="ts">
-  import {
-    Check,
-    X,
-    Clock,
-    Package,
-    Utensils,
-    ShoppingBag,
-    CreditCard,
-    User,
-  } from "@lucide/svelte";
-  import { Badge } from "$lib/components/ui/badge";
+  import { Check, X, Clock, Package, Utensils } from "@lucide/svelte";
   import { Pagination } from "$lib/components/ui/pagination";
   import { PaginationInfo } from "$lib/components/ui";
   import CircularLoader from "$lib/components/ui/CircularLoader.svelte";
+  import OrderReportTableHeader from "./OrderReportTableHeader.svelte";
+  import OrderReportTableRow from "./OrderReportTableRow.svelte";
+  import OrderReportStatusSection from "./OrderReportStatusSection.svelte";
+  import OrderReportEmpty from "./OrderReportEmpty.svelte";
   import type { Order } from "$lib/types/order";
-  import { OrderStatus, OrderType } from "$lib/types/order";
+  import { OrderStatus } from "$lib/types/order";
 
   export let orders: Order[];
   export let isLoading: boolean = false;
@@ -25,7 +19,7 @@
   export let pageSize: number = 20;
   export let onPageChange: (page: number) => void = () => {};
 
-  // Status display configuration with enhanced colors
+  // Status display configuration (src/lib/components/report/OrderReportTable.svelte:28-80)
   const statusConfig = {
     [OrderStatus.PENDING]: {
       label: "Хүлээж байна",
@@ -79,39 +73,7 @@
     },
   };
 
-  // Order type display configuration
-  const typeConfig = {
-    [OrderType.DINE_IN]: { label: "Газар дээр нь", icon: Utensils },
-    [OrderType.TAKE_OUT]: { label: "Авч явах", icon: ShoppingBag },
-  };
-
-  function formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("mn-MN", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  }
-
-  function formatPrice(price: string): string {
-    return new Intl.NumberFormat("mn-MN").format(parseFloat(price)) + "₮";
-  }
-
-  function getOrderTotal(order: Order): number {
-    return order.items.reduce(
-      (sum, item) => sum + parseFloat(item.unit_price) * item.quantity,
-      0,
-    );
-  }
-
-  function getItemsCount(order: Order): number {
-    return order.items.reduce((sum, item) => sum + item.quantity, 0);
-  }
-
-  // Group orders by status and maintain their original order within each group
+  // Group orders by status (src/lib/components/report/OrderReportTable.svelte:114-126)
   $: ordersByStatus = Object.values(OrderStatus).reduce(
     (acc, status) => {
       const statusOrders = orders.filter(
@@ -125,7 +87,7 @@
     {} as Record<OrderStatus, Order[]>,
   );
 
-  // Status display order for better UX
+  // Status display order (src/lib/components/report/OrderReportTable.svelte:128-135)
   const statusDisplayOrder = [
     OrderStatus.PENDING,
     OrderStatus.PREPARING,
@@ -134,7 +96,7 @@
     OrderStatus.CANCELLED,
   ];
 
-  // Pagination calculations
+  // Pagination calculations (src/lib/components/report/OrderReportTable.svelte:137-146)
   $: totalPages = Math.ceil(totalCount / pageSize);
   $: paginationInfo = {
     currentPage,
@@ -147,7 +109,7 @@
 </script>
 
 <div class="bg-white rounded-lg border border-gray-200">
-  <!-- Table Header -->
+  <!-- Table Header (src/lib/components/report/OrderReportTable.svelte:150-153) -->
   <div class="border-b border-gray-200 bg-gray-50 px-6 py-3">
     <h3 class="text-lg font-semibold text-gray-800">Захиалгын тайлан</h3>
   </div>
@@ -158,242 +120,27 @@
       <span class="ml-3 text-gray-600">Ачааллаж байна...</span>
     </div>
   {:else if orders.length === 0}
-    <div class="text-center py-12">
-      <Package class="h-12 w-12 text-gray-400 mx-auto mb-4" />
-      <p class="text-gray-500 text-lg">Захиалга олдсонгүй</p>
-      <p class="text-gray-400 text-sm">Шүүлтүүрийг өөрчилж дахин оролдоно уу</p>
-    </div>
+    <OrderReportEmpty />
   {:else}
-    <!-- Table Content -->
+    <!-- Table Content (src/lib/components/report/OrderReportTable.svelte:167-394) -->
     <div class="overflow-x-auto">
       <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-          <tr>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Захиалга
-            </th>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Үйлчлүүлэгч
-            </th>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Төлөв
-            </th>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Төрөл
-            </th>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Зүйлийн тоо
-            </th>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Нийт дүн
-            </th>
-            <th
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Огноо
-            </th>
-          </tr>
-        </thead>
+        <OrderReportTableHeader />
         <tbody class="bg-white">
           {#each statusDisplayOrder as status}
             {#if ordersByStatus[status]}
-              {@const config = statusConfig[status]}
-              <!-- Status Section Header -->
-              <tr
-                class="{config.bgClass} border-t-2 {config.borderClass.replace(
-                  'border-l-',
-                  'border-t-',
-                )}"
-              >
-                <td colspan="7" class="px-6 py-4">
-                  <div class="flex items-center gap-3">
-                    <svelte:component
-                      this={config.icon}
-                      class="h-5 w-5 {config.iconClass}"
-                    />
-                    <h4 class="font-semibold {config.textClass}">
-                      {config.label}
-                    </h4>
-                    <Badge
-                      variant="outline"
-                      class_="ml-auto {config.badgeClass}"
-                    >
-                      {ordersByStatus[status].length} захиалга
-                    </Badge>
-                  </div>
-                </td>
-              </tr>
-
-              <!-- Orders in this status -->
-              {#each ordersByStatus[status] as order (order.id)}
-                <tr
-                  class="hover:{config.bgClass} transition-colors border-l-4 {config.borderClass} {config.bgClass} bg-opacity-30"
-                >
-                  <!-- Order Info -->
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex items-center">
-                      <div class="flex-shrink-0 h-10 w-10">
-                        <div
-                          class="h-10 w-10 rounded-full bg-primary-blue/10 flex items-center justify-center"
-                        >
-                          <Package class="h-5 w-5 text-primary-blue" />
-                        </div>
-                      </div>
-                      <div class="ml-4">
-                        <div class="text-sm font-medium text-gray-900">
-                          #{order.id}
-                        </div>
-                        <div class="text-sm text-gray-500">
-                          Ресторан #{order.restaurant}
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-
-                  <!-- Customer -->
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex items-center">
-                      <div class="flex-shrink-0 h-8 w-8">
-                        <div
-                          class="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center"
-                        >
-                          <User class="h-4 w-4 text-gray-600" />
-                        </div>
-                      </div>
-                      <div class="ml-3">
-                        <div class="text-sm font-medium text-gray-900">
-                          Хэрэглэгч #{order.user}
-                        </div>
-                        <div class="text-sm text-gray-500">
-                          ID: {order.user}
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-
-                  <!-- Status -->
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <Badge
-                      variant={config.variant}
-                      class_="flex items-center gap-1 w-fit {config.badgeClass}"
-                    >
-                      <svelte:component this={config.icon} class="h-3 w-3" />
-                      {config.label}
-                    </Badge>
-                  </td>
-
-                  <!-- Type -->
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    {#if typeConfig[order.order_type]}
-                      {@const typeConf = typeConfig[order.order_type]}
-                      <div
-                        class="flex items-center gap-2 text-sm text-gray-700"
-                      >
-                        <svelte:component
-                          this={typeConf.icon}
-                          class="h-4 w-4"
-                        />
-                        {typeConf.label}
-                      </div>
-                    {/if}
-                    {#if order.table}
-                      <div class="text-xs text-gray-500">
-                        Ширээ #{order.table.table_number}
-                      </div>
-                    {:else if order.box}
-                      <div class="text-xs text-gray-500">
-                        Савлах #{order.box.box_number}
-                      </div>
-                    {/if}
-                  </td>
-
-                  <!-- Items Count -->
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <div class="flex items-center gap-1">
-                      <Package class="h-4 w-4 text-gray-400" />
-                      {getItemsCount(order)} зүйл
-                    </div>
-                  </td>
-
-                  <!-- Total Amount -->
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex flex-col space-y-1">
-                      {#if order.container_fee && parseFloat(order.container_fee) > 0}
-                        <!-- Subtotal -->
-                        <div class="text-xs text-gray-500">
-                          Бараа: {formatPrice(
-                            (
-                              parseFloat(order.total_price) -
-                              parseFloat(order.container_fee)
-                            ).toString(),
-                          )}
-                        </div>
-                        <!-- Container fee -->
-                        <div
-                          class="text-xs text-gray-600 flex items-center gap-1"
-                        >
-                          <svg
-                            class="w-3 h-3"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                            />
-                          </svg>
-                          Савны төлбөр: {formatPrice(order.container_fee)}
-                        </div>
-                      {/if}
-                      <!-- Total -->
-                      <div class="text-sm font-medium text-gray-900">
-                        {#if order.container_fee && parseFloat(order.container_fee) > 0}
-                          Нийт: {formatPrice(order.total_price)}
-                        {:else}
-                          {formatPrice(order.total_price)}
-                        {/if}
-                      </div>
-                      {#if order.payments && order.payments.length > 0}
-                        <div
-                          class="flex items-center gap-1 text-xs text-gray-500"
-                        >
-                          <CreditCard class="h-3 w-3" />
-                          {order.payments[0].status === "COMPLETED"
-                            ? "Төлөгдсөн"
-                            : "Төлөгдөөгүй"}
-                        </div>
-                      {/if}
-                    </div>
-                  </td>
-
-                  <!-- Date -->
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {formatDate(order.created_at)}
-                  </td>
-                </tr>
-              {/each}
+              <OrderReportStatusSection
+                {status}
+                orders={ordersByStatus[status]}
+                {statusConfig}
+              />
             {/if}
           {/each}
         </tbody>
       </table>
     </div>
 
-    <!-- Pagination -->
+    <!-- Pagination (src/lib/components/report/OrderReportTable.svelte:396-411) -->
     {#if totalPages > 1}
       <div class="border-t border-gray-200 bg-gray-50 px-6 py-4">
         <div class="flex items-center justify-between">
