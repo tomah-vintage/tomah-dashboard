@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { Heart } from '@lucide/svelte';
-  import type { MenuItem } from '$lib/types/menu';
+  import { Heart } from "@lucide/svelte";
+  import type { MenuItem } from "$lib/types/menu";
 
-  let { 
-    items = [], 
-    selectedFoodItem = null, 
-    searchQuery = '', 
-    onSelect 
+  let {
+    items = [],
+    selectedFoodItem = null,
+    searchQuery = "",
+    onSelect,
   }: {
     items: MenuItem[];
     selectedFoodItem: MenuItem | null;
@@ -15,17 +15,20 @@
   } = $props();
 
   // Filter items based on search query
-  let filteredItems = $derived(items.filter(item => 
-    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.description.toLowerCase().includes(searchQuery.toLowerCase())
-  ));
+  let filteredItems = $derived(
+    items.filter(
+      (item) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchQuery.toLowerCase()),
+    ),
+  );
 
   function handleItemClick(item: MenuItem) {
     onSelect(item);
   }
 
   function formatPrice(price: string | number): string {
-    if (typeof price === 'number') {
+    if (typeof price === "number") {
       return `${price.toLocaleString()}₮`;
     }
     return price;
@@ -34,29 +37,30 @@
 
 <div class="space-y-2">
   {#each filteredItems as item (item.id)}
-    <div 
-      class="p-4 rounded-lg border cursor-pointer transition-all duration-200 hover:shadow-md {
-        selectedFoodItem?.id === item.id 
-          ? 'border-blue-500 bg-blue-50' 
-          : 'border-gray-200 bg-white hover:border-gray-300'
-      }"
+    <div
+      class="p-4 rounded-lg border cursor-pointer transition-all duration-200 hover:shadow-md {selectedFoodItem?.id ===
+      item.id
+        ? 'border-blue-500 bg-blue-50'
+        : 'border-gray-200 bg-white hover:border-gray-300'}"
       on:click={() => handleItemClick(item)}
       role="button"
       tabindex="0"
-      on:keydown={(e) => e.key === 'Enter' && handleItemClick(item)}
+      on:keydown={(e) => e.key === "Enter" && handleItemClick(item)}
     >
       <div class="flex gap-4">
         <!-- Food Image -->
         <div class="flex-shrink-0">
           <div class="w-20 h-20 rounded-lg overflow-hidden bg-gray-100">
             {#if item.img_urls && item.img_urls.length > 0}
-              <img 
-                src={item.img_urls[0]} 
+              <img
+                src={item.img_urls[0]}
                 alt={item.name}
                 class="w-full h-full object-cover"
               />
             {:else}
-              <div class="w-full h-full flex items-center justify-center text-gray-400">
+              <div
+                class="w-full h-full flex items-center justify-center text-gray-400"
+              >
                 <Heart class="w-8 h-8" />
               </div>
             {/if}
@@ -80,15 +84,26 @@
             {item.description}
           </p>
 
+          <!-- Container Price Info -->
+          {#if item.container_price && item.container_price > 0}
+            <div class="mb-2">
+              <span
+                class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-amber-50 text-amber-800 border border-amber-200"
+              >
+                🥡 Савны үнэ: {item.container_price.toLocaleString()}₮
+              </span>
+            </div>
+          {/if}
+
           <!-- Variants Info -->
           {#if item.meta_data?.has_variants && item.meta_data?.variants && item.meta_data.variants.length > 0}
             <div class="flex flex-wrap gap-1 mb-2">
               {#each item.meta_data.variants as variant (variant.name)}
-                <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium {
-                  variant.is_default 
-                    ? 'bg-blue-100 text-blue-800' 
-                    : 'bg-gray-100 text-gray-700'
-                }">
+                <span
+                  class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium {variant.is_default
+                    ? 'bg-blue-100 text-blue-800'
+                    : 'bg-gray-100 text-gray-700'}"
+                >
                   {variant.name} - {variant.price.toLocaleString()}₮
                   {#if variant.is_default}
                     <span class="ml-1">⭐</span>
@@ -107,14 +122,16 @@
                 </span>
               {/if}
             </div>
-            
+
             <div class="flex items-center">
               <div class="flex items-center">
-                <div class="w-2 h-2 rounded-full {
-                  item.is_available ? 'bg-green-500' : 'bg-red-500'
-                } mr-2"></div>
+                <div
+                  class="w-2 h-2 rounded-full {item.is_available
+                    ? 'bg-green-500'
+                    : 'bg-red-500'} mr-2"
+                ></div>
                 <span class="text-xs text-gray-600">
-                  {item.is_available ? 'Боломжтой' : 'Боломжгүй'}
+                  {item.is_available ? "Боломжтой" : "Боломжгүй"}
                 </span>
               </div>
             </div>

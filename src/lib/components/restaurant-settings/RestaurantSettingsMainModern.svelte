@@ -1,6 +1,6 @@
 <script lang="ts">
   import RestaurantSettingsFormModern from "./RestaurantSettingsFormModern.svelte";
-  import { Info, MapPin, Clock, CreditCard, Package } from "@lucide/svelte";
+  import { Info, MapPin, Clock, CreditCard } from "@lucide/svelte";
 
   export let restaurantId: string;
 
@@ -8,7 +8,6 @@
 
   const sections = [
     { id: "basic", label: "Үндсэн мэдээлэл", icon: Info },
-    { id: "container", label: "Савлагааны төлбөр", icon: Package },
     { id: "location", label: "Байршил", icon: MapPin },
     { id: "hours", label: "Ажлын цаг", icon: Clock },
     { id: "payment", label: "Төлбөрийн тохиргоо", icon: CreditCard },

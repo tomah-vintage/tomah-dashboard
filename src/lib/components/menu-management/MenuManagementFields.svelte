@@ -46,6 +46,19 @@
         placeholder="Жишээ нь: 12000.00"
         error={errors.price}
       />
+      <Input
+        id="container_price"
+        label="Савны үнэ"
+        type="number"
+        bind:value={formData.container_price}
+        placeholder="Жишээ нь: 500"
+        min="0"
+        step="1"
+        error={errors.container_price}
+      />
+      <p class="text-sm text-gray-500 -mt-2">
+        Авч явах захиалгад нэмэгдэх савны үнэ (бүхэл тоо)
+      </p>
       <div class="flex items-center">
         <Input
           type="checkbox"

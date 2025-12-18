@@ -7,7 +7,6 @@
   import { toast } from "svelte-french-toast";
   import { restaurantSettingsStore } from "$lib/stores/restaurantSettingsStore";
   import BasicInfoSection from "./sections/BasicInfoSection.svelte";
-  import ContainerFeeSection from "./sections/ContainerFeeSection.svelte";
   import LocationSection from "./sections/LocationSection.svelte";
   import OperatingHoursSection from "./sections/OperatingHoursSection.svelte";
   import PaymentCredentialsSection from "./sections/PaymentCredentialsSection.svelte";
@@ -100,10 +99,6 @@
 {:else if restaurant}
   <div class="space-y-8">
     <BasicInfoSection />
-
-    <div class="border-t border-gray-200"></div>
-
-    <ContainerFeeSection />
 
     <div class="border-t border-gray-200"></div>
 

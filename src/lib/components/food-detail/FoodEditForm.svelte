@@ -27,6 +27,7 @@
       typeof foodItem.price === "string"
         ? parseFloat(foodItem.price.replace(/[^\d.]/g, "")) || 0
         : foodItem.price,
+    container_price: foodItem.container_price || 0,
     calories: foodItem.meta_data?.calories || "",
     ingredients: foodItem.meta_data?.ingredients || [],
     variants: foodItem.meta_data?.variants || [],
@@ -49,6 +50,7 @@
           typeof foodItem.price === "string"
             ? parseFloat(foodItem.price.replace(/[^\d.]/g, "")) || 0
             : foodItem.price,
+        container_price: foodItem.container_price || 0,
         calories: foodItem.meta_data?.calories || "",
         ingredients: foodItem.meta_data?.ingredients || [],
         variants: foodItem.meta_data?.variants || [],
@@ -92,7 +94,10 @@
     try {
       const uploadedImageUrls =
         selectedFiles.length > 0 ? await uploadImages(selectedFiles) : [];
-      const finalImageUrls = [...(foodItem.img_urls || []), ...uploadedImageUrls];
+      const finalImageUrls = [
+        ...(foodItem.img_urls || []),
+        ...uploadedImageUrls,
+      ];
 
       const submissionPayload = {
         id: foodItem.id,
@@ -100,6 +105,7 @@
         name: formData.name,
         description: formData.description,
         price: formData.price,
+        container_price: formData.container_price,
         is_available: formData.is_available,
         categories: foodItem.categories,
         meta_data: {
@@ -199,7 +205,7 @@
           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
         ></textarea>
         {#if errors.description}
-        <p class="text-sm text-red-600">{errors.description}</p>
+          <p class="text-sm text-red-600">{errors.description}</p>
         {/if}
       </div>
 
@@ -213,6 +219,19 @@
         step="100"
         error={errors.price}
       />
+
+      <Input
+        label="Савны үнэ (₮)"
+        type="number"
+        placeholder="0"
+        bind:value={formData.container_price}
+        min="0"
+        step="1"
+        error={errors.container_price}
+      />
+      <p class="text-sm text-gray-500 -mt-2">
+        Авч явах захиалгад нэмэгдэх савны үнэ
+      </p>
 
       <Input
         label="Калори"
@@ -262,7 +281,7 @@
           {/each}
         </div>
       {/if}
-       {#if errors.ingredients}
+      {#if errors.ingredients}
         <p class="text-sm text-red-600">{errors.ingredients}</p>
       {/if}
     </div>
@@ -273,7 +292,7 @@
       <MenuVariantManager
         bind:variants={formData.variants}
         bind:hasVariants={formData.has_variants}
-        errors={errors}
+        {errors}
       />
     </div>
 
@@ -298,7 +317,9 @@
         class="flex items-center gap-2"
       >
         <Save class="w-4 h-4" />
-        {isLoading || $updateMenuItemMutation.isPending ? "Хадгалж байна..." : "Хадгалах"}
+        {isLoading || $updateMenuItemMutation.isPending
+          ? "Хадгалж байна..."
+          : "Хадгалах"}
       </Button>
     </div>
   </form>
