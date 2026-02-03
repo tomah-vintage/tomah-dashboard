@@ -78,7 +78,8 @@ async function proxyRequest(
   url: URL,
   request: Request,
 ): Promise<Response> {
-  const backendUrl = `${PUBLIC_BACKEND_URL}/api/${path}${url.search}`;
+  // Add trailing slash for Django (frontend strips it to avoid Vercel 308 redirects)
+  const backendUrl = `${PUBLIC_BACKEND_URL}/api/${path}/${url.search}`;
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",

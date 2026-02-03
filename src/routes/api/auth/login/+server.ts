@@ -49,7 +49,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
         email,
       });
       return json(
-        { message: apiError.message },
+        { message: JSON.stringify(apiError.message) },
         { status: apiError.statusCode },
       );
     }
@@ -81,7 +81,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
   } catch (err) {
     const errorInfo = handleError(err, "auth_login");
     return json(
-      { message: errorInfo.message },
+      { message: JSON.stringify(errorInfo.message) },
       { status: errorInfo.statusCode || 500 },
     );
   }

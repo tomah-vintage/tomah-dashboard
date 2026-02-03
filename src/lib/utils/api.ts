@@ -35,7 +35,8 @@ async function refreshToken(): Promise<void> {
 
 /**
  * Converts backend API URL to proxy URL
- * Example: https://backend.com/api/menu-items -> /api/proxy/menu-items
+ * Example: https://backend.com/api/menu-items/ -> /api/proxy/menu-items
+ * Strips trailing slashes to avoid Vercel 308 redirects
  */
 function toProxyUrl(url: string): string {
   // If it's already a relative URL, return as is
@@ -45,7 +46,9 @@ function toProxyUrl(url: string): string {
 
   // If it's a backend URL, convert to proxy
   if (url.startsWith(PUBLIC_BACKEND_URL)) {
-    const path = url.replace(PUBLIC_BACKEND_URL, "").replace(/^\/api\//, "");
+    let path = url.replace(PUBLIC_BACKEND_URL, "").replace(/^\/api\//, "");
+    // Strip trailing slash (but preserve query string)
+    path = path.replace(/\/(\?|$)/, "$1");
     return `/api/proxy/${path}`;
   }
 
