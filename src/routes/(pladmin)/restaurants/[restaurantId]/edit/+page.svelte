@@ -2,12 +2,14 @@
   import { enhance } from "$app/forms";
   import { goto } from "$app/navigation";
   import { base } from "$app/paths";
+  import { onMount } from "svelte";
   import { ChevronRight, Save, X } from "@lucide/svelte";
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
   import MapPicker from "$lib/components/ui/map-picker/MapPicker.svelte";
   import OpenHoursInput from "$lib/components/ui/open-hours-input/OpenHoursInput.svelte";
   import ImageUploader from "$lib/components/new-restaurant/ImageUploader.svelte";
+  import { getCsrfToken } from "$lib/utils/csrf";
   import type { PageData } from './$types';
   import type {
     OpeningHours,
@@ -18,6 +20,11 @@
   export let form: any;
 
   let submitting = false;
+  let csrfToken = "";
+
+  onMount(() => {
+    csrfToken = getCsrfToken() || "";
+  });
   let restaurant = data.restaurant || {};
 
   // Initialize form with restaurant data (with safe defaults)
@@ -143,6 +150,7 @@
       enctype="multipart/form-data"
       class="w-full flex justify-center"
     >
+      <input type="hidden" name="csrf_token" value={csrfToken} />
       <div class="flex flex-col gap-8 max-w-[800px] w-full">
         <!-- Logo Section -->
         <div class="flex flex-col gap-4">

@@ -1,14 +1,22 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
+  import { onMount } from "svelte";
   import ImageUploader from "./ImageUploader.svelte";
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
   import MapPicker from "$lib/components/ui/map-picker/MapPicker.svelte";
   import OpenHoursInput from "$lib/components/ui/open-hours-input/OpenHoursInput.svelte";
+  import { getCsrfToken } from "$lib/utils/csrf";
   import type {
     OpeningHours,
     FormattedDailyHours,
   } from "$lib/types/restaurant";
+
+  let csrfToken = "";
+
+  onMount(() => {
+    csrfToken = getCsrfToken() || "";
+  });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export let form: Record<string, any>;
@@ -25,13 +33,13 @@
   }
 
   const dayMapping: { [key: string]: number } = {
-    monday: 1,
-    tuesday: 2,
-    wednesday: 3,
-    thursday: 4,
-    friday: 5,
-    saturday: 6,
-    sunday: 7,
+    monday: 0,
+    tuesday: 1,
+    wednesday: 2,
+    thursday: 3,
+    friday: 4,
+    saturday: 5,
+    sunday: 6,
   };
 
   function handleOpenHoursChange(event: CustomEvent<OpeningHours>) {
@@ -55,13 +63,13 @@
   }
 
   const reverseDayMapping: { [key: number]: string } = {
-    1: "monday",
-    2: "tuesday",
-    3: "wednesday",
-    4: "thursday",
-    5: "friday",
-    6: "saturday",
-    7: "sunday",
+    0: "monday",
+    1: "tuesday",
+    2: "wednesday",
+    3: "thursday",
+    4: "friday",
+    5: "saturday",
+    6: "sunday",
   };
 
   function convertFormattedToOpeningHours(
@@ -96,6 +104,7 @@
   enctype="multipart/form-data"
   class="w-full flex justify-center"
 >
+  <input type="hidden" name="csrf_token" value={csrfToken} />
   <div class="flex flex-col gap-8 max-w-[800px] w-full">
     <div class="flex flex-col gap-4">
       <h2 class="text-lg font-bold">Лого зураг</h2>
@@ -174,6 +183,35 @@
         value={JSON.stringify(form.open_hours)}
       />
 
+      <h2 class="text-lg font-bold mt-4">Нэмэлт тохиргоо</h2>
+      <Input
+        id="takeout_container_price"
+        name="takeout_container_price"
+        label="Савны үнэ"
+        type="number"
+        step="0.01"
+        placeholder="0.00"
+        bind:value={form.takeout_container_price}
+        error={form?.errors?.takeout_container_price?.[0]}
+      />
+      <Input
+        id="bonum_api_key"
+        name="bonum_api_key"
+        label="Bonum API Key"
+        placeholder="Bonum API Key-ийг оруулна уу (сонголттой)"
+        bind:value={form.bonum_api_key}
+        error={form?.errors?.bonum_api_key?.[0]}
+      />
+      <Input
+        id="bonum_secret_key"
+        name="bonum_secret_key"
+        label="Bonum Secret Key"
+        type="password"
+        placeholder="Bonum Secret Key-ийг оруулна уу (сонголттой)"
+        bind:value={form.bonum_secret_key}
+        error={form?.errors?.bonum_secret_key?.[0]}
+      />
+
       <h2 class="text-lg font-bold mt-4">Хэрэглэгчийн мэдээлэл</h2>
       <Input
         id="first_name"
@@ -203,7 +241,7 @@
       <Input
         id="password"
         name="password"
-        label="Нууц үг"
+        label="Нууц үг (8+ тэмдэгт)"
         type="password"
         placeholder="Нууц үгийг оруулна уу"
         bind:value={form.password}
@@ -212,8 +250,9 @@
       <Input
         id="phone"
         name="phone"
-        label="Утас"
-        placeholder="Утасны дугаарыг оруулна уу"
+        label="Утас (8 оронтой, 6/7/8/9-ээр эхэлнэ)"
+        placeholder="99119911"
+        maxlength="8"
         bind:value={form.phone}
         error={form?.errors?.phone?.[0]}
       />

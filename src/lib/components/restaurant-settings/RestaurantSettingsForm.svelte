@@ -1,10 +1,12 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
+  import { onMount } from "svelte";
   import ImageUploader from "../new-restaurant/ImageUploader.svelte"; // Adjusted path
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
   import MapPicker from "$lib/components/ui/map-picker/MapPicker.svelte";
   import OpenHoursInput from "$lib/components/ui/open-hours-input/OpenHoursInput.svelte";
+  import { getCsrfToken } from "$lib/utils/csrf";
   import { DAY_MAPPING, REVERSE_DAY_MAPPING } from '$lib/utils/day-mapping';
   import type {
     OpeningHours,
@@ -15,6 +17,12 @@
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export let form: Record<string, any>;
   export let restaurant: Restaurant | null = null;
+
+  let csrfToken = "";
+
+  onMount(() => {
+    csrfToken = getCsrfToken() || "";
+  });
 
   form = form ?? {};
 
@@ -99,6 +107,7 @@
   enctype="multipart/form-data"
   class="space-y-8"
 >
+  <input type="hidden" name="csrf_token" value={csrfToken} />
   <div class="space-y-8">
     <!-- Logo Section -->
     <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">

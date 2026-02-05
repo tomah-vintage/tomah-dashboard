@@ -56,12 +56,18 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
     const data = await response.json();
 
+    logger.info("Login success - setting cookies", {
+      context: "auth_login",
+      accessTokenLength: data.access?.length,
+      accessTokenPreview: data.access ? `${data.access.substring(0, 20)}...${data.access.substring(data.access.length - 20)}` : null,
+    });
+
     // Set HttpOnly cookies for security
     cookies.set("session", data.access, {
       path: "/",
       sameSite: "strict",
       httpOnly: true,
-      secure: true, // Require HTTPS
+      secure: true,
       maxAge: 60 * 60 * 24, // 1 day
     });
 
@@ -69,7 +75,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
       path: "/",
       sameSite: "strict",
       httpOnly: true,
-      secure: true, // Require HTTPS
+      secure: true,
       maxAge: 60 * 60 * 24 * 30, // 30 days
     });
 

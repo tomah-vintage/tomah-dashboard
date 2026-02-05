@@ -1,7 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import { UploadCloud, X, Image, Grid3X3, Rows, Columns } from "@lucide/svelte";
-  import { Button } from "$lib/components/ui/button";
 
   export let multiple: boolean = true;
   export let id = "image-uploader";
@@ -93,9 +92,9 @@
     for={id}
     class="cursor-pointer w-full h-56 border-2 border-dashed border-gray-300 rounded-lg flex flex-col justify-center items-center p-8 text-center bg-gray-50 hover:bg-gray-100 transition-colors"
   >
-    <p class="text-lg text-gray-500 mb-4">Та бүтээгдэхүүний зураг оруулна уу</p>
     <UploadCloud class="w-12 h-12 text-gray-400 mb-4" />
-    <Button type="button" variant="secondary">Зураг татах</Button>
+    <p class="text-lg text-gray-600 font-medium">Та бүтээгдэхүүний зураг оруулна уу</p>
+    <p class="text-sm text-gray-500 mt-2">Энд дарж зураг сонгоно уу</p>
   </label>
   <input
     type="file"

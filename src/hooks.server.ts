@@ -56,7 +56,14 @@ const EXTERNAL_REFRESH_URL = `${PUBLIC_BACKEND_URL}/api/token/refresh/`;
 async function refreshSession(event: RequestEvent): Promise<string | null> {
   const refreshToken = event.cookies.get("refreshToken");
 
+  logger.info("Attempting token refresh", {
+    context: "token_refresh",
+    hasRefreshToken: !!refreshToken,
+    refreshTokenLength: refreshToken?.length,
+  });
+
   if (!refreshToken) {
+    logger.warn("No refresh token available", { context: "token_refresh" });
     return null;
   }
 
@@ -69,7 +76,18 @@ async function refreshSession(event: RequestEvent): Promise<string | null> {
       body: JSON.stringify({ refresh: refreshToken }),
     });
 
+    logger.info("Refresh API response", {
+      context: "token_refresh",
+      status: response.status,
+      ok: response.ok,
+    });
+
     if (!response.ok) {
+      const errorBody = await response.text();
+      logger.error("Refresh failed", new Error(errorBody), {
+        context: "token_refresh",
+        status: response.status,
+      });
       event.cookies.delete("refreshToken", { path: "/" });
       event.cookies.delete("session", { path: "/" });
       return null;
@@ -82,7 +100,7 @@ async function refreshSession(event: RequestEvent): Promise<string | null> {
       path: "/",
       sameSite: "strict",
       httpOnly: true,
-      secure: true, // Require HTTPS
+      secure: true,
       maxAge: 60 * 60 * 24, // 1 day
     });
 
@@ -122,15 +140,43 @@ export const handle: Handle = async ({ event, resolve }) => {
 
     if (!isAuthEndpoint) {
       const csrfCookie = event.cookies.get("csrf_token");
-      const csrfHeader = event.request.headers.get("x-csrf-token");
+      let csrfToken = event.request.headers.get("x-csrf-token");
 
-      if (!validateCsrfToken(csrfCookie, csrfHeader)) {
+      // For form submissions (SvelteKit form actions), check form data for CSRF token
+      const contentType = event.request.headers.get("content-type") || "";
+      const isFormSubmission =
+        contentType.includes("multipart/form-data") ||
+        contentType.includes("application/x-www-form-urlencoded");
+
+      if (!csrfToken && isFormSubmission) {
+        // Clone the request to read form data without consuming it
+        const clonedRequest = event.request.clone();
+        try {
+          const formData = await clonedRequest.formData();
+          csrfToken = formData.get("csrf_token") as string | null;
+        } catch {
+          // If form data parsing fails, csrfToken remains null
+        }
+      }
+
+      if (!validateCsrfToken(csrfCookie, csrfToken)) {
         throw error(403, "CSRF validation failed");
       }
     }
   }
 
   let sessionId = event.cookies.get("session");
+  const refreshToken = event.cookies.get("refreshToken");
+
+  // Debug logging for auth issues
+  logger.info("Auth debug", {
+    context: "auth_debug",
+    route: event.route.id,
+    hasSessionCookie: !!sessionId,
+    sessionLength: sessionId?.length,
+    sessionPreview: sessionId ? `${sessionId.substring(0, 20)}...${sessionId.substring(sessionId.length - 20)}` : null,
+    hasRefreshToken: !!refreshToken,
+  });
 
   if (sessionId) {
     try {
@@ -140,8 +186,15 @@ export const handle: Handle = async ({ event, resolve }) => {
         },
       });
 
+      logger.info("API /me/ response", {
+        context: "auth_debug",
+        status: userResponse.status,
+      });
+
       if (userResponse.status === 401) {
+        logger.info("Token expired, attempting refresh", { context: "auth_debug" });
         const newSessionId = await refreshSession(event);
+        logger.info("Refresh result", { context: "auth_debug", success: !!newSessionId });
         if (newSessionId) {
           sessionId = newSessionId;
           userResponse = await event.fetch(`${PUBLIC_BACKEND_URL}/api/me/`, {

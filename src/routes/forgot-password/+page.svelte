@@ -3,13 +3,20 @@
   import { Input } from "$lib/components/ui/input";
   import { goto } from "$app/navigation";
   import { base } from "$app/paths";
+  import { onMount } from "svelte";
   import { enhance } from "$app/forms";
+  import { getCsrfToken } from "$lib/utils/csrf";
   import type { ActionData } from "./$types";
 
   export let form: ActionData;
 
   let email = "";
   let isLoading = false;
+  let csrfToken = "";
+
+  onMount(() => {
+    csrfToken = getCsrfToken() || "";
+  });
 
   function goBack() {
     goto(`${base}/login`);
@@ -47,6 +54,7 @@
       }}
       class="space-y-6"
     >
+      <input type="hidden" name="csrf_token" value={csrfToken} />
       <Input
         id="email"
         name="email"

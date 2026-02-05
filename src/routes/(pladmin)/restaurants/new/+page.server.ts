@@ -5,10 +5,14 @@ import { z } from 'zod';
 
 const newRestaurantSchema = z.object({
     name: z.string().min(1, 'Рестораны нэр заавал оруулна.'),
-    phone: z.string().min(1, 'Утасны дугаар заавал оруулна.').regex(/^\d+$/, 'Утасны дугаар нь зөвхөн тоо байна.'),
     address: z.string().min(1, 'Хаяг заавал оруулна.'),
     latitude: z.number().optional(),
     longitude: z.number().optional(),
+    logo: z.string().url().optional().nullable(),
+    restaurant_img_urls: z.array(z.string().url()).optional(),
+    takeout_container_price: z.string().optional(),
+    bonum_api_key: z.string().optional(),
+    bonum_secret_key: z.string().optional(),
     open_hours: z.array(z.object({
         day_of_week: z.number().int().min(0).max(6),
         opening_time: z.string().regex(/^\d{2}:\d{2}:\d{2}$/, 'Invalid time format (HH:MM:SS)'),
@@ -16,11 +20,12 @@ const newRestaurantSchema = z.object({
     })).optional(),
     user: z.object({
         email: z.string().email('Invalid email address.'),
-        password: z.string().min(6, 'Password must be at least 6 characters long.'),
-        first_name: z.string().min(1, 'First name is required.'),
-        last_name: z.string().min(1, 'Last name is required.'),
-        phone: z.string().min(1, 'Phone number is required.').regex(/^\d+$/, 'Phone number must be digits only.'),
-    }).optional(),
+        password: z.string().min(8, 'Password must be at least 8 characters long.'),
+        first_name: z.string().optional(),
+        last_name: z.string().optional(),
+        phone: z.string().regex(/^[6-9]\d{7}$/, 'Phone must be 8 digits starting with 6, 7, 8, or 9.'),
+        role: z.number().int(),
+    }),
 });
 
 export const actions = {
@@ -29,7 +34,6 @@ export const actions = {
 
         const formData = await request.formData();
         const name = formData.get('name') as string;
-        const phone = formData.get('phone') as string;
         const address = formData.get('address') as string;
         const latitude = formData.get('latitude');
         const longitude = formData.get('longitude');
@@ -38,9 +42,13 @@ export const actions = {
         const last_name = formData.get('last_name');
         const email = formData.get('email');
         const password = formData.get('password');
+        const phone = formData.get('phone');
         const role = 2;
         const logo_file = formData.get('logo_file');
         const restaurant_img_urls = formData.getAll('restaurant_images');
+        const takeout_container_price = formData.get('takeout_container_price') as string | null;
+        const bonum_api_key = formData.get('bonum_api_key') as string | null;
+        const bonum_secret_key = formData.get('bonum_secret_key') as string | null;
         const user = { first_name, last_name, email, password, role, phone }
 
         const openHours = openHoursJson ? JSON.parse(openHoursJson) : []
@@ -57,11 +65,13 @@ export const actions = {
 
         const parsedForm = newRestaurantSchema.safeParse({
             name,
-            phone,
             address,
             latitude: parsedLatitude,
             longitude: parsedLongitude,
             open_hours: openHours,
+            takeout_container_price,
+            bonum_api_key,
+            bonum_secret_key,
             user,
         });
 
@@ -75,11 +85,12 @@ export const actions = {
             return fail(400, {
                 data: {
                     name,
-                    phone,
                     address,
                     latitude: parsedLatitude,
                     longitude: parsedLongitude,
                     open_hours: openHours,
+                    takeout_container_price,
+                    bonum_api_key,
                     user,
                 },
                 errors
@@ -108,7 +119,7 @@ export const actions = {
                     const uploadErrorData = await uploadResponse.json();
                     console.error('Failed to upload logo:', uploadErrorData);
                     return fail(uploadResponse.status, {
-                        data: { name, phone, address },
+                        data: { name, address },
                         errors: {
                             logo_file: [uploadErrorData.message || 'Failed to upload logo.']
                         }
@@ -117,7 +128,7 @@ export const actions = {
             } catch (error) {
                 console.error('Error uploading logo:', error);
                 return fail(500, {
-                    data: { name, phone, address },
+                    data: { name, address },
                     errors: {
                         logo_file: ['An unexpected error occurred during logo upload.']
                     }
@@ -156,7 +167,7 @@ export const actions = {
             } catch (error: unknown) {
                 console.error('Error uploading restaurant images:', error);
                 return fail(500, {
-                    data: { name, phone, address },
+                    data: { name, address },
                     errors: {
                         restaurant_img_urls: [(error as { message: string }).message || 'An unexpected error occurred during image upload.']
                     }
@@ -164,7 +175,7 @@ export const actions = {
             }
         }
 
-        const restaurantData = {
+        const restaurantData: Record<string, unknown> = {
             name,
             address,
             logo: logoUrl,
@@ -174,6 +185,17 @@ export const actions = {
             open_hours: openHours,
             user,
         };
+
+        // Add optional fields only if they have values
+        if (takeout_container_price) {
+            restaurantData.takeout_container_price = takeout_container_price;
+        }
+        if (bonum_api_key) {
+            restaurantData.bonum_api_key = bonum_api_key;
+        }
+        if (bonum_secret_key) {
+            restaurantData.bonum_secret_key = bonum_secret_key;
+        }
 
         try {
             console.log('JSON.stringify(restaurantData)', JSON.stringify(restaurantData))
