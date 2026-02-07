@@ -185,16 +185,6 @@
 
       <h2 class="text-lg font-bold mt-4">Нэмэлт тохиргоо</h2>
       <Input
-        id="takeout_container_price"
-        name="takeout_container_price"
-        label="Савны үнэ"
-        type="number"
-        step="0.01"
-        placeholder="0.00"
-        bind:value={form.takeout_container_price}
-        error={form?.errors?.takeout_container_price?.[0]}
-      />
-      <Input
         id="bonum_api_key"
         name="bonum_api_key"
         label="Bonum API Key"
