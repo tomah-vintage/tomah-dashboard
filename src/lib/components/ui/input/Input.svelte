@@ -28,7 +28,7 @@
   function handleNumberInput(e: Event) {
     const target = e.target as HTMLInputElement;
     const sanitizedValue = target.value.replace(/[^0-9]/g, "");
-    value = parseFloat(sanitizedValue);
+    value = sanitizedValue === "" ? "" : parseFloat(sanitizedValue);
   }
 
   let displayValue: string = "";
