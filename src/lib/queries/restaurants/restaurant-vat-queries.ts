@@ -1,4 +1,4 @@
-import { createQuery } from "@tanstack/svelte-query";
+import { createQuery, createMutation, useQueryClient } from "@tanstack/svelte-query";
 import type {
   VatReceiptsResponse,
   VatReceipt,
@@ -66,3 +66,31 @@ export const createGetVatReceiptsSummaryQuery = () =>
         `${PUBLIC_BACKEND_URL}/api/vat-receipts/summary/`,
       ),
   });
+
+// Send data to EBARIMT system — POST /api/system/send-data/
+export const createSendEbarimtDataMutation = () =>
+  createMutation<{ success: boolean; data?: unknown }, Error, Record<string, unknown>>({
+    mutationFn: (payload) =>
+      apiFetch(`${PUBLIC_BACKEND_URL}/api/system/send-data/`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+      }),
+  });
+
+// Retry a failed VAT receipt — POST /api/vat-receipts/{id}/retry/
+export const createRetryVatReceiptMutation = () => {
+  const queryClient = useQueryClient();
+  return createMutation<{ success: boolean; receipt?: VatReceipt }, Error, number>({
+    mutationFn: (receiptId) =>
+      apiFetch(`${PUBLIC_BACKEND_URL}/api/vat-receipts/${receiptId}/retry/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+      }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["vat-receipts"] });
+      queryClient.invalidateQueries({ queryKey: ["vat-receipts-summary"] });
+      queryClient.invalidateQueries({ queryKey: ["vat-receipts-failed"] });
+    },
+  });
+};

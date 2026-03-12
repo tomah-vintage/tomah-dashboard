@@ -1,7 +1,6 @@
 <script lang="ts">
   export let restaurantTin: string;
   export let districtCode: string;
-  export let ebarimtEnabled: boolean;
 </script>
 
 <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
@@ -40,8 +39,7 @@
         id="district_code"
         type="text"
         bind:value={districtCode}
-        disabled={!ebarimtEnabled}
-        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
         placeholder="Жишээ: 0101"
       />
       <p class="text-xs text-gray-500 mt-1">

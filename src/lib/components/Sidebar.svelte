@@ -95,6 +95,13 @@
             href="/reviews"
             label="Үнэлгээнүүд"
             icon={MessageSquare}
+          />
+        {/if}
+        {#if $sessionStore.user?.role_name === "admin"}
+          <SidebarButton
+            href="/ebarimt-monitor"
+            label="E-barimt хяналт"
+            icon={Receipt}
             class="mb-4"
           />
         {/if}
