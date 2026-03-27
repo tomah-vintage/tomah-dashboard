@@ -159,7 +159,7 @@
                   <svelte:component this={statusInfo.icon} class="w-3 h-3" />
                   {statusInfo.label}
                 </span>
-                {#if receipt.status === "failed" && receipt.error_message}
+                {#if receipt.status.toLowerCase() === "failed" && receipt.error_message}
                   <div class="text-xs text-red-500 mt-1 max-w-xs truncate" title={receipt.error_message}>
                     {receipt.error_message}
                   </div>
@@ -174,7 +174,7 @@
               </td>
               <td class="px-5 py-3 whitespace-nowrap">
                 <div class="flex items-center gap-2">
-                  {#if (receipt.status === "failed" || receipt.status === "pending") && retryMutation}
+                  {#if (receipt.status.toLowerCase() === "failed" || receipt.status.toLowerCase() === "pending") && retryMutation}
                     <button
                       on:click={() => handleRetry(receipt)}
                       disabled={isRetrying || retrying}
@@ -190,7 +190,7 @@
                       {/if}
                     </button>
                   {/if}
-                  {#if receipt.status === "created" && !receipt.return_receipt_id && returnMutation}
+                  {#if receipt.status.toLowerCase() === "created" && !receipt.return_receipt_id && returnMutation}
                     {@const isReturning = returningId === receipt.id}
                     <button
                       on:click={() => handleReturn(receipt)}
