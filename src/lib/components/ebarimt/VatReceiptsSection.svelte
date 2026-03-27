@@ -55,6 +55,13 @@
           icon: Ban,
           label: "Цуцлагдсан",
         };
+      case "returned":
+        return {
+          color:
+            "bg-amber-50 text-amber-700 border border-amber-200 ring-1 ring-amber-600/20",
+          icon: RefreshCw,
+          label: "Буцаагдсан",
+        };
       default:
         return {
           color:

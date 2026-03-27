@@ -51,6 +51,8 @@
         return { color: "bg-amber-50 text-amber-700 border border-amber-200", icon: Clock, label: "Хүлээгдэж байна" };
       case "cancelled":
         return { color: "bg-gray-50 text-gray-700 border border-gray-200", icon: Ban, label: "Цуцлагдсан" };
+      case "returned":
+        return { color: "bg-amber-50 text-amber-700 border border-amber-200", icon: Undo2, label: "Буцаагдсан" };
       default:
         return { color: "bg-slate-50 text-slate-700 border border-slate-200", icon: Clock, label: status };
     }
