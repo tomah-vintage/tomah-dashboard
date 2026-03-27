@@ -1,6 +1,7 @@
 <script lang="ts">
   import { CheckCircle, XCircle, Clock, Ban, ChevronLeft, ChevronRight, RotateCcw, Undo2 } from "@lucide/svelte";
   import CircularLoader from "$lib/components/ui/CircularLoader.svelte";
+  import ConfirmDialog from "$lib/components/ui/ConfirmDialog.svelte";
   import type { VatReceipt, VatReceiptsResponse } from "$lib/types/restaurant";
   import { toast } from "svelte-french-toast";
 
@@ -23,6 +24,8 @@
   $: returning = $returnMutation?.isPending ?? false;
   let retryingId: number | null = null;
   let returningId: number | null = null;
+  let showReturnConfirm = false;
+  let receiptToReturn: VatReceipt | null = null;
 
   function formatDate(dateString: string): string {
     return new Date(dateString).toLocaleDateString("mn-MN", {
@@ -193,7 +196,7 @@
                   {#if receipt.status.toLowerCase() === "created" && !receipt.return_receipt_id && returnMutation}
                     {@const isReturning = returningId === receipt.id}
                     <button
-                      on:click={() => handleReturn(receipt)}
+                      on:click={() => { receiptToReturn = receipt; showReturnConfirm = true; }}
                       disabled={isReturning || returning}
                       title="Буцаалт баримт үүсгэх"
                       class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-amber-600 rounded-lg hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -243,3 +246,20 @@
     {/if}
   {/if}
 </div>
+
+<ConfirmDialog
+  bind:open={showReturnConfirm}
+  title="Буцаалт баримт үүсгэх үү?"
+  description={receiptToReturn
+    ? `"${receiptToReturn.restaurant_name}" — захиалга #${receiptToReturn.order_code ?? receiptToReturn.order_id} (${receiptToReturn.order_total}₮)-н буцаалт баримт үүсгэхийг баталгаажуулна уу. Энэ үйлдлийг буцааж болохгүй.`
+    : "Буцаалт баримт үүсгэхийг баталгаажуулна уу."}
+  confirmText="Буцаалт үүсгэх"
+  cancelText="Цуцлах"
+  variant="destructive"
+  loading={returning}
+  onConfirm={() => {
+    if (receiptToReturn) handleReturn(receiptToReturn);
+    showReturnConfirm = false;
+  }}
+  onCancel={() => { receiptToReturn = null; }}
+/>
