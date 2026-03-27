@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { CheckCircle, XCircle, Clock, Ban, ChevronLeft, ChevronRight, RotateCcw } from "@lucide/svelte";
+  import { CheckCircle, XCircle, Clock, Ban, ChevronLeft, ChevronRight, RotateCcw, Undo2 } from "@lucide/svelte";
   import CircularLoader from "$lib/components/ui/CircularLoader.svelte";
   import type { VatReceipt, VatReceiptsResponse } from "$lib/types/restaurant";
   import { toast } from "svelte-french-toast";
@@ -10,6 +10,7 @@
   export let restaurantFilter: string = "";
   export let currentPage: number = 1;
   export let retryMutation: any = undefined;
+  export let returnMutation: any = undefined;
   export let onPageChange: (page: number) => void = () => {};
   export let onStatusFilterChange: (v: string) => void = () => {};
   export let onRestaurantFilterChange: (v: string) => void = () => {};
@@ -19,7 +20,9 @@
   $: receipts = data?.results ?? [];
   $: totalPages = data ? Math.ceil(data.count / PAGE_SIZE) : 1;
   $: retrying = $retryMutation?.isPending ?? false;
+  $: returning = $returnMutation?.isPending ?? false;
   let retryingId: number | null = null;
+  let returningId: number | null = null;
 
   function formatDate(dateString: string): string {
     return new Date(dateString).toLocaleDateString("mn-MN", {
@@ -61,6 +64,21 @@
       onError: (err: Error) => {
         toast.error(`Алдаа: ${err.message}`);
         retryingId = null;
+      },
+    });
+  }
+
+  function handleReturn(receipt: VatReceipt) {
+    if (!returnMutation) return;
+    returningId = receipt.id;
+    $returnMutation.mutate(receipt.id, {
+      onSuccess: () => {
+        toast.success(`${receipt.restaurant_name} — буцаалт баримт амжилттай үүслээ`);
+        returningId = null;
+      },
+      onError: (err: Error) => {
+        toast.error(`Алдаа: ${err.message}`);
+        returningId = null;
       },
     });
   }
@@ -155,22 +173,44 @@
                 {formatDate(receipt.created_at)}
               </td>
               <td class="px-5 py-3 whitespace-nowrap">
-                {#if (receipt.status === "failed" || receipt.status === "pending") && retryMutation}
-                  <button
-                    on:click={() => handleRetry(receipt)}
-                    disabled={isRetrying || retrying}
-                    title="Серверт дахин илгээх"
-                    class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    {#if isRetrying}
-                      <CircularLoader size="xs" color="white" />
-                      Илгээж байна...
-                    {:else}
-                      <RotateCcw class="w-3 h-3" />
-                      Илгээх
-                    {/if}
-                  </button>
-                {/if}
+                <div class="flex items-center gap-2">
+                  {#if (receipt.status === "failed" || receipt.status === "pending") && retryMutation}
+                    <button
+                      on:click={() => handleRetry(receipt)}
+                      disabled={isRetrying || retrying}
+                      title="Серверт дахин илгээх"
+                      class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      {#if isRetrying}
+                        <CircularLoader size="xs" color="white" />
+                        Илгээж байна...
+                      {:else}
+                        <RotateCcw class="w-3 h-3" />
+                        Илгээх
+                      {/if}
+                    </button>
+                  {/if}
+                  {#if receipt.status === "created" && !receipt.return_receipt_id && returnMutation}
+                    {@const isReturning = returningId === receipt.id}
+                    <button
+                      on:click={() => handleReturn(receipt)}
+                      disabled={isReturning || returning}
+                      title="Буцаалт баримт үүсгэх"
+                      class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-amber-600 rounded-lg hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      {#if isReturning}
+                        <CircularLoader size="xs" color="white" />
+                        Буцааж байна...
+                      {:else}
+                        <Undo2 class="w-3 h-3" />
+                        Буцаалт
+                      {/if}
+                    </button>
+                  {/if}
+                  {#if receipt.return_receipt_id}
+                    <span class="text-xs text-amber-600 font-medium">Буцаагдсан</span>
+                  {/if}
+                </div>
               </td>
             </tr>
           {/each}

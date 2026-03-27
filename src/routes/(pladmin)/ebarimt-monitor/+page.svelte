@@ -4,7 +4,8 @@
     createGetVatReceiptsQuery,
     createGetVatReceiptsSummaryQuery,
     createRetryVatReceiptMutation,
-  } from "$lib/queries/restaurant-queries";
+    createReturnVatReceiptMutation,
+  } from "$lib/queries/restaurants/restaurant-vat-queries";
   import PlatformEbarimtSummary from "$lib/components/platform-ebarimt/PlatformEbarimtSummary.svelte";
   import PlatformEbarimtTable from "$lib/components/platform-ebarimt/PlatformEbarimtTable.svelte";
   import PlatformEbarimtSendReport from "$lib/components/platform-ebarimt/PlatformEbarimtSendReport.svelte";
@@ -12,6 +13,7 @@
 
   const queryClient = useQueryClient();
   const retryMutation = createRetryVatReceiptMutation();
+  const returnMutation = createReturnVatReceiptMutation();
 
   let currentPage = 1;
   let statusFilter = "";
@@ -117,6 +119,7 @@
       {restaurantFilter}
       {currentPage}
       {retryMutation}
+      {returnMutation}
       onPageChange={handlePageChange}
       onStatusFilterChange={handleStatusFilterChange}
       onRestaurantFilterChange={handleRestaurantFilterChange}

@@ -77,6 +77,23 @@ export const createSendEbarimtDataMutation = () =>
       }),
   });
 
+// Create a return receipt — POST /api/vat-receipts/{id}/return/
+export const createReturnVatReceiptMutation = () => {
+  const queryClient = useQueryClient();
+  return createMutation<{ success: boolean; receipt?: VatReceipt }, Error, number>({
+    mutationFn: (receiptId) =>
+      apiFetch(`${PUBLIC_BACKEND_URL}/api/vat-receipts/${receiptId}/return/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+      }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["vat-receipts"] });
+      queryClient.invalidateQueries({ queryKey: ["vat-receipts-summary"] });
+    },
+  });
+};
+
 // Retry a failed VAT receipt — POST /api/vat-receipts/{id}/retry/
 export const createRetryVatReceiptMutation = () => {
   const queryClient = useQueryClient();

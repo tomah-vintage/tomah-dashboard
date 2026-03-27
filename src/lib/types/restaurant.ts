@@ -310,7 +310,7 @@ export interface EbarimtStatusResponse {
 
 // VAT Receipt Types
 export type VatReceiptStatus = "pending" | "created" | "failed" | "cancelled";
-export type VatReceiptType = "B2C" | "B2B";
+export type VatReceiptType = "B2C" | "B2B" | "RETURN";
 
 export interface VatReceipt {
   id: number;
@@ -322,6 +322,9 @@ export interface VatReceipt {
   consumer_no: string | null;
   error_message: string | null;
   retry_count: number;
+  return_receipt_id: string | null;
+  return_bill_id: string | null;
+  return_created_at: string | null;
   created_at: string;
   updated_at: string;
   receipt_date: string | null;
