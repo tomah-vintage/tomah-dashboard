@@ -120,10 +120,11 @@ export const handle: Handle = async ({ event, resolve }) => {
   // Generate CSRF token for each session if not present
   if (!event.cookies.get("csrf_token")) {
     const csrfToken = generateCsrfToken();
+    const isSecure = event.url.protocol === "https:";
     event.cookies.set("csrf_token", csrfToken, {
       path: "/",
       httpOnly: false, // Client needs to read this
-      secure: true,
+      secure: isSecure,
       sameSite: "strict",
       maxAge: 60 * 60 * 24, // 1 day
     });
