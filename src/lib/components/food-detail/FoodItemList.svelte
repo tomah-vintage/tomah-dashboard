@@ -38,10 +38,11 @@
 <div class="space-y-2">
   {#each filteredItems as item (item.id)}
     <div
-      class="p-4 rounded-lg border cursor-pointer transition-all duration-200 hover:shadow-md {selectedFoodItem?.id ===
-      item.id
+      class="p-4 rounded-lg border cursor-pointer transition-all duration-200 hover:shadow-md {selectedFoodItem?.id === item.id
         ? 'border-blue-500 bg-blue-50'
-        : 'border-gray-200 bg-white hover:border-gray-300'}"
+        : item.is_available
+          ? 'border-gray-200 bg-white hover:border-gray-300'
+          : 'border-gray-200 bg-gray-50 opacity-60 hover:opacity-80'}"
       on:click={() => handleItemClick(item)}
       role="button"
       tabindex="0"
@@ -123,18 +124,18 @@
               {/if}
             </div>
 
-            <div class="flex items-center">
-              <div class="flex items-center">
-                <div
-                  class="w-2 h-2 rounded-full {item.is_available
-                    ? 'bg-green-500'
-                    : 'bg-red-500'} mr-2"
-                ></div>
-                <span class="text-xs text-gray-600">
-                  {item.is_available ? "Боломжтой" : "Боломжгүй"}
-                </span>
-              </div>
-            </div>
+            <span
+              class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium {item.is_available
+                ? 'bg-green-100 text-green-700'
+                : 'bg-red-100 text-red-600'}"
+            >
+              <span
+                class="w-1.5 h-1.5 rounded-full {item.is_available
+                  ? 'bg-green-500'
+                  : 'bg-red-500'}"
+              ></span>
+              {item.is_available ? "Боломжтой" : "Боломжгүй"}
+            </span>
           </div>
         </div>
       </div>

@@ -350,16 +350,28 @@
     </div>
 
     <!-- Availability -->
-    <div class="flex items-center space-x-3">
-      <input
-        type="checkbox"
-        id="availability"
-        bind:checked={formData.is_available}
-        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-      />
-      <label for="availability" class="text-sm font-medium text-gray-700">
-        Боломжтой
-      </label>
+    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+      <div>
+        <p class="text-sm font-medium text-gray-900">Боломжтой</p>
+        <p class="text-xs text-gray-500 mt-0.5">
+          {formData.is_available ? "Хоол захиалах боломжтой" : "Хоол захиалах боломжгүй"}
+        </p>
+      </div>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={formData.is_available}
+        onclick={() => (formData.is_available = !formData.is_available)}
+        class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 {formData.is_available
+          ? 'bg-blue-600'
+          : 'bg-gray-300'}"
+      >
+        <span
+          class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out {formData.is_available
+            ? 'translate-x-5'
+            : 'translate-x-0'}"
+        ></span>
+      </button>
     </div>
 
     <!-- Actions -->

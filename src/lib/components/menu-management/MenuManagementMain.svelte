@@ -8,7 +8,6 @@
   import ErrorState from "./ErrorState.svelte";
   import { createGetMenuItemsQuery, createGetCategoriesQuery } from "$lib/queries/menu-queries";
   import { Pagination } from "$lib/components/ui/pagination";
-  import { debounce } from "$lib/utils/debounce";
 
   let currentPage = $state(1);
   let page_size = $state(10);
@@ -21,11 +20,12 @@
   let sortColumn = $state<string | null>(null);
   let sortDirection = $state<'asc' | 'desc'>('asc');
 
-  // Debounced search to avoid too many API calls
-  const debouncedSearch = debounce((term: string) => {
-    searchTerm = term;
-    currentPage = 1; // Reset to first page when searching
-  }, 300);
+  // Reset to first page when search term changes
+  $effect(() => {
+    if (searchTerm !== undefined) {
+      currentPage = 1;
+    }
+  });
 
   const categoriesQuery = $derived(createGetCategoriesQuery());
   const categories = $derived($categoriesQuery.data || []);
@@ -79,16 +79,6 @@
 
   function handlePageChange(page: number) {
     currentPage = page;
-  }
-
-  // Event handlers
-  function handleSearchInput(event: Event) {
-    const target = event.target as HTMLInputElement;
-    debouncedSearch(target.value);
-  }
-
-  function toggleFilter() {
-    showFilters = !showFilters;
   }
 
   function toggleCategory(category: string) {
@@ -157,7 +147,10 @@
   <!-- Main Content -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-      <!-- Header with Search, Filters, and Actions -->
+      <!-- Title -->
+      <h1 class="mb-4 text-xl font-bold text-gray-800">Хоолны жагсаалт</h1>
+
+      <!-- Search, Filters, and Actions -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <SearchAndFilters
           bind:searchTerm
@@ -166,8 +159,6 @@
           bind:availabilityFilter
           {categories}
           {hasActiveFilters}
-          onSearchInput={handleSearchInput}
-          onToggleFilter={toggleFilter}
           onToggleCategory={toggleCategory}
           onClearFilters={clearFilters}
         />
