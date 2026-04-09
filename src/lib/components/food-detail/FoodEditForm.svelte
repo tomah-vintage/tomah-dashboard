@@ -6,7 +6,7 @@
   import { X, Save } from "@lucide/svelte";
   import type { MenuItem } from "$lib/types/menu";
   import { toast } from "svelte-french-toast";
-  import { createUpdateMenuItemMutation } from "$lib/queries/menu-queries";
+  import { createUpdateMenuItemMutation, createGetCategoriesQuery } from "$lib/queries/menu-queries";
   import { uploadImages } from "$lib/utils/menu-management";
 
   let {
@@ -18,6 +18,7 @@
   } = $props();
 
   const updateMenuItemMutation = createUpdateMenuItemMutation();
+  const categoriesQuery = createGetCategoriesQuery();
 
   // Form state
   let formData = $state({
@@ -33,9 +34,11 @@
     variants: foodItem.meta_data?.variants || [],
     has_variants: foodItem.meta_data?.has_variants || false,
     is_available: foodItem.is_available,
+    categories: foodItem.categories || [],
   });
 
   let selectedFiles = $state<File[]>([]);
+  let keptImageUrls = $state<string[]>(foodItem.img_urls || []);
   let newIngredient = $state("");
   let isLoading = $state(false);
   let errors = $state<Record<string, string>>({});
@@ -56,10 +59,24 @@
         variants: foodItem.meta_data?.variants || [],
         has_variants: foodItem.meta_data?.has_variants || false,
         is_available: foodItem.is_available,
+        categories: foodItem.categories || [],
       };
       selectedFiles = [];
+      keptImageUrls = foodItem.img_urls || [];
     }
   });
+
+  function removeImage(url: string) {
+    keptImageUrls = keptImageUrls.filter((u) => u !== url);
+  }
+
+  function toggleCategory(categoryId: number) {
+    if (formData.categories.includes(categoryId)) {
+      formData.categories = formData.categories.filter((id) => id !== categoryId);
+    } else {
+      formData.categories = [...formData.categories, categoryId];
+    }
+  }
 
   function handleImageSelect(event: CustomEvent<{ files: File[] }>) {
     selectedFiles = event.detail.files;
@@ -94,10 +111,7 @@
     try {
       const uploadedImageUrls =
         selectedFiles.length > 0 ? await uploadImages(selectedFiles) : [];
-      const finalImageUrls = [
-        ...(foodItem.img_urls || []),
-        ...uploadedImageUrls,
-      ];
+      const finalImageUrls = [...keptImageUrls, ...uploadedImageUrls];
 
       const submissionPayload = {
         id: foodItem.id,
@@ -107,7 +121,7 @@
         price: formData.price,
         container_price: formData.container_price,
         is_available: formData.is_available,
-        categories: foodItem.categories,
+        categories: formData.categories,
         meta_data: {
           calories: Number(formData.calories) || 0,
           ingredients: formData.ingredients,
@@ -163,19 +177,27 @@
       </div>
 
       <!-- Current Images -->
-      {#if foodItem.img_urls && foodItem.img_urls.length > 0}
+      {#if keptImageUrls.length > 0}
         <div class="space-y-3">
           <p class="text-sm font-medium text-gray-700">Одоогийн зургууд:</p>
           <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-            {#each foodItem.img_urls as imageUrl (imageUrl)}
+            {#each keptImageUrls as imageUrl (imageUrl)}
               <div
-                class="aspect-square rounded-lg overflow-hidden bg-gray-100 shadow-sm border border-gray-200"
+                class="relative aspect-square rounded-lg overflow-hidden bg-gray-100 shadow-sm border border-gray-200 group"
               >
                 <img
                   src={imageUrl}
                   alt="Current"
-                  class="w-full h-full object-cover hover:scale-105 transition-transform duration-200"
+                  class="w-full h-full object-cover"
                 />
+                <button
+                  type="button"
+                  onclick={() => removeImage(imageUrl)}
+                  class="absolute top-1.5 right-1.5 p-1 rounded-full bg-red-600 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                  aria-label="Зураг устгах"
+                >
+                  <X class="w-3 h-3" />
+                </button>
               </div>
             {/each}
           </div>
@@ -239,6 +261,37 @@
         bind:value={formData.calories}
         error={errors.calories}
       />
+    </div>
+
+    <!-- Categories -->
+    <div class="space-y-3">
+      <h3 class="text-sm font-medium text-gray-900">Ангилал</h3>
+      {#if $categoriesQuery.isLoading}
+        <p class="text-sm text-gray-500">Ачаалж байна...</p>
+      {:else if $categoriesQuery.data && $categoriesQuery.data.length > 0}
+        <div class="flex flex-wrap gap-2">
+          {#each $categoriesQuery.data as category (category.id)}
+            {@const isSelected = formData.categories.includes(category.id)}
+            <button
+              type="button"
+              onclick={() => toggleCategory(category.id)}
+              class="px-3 py-1.5 rounded-full text-sm font-medium border transition-colors {isSelected
+                ? 'bg-blue-600 text-white border-blue-600'
+                : 'bg-white text-gray-700 border-gray-300 hover:border-blue-400'}"
+            >
+              {category.name}
+            </button>
+          {/each}
+        </div>
+        {#if formData.categories.length === 0}
+          <p class="text-xs text-amber-600">Дор хаяж нэг ангилал сонгоно уу</p>
+        {/if}
+      {:else}
+        <p class="text-sm text-gray-500">Ангилал олдсонгүй</p>
+      {/if}
+      {#if errors.categories}
+        <p class="text-sm text-red-600">{errors.categories}</p>
+      {/if}
     </div>
 
     <!-- Ingredients -->
