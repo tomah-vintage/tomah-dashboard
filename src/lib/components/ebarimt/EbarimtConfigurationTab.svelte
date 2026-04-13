@@ -58,6 +58,7 @@
 	<EbarimtConfigForm
 		bind:restaurantTin={ebarimtFormData.restaurant_tin}
 		bind:districtCode={ebarimtFormData.district_code}
+		bind:servesAlcohol={ebarimtFormData.serves_alcohol}
 	/>
 
 	<!-- Save Section -->

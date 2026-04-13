@@ -31,7 +31,8 @@ export function hasFormDataChanged(
   return (
     current.restaurant_tin !== original.restaurant_tin ||
     current.district_code !== original.district_code ||
-    current.ebarimt_enabled !== original.ebarimt_enabled
+    current.ebarimt_enabled !== original.ebarimt_enabled ||
+    current.serves_alcohol !== original.serves_alcohol
   );
 }
 
@@ -106,10 +107,12 @@ export function initializeFormData(config: {
   restaurant_tin?: string;
   district_code?: string;
   ebarimt_enabled?: boolean;
+  serves_alcohol?: boolean;
 }): EbarimtConfigUpdate {
   return {
     restaurant_tin: config.restaurant_tin || '',
     district_code: config.district_code || '',
-    ebarimt_enabled: config.ebarimt_enabled || false
+    ebarimt_enabled: config.ebarimt_enabled || false,
+    serves_alcohol: config.serves_alcohol || false
   };
 }

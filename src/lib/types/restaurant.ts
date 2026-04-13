@@ -293,12 +293,14 @@ export interface EbarimtConfig {
   ebarimt_enabled: boolean;
   merchant_registered: boolean; // Read-only, set by backend
   restaurant_status?: boolean; // Read-only, whether merchant was accepted by EBARIMT service
+  serves_alcohol: boolean;
 }
 
 export interface EbarimtConfigUpdate {
   restaurant_tin?: string;
   district_code?: string;
   ebarimt_enabled?: boolean;
+  serves_alcohol?: boolean;
 }
 
 export interface EbarimtStatusResponse {

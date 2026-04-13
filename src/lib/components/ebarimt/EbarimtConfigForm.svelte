@@ -1,6 +1,7 @@
 <script lang="ts">
   export let restaurantTin: string;
   export let districtCode: string;
+  export let servesAlcohol: boolean = false;
 </script>
 
 <div class="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
@@ -45,6 +46,18 @@
       <p class="text-xs text-gray-500 mt-1">
         Танай байршиж буй дүүргийн кодыг энд оруулна уу.
       </p>
+    </div>
+
+    <!-- City Tax -->
+    <div class="flex items-center justify-between rounded-lg border border-gray-200 p-4">
+      <div>
+        <p class="text-sm font-medium text-gray-900">Нийслэлийн татвар (2%)</p>
+        <p class="text-xs text-gray-500 mt-0.5">Архи, согтууруулах ундаа зардаг бол идэвхжүүлнэ үү</p>
+      </div>
+      <label class="relative inline-flex cursor-pointer items-center">
+        <input type="checkbox" bind:checked={servesAlcohol} class="peer sr-only" />
+        <div class="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-indigo-600 peer-checked:after:translate-x-full"></div>
+      </label>
     </div>
 
     <!-- District Codes Reference -->
