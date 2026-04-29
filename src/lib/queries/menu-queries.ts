@@ -91,6 +91,25 @@ export const createDeleteMenuItemMutation = () => {
 	});
 };
 
+// Reorder categories
+export const createReorderCategoriesMutation = () => {
+	const queryClient = useQueryClient();
+	return createMutation<void, Error, { id: number; order_index: number }[]>({
+		mutationFn: (items) =>
+			apiFetch<void>(`${PUBLIC_BACKEND_URL}/api/item-category/reorder/`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(items)
+			}),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['categories'] });
+		},
+		onError: (error) => {
+			toast.error(`Ангилал дараалал өөрчлөхөд алдаа гарлаа: ${error.message}`);
+		}
+	});
+};
+
 // Delete a category
 export const createDeleteCategoryMutation = () => {
 	const queryClient = useQueryClient();

@@ -2,8 +2,9 @@ export interface Category {
   id: number;
   name: string;
   restaurant: string;
-  checked?: boolean; // Optional, as it's for UI state
-  menu_item_count?: number; // Optional, for product count
+  order_index: number;
+  checked?: boolean;
+  menu_item_count?: number;
 }
 
 export interface MenuItemVariant {

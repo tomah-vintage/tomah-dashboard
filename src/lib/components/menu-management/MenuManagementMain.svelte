@@ -32,15 +32,21 @@
 
   const menuItemsQuery = $derived(createGetMenuItemsQuery(currentPage, page_size, searchTerm || undefined));
 
-  const { data: paginatedData, isLoading, isError, error } = $derived($menuItemsQuery);
+  const paginatedData = $derived($menuItemsQuery.data);
+  const isLoading = $derived($menuItemsQuery.isLoading);
+  const isError = $derived($menuItemsQuery.isError);
+  const error = $derived($menuItemsQuery.error);
 
   const menuItems = $derived(paginatedData?.results || []);
 
   // Client-side filtering and sorting
   function getFilteredMenuItems() {
     let filtered = menuItems.filter(item => {
-      let matchesCategory = selectedCategories.length === 0 || 
-        item.categories.some((cat: string) => selectedCategories.includes(cat));
+      let matchesCategory = selectedCategories.length === 0 ||
+        item.categories.some((catId: number) => {
+          const cat = categories.find(c => c.id === catId);
+          return cat !== undefined && selectedCategories.includes(cat.name);
+        });
       
       let matchesAvailability = availabilityFilter === "all" ||
         (availabilityFilter === "available" && item.is_available) ||
@@ -111,7 +117,6 @@
   }
 
   function handleRetry() {
-    // Invalidate and refetch the queries
     $menuItemsQuery.refetch?.();
     $categoriesQuery.refetch?.();
   }
