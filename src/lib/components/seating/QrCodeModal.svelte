@@ -17,7 +17,7 @@
 
   $: {
     if (table && restaurantId) {
-      const menuUrl = `qpick.mn/restaurant/${restaurantId}?table=${table.id}`;
+      const menuUrl = `https://qpick.mn/restaurant/${restaurantId}?table=${table.id}`;
       qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
         menuUrl,
       )}&size=200x200`;
