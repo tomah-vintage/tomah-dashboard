@@ -41,6 +41,16 @@
       iconClass: "text-blue-600",
       badgeClass: "bg-blue-100 text-blue-800 border-blue-300",
     },
+    [OrderStatus.READY]: {
+      label: "Хайрцагт хийгдэж байна",
+      variant: "secondary" as const,
+      icon: Package,
+      bgClass: "bg-orange-50",
+      borderClass: "border-l-orange-400",
+      textClass: "text-orange-800",
+      iconClass: "text-orange-600",
+      badgeClass: "bg-orange-100 text-orange-800 border-orange-300",
+    },
     [OrderStatus.IN_BOX]: {
       label: "Хайрцагласан",
       variant: "secondary" as const,
@@ -91,6 +101,7 @@
   const statusDisplayOrder = [
     OrderStatus.PENDING,
     OrderStatus.PREPARING,
+    OrderStatus.READY,
     OrderStatus.IN_BOX,
     OrderStatus.DONE,
     OrderStatus.CANCELLED,

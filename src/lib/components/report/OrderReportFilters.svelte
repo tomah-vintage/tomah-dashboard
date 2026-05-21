@@ -28,6 +28,7 @@
   const orderStatusOptions = [
     { value: OrderStatus.PENDING, label: 'Хүлээж байна' },
     { value: OrderStatus.PREPARING, label: 'Бэлтгэж байна' },
+    { value: OrderStatus.READY, label: 'Хайрцагт хийгдэж байна' },
     { value: OrderStatus.IN_BOX, label: 'Хайрцагласан' },
     { value: OrderStatus.DONE, label: 'Дууссан' },
     { value: OrderStatus.CANCELLED, label: 'Цуцлагдсан' }

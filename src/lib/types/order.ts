@@ -66,6 +66,7 @@ export interface OrderPayment {
 export enum OrderStatus {
   PENDING = "PENDING",
   PREPARING = "PREPARING",
+  READY = "READY",
   CANCELLED = "CANCELLED",
   IN_BOX = "IN_BOX",
   DONE = "DONE",

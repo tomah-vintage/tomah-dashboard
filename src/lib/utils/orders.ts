@@ -10,6 +10,8 @@ export function getStatusColor(status: OrderStatus): string {
       return "bg-yellow-100 text-yellow-800";
     case OrderStatus.PREPARING:
       return "bg-blue-100 text-blue-800";
+    case OrderStatus.READY:
+      return "bg-orange-100 text-orange-800";
     case OrderStatus.IN_BOX:
       return "bg-purple-100 text-purple-800";
     case OrderStatus.DONE:
@@ -27,6 +29,8 @@ export function getStatusIcon(status: OrderStatus): ComponentType {
       return Clock;
     case OrderStatus.PREPARING:
       return Utensils;
+    case OrderStatus.READY:
+      return Package;
     case OrderStatus.IN_BOX:
       return Package;
     case OrderStatus.DONE:
@@ -44,6 +48,8 @@ export function getStatusLabel(status: OrderStatus): string {
       return "Хүлээгдэж буй";
     case OrderStatus.PREPARING:
       return "Бэлтгэж байна";
+    case OrderStatus.READY:
+      return "Хайрцагт хийгдэж байна";
     case OrderStatus.IN_BOX:
       return "Хайрцагт орсон";
     case OrderStatus.DONE:
