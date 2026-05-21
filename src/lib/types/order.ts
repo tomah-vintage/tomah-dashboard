@@ -1,10 +1,18 @@
+export interface OrderUser {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+}
+
 export interface Order {
   id: number;
-  user: number; // Just the user ID
-  restaurant: number; // Just the restaurant ID
+  user: OrderUser | number;
+  restaurant: number;
   order_status: OrderStatus;
   total_price: string;
-  container_fee?: string; // Container/packaging fee
+  container_fee?: string;
   table?: {
     id: string;
     table_number: string;
@@ -14,6 +22,11 @@ export interface Order {
     box_number: string;
   } | null;
   order_type: OrderType;
+  food_code?: string | null;
+  daily_order_code?: number | null;
+  cabinet_no?: number | null;
+  compartment_no?: number | null;
+  boxed_at?: string | null;
   created_at: string;
   updated_at: string;
   items: OrderItem[];
@@ -72,6 +85,7 @@ export enum PaymentStatus {
 export interface OrderFilters {
   restaurant?: string;
   user?: string;
+  phone?: string;
   order_status?: OrderStatus;
   order_type?: OrderType;
   created_at__gte?: string;

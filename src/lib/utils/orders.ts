@@ -92,6 +92,7 @@ export function getDateRangeLabel(range: string): string {
 
 export async function fetchOrders(params: {
   user?: string;
+  phone?: string;
   selectedStatus?: string;
   selectedOrderType?: string;
   selectedDateRange?: string;
@@ -100,6 +101,7 @@ export async function fetchOrders(params: {
   const queryParams = new URLSearchParams();
 
   if (params.user && params.user.trim()) queryParams.append("user", params.user.trim());
+  if (params.phone && params.phone.trim()) queryParams.append("phone", params.phone.trim());
   if (params.selectedStatus && params.selectedStatus.trim()) queryParams.append("order_status", params.selectedStatus);
   if (params.selectedOrderType && params.selectedOrderType.trim()) queryParams.append("order_type", params.selectedOrderType);
   if (params.selectedDateRange && params.selectedDateRange.trim()) queryParams.append("date_range", params.selectedDateRange);

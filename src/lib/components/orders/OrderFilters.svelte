@@ -13,6 +13,7 @@
   import { getStatusLabel, getOrderTypeLabel, getDateRangeLabel } from "$lib/utils/orders";
 
   export let user: string = "";
+  export let phone: string = "";
   export let selectedStatus: string = "";
   export let selectedOrderType: string = "";
   export let selectedDateRange: string = "";
@@ -25,7 +26,7 @@
 <div class="bg-white border-b border-gray-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
     <div class="flex flex-wrap gap-4 items-center">
-      <Input bind:value={user} placeholder="Хэрэглэгчийн ID..." class="w-48" />
+      <Input bind:value={phone} placeholder="Утасны дугаараар хайх..." class="w-52" />
 
       <Select bind:value={selectedStatus}>
         <SelectTrigger class_="w-48">

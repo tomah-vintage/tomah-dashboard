@@ -27,6 +27,7 @@ export const load: PageServerLoad = async ({ fetch: customFetch, cookies, url })
 		if (searchParams.get('date_from')) queryParams.append('date_from', searchParams.get('date_from')!);
 		if (searchParams.get('date_to')) queryParams.append('date_to', searchParams.get('date_to')!);
 		if (searchParams.get('search')) queryParams.append('search', searchParams.get('search')!);
+		if (searchParams.get('phone')) queryParams.append('phone', searchParams.get('phone')!);
 		if (searchParams.get('page')) queryParams.append('page', searchParams.get('page')!);
 
 		const apiUrl = `${PUBLIC_BACKEND_URL}/api/order/${queryParams.toString() ? '?' + queryParams.toString() : ''}`;

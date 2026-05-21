@@ -21,6 +21,7 @@
   );
   let {
     user,
+    phone,
     selectedStatus,
     selectedOrderType,
     selectedDateRange,
@@ -54,6 +55,7 @@
     filterParams = extractOrderFiltersFromUrl($page.url.searchParams);
     ({
       user,
+      phone,
       selectedStatus,
       selectedOrderType,
       selectedDateRange,
@@ -79,6 +81,7 @@
 
       const response = await fetchOrders({
         user,
+        phone,
         selectedStatus,
         selectedOrderType,
         selectedDateRange,
@@ -119,6 +122,7 @@
 
   function resetFilters() {
     user = "";
+    phone = "";
     selectedStatus = "";
     selectedOrderType = "";
     selectedDateRange = "";
@@ -133,6 +137,7 @@
 
   $: hasFilters = hasActiveFilters({
     user,
+    phone,
     selectedStatus,
     selectedOrderType,
     selectedDateRange,
@@ -165,6 +170,7 @@
   <!-- Filters Section -->
   <OrderFilters
     bind:user
+    bind:phone
     bind:selectedStatus
     bind:selectedOrderType
     bind:selectedDateRange
