@@ -34,13 +34,16 @@ export const POST: RequestHandler = async ({ cookies }) => {
     });
 
     if (!response.ok) {
-      // If the external API fails, clear the cookie and return an error
       const apiError = await parseErrorResponse(response);
       logger.error("Failed to refresh token from external source", apiError, {
         context: "auth_refresh",
       });
-      cookies.delete("refreshToken", { path: "/" });
-      cookies.delete("session", { path: "/" });
+      // Only clear cookies if the token is actually invalid (4xx), not if the backend
+      // is temporarily unavailable (5xx) — a 500 should not log the user out.
+      if (response.status < 500) {
+        cookies.delete("refreshToken", { path: "/" });
+        cookies.delete("session", { path: "/" });
+      }
       return json(
         { message: apiError.message },
         { status: apiError.statusCode },
@@ -48,20 +51,19 @@ export const POST: RequestHandler = async ({ cookies }) => {
     }
 
     const data = await response.json();
-
-    // Assuming the external API returns new tokens named 'access' and 'refresh'
     const newAccessToken = data.access;
 
-    // Set the new tokens in HttpOnly cookies for security
     cookies.set("session", newAccessToken, {
       path: "/",
       sameSite: "strict",
       httpOnly: true,
-      secure: true, // Require HTTPS
-      maxAge: 60 * 60 * 24, // 1 day
+      secure: true,
+      maxAge: 60 * 60 * 24,
     });
 
-    return json({ message: "Token refreshed successfully." });
+    // Return the new access token so server-side callers can use it immediately
+    // in the same request (cookie propagation is async to the browser).
+    return json({ message: "Token refreshed successfully.", access: newAccessToken });
   } catch (err) {
     const errorInfo = handleError(err, "auth_refresh");
     return json(

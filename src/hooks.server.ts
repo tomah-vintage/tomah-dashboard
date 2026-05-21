@@ -88,8 +88,12 @@ async function refreshSession(event: RequestEvent): Promise<string | null> {
         context: "token_refresh",
         status: response.status,
       });
-      event.cookies.delete("refreshToken", { path: "/" });
-      event.cookies.delete("session", { path: "/" });
+      // Only clear cookies if the token is actually invalid (4xx), not on
+      // backend errors (5xx) — a temporarily-down backend should not log users out.
+      if (response.status < 500) {
+        event.cookies.delete("refreshToken", { path: "/" });
+        event.cookies.delete("session", { path: "/" });
+      }
       return null;
     }
 
